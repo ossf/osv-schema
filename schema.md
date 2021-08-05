@@ -329,8 +329,8 @@ ecosystem-dependent.
 #### affected[].routines field
 
 The `affected` object's `routines` field is a JSON array of strings. Each string
-describes affected source code functions, methods, subroutines, or procedures
-that are affected. The values of these strings are ecosystem-dependent.
+describes a source code function, method or subroutine that is affected.  The
+values of these strings are ecosystem-dependent.
 
 #### affected[].ecosystem_specific field
 
