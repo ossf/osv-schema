@@ -186,7 +186,8 @@ The `affected` field is a JSON array containing objects that describes the
 affected packages versions, meaning those that contain the vulnerability.
 
 Within each object in the `affected` array, the `package` field identifies the
-package containing the vulnerability.
+package containing the vulnerability. There should be exactly one entry in the
+`affected` array per `package`.
 
 The `versions` field can enumerate a specific set of affected versions, and the
 `ranges` field can list ranges of affected versions, under a given defined
@@ -324,13 +325,13 @@ are only for adding additional context.
 
 The `affected` object's `platforms` field is a JSON array of strings. Each
 string describes a platform that is affected. The values of these strings are
-ecosystem-dependent.
+defined by the ecosystem.
 
 #### affected[].routines field
 
 The `affected` object's `routines` field is a JSON array of strings. Each string
 describes a source code function, method or subroutine that is affected.  The
-values of these strings are ecosystem-dependent.
+values of these strings are defined by the ecosystem.
 
 #### affected[].ecosystem_specific field
 
