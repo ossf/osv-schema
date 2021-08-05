@@ -363,7 +363,6 @@ scores for ecosystems that do not provide them could add that information here.
 Note that this is a single field with key "database_specific", which itself
 contains a JSON object with unspecified fields.
 
-
 ### references field
 
 The `references` field contains a list of JSON objects describing references.
@@ -415,7 +414,7 @@ Here is a complete entry for a recent Go vulnerability:
         "ranges": [
             {"type": "SEMVER", "introduced": "1.0.0", "fixed": "1.14.14"},
             {"type": "SEMVER", "introduced": "1.15.0", "fixed": "1.15.17"}
-        ]
+        ],
         "routines": ["P224"],
         "ecosystem_specific": {
             "module": "std",
@@ -656,10 +655,10 @@ Ruby does not use this format currently, but here is a potential translation of 
 - 2021-06-08 Added "purl" to the "package" field and some minor clarifications.
 - 2021-06-30 Fixed an incorrect/typoed specification for "affects" from an array
   of objects to an object.
-- 2021-08-05 Support multiple packages per entry by moving, `packages`,
-  `ecosystem_specific` and `database_specific` into a `affected`. The `affected`
-  field is intentionally named differently to the previous `affects` field to
-  make migration easier.
+- 2021-08-05 Support multiple packages per entry by moving `packages`,
+  `ecosystem_specific` and `database_specific` into `affected`. Added `routines`
+  and `platforms` to `affected` as well. The `affected` field is intentionally
+  named differently to the previous `affects` field to make migration easier.
 
 ## Status - 2021-04-07
 
@@ -791,11 +790,11 @@ other vulnerability schemas, such as the [CVE JSON
 schema](https://github.com/CVEProject/cve-schema),
 where multiple packages are supported in a single entry. We've
 also been suggesting changes to the CVE schema as well for better
-alignment.
+alignment
 ([1](https://github.com/CVEProject/cve-schema/issues/86),
  [2](https://github.com/CVEProject/cve-schema/issues/87),
  [3](https://github.com/CVEProject/cve-schema/issues/88),
- [4](https://github.com/CVEProject/cve-schema/issues/89)),
+ [4](https://github.com/CVEProject/cve-schema/issues/89)).
 
 This is a breaking change, but we hope to make migration easier by renaming the
 "affects" field to "affected" to allow existing consumers and producers of this
