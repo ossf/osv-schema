@@ -187,7 +187,7 @@ affected packages versions, meaning those that contain the vulnerability.
 
 Within each object in the `affected` array, the `package` field identifies the
 package containing the vulnerability. There should be exactly one entry in the
-`affected` array per `package`.
+`affected` array per affected `package`.
 
 The `versions` field can enumerate a specific set of affected versions, and the
 `ranges` field can list ranges of affected versions, under a given defined
@@ -790,8 +790,7 @@ This is primarily in the interests of supporting better interoperability with
 other vulnerability schemas, such as the [CVE JSON
 schema](https://github.com/CVEProject/cve-schema),
 where multiple packages are supported in a single entry. We've
-also been suggesting changes to the CVE schema as well for better
-alignment
+also been suggesting changes to the CVE schema  for better alignment
 ([1](https://github.com/CVEProject/cve-schema/issues/86),
  [2](https://github.com/CVEProject/cve-schema/issues/87),
  [3](https://github.com/CVEProject/cve-schema/issues/88),
