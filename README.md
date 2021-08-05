@@ -7,4 +7,6 @@ This is the repository for the Open Source Vulnerability schema, which is curren
 - [Rust advisory DB](https://github.com/RustSec/advisory-db)
 - [UVI](https://github.com/cloudsecurityalliance/uvi-database)
 
+These vulnerabilites are aggregated by https://osv.dev.
+
 The current version of spec is available at [schema.md](schema.md).
