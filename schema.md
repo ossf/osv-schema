@@ -71,8 +71,6 @@ contain UTF-8 text.
 			"fixed": string
 		} ],
 		"versions": [ string ],
-		"platforms": [ string ],
-		"routines": [ string ],
 		"ecosystem_specific": { see description },
 		"database_specific": { see description },
 	} ],
@@ -186,8 +184,12 @@ The `affected` field is a JSON array containing objects that describes the
 affected packages versions, meaning those that contain the vulnerability.
 
 Within each object in the `affected` array, the `package` field identifies the
-package containing the vulnerability. There should be exactly one entry in the
-`affected` array per affected `package`.
+package containing the vulnerability. In most cases, there should be exactly one
+entry in the `affected` array per affected `package` to describe all affected
+versions. In rare cases, for example if the `ecosystem_specific` encodes
+platform information that doesn't apply equally to all listed versions and
+ranges, a separate entry with the same `package` in the `affected` array may be
+used.
 
 The `versions` field can enumerate a specific set of affected versions, and the
 `ranges` field can list ranges of affected versions, under a given defined
@@ -321,18 +323,6 @@ processors to answer "is this version affected?", either `SEMVER` ranges or an
 explicit `versions` list must be given. The `ECOSYSTEM` and `GIT` ranges
 are only for adding additional context.
 
-#### affected[].platforms field
-
-The `affected` object's `platforms` field is a JSON array of strings. Each
-string describes a platform that is affected. The values of these strings are
-defined by the ecosystem.
-
-#### affected[].routines field
-
-The `affected` object's `routines` field is a JSON array of strings. Each string
-describes a source code function, method or subroutine that is affected.  The
-values of these strings are defined by the ecosystem.
-
 #### affected[].ecosystem_specific field
 
 The `affected` object's `ecosystem_specific` field is a JSON object holding
@@ -416,8 +406,8 @@ Here is a complete entry for a recent Go vulnerability:
             {"type": "SEMVER", "introduced": "1.0.0", "fixed": "1.14.14"},
             {"type": "SEMVER", "introduced": "1.15.0", "fixed": "1.15.17"}
         ],
-        "routines": ["P224"],
         "ecosystem_specific": {
+            "functions": ["P224"],
             "module": "std",
             "severity": "HIGH"
         }
@@ -555,8 +545,8 @@ format. Here’s an example entry:
         "ranges": [
             {"type": "SEMVER", "fixed": "0.1.20"},
         ],
-        "routines": ["http::header::HeaderMap::reserve"],
         "ecosystem_specific": {
+            "functions": ["http::header::HeaderMap::reserve"],
             "keywords": ["http", "integer-overflow", "DoS"],
             "categories": ["denial-of-service"],
             "severity": "HIGH"
@@ -657,9 +647,9 @@ Ruby does not use this format currently, but here is a potential translation of 
 - 2021-06-30 Fixed an incorrect/typoed specification for "affects" from an array
   of objects to an object.
 - 2021-08-05 Support multiple packages per entry by moving `packages`,
-  `ecosystem_specific` and `database_specific` into `affected`. Added `routines`
-  and `platforms` to `affected` as well. The `affected` field is intentionally
-  named differently to the previous `affects` field to make migration easier.
+  `ecosystem_specific` and `database_specific` into `affected`. The `affected`
+  field is intentionally named differently to the previous `affects` field to
+  make migration easier.
 
 ## Status - 2021-04-07
 
