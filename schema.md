@@ -181,7 +181,7 @@ display sites to unnecessary vulnerabilities.)
 ### affected fields
 
 The `affected` field is a JSON array containing objects that describes the
-affected packages versions, meaning those that contain the vulnerability.
+affected package versions, meaning those that contain the vulnerability.
 
 Within each object in the `affected` array, the `package` field identifies the
 package containing the vulnerability. In most cases, there should be exactly one
@@ -189,7 +189,7 @@ entry in the `affected` array per affected `package` to describe all affected
 versions. In rare cases, for example if the `ecosystem_specific` encodes
 platform information that doesn't apply equally to all listed versions and
 ranges, a separate entry with the same `package` in the `affected` array may be
-used.
+needed.
 
 The `versions` field can enumerate a specific set of affected versions, and the
 `ranges` field can list ranges of affected versions, under a given defined
@@ -789,3 +789,6 @@ also been suggesting changes to the CVE schema  for better alignment
 This is a breaking change, but we hope to make migration easier by renaming the
 "affects" field to "affected" to allow existing consumers and producers of this
 data to more easily handle old and new versions of entries.
+
+We are still gathering experience about this new arrangement, and it may change
+again in the near future.
