@@ -64,9 +64,9 @@ contain UTF-8 text.
 			"name": string,
 			"purl": string,
 		},
+		"repo": string,
 		"ranges": [ {
 			"type": string,
-			"repo": string,
 			"introduced": string,
 			"fixed": string
 		} ],
@@ -258,6 +258,12 @@ It is permitted for a database name (the DB prefix in the `id` field) and an
 ecosystem name to be the same, provided they have the same owner who can make
 decisions about the meaning of the `ecosystem_specific` field (see below).
 
+#### affected[].repo field
+
+The `affected` object's `repo` field is the URL of the package's code
+repository. The value should be in a format that's directly usable as an
+argument for the version control system's clone command (e.g. `git clone`).
+
 #### affected[].versions
 
 The `affected` object's `versions` field is a JSON array of strings. Each string
@@ -307,8 +313,7 @@ ecosystem’s own logic and therefore cannot be used by ecosystem-independent
 processors.
 
 - `GIT`: The versions `introduced` and `fixed` are full-length Git commit hashes.
-The additional field `repo` is the URL of the Git repository (as used with `git
-clone`). The repository’s commit graph is needed to evaluate whether a given
+The repository’s commit graph is needed to evaluate whether a given
 version is in the range. The relation `u < v` is true when commit `u` is a (perhaps
 distant) parent of commit `v`. Ranges listed with type `GIT` may need to overlap,
 if a vulnerability with a single root cause was fixed independently on multiple
@@ -504,6 +509,7 @@ OSV uses this format already for its vulnerabilities. Here is the encoding of on
         {"type": "REPORT", "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=15499"},
     ],
     "affected": [ {
+        "repo": "https://github.com/unicode-org/icu.git",
         "package": {
             "ecosystem": "OSS-Fuzz",
             "name": "icu"
@@ -513,7 +519,6 @@ OSV uses this format already for its vulnerabilities. Here is the encoding of on
                 "type": "GIT",
                 "introduced": "6e5755a2a833bc64852eae12967d0a54d7adf629",
                 "fixed": "c43455749b914feef56b178b256f29b3016146eb",
-                "repo": "https://github.com/unicode-org/icu.git"
             }
         ]
     } ]
@@ -573,6 +578,7 @@ potential encoding of a vulnerability entry.
         {"type": "FIX", "url": "https://github.com/pikepdf/pikepdf/commit/3f38f73218e5e782fe411ccbb3b44a793c0b343a"}
     ],
     "affected": [ {
+        "repo": "https://github.com/pikepdf/pikepdf",
         "package": {
             "ecosystem": "PyPI",
             "name": "pikepdf"
@@ -580,7 +586,6 @@ potential encoding of a vulnerability entry.
         "ranges": [
             {
                 "type": "GIT",
-                "repo": "https://github.com/pikepdf/pikepdf",
                 "fixed": "3f38f73218e5e782fe411ccbb3b44a793c0b343a"
             },
             {
