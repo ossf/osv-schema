@@ -64,11 +64,13 @@ contain UTF-8 text.
 			"name": string,
 			"purl": string,
 		},
-		"repo": string,
 		"ranges": [ {
 			"type": string,
-			"introduced": string,
-			"fixed": string
+			"repo": string,
+			"events": [ {
+				"introduced": string,
+				"fixed": string
+			} ]
 		} ],
 		"versions": [ string ],
 		"ecosystem_specific": { see description },
@@ -258,46 +260,64 @@ It is permitted for a database name (the DB prefix in the `id` field) and an
 ecosystem name to be the same, provided they have the same owner who can make
 decisions about the meaning of the `ecosystem_specific` field (see below).
 
-#### affected[].repo field
-
-The `affected` object's `repo` field is the URL of the package's code
-repository. The value should be in a format that's directly usable as an
-argument for the version control system's clone command (e.g. `git clone`).
-
-#### affected[].versions
+#### affected[].versions field
 
 The `affected` object's `versions` field is a JSON array of strings. Each string
 is a single affected version in whatever version syntax is used by the given
 package ecosystem.
 
-#### affected[].ranges
+#### affected[].ranges[] field
 
-The `affected` object's `ranges` field is a JSON array of objects, each
-describing a single range.  The range object defines the fields `type`,
-`introduced`, `fixed`, and additional type-specific fields as needed.
+The `affected` object's `ranges` field is a JSON array of objects describing the
+affected ranges of versions.
 
-In the range object, the `type` field is required. It specifies the type of
-version range being recorded and defines the interpretation of `introduced`,
-`fixed`, and any type-specific fields.
+#### affected[].ranges[].events field
 
-The `introduced` and `fixed` fields specify the range of versions containing the
-vulnerability.  The vulnerability is considered present in version v if:
+The `ranges` object's `events` field is a JSON array of objects. Each object
+describes a single version that either introduces, or fixes a vulnerability (but
+**not both**).
+
+For example, the following expresses that versions in the SemVer ranges `[1.0.0,
+1.0.2)` or `[1.1.1, 1.1.5)` are affected. Everything else is unaffected.
 
 ```
-(introduced is unset OR introduced < v OR introduced == v) AND
-(fixed is unset OR v < fixed).
+"ranges": [{
+    "type: "SEMVER",
+    "events": [
+      { "introduced": "1.0.0" },
+      { "fixed": "1.0.2" },
+      { "introduced": "1.1.1" },
+      { "fixed": "1.1.5" }
+    ]
+}]
 ```
 
-Here `u == v` is exact version equality and the meaning of the relation `u < v`
-depends on the type.
+An algorithm for computing if a version `v` is affected can be done as follows:
+
+```
+status = UNAFFECTED
+for evt in sorted(ranges.events)
+    if evt.introduced && v >= evt.introduced
+       status = AFFECTED
+    else if evt.fixed && v >= evt.fixed
+       status = UNAFFECTED
+
+return status
+```
+
+Here the meaning of the relation `u >= v` and `sorted()` depends on the type.
+
+#### affected[].ranges[].type field
+
+In the `ranges` field, the `type` field is required. It specifies the type of
+version range being recorded and defines the interpretation of the `events`
+object's `introduced`, `fixed`, and any type-specific fields.
 
 The defined types and their additional fields are:
 
 - `SEMVER`: The versions `introduced` and `fixed` are semantic versions as defined
 by [SemVer 2.0.0](https://semver.org), with no leading "v" prefix. The relation
-`u < v` denotes the precedence order defined in [section 11 of SemVer 2.0](https://semver.org/#spec-item-11).
-Ranges listed with type `SEMVER` should not overlap: since SEMVER is a strict
-linear ordering, it is always possible to simplify to non-overlapping ranges.
+`u >= v` denotes the precedence order defined in [section 11 of SemVer 2.0](https://semver.org/#spec-item-11).
 
   Specifying one or more `SEMVER` ranges removes the requirement to specify an
 explicit enumerated `versions` list (see the discussion above).
@@ -312,12 +332,11 @@ inclusion queries cannot be answered without reference to the package
 ecosystem’s own logic and therefore cannot be used by ecosystem-independent
 processors.
 
-- `GIT`: The versions `introduced` and `fixed` are full-length Git commit hashes.
-The repository’s commit graph is needed to evaluate whether a given
-version is in the range. The relation `u < v` is true when commit `u` is a (perhaps
-distant) parent of commit `v`. Ranges listed with type `GIT` may need to overlap,
-if a vulnerability with a single root cause was fixed independently on multiple
-branches.
+- `GIT`: The versions `introduced` and `fixed` are full-length Git commit
+  hashes. The repository’s commit graph is needed to evaluate whether a given
+  version is in the range. The relation `u >= v` is true when commit `u` is
+  either the exact same commit as `v`, or `v` is a (perhaps distant) parent of
+  commit `u`.
 
   Specifying one or more `GIT` ranges does NOT remove the requirement to specify
 an explicitly enumerated `versions` list, because `GIT` range inclusion queries
@@ -327,6 +346,19 @@ Again, it is important to note that to allow portable (non-ecosystem-specific)
 processors to answer "is this version affected?", either `SEMVER` ranges or an
 explicit `versions` list must be given. The `ECOSYSTEM` and `GIT` ranges
 are only for adding additional context.
+
+#### affected[].ranges[].repo field
+
+The `ranges` object's `repo` field is the URL of the package's code
+repository. The value should be in a format that's directly usable as an
+argument for the version control system's clone command (e.g. `git clone`).
+
+The `affected` object's `ranges` field is a JSON array of objects, each
+describing a single range.  The range object defines the fields `type`,
+`events`, `repo`.  `introduced`, `fixed`, and additional type-specific fields as needed.
+
+This field is required if `affected[].ranges[].type` is `GIT`.
+
 
 #### affected[].ecosystem_specific field
 
@@ -408,8 +440,15 @@ Here is a complete entry for a recent Go vulnerability:
             "name": "crypto/elliptic"
         },
         "ranges": [
-            {"type": "SEMVER", "introduced": "1.0.0", "fixed": "1.14.14"},
-            {"type": "SEMVER", "introduced": "1.15.0", "fixed": "1.15.17"}
+            {
+                "type": "SEMVER",
+                "events": [
+                    { "introduced": "1.0.0" },
+                    { "fixed": "1.14.14" },
+                    { "introduced": "1.15.0" },
+                    { "fixed": "1.15.17" }
+                ]
+            }
         ],
         "ecosystem_specific": {
             "functions": ["P224"],
@@ -442,8 +481,15 @@ applications.  Here is an entry for a recent Go tool vulnerability:
             "name": "cmd/go"
         },
         "ranges": [
-            {"type": "SEMVER", "introduced": "1.0.0", "fixed": "1.14.14"},
-            {"type": "SEMVER", "introduced": "1.15.0", "fixed": "1.15.17"}
+            {
+                "type": "SEMVER",
+                "events": [
+                    { "introduced": "1.0.0" },
+                    { "fixed": "1.14.14" },
+                    { "introduced": "1.15.10" },
+                    { "fixed": "1.15.17" }
+                ],
+            }
         ],
         "ecosystem_specific": {
             "severity": "HIGH"
@@ -479,8 +525,14 @@ Neither GitHub nor NPM uses this format currently, but here is how a recent NPM 
             "name": "elliptic"
         },
         "ranges": [
-            {"type": "SEMVER", "fixed": "6.5.4"},
-            {"type": "SEMVER", "introduced": "1.15.0", "fixed": "1.15.17"}
+            {
+               "type": "SEMVER",
+               "events": [
+                   { "introduced": "1.15.0" },
+                   { "fixed": "1.15.17" },
+                   { "fixed": "6.5.4" }
+               ]
+            }
         ],
         "database_specific": {
             "CWE": "CWE-327",
@@ -517,8 +569,10 @@ OSV uses this format already for its vulnerabilities. Here is the encoding of on
         "ranges": [
             {
                 "type": "GIT",
-                "introduced": "6e5755a2a833bc64852eae12967d0a54d7adf629",
-                "fixed": "c43455749b914feef56b178b256f29b3016146eb",
+                "events": [
+                  { "introduced": "6e5755a2a833bc64852eae12967d0a54d7adf629" },
+                  { "fixed": "c43455749b914feef56b178b256f29b3016146eb" }
+                ]
             }
         ]
     } ]
@@ -548,7 +602,10 @@ format. Here’s an example entry:
             "name": "http"
         },
         "ranges": [
-            {"type": "SEMVER", "fixed": "0.1.20"},
+            {
+                "type": "SEMVER",
+                "events": [ {"fixed": "0.1.20"} ]
+            }
         ],
         "ecosystem_specific": {
             "functions": ["http::header::HeaderMap::reserve"],
@@ -578,7 +635,6 @@ potential encoding of a vulnerability entry.
         {"type": "FIX", "url": "https://github.com/pikepdf/pikepdf/commit/3f38f73218e5e782fe411ccbb3b44a793c0b343a"}
     ],
     "affected": [ {
-        "repo": "https://github.com/pikepdf/pikepdf",
         "package": {
             "ecosystem": "PyPI",
             "name": "pikepdf"
@@ -586,12 +642,17 @@ potential encoding of a vulnerability entry.
         "ranges": [
             {
                 "type": "GIT",
-                "fixed": "3f38f73218e5e782fe411ccbb3b44a793c0b343a"
+                "repo": "https://github.com/pikepdf/pikepdf",
+                "events": [
+                  { "fixed": "3f38f73218e5e782fe411ccbb3b44a793c0b343a" }
+                ],
             },
             {
                 "type": "ECOSYSTEM",
-                "introduced": "2.8.0",
-                "fixed": "2.10.0"
+                "events": [
+                  { "introduced": "2.8.0" },
+                  { "fixed": "2.10.0" }
+                ],
             }
         ],
         "versions": [
@@ -619,9 +680,13 @@ Ruby does not use this format currently, but here is a potential translation of 
             "ecosystem": "RubyGems",
             "name": "bundler"
         },
-        "ranges": [
-            {"type": "ECOSYSTEM", "introduced": "1.14.0", "fixed": "2.1.0"}
-        ],
+        "ranges": [ {
+            "type": "ECOSYSTEM",
+            "events": [
+              { "introduced": "1.14.0" },
+              { "fixed": "2.1.0" },
+            ]
+        } ],
         "versions": [
             "1.14.0", "1.14.1", "1.14.2", "1.14.3", "1.14.4", "1.14.5", 
             "1.14.6", "1.15.0.pre.1", "1.15.0.pre.2", "1.15.0.pre.3",
@@ -778,22 +843,55 @@ not yet seen it.
 ## Status - 2021-08-05
 
 The biggest change to the schema is our decision to support multiple packages
-and ecosystems per entry. This is a reversal of our decision back in April (see
+and ecosystems per entry and the way we specify version ranges.
+
+Supporting multiple packages is a reversal of our decision back in April (see
 "Status - 2021-04-23" for our rationale).
 
-This is primarily in the interests of supporting better interoperability with
-other vulnerability schemas, such as the [CVE JSON
-schema](https://github.com/CVEProject/cve-schema),
-where multiple packages are supported in a single entry. We've
-also been suggesting changes to the CVE schema  for better alignment
+These changes are primarily in the interests of
+supporting better interoperability with other vulnerability schemas, such as the
+[CVE JSON schema](https://github.com/CVEProject/cve-schema), where multiple
+packages are supported in a single entry. We've also been suggesting other
+changes to the CVE schema for better alignment
 ([1](https://github.com/CVEProject/cve-schema/issues/86),
  [2](https://github.com/CVEProject/cve-schema/issues/87),
  [3](https://github.com/CVEProject/cve-schema/issues/88),
  [4](https://github.com/CVEProject/cve-schema/issues/89)).
 
-This is a breaking change, but we hope to make migration easier by renaming the
+The other major change is the way we specify ranges. Instead of specifying half
+open ranges as [introduced, fixed), ranges are encoded with with "events" in a
+"timeline" of sorts:
+
+Instead of
+
+```
+"ranges": [{
+    "type: "GIT",
+    "introduced": "058504edd02667eef8fac9be27ab3ea74332e9b4",
+    "fixed": "3533e50cbee8ff086bfa04176ac42a01ee3db37d"
+}, {
+    "type": "GIT",
+    "introduced": "058504edd02667eef8fac9be27ab3ea74332e9b4",
+    "fixed": "c5157b3e775dac31d51b11f993a06a84dc11fc8c" }
+}]
+```
+
+We now have:
+
+```
+"ranges": [{
+    "type: "SEMVER",
+    "events": [
+      { "introduced": "058504edd02667eef8fac9be27ab3ea74332e9b4" },
+      { "fixed": "3533e50cbee8ff086bfa04176ac42a01ee3db37d" },
+      { "fixed": "c5157b3e775dac31d51b11f993a06a84dc11fc8c" }
+    ]
+}]
+```
+
+This avoids repetition with the previous approach and better fits non-linear
+versioning schemes like git ranges.
+
+These are breaking changes, but we hope to make migration easier by renaming the
 "affects" field to "affected" to allow existing consumers and producers of this
 data to more easily handle old and new versions of entries.
-
-We are still gathering experience about this new arrangement, and it may change
-again in the near future.
