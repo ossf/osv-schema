@@ -716,10 +716,11 @@ Ruby does not use this format currently, but here is a potential translation of 
 - 2021-06-08 Added "purl" to the "package" field and some minor clarifications.
 - 2021-06-30 Fixed an incorrect/typoed specification for "affects" from an array
   of objects to an object.
-- 2021-08-05 Support multiple packages per entry by moving `packages`,
+- 2021-08-17 Support multiple packages per entry by moving `packages`,
   `ecosystem_specific` and `database_specific` into `affected`. The `affected`
   field is intentionally named differently to the previous `affects` field to
-  make migration easier.
+  make migration easier. Also use "events" containing single versions to
+  represent affected version ranges instead.
 
 ## Status - 2021-04-07
 
