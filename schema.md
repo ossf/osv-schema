@@ -67,6 +67,7 @@ contain UTF-8 text.
 		"ranges": [ {
 			"type": string,
 			"repo": string,
+			"earlier_affected": bool,
 			"events": [ {
 				"introduced": string,
 				"fixed": string
@@ -271,6 +272,13 @@ package ecosystem.
 The `affected` object's `ranges` field is a JSON array of objects describing the
 affected ranges of versions.
 
+#### affected[].ranges[].earlier_affected field
+
+The `ranges` object's `earlier_affected` field is a boolean value. If this is
+`false` (the default), this means that any versions before the listed `events`
+versions should be considered unaffected. Otherwise, these versions should be
+considered affected.
+
 #### affected[].ranges[].events field
 
 The `ranges` object's `events` field is a JSON array of objects. Each object
@@ -295,14 +303,14 @@ For example, the following expresses that versions in the SemVer ranges `[1.0.0,
 An algorithm for computing if a version `v` is affected can be done as follows:
 
 ```
-status = UNAFFECTED
+affected = ranges.earlier_affected
 for evt in sorted(ranges.events)
     if evt.introduced && v >= evt.introduced
-       status = AFFECTED
+       affected = true
     else if evt.fixed && v >= evt.fixed
-       status = UNAFFECTED
+       affected = false
 
-return status
+return affected
 ```
 
 Here the meaning of the relation `u >= v` and `sorted()` depends on the type.
@@ -846,9 +854,6 @@ not yet seen it.
 The biggest change to the schema is our decision to support multiple packages
 and ecosystems per entry and the way we specify version ranges.
 
-Supporting multiple packages is a reversal of our decision back in April (see
-"Status - 2021-04-23" for our rationale).
-
 These changes are primarily in the interests of
 supporting better interoperability with other vulnerability schemas, such as the
 [CVE JSON schema](https://github.com/CVEProject/cve-schema), where multiple
@@ -858,6 +863,9 @@ changes to the CVE schema for better alignment
  [2](https://github.com/CVEProject/cve-schema/issues/87),
  [3](https://github.com/CVEProject/cve-schema/issues/88),
  [4](https://github.com/CVEProject/cve-schema/issues/89)).
+
+Supporting multiple packages is a reversal of our decision back in April (see
+"Status - 2021-04-23" for our rationale at the time).
 
 The other major change is the way we specify ranges. Instead of specifying half
 open ranges as [introduced, fixed), ranges are encoded with with "events" in a
@@ -874,6 +882,14 @@ Instead of
     "type": "GIT",
     "introduced": "058504edd02667eef8fac9be27ab3ea74332e9b4",
     "fixed": "c5157b3e775dac31d51b11f993a06a84dc11fc8c" }
+}, {
+    "type": "SEMVER",
+    "introduced": "1.0.0",
+    "fixed": "1.0.2",
+}, {
+    "type": "SEMVER",
+    "introduced": "1.1.0",
+    "fixed": "1.1.3",
 }]
 ```
 
@@ -881,11 +897,19 @@ We now have:
 
 ```
 "ranges": [{
-    "type: "SEMVER",
+    "type: "GIT",
     "events": [
       { "introduced": "058504edd02667eef8fac9be27ab3ea74332e9b4" },
       { "fixed": "3533e50cbee8ff086bfa04176ac42a01ee3db37d" },
       { "fixed": "c5157b3e775dac31d51b11f993a06a84dc11fc8c" }
+    ]
+}, {
+    "type: "SEMVER",
+    "events": [
+      { "introduced": "1.0.0" },
+      { "fixed": "1.0.2" },
+      { "introduced": "1.1.0" },
+      { "fixed": "1.1.3" }
     ]
 }]
 ```
