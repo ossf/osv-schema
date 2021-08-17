@@ -1,6 +1,6 @@
 # Open Source Vulnerability format
 
-**Version 0.8 (August 5, 2021)**
+**Version 0.8 (August 17, 2021)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
