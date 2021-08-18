@@ -67,7 +67,6 @@ contain UTF-8 text.
 		"ranges": [ {
 			"type": string,
 			"repo": string,
-			"earlier_affected": bool,
 			"events": [ {
 				"introduced": string,
 				"fixed": string
@@ -272,24 +271,21 @@ package ecosystem.
 The `affected` object's `ranges` field is a JSON array of objects describing the
 affected ranges of versions.
 
-#### affected[].ranges[].earlier_affected field
-
-The `ranges` object's `earlier_affected` field is a boolean value. If this is
-`false` (the default), this means that any versions before the listed `events`
-versions should be considered unaffected. Otherwise, these versions should be
-considered affected.
-
 #### affected[].ranges[].events field
 
 The `ranges` object's `events` field is a JSON array of objects. Each object
-describes a single version that either introduces, or fixes a vulnerability (but
-**not both**).
+describes a single version that either:
+- introduces a vulnerability, `{"introduced": "1.0.0"}`, or
+- fixes a vulnerability, `{"fixed": "1.0.2"}`
+
+Only **a single verson** (either "introduced" or "fixed") is allowed in each event
+object. `{"introduced": "1.0.0", "fixed": "1.0.2"}` is **invalid**.
 
 For example, the following expresses that versions in the SemVer ranges `[1.0.0,
 1.0.2)` or `[1.1.1, 1.1.5)` are affected. Everything else is unaffected.
 
 ```
-"ranges": [{
+"ranges": [ {
     "type: "SEMVER",
     "events": [
       { "introduced": "1.0.0" },
@@ -297,13 +293,13 @@ For example, the following expresses that versions in the SemVer ranges `[1.0.0,
       { "introduced": "1.1.1" },
       { "fixed": "1.1.5" }
     ]
-}]
+} ]
 ```
 
 An algorithm for computing if a version `v` is affected can be done as follows:
 
 ```
-affected = ranges.earlier_affected
+affected = false
 for evt in sorted(ranges.events)
     if evt.introduced && v >= evt.introduced
        affected = true
@@ -314,6 +310,23 @@ return affected
 ```
 
 Here the meaning of the relation `u >= v` and `sorted()` depends on the type.
+
+A special event value of `{ "introduced": "*"}` is allowed. `"*"` is a special
+version that sorts before any other version. This can be used to indicate that
+all prior versions are considered vulnerable.
+
+For example, to express that all versions before `1.0.2` is vulnerable, one may
+write:
+
+```
+"ranges": [ {
+    "type: "SEMVER",
+    "events": [
+      { "introduced": "*" },
+      { "fixed": "1.0.2" },
+    ]
+} ]
+```
 
 #### affected[].ranges[].type field
 
@@ -612,7 +625,10 @@ format. Here’s an example entry:
         "ranges": [
             {
                 "type": "SEMVER",
-                "events": [ {"fixed": "0.1.20"} ]
+                "events": [
+                    {"introduced": "*"},
+                    {"fixed": "0.1.20"}
+                ]
             }
         ],
         "ecosystem_specific": {
@@ -652,6 +668,7 @@ potential encoding of a vulnerability entry.
                 "type": "GIT",
                 "repo": "https://github.com/pikepdf/pikepdf",
                 "events": [
+                  { "introduced": "*" },
                   { "fixed": "3f38f73218e5e782fe411ccbb3b44a793c0b343a" }
                 ],
             },
