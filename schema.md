@@ -195,8 +195,8 @@ needed.
 
 The `versions` field can enumerate a specific set of affected versions, and the
 `ranges` field can list ranges of affected versions, under a given defined
-ordering. A version is considered affected if it lies within any one of the
-ranges or is listed in the versions list.
+ordering. **A version is considered affected if it lies within any one of the
+ranges or is listed in the versions list.**
 
 The `versions` list should - with one exception - always be present, to allow
 software to answer the question "is this specific version affected?" without
@@ -286,7 +286,7 @@ For example, the following expresses that versions in the SemVer ranges `[1.0.0,
 
 ```json
 "ranges": [ {
-    "type: "SEMVER",
+    "type": "SEMVER",
     "events": [
       { "introduced": "1.0.0" },
       { "fixed": "1.0.2" },
@@ -296,8 +296,7 @@ For example, the following expresses that versions in the SemVer ranges `[1.0.0,
 } ]
 ```
 
-An algorithm for computing if a version `v` is affected by a range can be done
-as follows:
+An algorithm for computing if a version `v` is affected by a range follows:
 
 ```
 affected = false
@@ -312,7 +311,7 @@ return affected
 
 Here the meaning of the relation `u >= v` and `sorted()` depends on the type.
 
-A special event value of `{ "introduced": "*"}` is allowed. `"*"` is a special
+A special event value of `{ "introduced": "*" }` is allowed. `"*"` is a special
 version that sorts before any other version. This can be used to indicate that
 all prior versions are considered vulnerable.
 
@@ -321,7 +320,7 @@ write:
 
 ```json
 "ranges": [ {
-    "type: "SEMVER",
+    "type": "SEMVER",
     "events": [
       { "introduced": "*" },
       { "fixed": "1.0.2" },
