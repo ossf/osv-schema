@@ -284,7 +284,7 @@ object. `{"introduced": "1.0.0", "fixed": "1.0.2"}` is **invalid**.
 For example, the following expresses that versions in the SemVer ranges `[1.0.0,
 1.0.2)` or `[1.1.1, 1.1.5)` are affected. Everything else is unaffected.
 
-```
+```json
 "ranges": [ {
     "type: "SEMVER",
     "events": [
@@ -296,11 +296,12 @@ For example, the following expresses that versions in the SemVer ranges `[1.0.0,
 } ]
 ```
 
-An algorithm for computing if a version `v` is affected can be done as follows:
+An algorithm for computing if a version `v` is affected by a range can be done
+as follows:
 
 ```
 affected = false
-for evt in sorted(ranges.events)
+for evt in sorted(range.events)
     if evt.introduced && v >= evt.introduced
        affected = true
     else if evt.fixed && v >= evt.fixed
@@ -318,7 +319,7 @@ all prior versions are considered vulnerable.
 For example, to express that all versions before `1.0.2` is vulnerable, one may
 write:
 
-```
+```json
 "ranges": [ {
     "type: "SEMVER",
     "events": [
