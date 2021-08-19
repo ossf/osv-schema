@@ -371,7 +371,7 @@ If `reverse` is `false`, the list of computed affected commits will be `X, A, B,
 C, D, E, F`. This is the desired behaviour is most cases.
 
 If `reverse` is `true`, the list of affected commits will be `X, A, B, C`. This
-is equivalent to `git rev-list X..Y` (but including `X` and not including `Y`).
+is equivalent to `git rev-list X..Y` (but including `X` and excluding `Y`).
 This may be useful if the scope of a vulnerability entry is limited to a single
 linear branch.
 
