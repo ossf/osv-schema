@@ -272,7 +272,7 @@ package ecosystem.
 The `affected` object's `ranges` field is a JSON array of objects describing the
 affected ranges of versions.
 
-#### affected[].ranges[].reverse, affected[].ranges[].events fields
+#### affected[].ranges[].events fields
 
 The `ranges` object's `events` field is a JSON array of objects. Each object
 describes a single version that either:
@@ -297,16 +297,7 @@ For example, the following expresses that versions in the SemVer ranges `[1.0.0,
 } ]
 ```
 
-The `ranges` object's `reverse` field is an optional boolean that determines
-the algorithm to evaluate whether a given version is impacted.
-
-If not set explicitly, a default value will be inferred from the provided
-`events`:
-- After sorting, if the first event is an `introduced`, then `reverse` is
-  `false`.
-- Otherwise, `reverse` is `true`.
-
-If `reverse` is `false`, then the algorithm to evaluate if `v` is impacted by a
+In most cases, the algorithm to evaluate if `v` is impacted by a
 range is:
 
 ```
@@ -320,13 +311,37 @@ for evt in sorted(range.events)
 return affected
 ```
 
+A special event value of `{"introduced": "*"}` can be used to indicate a version
+that sorts before any other version.
+
+This allows entries such as the following to mean "everything before `1.0.2`" is
+affected.
+
+```json
+"ranges": [ {
+    "type": "SEMVER",
+    "events": [
+      { "introduced": "*" },
+      { "fixed": "1.0.2" },
+    ]
+} ]
+```
+
+#### affected[].ranges[].reverse
+
+The `ranges` object's `reverse` field is an optional boolean that determines
+the algorithm to evaluate whether a given version is impacted. The default is
+`false` which results in the semantics as described in the previous section.
+
 If `reverse` is `true`, then the algorithm to evaluate if `v` is impacted by a
-range is:
+range is instead:
 
 ```
 affected = false
 for evt in reversed(sorted(range.events))
-    if evt.introduced && v < evt.introduced
+    if evt.introduced && v == evt.introduced
+       affected = true
+    else if evt.introduced && v < evt.introduced
        affected = false
     else if evt.fixed && v < evt.fixed
        affected = true
@@ -334,25 +349,8 @@ for evt in reversed(sorted(range.events))
 return affected
 ```
 
-The two algorithms are very similar for range types that have a linear
-ordering (i.e. most numbered versioning schemes).
-
-This allows entries such as the following to mean "everything prior to `1.0.2`"
-is affected. If instead `reverse` is `false`, then the algorithm will evaluate
-this to "nothing is affected".
-
-```json
-"ranges": [ {
-    "type": "SEMVER",
-    # implicit: "reverse": true,
-    "events": [
-      { "fixed": "1.0.2" },
-    ]
-} ]
-```
-
 For range types such as `GIT`, which only allows a partial ordering of commits,
-`reverse` has larger implications on how we compute the affected range of
+`reverse` has large implications on how we compute the affected range of
 commits.
 
 Given the following commit graph and ranges,
