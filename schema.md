@@ -67,6 +67,7 @@ contain UTF-8 text.
 		"ranges": [ {
 			"type": string,
 			"repo": string,
+			"reverse": boolean,
 			"events": [ {
 				"introduced": string,
 				"fixed": string
@@ -271,7 +272,7 @@ package ecosystem.
 The `affected` object's `ranges` field is a JSON array of objects describing the
 affected ranges of versions.
 
-#### affected[].ranges[].events field
+#### affected[].ranges[].reverse, affected[].ranges[].events fields
 
 The `ranges` object's `events` field is a JSON array of objects. Each object
 describes a single version that either:
@@ -296,7 +297,17 @@ For example, the following expresses that versions in the SemVer ranges `[1.0.0,
 } ]
 ```
 
-An algorithm for computing if a version `v` is affected by a range follows:
+The `ranges` object's `reverse` field is an optional boolean that determines
+the algorithm to evaluate whether a given version is impacted.
+
+If not set explicitly, a default value will be inferred from the provided
+`events`:
+- After sorting, if the first event is an `introduced`, then `reverse` is
+  `false`.
+- Otherwise, `reverse` is `true`.
+
+If `reverse` is `false`, then the algorithm to evaluate if `v` is impacted by a
+range is:
 
 ```
 affected = false
@@ -309,24 +320,62 @@ for evt in sorted(range.events)
 return affected
 ```
 
-Here the meaning of the relation `u >= v` and `sorted()` depends on the type.
+If `reverse` is `true`, then the algorithm to evaluate if `v` is impacted by a
+range is:
 
-A special event value of `{ "introduced": "*" }` is allowed. `"*"` is a special
-version that sorts before any other version. This can be used to indicate that
-all prior versions are considered vulnerable.
+```
+affected = false
+for evt in reversed(sorted(range.events))
+    if evt.introduced && v < evt.introduced
+       affected = false
+    else if evt.fixed && v < evt.fixed
+       affected = true
 
-For example, to express that all versions before `1.0.2` is vulnerable, one may
-write:
+return affected
+```
+
+The two algorithms are very similar for range types that have a linear
+ordering (i.e. most numbered versioning schemes).
+
+This allows entries such as the following to mean "everything prior to `1.0.2`"
+is affected. If instead `reverse` is `false`, then the algorithm will evaluate
+this to "nothing is affected".
 
 ```json
 "ranges": [ {
     "type": "SEMVER",
+    # implicit: "reverse": true,
     "events": [
-      { "introduced": "*" },
       { "fixed": "1.0.2" },
     ]
 } ]
 ```
+
+For range types such as `GIT`, which only allows a partial ordering of commits,
+`reverse` has larger implications on how we compute the affected range of
+commits.
+
+Given the following commit graph and ranges,
+
+![git graph](images/git_graph.png)
+
+```json
+"ranges": [ {
+    "type": "GIT",
+    "events": [
+      { "introduced": "X" },
+      { "fixed": "Y" },
+    ]
+} ]
+```
+
+If `reverse` is `false`, the list of computed affected commits will be `X, A, B,
+C, D, E, F`. This is the desired behaviour is most cases.
+
+If `reverse` is `true`, the list of affected commits will be `X, A, B, C`. This
+is equivalent to `git rev-list X..Y` (but including `X` and not including `Y`).
+This may be useful if the scope of a vulnerability entry is limited to a single
+linear branch.
 
 #### affected[].ranges[].type field
 
