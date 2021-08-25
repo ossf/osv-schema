@@ -438,12 +438,12 @@ This means:
 - Within the `1.0.0` to `1.*` range, anything prior to `1.0.2` is affected.
 - Within the `3.0.0` to `3.*` range, anything prior to `3.2.5` is affected.
 
-While the algorithm outputs the same result for the both representations, the
-one with the "limit" makes it more explicit which version branches are
-explicitly known.
+While the evaluation algorithm outputs the same result for both representations,
+the one with the "limit" makes it more explicit which version branches are
+known.
 
-For git ranges, `limit` has more implications for the evaluation algorithm. Take
-the following git commit graph and git range:
+For git ranges, `limit` has more implications for the result of the evaluation
+algorithm. Take the following git commit graph and git range:
 
 ![git graph](images/git_graph.png)
 
@@ -458,7 +458,7 @@ the following git commit graph and git range:
 ```
 
 Without an explicit `limit`, the list of computed affected commits will be `X,
-A, B, C, D, E, F`. This is the desired behaviour is most cases.
+A, B, C, D, E, F`. This is the desired behaviour in most cases.
 
 ```json
 "ranges": [ {
@@ -474,7 +474,7 @@ If `limit` is set to `Y`, the list of affected commits will be `X, A, B, C`. Thi
 is equivalent to `git rev-list X..Y` (but including `X` and excluding `Y`).
 This may be useful if the scope of a vulnerability entry is limited to a small
 set of linear branches. Multiple `"limit"` events may be specified for each
-branch.
+branch -- each expands the scope of the git commit graph to cover.
 
 Note that we did not specify a `fixed` event here as `limit` makes it redundant.
 
