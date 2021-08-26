@@ -1,6 +1,6 @@
 # Open Source Vulnerability format
 
-**Version 0.7.1 (June 30, 2021)**
+**Version 0.8 (August 24, 2021)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -56,28 +56,31 @@ contain UTF-8 text.
 	"withdrawn": string,
 	"aliases": [ string ],
 	"related": [ string ],
-	"package": {
-		"ecosystem": string,
-		"name": string,
-		"purl": string,
-	},
 	"summary": string,
 	"details": string,
-	"affects": {
+	"affected": [ {
+		"package": {
+			"ecosystem": string,
+			"name": string,
+			"purl": string,
+		},
 		"ranges": [ {
 			"type": string,
 			"repo": string,
-			"introduced": string,
-			"fixed": string
+			"events": [ {
+				"introduced": string,
+				"fixed": string
+				"limit": string
+			} ]
 		} ],
-		"versions": [ string ]
-	},
+		"versions": [ string ],
+		"ecosystem_specific": { see description },
+		"database_specific": { see description },
+	} ],
 	"references": [ {
 		"type": string,
 		"url": string
 	} ],
-	"ecosystem_specific": { see description },
-	"database_specific": { see description },
 }
 ```
 
@@ -158,11 +161,64 @@ same database, the duplicate entry could be written using only the `id`,
 The `related` field gives a list of IDs of closely related vulnerabilities, such
 as the same problem in alternate ecosystems. 
 
-### package field
+### summary, details fields
 
-The `package` field is a JSON object identifying the affected code library or
-command provided by the package. The object itself has two required fields,
-`ecosystem` and `name`, and an optional `purl` field.
+The `summary` field gives a one-line, English textual summary of the
+vulnerability. It is recommended that this field be kept short, on the order of
+no more than 120 characters.
+
+The `details` field gives additional English textual details about the
+vulnerability. The field is plain text. Newline characters must be considered
+line breaks when displaying the text, but the display need not use a fixed-width
+font, and the text should not assume one.
+
+The `summary` field is plain text.
+
+The `details` field is CommonMark markdown (a subset of GitHub-Flavored
+Markdown). Display code may at its discretion sanitize the input further, such
+as stripping raw HTML and links that do not start with http:// or https://.
+Databases are encouraged not to include those in the first place. (The goal is
+to balance flexibility of presentation with not exposing vulnerability database
+display sites to unnecessary vulnerabilities.)
+
+### affected fields
+
+The `affected` field is a JSON array containing objects that describes the
+affected package versions, meaning those that contain the vulnerability.
+
+Within each object in the `affected` array, the `package` field identifies the
+package containing the vulnerability. In most cases, there should be exactly one
+entry in the `affected` array per affected `package` to describe all affected
+versions. In rare cases, for example if the `ecosystem_specific` encodes
+platform information that doesn't apply equally to all listed versions and
+ranges, a separate entry with the same `package` in the `affected` array may be
+needed.
+
+The `versions` field can enumerate a specific set of affected versions, and the
+`ranges` field can list ranges of affected versions, under a given defined
+ordering. **A version is considered affected if it lies within any one of the
+ranges or is listed in the versions list.**
+
+The `versions` list should - with one exception - always be present, to allow
+software to answer the question "is this specific version affected?" without
+having to contain code specific to every different ecosystem. The one exception
+is if the affected versions are valid SemVer 2.0 versions which can be
+accurately summarized by one or more non-overlapping SemVer ranges. In that
+case, the SemVer ranges can be listed instead, in entries in the `ranges` field
+with type `SEMVER` (see below). In this case, the SemVer ranges act as a kind of
+compact form of a larger `versions` list. Ecosystems that do not use SemVer
+identifiers or that order versions differently from SemVer must include the
+enumerated `versions` list, although they can also add ranges of type
+`ECOSYSTEM` for additional context.
+
+In short, each object in the `affected` array must contain either a non-empty
+`versions` list or at least one range in the `ranges` list of type `SEMVER`.
+
+### affected[].package field
+
+The `affected` object's `package` field is a JSON object identifying the
+affected code library or command provided by the package. The object itself has
+two required fields, `ecosystem` and `name`, and an optional `purl` field.
 
 The `ecosystem` identifies the overall library ecosystem. It must be one of the
 strings in the table below. The `name` field is a string identifying the library
@@ -174,7 +230,7 @@ The `purl` field is a string following the
 identifies the package. This field is optional but recommended.
 
 Different ecosystems can define the same names; they identify different
-packages.  For example, these denote different libraries with different sets of
+packages. For example, these denote different libraries with different sets of
 versions and different potential vulnerabilities:
 
 `{"ecosystem": "npm", "name": "zlib"}`
@@ -205,85 +261,22 @@ It is permitted for a database name (the DB prefix in the `id` field) and an
 ecosystem name to be the same, provided they have the same owner who can make
 decisions about the meaning of the `ecosystem_specific` field (see below).
 
-If the same root mistake causes a vulnerability in multiple ecosystems, each
-ecosystem’s instance of the vulnerability would have its own separate
-vulnerability entry, one per package.ecosystem that needs to be specified. This
-matches existing databases like GHSA. For example CVE 2019-8331, a bug in
-Bootstrap JavaScript files, is recorded as both
-https://github.com/advisories/GHSA-fxwm-579q-49qq (nuget) and
-https://github.com/advisories/GHSA-wh77-3x4m-4q9g (npm). These two instances
-would be described by two separate entries in this vulnerability format as well.
+### affected[].versions field
 
-### summary, details fields
-
-The `summary` field gives a one-line, English textual summary of the
-vulnerability. It is recommended that this field be kept short, on the order of
-no more than 120 characters.
-
-The `details` field gives additional English textual details about the
-vulnerability. The field is plain text. Newline characters must be considered
-line breaks when displaying the text, but the display need not use a fixed-width
-font, and the text should not assume one.
-
-The `summary` field is plain text.
-
-The `details` field is CommonMark markdown (a subset of GitHub-Flavored
-Markdown). Display code may at its discretion sanitize the input further, such
-as stripping raw HTML and links that do not start with http:// or https://.
-Databases are encouraged not to include those in the first place. (The goal is
-to balance flexibility of presentation with not exposing vulnerability database
-display sites to unnecessary vulnerabilities.)
-
-### affects fields
-
-The `affects` field is a JSON object that describes the affected versions,
-meaning those containing the vulnerability. Within the `affects` object, the
-`versions` field can enumerate a specific set of affected versions, and the
-`ranges` field can list ranges of affected versions, under a given defined
-ordering. A version is considered affected if it lies within any one of the
-ranges or is listed in the versions list.
-
-The `versions` list should - with one exception - always be present, to allow
-software to answer the question "is this specific version affected?" without
-having to contain code specific to every different ecosystem. The one exception
-is if the affected versions are valid SemVer 2.0 versions which can be
-accurately summarized by one or more non-overlapping SemVer ranges. In that
-case, the SemVer ranges can be listed instead, in entries in the `ranges` field
-with type `SEMVER` (see below). In this case, the SemVer ranges act as a kind of
-compact form of a larger `versions` list. Ecosystems that do not use SemVer
-identifiers or that order versions differently from SemVer must include the
-enumerated `versions` list, although they can also add ranges of type
-`ECOSYSTEM` for additional context.
-
-In short, the `affects` field must contain either a non-empty `versions` list or
-at least one range in the `ranges` list of type `SEMVER`.
-
-#### affects.versions
-
-The `affects` object's `versions` field is a JSON array of strings. Each string
+The `affected` object's `versions` field is a JSON array of strings. Each string
 is a single affected version in whatever version syntax is used by the given
-package ecosystem. 
+package ecosystem.
 
-#### affects.ranges
+### affected[].ranges[] field
 
-The `affects` object's `ranges` field is a JSON array of objects, each
-describing a single range.  The range object defines the fields `type`,
-`introduced`, `fixed`, and additional type-specific fields as needed.
+The `affected` object's `ranges` field is a JSON array of objects describing the
+affected ranges of versions.
 
-In the range object, the `type` field is required. It specifies the type of
-version range being recorded and defines the interpretation of `introduced`,
-`fixed`, and any type-specific fields.
+### affected[].ranges[].type field
 
-The `introduced` and `fixed` fields specify the range of versions containing the
-vulnerability.  The vulnerability is considered present in version v if:
-
-```
-(introduced is unset OR introduced < v OR introduced == v) AND
-(fixed is unset OR v < fixed).
-```
-
-Here `u == v` is exact version equality and the meaning of the relation `u < v`
-depends on the type.
+In the `ranges` field, the `type` field is required. It specifies the type of
+version range being recorded and defines the interpretation of the `events`
+object's `introduced`, `fixed`, and any type-specific fields.
 
 The defined types and their additional fields are:
 
@@ -306,13 +299,10 @@ inclusion queries cannot be answered without reference to the package
 ecosystem’s own logic and therefore cannot be used by ecosystem-independent
 processors.
 
-- `GIT`: The versions `introduced` and `fixed` are full-length Git commit hashes.
-The additional field `repo` is the URL of the Git repository (as used with `git
-clone`). The repository’s commit graph is needed to evaluate whether a given
-version is in the range. The relation `u < v` is true when commit `u` is a (perhaps
-distant) parent of commit `v`. Ranges listed with type `GIT` may need to overlap,
-if a vulnerability with a single root cause was fixed independently on multiple
-branches.
+- `GIT`: The versions `introduced` and `fixed` are full-length Git commit
+  hashes. The repository’s commit graph is needed to evaluate whether a given
+  version is in the range. The relation `u < v` is true when commit `u` is a
+  (perhaps distant) parent of commit `v`.
 
   Specifying one or more `GIT` ranges does NOT remove the requirement to specify
 an explicitly enumerated `versions` list, because `GIT` range inclusion queries
@@ -320,8 +310,216 @@ cannot be answered without access to a copy of the underlying Git repository.
 
 Again, it is important to note that to allow portable (non-ecosystem-specific)
 processors to answer "is this version affected?", either `SEMVER` ranges or an
-explicit `affects.versions` list must be given. The `ECOSYSTEM` and `GIT` ranges
+explicit `versions` list must be given. The `ECOSYSTEM` and `GIT` ranges
 are only for adding additional context.
+
+### affected[].ranges[].events fields
+
+The `ranges` object's `events` field is a JSON array of objects. Each object
+describes a single version that either:
+- Introduces a vulnerability: `{"introduced": string}`
+- Fixes a vulnerability: `{"fixed": string}`
+- Sets an upper limit on the range being described: `{"limit": string}`.
+
+These `events` objects represent a "timeline" of status changes for the affected
+package.
+
+The values of "introduced", "fixed" and "limit" are version strings as defined
+by the `affected[].ranges[].type` field. Additionally,
+  - `"introduced"` allows a version of the value `"0"` to represent a version that
+    sorts before any other version.
+  - `"limit"` allows versions containing the string `"\*"` to represent "infinity".
+    If no limit events are provided, an implicit `{ "limit": "*" }` is assumed to
+    exist. Multiple `"limit"` events are allowed in the same range.
+
+Only **a single type** (either `"introduced"`, `"fixed"`, `"limit"`) is allowed in
+each event object. For instance, `{"introduced": "1.0.0", "fixed": "1.0.2"}` is
+**invalid**.
+
+There must be at least one `"introduced"` or `"fixed"` object in the `events`
+array. While not required, it's also recommended to keep the `events` array
+sorted according to the `affected[].ranges[].type` of the range.
+
+The algorithm to evaluate if `v` is impacted by a range is:
+
+```
+func GetFirstVersion(events)
+  for evt in sorted(events)
+    if evt.introduced is present
+      return evt.introduced
+
+    if evt.fixed is present
+      return evt.fixed
+
+func FitsRange(v, range)
+  firstVersion = GetFirstVersion(range.events)
+  beforeAnyLimit = false
+
+  for evt in range.events
+    if evt.limit is present and v < evt.limit
+      beforeAnyLimit = true
+
+  return v >= firstVersion && beforeAnyLimit
+
+vulnerable = false
+for range in affected.ranges
+  if FitsRange(v, range)
+    for evt in sorted(range.events)
+      if evt.introduced is present && v >= evt.introduced
+         vulnerable = true
+      else if evt.fixed is present && v >= evt.fixed
+         vulnerable = false
+```
+
+#### Examples
+The following expresses that "every possible version is affected".
+
+```json
+"ranges": [ {
+    "type": "SEMVER",
+    "events": [
+      { "introduced": "0" },
+    ]
+} ]
+```
+
+The following expresses that "everything before `1.0.2`" is affected.
+
+```json
+"ranges": [ {
+    "type": "SEMVER",
+    "events": [
+      { "introduced": "0" },
+      { "fixed": "1.0.2" },
+    ]
+} ]
+```
+
+The following expresses that versions in the SemVer ranges `[1.0.0,
+1.0.2)` or `[3.0.0, 3.2.5)` are affected. Everything else is unaffected.
+
+```json
+"ranges": [ {
+    "type": "SEMVER",
+    "events": [
+      { "introduced": "1.0.0" },
+      { "fixed": "1.0.2" },
+      { "introduced": "3.0.0" },
+      { "fixed": "3.2.5" }
+    ]
+} ]
+```
+
+We can also use `limit` to further divide up the timeline into sub-ranges
+(e.g. branches).
+
+```json
+"ranges": [
+    {
+        "type": "SEMVER",
+        "events": [
+          { "introduced": "1.0.0" },
+          { "fixed": "1.0.2" },
+          { "limit": "1.*" },
+        ]
+    },
+    {
+        "type": "SEMVER",
+        "events": [
+          { "introduced": "3.0.0" },
+          { "fixed": "3.2.5" },
+          { "limit": "3.*" },
+        ]
+    },
+]
+```
+
+This means:
+- Within the `1.0.0` to `1.*` range, anything prior to `1.0.2` is affected.
+- Within the `3.0.0` to `3.*` range, anything prior to `3.2.5` is affected.
+
+While the evaluation algorithm outputs the same result for both representations,
+the one with the "limit" makes it more explicit which version branches are
+known.
+
+For git ranges, `limit` has more implications for the result of the evaluation
+algorithm. Take the following git commit graph and git range:
+
+![git graph](images/git_graph.png)
+
+```json
+"ranges": [ {
+    "type": "GIT",
+    "events": [
+      { "introduced": "X" },
+      { "fixed": "Y" },
+    ]
+} ]
+```
+
+Without an explicit `limit`, the list of computed affected commits will be `X,
+A, B, C, D, E, F`. This is the desired behaviour in most cases.
+
+```json
+"ranges": [ {
+    "type": "GIT",
+    "events": [
+      { "introduced": "X" },
+      { "limit": "Y" },
+    ]
+} ]
+```
+
+If `limit` is set to `Y`, the list of affected commits will be `X, A, B, C`. This
+is equivalent to `git rev-list X..Y` (but including `X` and excluding `Y`).
+This may be useful if the scope of a vulnerability entry is limited to a small
+set of linear branches. Multiple `"limit"` events may be specified for each
+branch -- each expands the scope of the git commit graph to cover.
+
+Note that we did not specify a `fixed` event here as `limit` makes it redundant.
+
+### affected[].ranges[].repo field
+
+The `ranges` object's `repo` field is the URL of the package's code
+repository. The value should be in a format that's directly usable as an
+argument for the version control system's clone command (e.g. `git clone`).
+
+The `affected` object's `ranges` field is a JSON array of objects, each
+describing a single range.  The range object defines the fields `type`,
+`events`, `repo`.  `introduced`, `fixed`, and additional type-specific fields as needed.
+
+This field is required if `affected[].ranges[].type` is `GIT`.
+
+### affected[].ecosystem_specific field
+
+The `affected` object's `ecosystem_specific` field is a JSON object holding
+additional information about the vulnerability as defined by the ecosystem for
+which the record applies. The meaning of the values within the object is
+entirely defined by the ecosystem and beyond the scope of this document.
+
+For example, the Go ecosystem includes here information about the affected
+functions and which modules the packages were found in, along with severity in
+the Go project-specific severity scale.
+
+Note that this is a single field with key "ecosystem_specific", which itself
+contains a JSON object with unspecified fields.
+
+### affected[].database_specific field
+
+The `affected` object's `database_specific` field is a JSON object holding
+additional information about the vulnerability as defined by the database from
+which the record was obtained. The meaning of the values within the object is
+entirely defined by the database and beyond the scope of this document.
+
+In general, the canonical database for a particular ecosystem should record its
+information in `ecosystem_specific`, allowing other aggregator databases to put
+their own summaries in `database_specific`. 
+
+For example, databases that add additional information such as computed CVSS
+scores for ecosystems that do not provide them could add that information here.
+
+Note that this is a single field with key "database_specific", which itself
+contains a JSON object with unspecified fields.
 
 ### references field
 
@@ -340,45 +538,17 @@ The known reference `type` values are:
 - `FIX`: A source code browser link to the fix (e.g., a GitHub commit) Note that
   the `fix` type is meant for viewing by people using web browsers.  Programs
   interested in analyzing the exact commit range would do better to use the
-  `GIT`-typed `affects.ranges` entries (described above).
+  `GIT`-typed `affected[].ranges` entries (described above).
 - `PACKAGE`: A web page for the affected package itself.
 - `WEB`: A web page of some unspecified kind. 
-
-### ecosystem_specific field
-
-The `ecosystem_specific` field is a JSON object holding additional information
-about the vulnerability as defined by the ecosystem for which the record
-applies. The meaning of the values within the object is entirely defined by the
-ecosystem and beyond the scope of this document.
-
-For example, the Go ecosystem includes here information about the affected
-functions and which modules the packages were found in, along with severity in
-the Go project-specific severity scale.
-
-Note that this is a single field with key "ecosystem_specific", which itself
-contains a JSON object with unspecified fields.
-
-### database_specific field
-
-The `database_specific` field is a JSON object holding additional information
-about the vulnerability as defined by the database from which the record was
-obtained. The meaning of the values within the object is entirely defined by the
-database and beyond the scope of this document.
-
-In general, the canonical database for a particular ecosystem should record its
-information in `ecosystem_specific`, allowing other aggregator databases to put
-their own summaries in `database_specific`. 
-
-For example, databases that add additional information such as computed CVSS scores for ecosystems that do not provide them could add that information here.
-
-Note that this is a single field with key "database_specific", which itself contains a JSON object with unspecified fields.
 
 ## Examples
 
 ### Go vulnerability
 
-The Go vulnerability database and ecosystem define that the `ecosystem_specific` field is a JSON object with additional fields including `functions`,
-a list of specific functions that must be called in order to trigger the vulnerability, and `module`, the Go module in which the package appears.
+The Go vulnerability database and ecosystem define that the `ecosystem_specific`
+field is a JSON object with additional fields including `module`, the Go module
+in which the package appears.
 
 Here is a complete entry for a recent Go vulnerability:
 
@@ -388,34 +558,41 @@ Here is a complete entry for a recent Go vulnerability:
     "published": "2021-01-21T19:15:00Z",
     "modified": "2021-03-10T23:20:53Z",
     "aliases": ["CVE-2021-3114"],
-    "package": {
-        "ecosystem": "Go",
-        "name": "crypto/elliptic"
-    },
     "summary": "incorrect P-224 curve operations",
     "details": "The P224() Curve implementation can in rare circumstances generate incorrect outputs, including returning invalid points from ScalarMult.\n\nThe crypto/x509 and golang.org/x/crypto/ocsp (but not crypto/tls) packages support P-224 ECDSA keys, but they are not supported by publicly trusted certificate authorities. No other standard library or golang.org/x/crypto package supports or uses the P-224 curve.\n\nThe incorrect output was found by the elliptic-curve-differential-fuzzer project running on OSS-Fuzz and reported by Philippe Antoine (Catena cyber).",
     "references": [
         {"type": "REPORT", "url": "https://golang.org/issue/43786"},
         {"type": "WEB", "url": "https://github.com/catenacyber/elliptic-curve-differential-fuzzer"},
     ],
-    "affects": {
+    "affected": [ {
+        "package": {
+            "ecosystem": "Go",
+            "name": "crypto/elliptic"
+        },
         "ranges": [
-            {"type": "SEMVER", "introduced": "1.0.0", "fixed": "1.14.14"},
-            {"type": "SEMVER", "introduced": "1.15.0", "fixed": "1.15.17"}
-        ]
-    },
-    "ecosystem_specific": {
-        "functions": ["P224"],
-        "module": "std",
-        "severity": "HIGH"
-    }
+            {
+                "type": "SEMVER",
+                "events": [
+                    { "introduced": "1.0.0" },
+                    { "fixed": "1.14.14" },
+                    { "introduced": "1.15.0" },
+                    { "fixed": "1.15.17" }
+                ]
+            }
+        ],
+        "ecosystem_specific": {
+            "functions": ["P224"],
+            "module": "std",
+            "severity": "HIGH"
+        }
+    } ]
 }
 ```
 
 ### Go tool vulnerability
 
-The shared format can also be used to describe vulnerabilities in commands and applications.
-Here is an entry for a recent Go tool vulnerability:
+The shared format can also be used to describe vulnerabilities in commands and
+applications.  Here is an entry for a recent Go tool vulnerability:
 
 ```json
 {
@@ -423,24 +600,31 @@ Here is an entry for a recent Go tool vulnerability:
     "published": "2021-01-21T19:15:00Z",
     "modified": "2021-03-10T23:20:53Z",
     "aliases": ["CVE-2021-3115"],
-    "package": {
-        "ecosystem": "Go",
-        "name": "cmd/go"
-    },
     "summary": "packages using cgo can cause arbitrary code execution at build time",
     "details": "The go command may execute arbitrary code at build time when cgo is in use on Windows. This may occur when running "go get", or any other command that builds code. Only users who build untrusted code (and don’t execute it) are affected.\n\nIn addition to Windows users, this can also affect Unix users who have "." listed explicitly in their PATH and are running "go get" or build commands outside of a module or with module mode disabled.\n\nThanks to RyotaK (https://twitter.com/ryotkak) for reporting this issue.",
     "references": [
         {"type": "REPORT", "url": "https://golang.org/issue/43783"}
     ],
-    "affects": {
+    "affected": [ {
+        "package": {
+            "ecosystem": "Go",
+            "name": "cmd/go"
+        },
         "ranges": [
-            {"type": "SEMVER", "introduced": "1.0.0", "fixed": "1.14.14"},
-            {"type": "SEMVER", "introduced": "1.15.0", "fixed": "1.15.17"}
-        ]
-    },
-    "ecosystem_specific": {
-        "severity": "HIGH"
-    }
+            {
+                "type": "SEMVER",
+                "events": [
+                    { "introduced": "1.0.0" },
+                    { "fixed": "1.14.14" },
+                    { "introduced": "1.15.10" },
+                    { "fixed": "1.15.17" }
+                ],
+            }
+        ],
+        "ecosystem_specific": {
+            "severity": "HIGH"
+        }
+    } ]
 }
 ```
 
@@ -455,10 +639,6 @@ Neither GitHub nor NPM uses this format currently, but here is how a recent NPM 
     "modified": "2021-03-10T23:40:39Z",
     "aliases": ["NPM-1648", "CVE-2020-28498", "SNYK-JS-ELLIPTIC-1064899"],
     "related": ["NPM-1649", "SNYK-JAVA-ORGWEBJARSNPM-1069836"],
-    "package": {
-        "ecosystem": "npm",
-        "name": "elliptic"
-    },
     "summary": "Use of a Broken or Risky Cryptographic Algorithm",
     "details": "elliptic is a Fast elliptic-curve cryptography in a plain javascript implementation.\n\nAffected versions of this package are vulnerable to Cryptographic Issues via the secp256k1 implementation in elliptic/ec/key.js. There is no check to confirm that the public key point passed into the derive function actually exists on the secp256k1 curve. This results in the potential for the private key used in this implementation to be revealed after a number of ECDH operations are performed.\n\nRemediation: Upgrade elliptic to version 6.5.4 or higher.\n",
     "references": [
@@ -469,20 +649,30 @@ Neither GitHub nor NPM uses this format currently, but here is how a recent NPM 
         {"type": "ADVISORY", "url": "https://snyk.io/vuln/SNYK-JS-ELLIPTIC-1064899"},
         {"type": "PACKAGE", "url": "https://www.npmjs.com/package/elliptic"}
     ],
-    "affects": {
+    "affected": [ {
+        "package": {
+            "ecosystem": "npm",
+            "name": "elliptic"
+        },
         "ranges": [
-            {"type": "SEMVER", "fixed": "6.5.4"},
-            {"type": "SEMVER", "introduced": "1.15.0", "fixed": "1.15.17"}
-        ]
-    },
-    "database_specific": {
-        "CWE": "CWE-327",
-        "CVSS": {
-            "Score": "6.8",
-            "Severity": "Medium",
-            "Code": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:N"
+            {
+               "type": "SEMVER",
+               "events": [
+                   { "introduced": "1.15.0" },
+                   { "fixed": "1.15.17" },
+                   { "fixed": "6.5.4" }
+               ]
+            }
+        ],
+        "database_specific": {
+            "CWE": "CWE-327",
+            "CVSS": {
+                "Score": "6.8",
+                "Severity": "Medium",
+                "Code": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:N"
+            }
         }
-    }
+    } ]
 }
 ```
 
@@ -495,25 +685,27 @@ OSV uses this format already for its vulnerabilities. Here is the encoding of on
     "id": "OSV-2020-584",
     "published": "TODO 2021-01-21T19:15:00Z",
     "modified": "TODO 2021-03-10T23:20:53Z",
-    "package": {
-        "ecosystem": "OSS-Fuzz",
-        "name": "icu"
-    },
     "summary": "Heap-buffer-overflow in collator_compare_fuzzer.cpp",
     "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=15499\nCrash type: Heap-buffer-overflow WRITE 3\nCrash state:\ncollator_compare_fuzzer.cpp\n",
     "references": [
         {"type": "REPORT", "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=15499"},
     ],
-    "affects": {
+    "affected": [ {
+        "repo": "https://github.com/unicode-org/icu.git",
+        "package": {
+            "ecosystem": "OSS-Fuzz",
+            "name": "icu"
+        },
         "ranges": [
             {
                 "type": "GIT",
-                "introduced": "6e5755a2a833bc64852eae12967d0a54d7adf629",
-                "fixed": "c43455749b914feef56b178b256f29b3016146eb",
-                "repo": "https://github.com/unicode-org/icu.git"
+                "events": [
+                  { "introduced": "6e5755a2a833bc64852eae12967d0a54d7adf629" },
+                  { "fixed": "c43455749b914feef56b178b256f29b3016146eb" }
+                ]
             }
         ]
-    }
+    } ]
 }
 ```
 
@@ -528,27 +720,33 @@ format. Here’s an example entry:
     "published": "2019-11-16T00:00:00Z",
     "modified": "2021-01-04T19:02:00Z",
     "aliases": ["CVE-2020-25574", "CVE-2019-25008"],
-    "package": {
-        "ecosystem": "crates.io",
-        "name": "http"
-    },
     "summary": "Integer Overflow in HeaderMap::reserve() can cause Denial of Service",
     "details": "HeaderMap::reserve() used usize::next_power_of_two() to calculate\nthe increased capacity. However, next_power_of_two() silently overflows\nto 0 if given a sufficently large number in release mode.\n\nIf the map was not empty when the overflow happens, the library will invoke self.grow(0)\nand start infinite probing. This allows an attacker who controls\nthe argument to reserve() to cause a potential denial of service (DoS).\n\nThe flaw was corrected in 0.1.20 release of http crate.\n",
     "references": [
       {"type": "REPORT", "url": "https://github.com/hyperium/http/issues/352"},
       {"type": "ADVISORY", "url": "https://rustsec.org/advisories/RUSTSEC-2019-0033.html"}
     ],
-    "affects": {
+    "affected": [ {
+        "package": {
+            "ecosystem": "crates.io",
+            "name": "http"
+        },
         "ranges": [
-            {"type": "SEMVER", "fixed": "0.1.20"},
-        ]
-    },
-    "ecosystem_specific": {
-        "functions": ["http::header::HeaderMap::reserve"],
-        "keywords": ["http", "integer-overflow", "DoS"],
-        "categories": ["denial-of-service"],
-        "severity": "HIGH"
-    }
+            {
+                "type": "SEMVER",
+                "events": [
+                    {"introduced": "0"},
+                    {"fixed": "0.1.20"}
+                ]
+            }
+        ],
+        "ecosystem_specific": {
+            "functions": ["http::header::HeaderMap::reserve"],
+            "keywords": ["http", "integer-overflow", "DoS"],
+            "categories": ["denial-of-service"],
+            "severity": "HIGH"
+        }
+    } ]
 }
 ```
 
@@ -564,35 +762,40 @@ potential encoding of a vulnerability entry.
     "published": "2021-04-01T20:15:00Z",
     "modified": "2021-04-07T15:14:00Z",
     "aliases": ["CVE-2021-29421"],
-    "package": {
-        "ecosystem": "PyPI",
-        "name": "pikepdf"
-    },
     "summary": "XXE in pikepdf",
     "details": "models/metadata.py in the pikepdf package 2.8.0 through 2.9.2 for Python allows XXE when parsing XMP metadata entries.",
     "references": [
         {"type": "FIX", "url": "https://github.com/pikepdf/pikepdf/commit/3f38f73218e5e782fe411ccbb3b44a793c0b343a"}
     ],
-    "affects": {
+    "affected": [ {
+        "package": {
+            "ecosystem": "PyPI",
+            "name": "pikepdf"
+        },
         "ranges": [
             {
                 "type": "GIT",
                 "repo": "https://github.com/pikepdf/pikepdf",
-                "fixed": "3f38f73218e5e782fe411ccbb3b44a793c0b343a"
+                "events": [
+                  { "introduced": "0" },
+                  { "fixed": "3f38f73218e5e782fe411ccbb3b44a793c0b343a" }
+                ],
             },
             {
                 "type": "ECOSYSTEM",
-                "introduced": "2.8.0",
-                "fixed": "2.10.0"
+                "events": [
+                  { "introduced": "2.8.0" },
+                  { "fixed": "2.10.0" }
+                ],
             }
         ],
-               "versions": [
-                   "2.8.0", "2.8.0.post1", "2.8.0.post2", "2.9.0", "2.9.1", "2.9.2"
-               ],
-    },
-    "ecosystem_specific": {
-        "severity": "HIGH"
-    }
+        "versions": [
+                "2.8.0", "2.8.0.post1", "2.8.0.post2", "2.9.0", "2.9.1", "2.9.2"
+        ],
+        "ecosystem_specific": {
+            "severity": "HIGH"
+        }
+    } ]
 }
 ```
 
@@ -604,16 +807,20 @@ Ruby does not use this format currently, but here is a potential translation of 
     "id": "CVE-2019-3881",
     "published": "2018-04-23T00:00:00Z",
     "modified": "2021-05-10T00:00:00Z",
-    "package": {
-        "ecosystem": "RubyGems",
-        "name": "bundler"
-    },
     "summary": "Insecure path handling in Bundler",
     "details": "Bundler prior to 2.1.0 uses a predictable path in /tmp/, created with insecure permissions as a storage location for gems, if locations under the user's home directory are not available. If Bundler is used in a scenario where the user does not have a writable home directory, an attacker could place malicious code in this directory that would be later loaded and executed.",
-    "affects": {
-        "ranges": [
-            {"type": "ECOSYSTEM", "introduced": "1.14.0", "fixed": "2.1.0"}
-        ],
+    "affected": [ {
+        "package": {
+            "ecosystem": "RubyGems",
+            "name": "bundler"
+        },
+        "ranges": [ {
+            "type": "ECOSYSTEM",
+            "events": [
+              { "introduced": "1.14.0" },
+              { "fixed": "2.1.0" },
+            ]
+        } ],
         "versions": [
             "1.14.0", "1.14.1", "1.14.2", "1.14.3", "1.14.4", "1.14.5", 
             "1.14.6", "1.15.0.pre.1", "1.15.0.pre.2", "1.15.0.pre.3",
@@ -624,7 +831,7 @@ Ruby does not use this format currently, but here is a potential translation of 
             "1.17.3", "2.0.0.pre.1", "2.0.0.pre.2", "2.0.0.pre.3", "2.0.0", 
             "2.0.1", "2.0.2", "2.1.0.pre.1", "2.1.0.pre.2", "2.1.0.pre.3"
         ]
-    },
+    } ],
     "references": [
         {"type": "ADVISORY", "url": "https://github.com/advisories/GHSA-g98m-96g9-wfjq"}
     ]
@@ -643,6 +850,11 @@ Ruby does not use this format currently, but here is a potential translation of 
 - 2021-06-08 Added "purl" to the "package" field and some minor clarifications.
 - 2021-06-30 Fixed an incorrect/typoed specification for "affects" from an array
   of objects to an object.
+- 2021-08-17 Support multiple packages per entry by moving `packages`,
+  `ecosystem_specific` and `database_specific` into `affected`. The `affected`
+  field is intentionally named differently to the previous `affects` field to
+  make migration easier. Also use "events" containing single versions to
+  represent affected version ranges instead.
 
 ## Status - 2021-04-07
 
@@ -762,3 +974,77 @@ Based on that, added some new reference types.
 My plan is to rewrite the italicized paragraph at the top of the doc on Monday
 and then share the link publicly to gather more feedback from groups that have
 not yet seen it.
+
+## Status - 2021-08-24
+
+The biggest change to the schema is our decision to support multiple packages
+and ecosystems per entry and the way we specify version ranges.
+
+These changes are primarily in the interests of
+supporting better interoperability with other vulnerability schemas, such as the
+[CVE JSON schema](https://github.com/CVEProject/cve-schema), where multiple
+packages are supported in a single entry. We've also been suggesting other
+changes to the CVE schema for better alignment
+([1](https://github.com/CVEProject/cve-schema/issues/86),
+ [2](https://github.com/CVEProject/cve-schema/issues/87),
+ [3](https://github.com/CVEProject/cve-schema/issues/88),
+ [4](https://github.com/CVEProject/cve-schema/issues/89)).
+
+Supporting multiple packages is a reversal of our decision back in April (see
+"Status - 2021-04-23" for our rationale at the time).
+
+The other major change is the way we specify ranges. Instead of specifying half
+open ranges as [introduced, fixed), ranges are encoded with with "events" in a
+"timeline" of sorts:
+
+Instead of
+
+```
+"ranges": [{
+    "type: "GIT",
+    "introduced": "058504edd02667eef8fac9be27ab3ea74332e9b4",
+    "fixed": "3533e50cbee8ff086bfa04176ac42a01ee3db37d"
+}, {
+    "type": "GIT",
+    "introduced": "058504edd02667eef8fac9be27ab3ea74332e9b4",
+    "fixed": "c5157b3e775dac31d51b11f993a06a84dc11fc8c" }
+}, {
+    "type": "SEMVER",
+    "introduced": "1.0.0",
+    "fixed": "1.0.2",
+}, {
+    "type": "SEMVER",
+    "introduced": "1.1.0",
+    "fixed": "1.1.3",
+}]
+```
+
+We now have:
+
+```
+"ranges": [{
+    "type: "GIT",
+    "events": [
+      { "introduced": "058504edd02667eef8fac9be27ab3ea74332e9b4" },
+      { "fixed": "3533e50cbee8ff086bfa04176ac42a01ee3db37d" },
+      { "fixed": "c5157b3e775dac31d51b11f993a06a84dc11fc8c" }
+    ]
+}, {
+    "type: "SEMVER",
+    "events": [
+      { "introduced": "1.0.0" },
+      { "fixed": "1.0.2" },
+      { "introduced": "1.1.0" },
+      { "fixed": "1.1.3" }
+    ]
+}]
+```
+
+This avoids repetition with the previous approach and better fits non-linear
+versioning schemes like git ranges. We also introduced a "limit" event, which
+allows git range specification to be scoped to a small num single branch. This was not
+possible before.
+
+These are breaking changes, but we hope to make migration easier by renaming the
+"affects" field to "affected" to allow existing consumers and producers of this
+data to more easily handle old and new versions of entries.
