@@ -326,7 +326,7 @@ package.
 
 The values of "introduced", "fixed" and "limit" are version strings as defined
 by the `affected[].ranges[].type` field. Additionally,
-  - `"introduced"` allows a version of the value `"\*"` to represent a version that
+  - `"introduced"` allows a version of the value `"0"` to represent a version that
     sorts before any other version.
   - `"limit"` allows versions containing the string `"\*"` to represent "infinity".
     If no limit events are provided, an implicit `{ "limit": "*" }` is assumed to
@@ -378,7 +378,7 @@ The following expresses that "every possible version is affected".
 "ranges": [ {
     "type": "SEMVER",
     "events": [
-      { "introduced": "*" },
+      { "introduced": "0" },
     ]
 } ]
 ```
@@ -389,7 +389,7 @@ The following expresses that "everything before `1.0.2`" is affected.
 "ranges": [ {
     "type": "SEMVER",
     "events": [
-      { "introduced": "*" },
+      { "introduced": "0" },
       { "fixed": "1.0.2" },
     ]
 } ]
@@ -735,7 +735,7 @@ format. Here’s an example entry:
             {
                 "type": "SEMVER",
                 "events": [
-                    {"introduced": "*"},
+                    {"introduced": "0"},
                     {"fixed": "0.1.20"}
                 ]
             }
@@ -777,7 +777,7 @@ potential encoding of a vulnerability entry.
                 "type": "GIT",
                 "repo": "https://github.com/pikepdf/pikepdf",
                 "events": [
-                  { "introduced": "*" },
+                  { "introduced": "0" },
                   { "fixed": "3f38f73218e5e782fe411ccbb3b44a793c0b343a" }
                 ],
             },
