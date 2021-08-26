@@ -69,7 +69,7 @@ contain UTF-8 text.
 			"repo": string,
 			"events": [ {
 				"introduced": string,
-				"fixed": string
+				"fixed": string,
 				"limit": string
 			} ]
 		} ],
