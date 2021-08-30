@@ -336,9 +336,9 @@ Only **a single type** (either `"introduced"`, `"fixed"`, `"limit"`) is allowed 
 each event object. For instance, `{"introduced": "1.0.0", "fixed": "1.0.2"}` is
 **invalid**.
 
-There must be at least one `"introduced"` or `"fixed"` object in the `events`
-array. While not required, it's also recommended to keep the `events` array
-sorted according to the `affected[].ranges[].type` of the range.
+There must be at least one `"introduced"` object in the `events` array. While
+not required, it's also recommended to keep the `events` array sorted according
+to the `affected[].ranges[].type` of the range.
 
 The algorithm to evaluate if `v` is impacted by a range is:
 
