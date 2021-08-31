@@ -328,7 +328,7 @@ The values of "introduced", "fixed" and "limit" are version strings as defined
 by the `affected[].ranges[].type` field. Additionally,
   - `"introduced"` allows a version of the value `"0"` to represent a version that
     sorts before any other version.
-  - `"limit"` allows versions containing the string `"\*"` to represent "infinity".
+  - `"limit"` allows versions containing the string `"*"` to represent "infinity".
     If no limit events are provided, an implicit `{ "limit": "*" }` is assumed to
     exist. Multiple `"limit"` events are allowed in the same range.
 
