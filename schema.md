@@ -410,40 +410,10 @@ The following expresses that versions in the SemVer ranges `[1.0.0,
 } ]
 ```
 
-We can also use `limit` to further divide up the timeline into sub-ranges
-(e.g. branches).
-
-```json
-"ranges": [
-    {
-        "type": "SEMVER",
-        "events": [
-          { "introduced": "1.0.0" },
-          { "fixed": "1.0.2" },
-          { "limit": "1.*" },
-        ]
-    },
-    {
-        "type": "SEMVER",
-        "events": [
-          { "introduced": "3.0.0" },
-          { "fixed": "3.2.5" },
-          { "limit": "3.*" },
-        ]
-    },
-]
-```
-
-This means:
-- Within the `1.0.0` to `1.*` range, anything prior to `1.0.2` is affected.
-- Within the `3.0.0` to `3.*` range, anything prior to `3.2.5` is affected.
-
-While the evaluation algorithm outputs the same result for both representations,
-the one with the "limit" makes it more explicit which version branches are
-known.
-
-For git ranges, `limit` has more implications for the result of the evaluation
-algorithm. Take the following git commit graph and git range:
+`"limit"` events are typically not necessary for describing numbered (linear)
+version ranges. They are more useful for git ranges, where it has more
+implications for the evaluation algorithm. Take the following git commit graph
+and git range:
 
 ![git graph](images/git_graph.png)
 
