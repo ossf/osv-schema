@@ -343,27 +343,20 @@ to the `affected[].ranges[].type` of the range.
 The algorithm to evaluate if `v` is impacted by a range is:
 
 ```
-func GetFirstVersion(events)
-  for evt in sorted(events)
-    if evt.introduced is present
-      return evt.introduced
-
-    if evt.fixed is present
-      return evt.fixed
-
-func FitsRange(v, range)
-  firstVersion = GetFirstVersion(range.events)
-  beforeAnyLimit = false
-
+func BeforeLimits(v, range)
+  if no limit events in range.events
+      # implicit "*" entry is assumed
+      return true
+	
   for evt in range.events
     if evt.limit is present and v < evt.limit
-      beforeAnyLimit = true
+      return true
 
-  return v >= firstVersion && beforeAnyLimit
+  return false
 
 vulnerable = false
 for range in affected.ranges
-  if FitsRange(v, range)
+  if BeforeLimits(v, range)
     for evt in sorted(range.events)
       if evt.introduced is present && v >= evt.introduced
          vulnerable = true
@@ -411,9 +404,9 @@ The following expresses that versions in the SemVer ranges `[1.0.0,
 ```
 
 `"limit"` events are typically not necessary for describing numbered (linear)
-version ranges. They are more useful for git ranges, where it has more
-implications for the evaluation algorithm. Take the following git commit graph
-and git range:
+version ranges and should not be used. They are more useful for git ranges,
+where it has more implications for the evaluation algorithm. Take the following
+git commit graph and git range:
 
 ![git graph](images/git_graph.png)
 
