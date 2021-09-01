@@ -345,8 +345,8 @@ The algorithm to evaluate if `v` is impacted by a range is:
 ```
 func BeforeLimits(v, range)
   if no limit events in range.events
-      # implicit "*" entry is assumed
-      return true
+    # implicit "*" entry is assumed
+    return true
 	
   for evt in range.events
     if evt.limit is present and v < evt.limit
