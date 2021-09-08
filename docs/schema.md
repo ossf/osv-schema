@@ -121,17 +121,14 @@ string of the format `<DB>-<ENTRYID>`, where `DB` names the database and
 
 The defined database prefixes and their "home" databases are:
 
-- `Go`: the Go vulnerability database.
-  Serving <ID> in the shared format at `https://vuln.golang.org/<ID>.json`
-- `OSV`: the osv.dev vulnerability database.
-  Serving <ID> in the shared format at `https://api.osv.dev/v1/vulns/<ID>`
-- `PYSEC`: The PyPI vulnerability database.
-  Serving <ID> in the shared format at  `https://api.osv.dev/v1/vulns/<ID>`
-- `RUSTSEC`: The Rust crates vulnerability database.
-  Serving <ID> in the shared format at  `https://github.com/RustSec/advisory-db/blob/osv-experimental-v0.7/crates/<ID>.json`
-- `UVI`: The UVI database.
-  Serving <ID> in the shared format at `https://github.com/cloudsecurityalliance/uvi-database/`.
-- Your database here. [Send us a PR](https://github.com/ossf/osv-schema/compare).
+| Prefix | Description |
+| ------ | ----------- |
+| `GO` | The [Go vulnerability database](https://github.com/golang/vulndb). Serving the shared format [here](https://storage.googleapis.com/go-vulndb/). |
+| `OSV` | The <https://osv.dev> vulnerability database. Serving `<ID>` in the shared format at `https://api.osv.dev/v1/vulns/<ID>` |
+| `PYSEC` | The [PyPI vulnerability database](https://github.com/pypa/advisory-db). Serving `<ID>` in the shared format at `https://api.osv.dev/v1/vulns/<ID>` |
+| `RUSTSEC` | [The Rust crates vulnerability database](https://github.com/rustsec/advisory-db). Serving `<ID>` in the shared format at  `https://github.com/RustSec/advisory-db/blob/osv-experimental-v0.7/crates/<ID>.json` |
+| `UVI` | The UVI database. Serving the shared format [here](https://github.com/cloudsecurityalliance/uvi-database). |
+| Your database here | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 In addition to those prefixes, other databases may serve information about
 non-database-specific prefixes. For example a language ecosystem might decide to
@@ -419,7 +416,7 @@ to the `affected[].ranges[].type` of the range.
 
 The algorithm to evaluate if `v` is impacted by a range is:
 
-```
+```python
 func BeforeLimits(v, range)
   if no limit events in range.events
     # implicit "*" entry is assumed
@@ -607,7 +604,7 @@ Here is a complete entry for a recent Go vulnerability:
 
 ```json
 {
-    "id": "Go-2021-99998",
+    "id": "GO-2021-99998",
     "published": "2021-01-21T19:15:00Z",
     "modified": "2021-03-10T23:20:53Z",
     "aliases": ["CVE-2021-3114"],
@@ -649,7 +646,7 @@ applications.  Here is an entry for a recent Go tool vulnerability:
 
 ```json
 {
-    "id": "Go-2021-99999",
+    "id": "GO-2021-99999",
     "published": "2021-01-21T19:15:00Z",
     "modified": "2021-03-10T23:20:53Z",
     "aliases": ["CVE-2021-3115"],
