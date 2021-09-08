@@ -26,6 +26,7 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
 remote_theme: kitian616/jekyll-TeXt-theme
 repository: ossf/osv-schema
+repository_tree: main/docs
 
 plugins:
   - "jekyll-github-metadata"
