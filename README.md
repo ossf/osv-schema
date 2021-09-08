@@ -9,4 +9,4 @@ This is the repository for the Open Source Vulnerability schema, which is curren
 
 These vulnerabilites are aggregated by https://osv.dev.
 
-The current version of spec is available at [schema.md](schema.md).
+The current version of spec is available at [here](https://ossf.github.io/osv-schema/).
