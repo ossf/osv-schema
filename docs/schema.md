@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 0.8 (August 24, 2021)**
+**Version 1.0 (September 8, 2021)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -905,6 +905,7 @@ Ruby does not use this format currently, but here is a potential translation of 
   field is intentionally named differently to the previous `affects` field to
   make migration easier. Also use "events" containing single versions to
   represent affected version ranges instead.
+- 2021-09-08 Promoted schema to 1.0.
 
 ## Status - 2021-04-07
 
@@ -1099,3 +1100,8 @@ These are breaking changes, but we hope to make migration easier by renaming the
 "affects" field to "affected" to allow existing consumers and producers of this
 data to more easily handle old and new versions of entries.
 
+## Status - 2021-09-08
+
+We've decided to promote our schema to 1.0, based on positive feedback from
+existing consumers and producers of this data. From this point on, no backwards
+incompatible changes will be made in any 1.x version.
