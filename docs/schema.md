@@ -38,17 +38,11 @@ its entries available in this format to enable interoperability.
 
 The idea for this format originally arose from discussions between the [Go
 vulnerability database](https://golang.org/design/draft-vulndb) team and the
-[OSV](https://osv.dev) team. We are grateful for early feedback from members of
-various security response teams.
+[OSV](https://osv.dev) team.
 
-This format is a work in progress. Feedback from maintainers of other
-vulnerability databases is most welcome. Please feel free to create an issue in
-this repo.
-
-The questions we’d like to answer are:
- - Is this an effort you’d like to participate in?
- - Does this format contain what your database would want to know from other databases?
- - Would you be willing to make your database available in this format?
+This format is stable, but further backwards compatible changes may still be made.
+Feedback from maintainers of other vulnerability databases and security response teams
+is most welcome. Please feel free to create an issue in this repo.
 
 # Format Overview
 
