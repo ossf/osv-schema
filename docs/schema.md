@@ -42,7 +42,8 @@ vulnerability database](https://golang.org/design/draft-vulndb) team and the
 
 This format is stable, but further backwards compatible changes may still be made.
 Feedback from maintainers of other vulnerability databases and security response teams
-is most welcome. Please feel free to create an issue in this repo.
+is most welcome. Please feel free to create an
+[issue in this repo](https://github.com/ossf/osv-schema/issues/new).
 
 # Format Overview
 
