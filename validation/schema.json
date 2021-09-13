@@ -130,28 +130,14 @@
                   },
                   "then": {
                     "required": [
-                      "repo",
-                      "versions"
-                    ]
-                  }
-                },
-                {
-                  "if": {
-                    "properties": {
-                      "type": {
-                        "const": "ECOSYSTEM"
-                      }
-                    }
-                  },
-                  "then": {
-                    "required": [
-                      "versions"
+                      "repo"
                     ]
                   }
                 }
               ],
               "required": [
-                "type"
+                "type",
+                "events"
               ]
             }
           },
@@ -167,7 +153,30 @@
           "database_specific": {
             "type": "object"
           }
-        }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "ranges": {
+                  "contains": {
+                    "properties": {
+                      "type": {
+                        "const": "SEMVER"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "then": {},
+            "else": {
+              "required": [
+                "versions"
+              ]
+            }
+          }
+        ]
       }
     },
     "references": {
