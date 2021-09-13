@@ -65,7 +65,7 @@ contain UTF-8 text.
 		"package": {
 			"ecosystem": string,
 			"name": string,
-			"purl": string,
+			"purl": string
 		},
 		"ranges": [ {
 			"type": string,
@@ -78,12 +78,12 @@ contain UTF-8 text.
 		} ],
 		"versions": [ string ],
 		"ecosystem_specific": { see description },
-		"database_specific": { see description },
+		"database_specific": { see description }
 	} ],
 	"references": [ {
 		"type": string,
 		"url": string
-	} ],
+	} ]
 }
 ```
 
@@ -105,7 +105,7 @@ absolutely must be shared between databases, leaving customizations to the
 ```json
 {
 	"id": string,
-	"modified": string,
+	"modified": string
 }
 ```
 
@@ -225,7 +225,7 @@ display sites to unnecessary vulnerabilities.)
 		"package": {
 			"ecosystem": string,
 			"name": string,
-			"purl": string,
+			"purl": string
 		},
 		"ranges": [ {
 			"type": string,
@@ -238,8 +238,8 @@ display sites to unnecessary vulnerabilities.)
 		} ],
 		"versions": [ string ],
 		"ecosystem_specific": { see description },
-		"database_specific": { see description },
-	} ],
+		"database_specific": { see description }
+	} ]
 }
 ```
 
@@ -605,7 +605,7 @@ Here is a complete entry for a recent Go vulnerability:
     "details": "The P224() Curve implementation can in rare circumstances generate incorrect outputs, including returning invalid points from ScalarMult.\n\nThe crypto/x509 and golang.org/x/crypto/ocsp (but not crypto/tls) packages support P-224 ECDSA keys, but they are not supported by publicly trusted certificate authorities. No other standard library or golang.org/x/crypto package supports or uses the P-224 curve.\n\nThe incorrect output was found by the elliptic-curve-differential-fuzzer project running on OSS-Fuzz and reported by Philippe Antoine (Catena cyber).",
     "references": [
         {"type": "REPORT", "url": "https://golang.org/issue/43786"},
-        {"type": "WEB", "url": "https://github.com/catenacyber/elliptic-curve-differential-fuzzer"},
+        {"type": "WEB", "url": "https://github.com/catenacyber/elliptic-curve-differential-fuzzer"}
     ],
     "affected": [ {
         "package": {
@@ -644,7 +644,7 @@ applications.  Here is an entry for a recent Go tool vulnerability:
     "modified": "2021-03-10T23:20:53Z",
     "aliases": ["CVE-2021-3115"],
     "summary": "packages using cgo can cause arbitrary code execution at build time",
-    "details": "The go command may execute arbitrary code at build time when cgo is in use on Windows. This may occur when running "go get", or any other command that builds code. Only users who build untrusted code (and don’t execute it) are affected.\n\nIn addition to Windows users, this can also affect Unix users who have "." listed explicitly in their PATH and are running "go get" or build commands outside of a module or with module mode disabled.\n\nThanks to RyotaK (https://twitter.com/ryotkak) for reporting this issue.",
+    "details": "The go command may execute arbitrary code at build time when cgo is in use on Windows. This may occur when running \"go get\", or any other command that builds code. Only users who build untrusted code (and don’t execute it) are affected.\n\nIn addition to Windows users, this can also affect Unix users who have \".\" listed explicitly in their PATH and are running \"go get\" or build commands outside of a module or with module mode disabled.\n\nThanks to RyotaK (https://twitter.com/ryotkak) for reporting this issue.",
     "references": [
         {"type": "REPORT", "url": "https://golang.org/issue/43783"}
     ],
@@ -661,7 +661,7 @@ applications.  Here is an entry for a recent Go tool vulnerability:
                     { "fixed": "1.14.14" },
                     { "introduced": "1.15.10" },
                     { "fixed": "1.15.17" }
-                ],
+                ]
             }
         ],
         "ecosystem_specific": {
@@ -731,7 +731,7 @@ OSV uses this format already for its vulnerabilities. Here is the encoding of on
     "summary": "Heap-buffer-overflow in collator_compare_fuzzer.cpp",
     "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=15499\nCrash type: Heap-buffer-overflow WRITE 3\nCrash state:\ncollator_compare_fuzzer.cpp\n",
     "references": [
-        {"type": "REPORT", "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=15499"},
+        {"type": "REPORT", "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=15499"}
     ],
     "affected": [ {
         "repo": "https://github.com/unicode-org/icu.git",
@@ -822,14 +822,14 @@ potential encoding of a vulnerability entry.
                 "events": [
                   { "introduced": "0" },
                   { "fixed": "3f38f73218e5e782fe411ccbb3b44a793c0b343a" }
-                ],
+                ]
             },
             {
                 "type": "ECOSYSTEM",
                 "events": [
                   { "introduced": "2.8.0" },
                   { "fixed": "2.10.0" }
-                ],
+                ]
             }
         ],
         "versions": [
@@ -861,7 +861,7 @@ Ruby does not use this format currently, but here is a potential translation of 
             "type": "ECOSYSTEM",
             "events": [
               { "introduced": "1.14.0" },
-              { "fixed": "2.1.0" },
+              { "fixed": "2.1.0" }
             ]
         } ],
         "versions": [
