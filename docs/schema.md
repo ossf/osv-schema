@@ -206,9 +206,7 @@ vulnerability. It is recommended that this field be kept short, on the order of
 no more than 120 characters.
 
 The `details` field gives additional English textual details about the
-vulnerability. The field is plain text. Newline characters must be considered
-line breaks when displaying the text, but the display need not use a fixed-width
-font, and the text should not assume one.
+vulnerability. 
 
 The `summary` field is plain text.
 
