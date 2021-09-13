@@ -207,5 +207,9 @@
         ]
       }
     }
-  }
+  },
+  "required": [
+    "id",
+    "modified"
+  ]
 }
