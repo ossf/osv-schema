@@ -78,6 +78,11 @@
                 },
                 "events": {
                   "type": "array",
+                  "contains": {
+                    "required": [
+                      "introduced"
+                    ]
+                  },
                   "items": {
                     "type": "object",
                     "oneOf": [
