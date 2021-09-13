@@ -51,6 +51,9 @@ The format is a JSON-based encoding format, using the following informal schema.
 The exact details of each field are elaborated in the next section. All strings
 contain UTF-8 text.
 
+A JSON Schema for validation is also available
+[here](https://github.com/ossf/osv-schema/blob/main/validation/schema.json).
+
 ```json
 {
 	"id": string,
