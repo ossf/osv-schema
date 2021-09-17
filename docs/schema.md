@@ -706,6 +706,7 @@ Neither GitHub nor NPM uses this format currently, but here is how a recent NPM 
                "events": [
                    { "introduced": "1.15.0" },
                    { "fixed": "1.15.17" },
+		   { "introduced": "6.5.0" },
                    { "fixed": "6.5.4" }
                ]
             }
