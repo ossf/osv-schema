@@ -191,7 +191,6 @@ def get_affected(ghsa: Dict[str, Any]):
             'events': [],
         }
         current_events = current_range['events']
-        current['ranges'].append(current_range)
 
         affects_all_prior = False
 
@@ -246,6 +245,10 @@ def get_affected(ghsa: Dict[str, Any]):
 
         if affects_all_prior:
             current_events.insert(0, {'introduced': '0'})
+
+        if current_events:
+            # Only add the range if there is at least one event.
+            current['ranges'].append(current_range)
 
     return affected
 
