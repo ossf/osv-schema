@@ -1,0 +1,56 @@
+{
+  "id": "GHSA-f89g-whpf-6q9m",
+  "aliases": [
+    "CVE-2017-16008"
+  ],
+  "published": "2018-11-09T17:46:56Z",
+  "modified": "2021-01-08T18:53:47Z",
+  "summary": "Cross-Site Scripting in i18next",
+  "description": "Affected versions of `i18next` allow untrusted user input to be injected into dictionary key names, resulting in a cross-site scripting vulnerability.\n\n## Proof of Concept\n```\nvar init = i18n.init({debug: true}, function(){\n  var test = i18n.t('__firstName__ __lastName__', {\n        escapeInterpolation: true,\n        firstName: '__lastNameHTML__',\n        lastName: '<script>',\n  });\n  console.log(test);\n});\n// equals \"<script> &lt;script&gt;\"\n```\n\n\n## Recommendation\n\nUpdate to version 1.10.3 or later.",
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-16008"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-f89g-whpf-6q9m"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "i18next"
+      },
+      "ranges": [
+        {
+          "type": "SEMVER",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.10.3"
+            }
+          ]
+        }
+      ],
+      "versions": [],
+      "database_specific": {
+        "ghsa": "https://github.com/advisories/GHSA-f89g-whpf-6q9m",
+        "cvss": {
+          "score": 0,
+          "vectorString": null
+        },
+        "cwes": [
+          {
+            "cweId": "CWE-79",
+            "description": "The software does not neutralize or incorrectly neutralizes user-controllable input before it is placed in output that is used as a web page that is served to other users.",
+            "name": "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          }
+        ]
+      }
+    }
+  ]
+}

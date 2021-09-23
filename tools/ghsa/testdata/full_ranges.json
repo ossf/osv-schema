@@ -1,0 +1,63 @@
+{
+  "ghsaId": "GHSA-mr95-9rr4-668f",
+  "identifiers": [
+    {
+      "value": "GHSA-mr95-9rr4-668f"
+    },
+    {
+      "value": "CVE-2018-16115"
+    }
+  ],
+  "references": [
+    {
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-16115"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-mr95-9rr4-668f"
+    }
+  ],
+  "description": "Lightbend Akka 2.5.x before 2.5.16 allows message disclosure and modification because of an RNG error. A random number generator is used in Akka Remoting for TLS (both classic and Artery Remoting). Akka allows configuration of custom random number generators. For historical reasons, Akka included the AES128CounterSecureRNG and AES256CounterSecureRNG random number generators. The implementations had a bug that caused the generated numbers to be repeated after only a few bytes. The custom RNG implementations were not configured by default but examples in the documentation showed (and therefore implicitly recommended) using the custom ones. This can be used by an attacker to compromise the communication if these random number generators are enabled in configuration. It would be possible to eavesdrop, replay, or modify the messages sent with Akka Remoting/Cluster.",
+  "summary": "High severity vulnerability that affects com.typesafe.akka:akka-actor_2.11 and com.typesafe.akka:akka-actor_2.12",
+  "severity": "CRITICAL",
+  "cvss": {
+    "score": 9.1,
+    "vectorString": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+  },
+  "cwes": {
+    "nodes": [
+      {
+        "cweId": "CWE-338",
+        "description": "The product uses a Pseudo-Random Number Generator (PRNG) in a security context, but the PRNG's algorithm is not cryptographically strong.",
+        "name": "Use of Cryptographically Weak Pseudo-Random Number Generator (PRNG)"
+      }
+    ]
+  },
+  "permalink": "https://github.com/advisories/GHSA-mr95-9rr4-668f",
+  "publishedAt": "2018-10-22T20:44:26Z",
+  "updatedAt": "2021-09-15T20:58:47Z",
+  "withdrawnAt": null,
+  "vulnerabilities": {
+    "nodes": [
+      {
+        "package": {
+          "ecosystem": "MAVEN",
+          "name": "com.typesafe.akka:akka-actor_2.12"
+        },
+        "firstPatchedVersion": {
+          "identifier": "2.5.16"
+        },
+        "vulnerableVersionRange": ">= 2.5.0, < 2.5.16"
+      },
+      {
+        "package": {
+          "ecosystem": "MAVEN",
+          "name": "com.typesafe.akka:akka-actor_2.11"
+        },
+        "firstPatchedVersion": {
+          "identifier": "2.5.16"
+        },
+        "vulnerableVersionRange": ">= 2.5.0, < 2.5.16"
+      }
+    ]
+  }
+}

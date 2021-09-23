@@ -1,0 +1,53 @@
+{
+  "ghsaId": "GHSA-f89g-whpf-6q9m",
+  "identifiers": [
+    {
+      "value": "GHSA-f89g-whpf-6q9m"
+    },
+    {
+      "value": "CVE-2017-16008"
+    }
+  ],
+  "references": [
+    {
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-16008"
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-f89g-whpf-6q9m"
+    }
+  ],
+  "description": "Affected versions of `i18next` allow untrusted user input to be injected into dictionary key names, resulting in a cross-site scripting vulnerability.\n\n## Proof of Concept\n```\nvar init = i18n.init({debug: true}, function(){\n  var test = i18n.t('__firstName__ __lastName__', {\n        escapeInterpolation: true,\n        firstName: '__lastNameHTML__',\n        lastName: '<script>',\n  });\n  console.log(test);\n});\n// equals \"<script> &lt;script&gt;\"\n```\n\n\n## Recommendation\n\nUpdate to version 1.10.3 or later.",
+  "summary": "Cross-Site Scripting in i18next",
+  "severity": "MODERATE",
+  "cvss": {
+    "score": 0,
+    "vectorString": null
+  },
+  "cwes": {
+    "nodes": [
+      {
+        "cweId": "CWE-79",
+        "description": "The software does not neutralize or incorrectly neutralizes user-controllable input before it is placed in output that is used as a web page that is served to other users.",
+        "name": "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      }
+    ]
+  },
+  "permalink": "https://github.com/advisories/GHSA-f89g-whpf-6q9m",
+  "publishedAt": "2018-11-09T17:46:56Z",
+  "updatedAt": "2021-01-08T18:53:47Z",
+  "withdrawnAt": null,
+  "vulnerabilities": {
+    "nodes": [
+      {
+        "package": {
+          "ecosystem": "NPM",
+          "name": "i18next"
+        },
+        "firstPatchedVersion": {
+          "identifier": "1.10.3"
+        },
+        "vulnerableVersionRange": "<= 1.10.2"
+      }
+    ]
+  }
+}

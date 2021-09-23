@@ -1,0 +1,51 @@
+{
+  "id": "GHSA-4g4c-8gqh-m4vm",
+  "aliases": [
+    "CVE-2019-13589"
+  ],
+  "published": "2019-07-16T00:41:55Z",
+  "modified": "2021-05-10T22:18:29Z",
+  "summary": "Inclusion of Functionality from Untrusted Control Sphere in Ruby",
+  "description": "The paranoid2 gem 1.1.6 for Ruby, as distributed on RubyGems.org, included a code-execution backdoor inserted by a third party. The current version, without this backdoor, is 1.1.5.",
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-13589"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-4g4c-8gqh-m4vm"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "paranoid2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": []
+        }
+      ],
+      "versions": [
+        "1.1.6"
+      ],
+      "database_specific": {
+        "ghsa": "https://github.com/advisories/GHSA-4g4c-8gqh-m4vm",
+        "cvss": {
+          "score": 9.8,
+          "vectorString": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        },
+        "cwes": [
+          {
+            "cweId": "CWE-829",
+            "description": "The software imports, requires, or includes executable functionality (such as a library) from a source that is outside of the intended control sphere.",
+            "name": "Inclusion of Functionality from Untrusted Control Sphere"
+          }
+        ]
+      }
+    }
+  ]
+}
