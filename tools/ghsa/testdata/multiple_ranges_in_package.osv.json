@@ -6,7 +6,7 @@
   "published": "2017-10-24T18:33:37Z",
   "modified": "2021-09-08T20:47:39Z",
   "summary": "Moderate severity vulnerability that affects passenger",
-  "description": "Phusion Passenger gem before 3.0.21 and 4.0.x before 4.0.5 for Ruby allows local users to cause a denial of service (prevent application start) or gain privileges by pre-creating a temporary \"config\" file in a directory with a predictable name in /tmp/ before it is used by the gem.",
+  "details": "Phusion Passenger gem before 3.0.21 and 4.0.x before 4.0.5 for Ruby allows local users to cause a denial of service (prevent application start) or gain privileges by pre-creating a temporary \"config\" file in a directory with a predictable name in /tmp/ before it is used by the gem.",
   "references": [
     {
       "type": "ADVISORY",

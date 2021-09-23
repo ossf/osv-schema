@@ -6,7 +6,7 @@
   "published": "2019-07-16T00:41:55Z",
   "modified": "2021-05-10T22:18:29Z",
   "summary": "Inclusion of Functionality from Untrusted Control Sphere in Ruby",
-  "description": "The paranoid2 gem 1.1.6 for Ruby, as distributed on RubyGems.org, included a code-execution backdoor inserted by a third party. The current version, without this backdoor, is 1.1.5.",
+  "details": "The paranoid2 gem 1.1.6 for Ruby, as distributed on RubyGems.org, included a code-execution backdoor inserted by a third party. The current version, without this backdoor, is 1.1.5.",
   "references": [
     {
       "type": "ADVISORY",

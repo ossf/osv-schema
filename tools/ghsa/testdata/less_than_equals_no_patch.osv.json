@@ -6,7 +6,7 @@
   "published": "2021-05-10T18:37:34Z",
   "modified": "2021-05-10T18:37:34Z",
   "summary": "Arbitrary Code Execution in shiba",
-  "description": "\"All versions of package shiba are vulnerable to Arbitrary Code Execution due to the default usage of the function load() of the package js-yaml instead of its secure replacement , safeLoad().\"",
+  "details": "\"All versions of package shiba are vulnerable to Arbitrary Code Execution due to the default usage of the function load() of the package js-yaml instead of its secure replacement , safeLoad().\"",
   "references": [
     {
       "type": "ADVISORY",
