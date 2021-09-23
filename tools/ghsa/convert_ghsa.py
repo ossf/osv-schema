@@ -150,7 +150,7 @@ def convert(ghsa: Dict[str, Any]):
     osv.update({
         'summary':
         ghsa['summary'],
-        'description':
+        'details':
         ghsa['description'],
         'references': [convert_reference(ref) for ref in ghsa['references']]
     })
