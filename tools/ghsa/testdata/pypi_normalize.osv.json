@@ -1,0 +1,60 @@
+{
+  "id": "GHSA-p44j-xrqg-4xrr",
+  "aliases": [
+    "CVE-2021-21337"
+  ],
+  "published": "2021-03-08T21:06:23Z",
+  "modified": "2021-06-03T13:49:55Z",
+  "summary": "URL Redirection to Untrusted Site ('Open Redirect') in Products.PluggableAuthService",
+  "description": "### Impact\n_What kind of vulnerability is it? Who is impacted?_\n\nOpen redirect vulnerability - a maliciously crafted link to the login form and login functionality could redirect the browser to a different website.\n\n### Patches\n_Has the problem been patched? What versions should users upgrade to?_\n\nThe problem has been fixed in version 2.6.1. Depending on how you have installed Products.PluggableAuthService, you should change the buildout version pin to `2.6.1`  and re-run the buildout, or if you used `pip` simply do `pip install \"Products.PluggableAuthService>=2.6.1\"`\n\n### Workarounds\n_Is there a way for users to fix or remediate the vulnerability without upgrading?_\n\nThere is no workaround. Users are encouraged to upgrade.\n\n### References\n_Are there any links users can visit to find out more?_\n\n- [GHSA-p44j-xrqg-4xrr](https://github.com/zopefoundation/Products.PluggableAuthService/security/advisories/GHSA-p44j-xrqg-4xrr)\n- [Products.PluggableAuthService on PyPI](https://pypi.org/project/Products.PluggableAuthService/)\n- [OWASP page on open redirects](https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html)\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in the [Products.PluggableAuthService issue tracker](https://github.com/zopefoundation/Products.PluggableAuthService/issues)\n* Email us at [security@plone.org](mailto:security@plone.org)",
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/zopefoundation/Products.PluggableAuthService/security/advisories/GHSA-p44j-xrqg-4xrr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-21337"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-p44j-xrqg-4xrr"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "products-pluggableauthservice"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.6.1"
+            }
+          ]
+        }
+      ],
+      "versions": [],
+      "database_specific": {
+        "ghsa": "https://github.com/advisories/GHSA-p44j-xrqg-4xrr",
+        "cvss": {
+          "score": 0,
+          "vectorString": null
+        },
+        "cwes": [
+          {
+            "cweId": "CWE-601",
+            "description": "A web application accepts a user-controlled input that specifies a link to an external site, and uses that link in a Redirect. This simplifies phishing attacks.",
+            "name": "URL Redirection to Untrusted Site ('Open Redirect')"
+          }
+        ]
+      }
+    }
+  ]
+}

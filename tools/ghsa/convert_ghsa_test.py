@@ -76,3 +76,7 @@ class ConverterTest(unittest.TestCase):
     def test_withdrawn(self):
         """Test a withdrawn entry."""
         self.check_conversion('withdrawn')
+
+    def test_pypi_normalize(self):
+        """Test normalization PyPI names."""
+        self.check_conversion('pypi_normalize')

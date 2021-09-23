@@ -15,6 +15,7 @@
 import argparse
 import json
 import os
+import re
 import traceback
 from typing import Any, Dict, Optional
 
@@ -27,6 +28,11 @@ ECOSYSTEM_MAP = {
     'RUBYGEMS': 'RubyGems',
     'NUGET': 'NuGet',
     'COMPOSER': 'Packagist',
+}
+
+NAME_NORMALIZER = {
+    # Per https://www.python.org/dev/peps/pep-0503/#normalized-names.
+    'PyPI': lambda name: re.sub(r'[-_.]+', '-', name).lower()
 }
 
 SEMVER_ECOSYSTEMS = {
@@ -170,6 +176,9 @@ def get_affected(ghsa: Dict[str, Any]):
     # Convert the grouped vulnerabilities in OSV range structures.
     affected = []
     for (ecosystem, name), vulns in package_to_vulns.items():
+        if ecosystem in NAME_NORMALIZER:
+            name = NAME_NORMALIZER[ecosystem](name)
+
         current = {
             'package': {
                 'ecosystem': ecosystem,
