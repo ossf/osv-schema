@@ -28,6 +28,7 @@ ECOSYSTEM_MAP = {
     'RUBYGEMS': 'RubyGems',
     'NUGET': 'NuGet',
     'COMPOSER': 'Packagist',
+    'RUST': 'crates.io',
 }
 
 NAME_NORMALIZER = {
