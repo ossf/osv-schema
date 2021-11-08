@@ -19,6 +19,8 @@ import re
 import traceback
 from typing import Any, Dict, Optional
 
+import osv
+
 # GHSA ecosystem -> OSV ecosystem.
 ECOSYSTEM_MAP = {
     'NPM': 'npm',
@@ -107,9 +109,14 @@ def convert_file(input_path: str, output_path: str):
     with open(input_path) as handle:
         ghsa = json.load(handle)
 
-    osv = convert(ghsa)
-    with open(output_path, 'w') as handle:
-        handle.write(json.dumps(osv, indent=2))
+    entry = convert(ghsa)
+    vuln = osv.parse_vulnerability_from_dict(entry)
+    osv.analyze(vuln,
+                analyze_git=False,
+                detect_cherrypicks=False,
+                versions_from_repo=False)
+
+    osv.write_vulnerability(vuln, output_path)
 
 
 def convert_reference(reference: Dict[str, str]):
