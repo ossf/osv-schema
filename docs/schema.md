@@ -738,7 +738,6 @@ OSV uses this format already for its vulnerabilities. Here is the encoding of on
         {"type": "REPORT", "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=15499"}
     ],
     "affected": [ {
-        "repo": "https://github.com/unicode-org/icu.git",
         "package": {
             "ecosystem": "OSS-Fuzz",
             "name": "icu"
@@ -746,6 +745,7 @@ OSV uses this format already for its vulnerabilities. Here is the encoding of on
         "ranges": [
             {
                 "type": "GIT",
+                "repo": "https://github.com/unicode-org/icu.git",
                 "events": [
                   { "introduced": "6e5755a2a833bc64852eae12967d0a54d7adf629" },
                   { "fixed": "c43455749b914feef56b178b256f29b3016146eb" }
