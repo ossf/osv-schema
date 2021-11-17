@@ -318,6 +318,7 @@ The defined ecosystems are:
 | `Maven` | The Maven Java package ecosystem. The `name` field is a Maven package name. |
 | `NuGet` | The NuGet package ecosystem. The `name` field is a NuGet package name. |
 | `Linux` | The Linux kernel. The only supported `name` is `Kernel`. |
+| `Debian` | The Debian package ecosystem; the `name` is the name of the package. |
 | Your ecosystem here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 It is permitted for a database name (the DB prefix in the `id` field) and an
