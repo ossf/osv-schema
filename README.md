@@ -5,7 +5,7 @@ This is the repository for the Open Source Vulnerability schema, which is curren
 - [Python advisory DB](https://github.com/pypa/advisory-db)
 - [Go advisory DB](https://github.com/golang/vulndb)
 - [Rust advisory DB](https://github.com/RustSec/advisory-db)
-- [UVI](https://github.com/cloudsecurityalliance/uvi-database)
+- [GSD](https://github.com/cloudsecurityalliance/gsd-database)
 
 These vulnerabilites are aggregated by https://osv.dev.
 
