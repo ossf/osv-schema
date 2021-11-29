@@ -80,3 +80,11 @@ class ConverterTest(unittest.TestCase):
     def test_pypi_normalize(self):
         """Test normalization PyPI names."""
         self.check_conversion('pypi_normalize')
+
+    def test_maven_greater_than(self):
+        """Test Maven > ranges."""
+        self.check_conversion('maven_greater_than')
+
+    def test_maven_greater_than(self):
+        """Test npm > ranges."""
+        self.check_conversion('npm_greater_than')

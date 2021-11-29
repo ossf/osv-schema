@@ -20,6 +20,7 @@ import traceback
 from typing import Any, Dict, Optional
 
 import osv
+import osv.ecosystems
 
 # GHSA ecosystem -> OSV ecosystem.
 ECOSYSTEM_MAP = {
@@ -240,10 +241,16 @@ def get_affected(ghsa: Dict[str, Any]):
                     current_events.append(
                         {'introduced': ghsa_range.lower.version})
                 elif ghsa_range.lower.operator == '>':
-                    # TODO: Support this rare case.
-                    # OSV only support ranges with >= lower_bound, so we'll need to
-                    # figure out the next available version.
-                    raise ValueError('> is not supported yet')
+                    ecosystem_helper = osv.ecosystems.get(ecosystem)
+                    if not ecosystem_helper:
+                        raise ValueError(
+                            f'> is not supported for {ecosystem} yet')
+
+                    current_events.append({
+                        'introduced':
+                        ecosystem_helper.next_version(name,
+                                                      ghsa_range.lower.version)
+                    })
             else:
                 affects_all_prior = True
 
