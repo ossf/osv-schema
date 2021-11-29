@@ -1,0 +1,56 @@
+{
+  "id": "GHSA-mhpp-875w-9cpv",
+  "aliases": [
+    "CVE-2016-10707"
+  ],
+  "published": "2018-01-22T13:32:42Z",
+  "modified": "2021-09-15T20:10:34Z",
+  "summary": "Denial of Service in jquery",
+  "details": "Affected versions of `jquery` use a lowercasing logic on attribute names. When given a boolean attribute with a name that contains uppercase characters, `jquery` enters into an infinite recursion loop, exceeding the call stack limit, and resulting in a denial of service condition.\n\n\n## Recommendation\n\nUpdate to version 3.0.0 or later.",
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-10707"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-mhpp-875w-9cpv"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "jquery"
+      },
+      "ranges": [
+        {
+          "type": "SEMVER",
+          "events": [
+            {
+              "introduced": "2.1.1-0"
+            },
+            {
+              "fixed": "3.0.0"
+            }
+          ]
+        }
+      ],
+      "versions": [],
+      "database_specific": {
+        "ghsa": "https://github.com/advisories/GHSA-mhpp-875w-9cpv",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwes": [
+          {
+            "cweId": "CWE-400",
+            "description": "The software does not properly control the allocation and maintenance of a limited resource, thereby enabling an actor to influence the amount of resources consumed, eventually leading to the exhaustion of available resources.",
+            "name": "Uncontrolled Resource Consumption"
+          }
+        ]
+      }
+    }
+  ]
+}
