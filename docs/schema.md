@@ -763,8 +763,8 @@ OSV uses this format already for its vulnerabilities. Here is the encoding of on
 ```json
 {
     "id": "OSV-2020-584",
-    "published": "TODO 2021-01-21T19:15:00Z",
-    "modified": "TODO 2021-03-10T23:20:53Z",
+    "published": "2020-07-01T00:00:18.401815Z",
+    "modified": "2021-03-09T04:49:05.965964Z",
     "summary": "Heap-buffer-overflow in collator_compare_fuzzer.cpp",
     "details": "OSS-Fuzz report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=15499\nCrash type: Heap-buffer-overflow WRITE 3\nCrash state:\ncollator_compare_fuzzer.cpp\n",
     "references": [
