@@ -125,7 +125,7 @@ The defined database prefixes and their "home" databases are:
 | `OSV` | The <https://osv.dev> vulnerability database. Serving `<ID>` in the shared format at `https://api.osv.dev/v1/vulns/<ID>` |
 | `PYSEC` | The [PyPI vulnerability database](https://github.com/pypa/advisory-db). Serving `<ID>` in the shared format at `https://api.osv.dev/v1/vulns/<ID>` |
 | `RUSTSEC` | [The Rust crates vulnerability database](https://github.com/rustsec/advisory-db). Serving `<ID>` in the shared format at  `https://github.com/RustSec/advisory-db/blob/osv-experimental-v0.7/crates/<ID>.json` |
-| `UVI` | The UVI database. Serving the shared format [here](https://github.com/cloudsecurityalliance/uvi-database). |
+| `GSD` | The GSD database. Serving the shared format [here](https://github.com/cloudsecurityalliance/gsd-database). |
 | Your database here | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 In addition to those prefixes, other databases may serve information about
