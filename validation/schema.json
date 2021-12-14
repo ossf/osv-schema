@@ -211,6 +211,9 @@
           "url"
         ]
       }
+    },
+    "database_specific": {
+      "type": "object"
     }
   },
   "required": [

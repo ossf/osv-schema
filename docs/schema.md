@@ -86,7 +86,8 @@ A JSON Schema for validation is also available
 	"references": [ {
 		"type": string,
 		"url": string
-	} ]
+	} ],
+	"database_specific": { see description }
 }
 ```
 
@@ -587,7 +588,21 @@ The known reference `type` values are:
   interested in analyzing the exact commit range would do better to use the
   `GIT`-typed `affected[].ranges` entries (described above).
 - `PACKAGE`: A web page for the affected package itself.
-- `WEB`: A web page of some unspecified kind. 
+- `WEB`: A web page of some unspecified kind.
+
+## database_specific field
+
+The top-level `database_specific` field is a JSON object holding additional
+information about the vulnerability as defined by the database from which the
+record was obtained. The meaning of the values within the object is entirely
+defined by the database and beyond the scope of this document.
+
+Unlike the `affected[].database_specific` field which is specific to each
+affected product, this top-level field allows aggregator databases to add
+custom data that they considered applicable to the whole vulnerability.
+
+Note that this is a single field with key "database_specific", which itself
+contains a JSON object with unspecified fields.
 
 # Examples
 
