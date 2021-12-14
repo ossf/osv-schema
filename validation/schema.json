@@ -4,6 +4,9 @@
   "description": "A schema for describing a vulnerability in an open source package.",
   "type": "object",
   "properties": {
+    "schema_version": {
+      "type": "string"
+    },
     "id": {
       "type": "string"
     },

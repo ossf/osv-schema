@@ -56,6 +56,7 @@ A JSON Schema for validation is also available
 
 ```json
 {
+	"schema_version": string,
 	"id": string,
 	"modified": string,
 	"published": string,
@@ -102,6 +103,22 @@ absolutely must be shared between databases, leaving customizations to the
 "ecosystem_specific" and "database_specific" blocks (see below)
 
 # Field Details
+
+## schema_version field
+
+```json
+{
+	"schema_version": string
+}
+```
+
+The `schema_version` field is used to indicate which version of the OSV schema
+a particular vulnerability was exported with. This can help consumer
+applications decide how to import the data for their own systems and offer some
+protection against future breaking changes. The value should be a string using
+the [SchemaVer](https://snowplowanalytics.com/blog/2014/05/13/introducing-schemaver-for-semantic-versioning-of-schemas/)
+format of `<MODEL>-<REVISION>-<ADDITION>`. If no value is specified, it should
+be assumed to be `1-0-0`, matching version 1.0.0 of the OSV Schema.
 
 ## id, modified fields
 
