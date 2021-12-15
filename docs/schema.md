@@ -271,7 +271,7 @@ ranges, they may be encoded using the `ranges` field with an appropriate type
 `versions` list. Tooling and infrastructure such as https://osv.dev are able to
 expand these ranges for supported ecosystems into the `versions` list for easier
 consumption. Products or ecosystems that do not use version identifiers that can
-be represented as ranges **must** include the enumerated `versions` list instead.
+be represented as ranges must include the enumerated `versions` list instead.
 
 ### affected[].package field
 
