@@ -262,16 +262,16 @@ The `versions` field can enumerate a specific set of affected versions, and the
 ordering. **A version is considered affected if it lies within any one of the
 ranges or is listed in the versions list.**
 
-The `versions` list should - with one exception - always be present, to allow
-software to answer the question "is this specific version affected?" without
-having to contain code specific to every different ecosystem. The one exception
-is if the affected versions can be accurately summarized by one or more non-
-overlapping ranges. In that case, the ranges can be listed instead, in entries
-in the `ranges` field with an appropriate type (see below). In this case, the
-ranges act as a kind of compact form of a larger `versions` list. Products or
-ecosystems that do not use version identifiers that can be represented as ranges
-should include the enumerated `versions` list instead, though they can also add
-ranges of the appropriate type for additional context.
+The `versions` list is generally recommended to always be present, to allow
+software to easily answer the question "is this specific version affected?"
+without having to contain code specific to every different ecosystem. If the
+affected versions can be accurately summarized by one or more non-overlapping
+ranges, they may be encoded using the `ranges` field with an appropriate type
+(see below). In this case, the ranges act as a kind of compact form of a larger
+`versions` list. Tooling and infrastructure such as https://osv.dev are able to
+expand these ranges for supported ecosystems into the `versions` list for easier
+consumption. Products or ecosystems that do not use version identifiers that can
+be represented as ranges **must** include the enumerated `versions` list instead.
 
 ### affected[].package field
 
@@ -360,7 +360,9 @@ strings specific to the package ecosystem, which does not conform to SemVer
 specifying one or more `ECOSYSTEM` ranges, because `ECOSYSTEM` range inclusion
 queries may not be able to be answered without reference to the package ecosystem’s
 own logic and therefore may not be able to be used by ecosystem-independent
-processors.
+processors. The infrastructure and tooling provided by https://osv.dev also
+provides automation for auto-populating the `versions` list based on supported
+`ECOSYSTEM` ranges as part of the ingestion process.
 
 - `GIT`: The versions `introduced` and `fixed` are full-length Git commit
   hashes. The repository’s commit graph is needed to evaluate whether a given
@@ -370,13 +372,6 @@ processors.
   Specifying one or more `GIT` ranges does NOT remove the requirement to specify
 an explicitly enumerated `versions` list, because `GIT` range inclusion queries
 cannot be answered without access to a copy of the underlying Git repository.
-
-Again, it is important to note that to allow portable (non-ecosystem-specific)
-processors to answer "is this version affected?", an explicit `versions` list
-should always be provided unless the affected versions can be accurately
-summarized by one or more non-overlapping `SEMVER` or `ECOSYSTEM` ranges. `GIT`
-ranges, and incompatible `ECOSYSTEM` ranges, are only for adding additional
-context.
 
 ### affected[].ranges[].events fields
 
