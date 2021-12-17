@@ -263,20 +263,16 @@ The `versions` field can enumerate a specific set of affected versions, and the
 ordering. **A version is considered affected if it lies within any one of the
 ranges or is listed in the versions list.**
 
-The `versions` list should - with one exception - always be present, to allow
-software to answer the question "is this specific version affected?" without
-having to contain code specific to every different ecosystem. The one exception
-is if the affected versions are valid SemVer 2.0 versions which can be
-accurately summarized by one or more non-overlapping SemVer ranges. In that
-case, the SemVer ranges can be listed instead, in entries in the `ranges` field
-with type `SEMVER` (see below). In this case, the SemVer ranges act as a kind of
-compact form of a larger `versions` list. Ecosystems that do not use SemVer
-identifiers or that order versions differently from SemVer must include the
-enumerated `versions` list, although they can also add ranges of type
-`ECOSYSTEM` for additional context.
-
-In short, each object in the `affected` array must contain either a non-empty
-`versions` list or at least one range in the `ranges` list of type `SEMVER`.
+The `versions` list is generally recommended to always be present, to allow
+software to easily answer the question "is this specific version affected?"
+without having to contain code specific to every different ecosystem. If the
+affected versions can be accurately summarized by one or more non-overlapping
+ranges, they may be encoded using the `ranges` field with an appropriate type
+(see below). In this case, the ranges act as a kind of compact form of a larger
+`versions` list. Tooling and infrastructure such as https://osv.dev are able to
+expand these ranges for supported ecosystems into the `versions` list for easier
+consumption. Products or ecosystems that do not use version identifiers that can
+be represented as ranges must include the enumerated `versions` list instead.
 
 ### affected[].package field
 
@@ -355,15 +351,20 @@ linear ordering, it is always possible to simplify to non-overlapping ranges.
   Specifying one or more `SEMVER` ranges removes the requirement to specify an
 explicit enumerated `versions` list (see the discussion above).
 
+  Some ecosystems may recommend using SemVer 2.0 for versioning without explicitly
+enforcing it. In those cases you should use the `ECOSYSTEM` type instead.
+
 - `ECOSYSTEM`: The versions `introduced` and `fixed` are arbitrary, uninterpreted
 strings specific to the package ecosystem, which does not conform to SemVer
 2.0’s version ordering.
 
-  Specifying one or more `ECOSYSTEM` ranges does NOT remove the requirement to
-specify an explicitly enumerated `versions` list, because `ECOSYSTEM` range
-inclusion queries cannot be answered without reference to the package
-ecosystem’s own logic and therefore cannot be used by ecosystem-independent
-processors.
+  It is recommended that you provide an explicitly enumerated `versions` list when
+specifying one or more `ECOSYSTEM` ranges, because `ECOSYSTEM` range inclusion
+queries may not be able to be answered without reference to the package ecosystem’s
+own logic and therefore may not be able to be used by ecosystem-independent
+processors. The infrastructure and tooling provided by https://osv.dev also
+provides automation for auto-populating the `versions` list based on supported
+`ECOSYSTEM` ranges as part of the ingestion process.
 
 - `GIT`: The versions `introduced` and `fixed` are full-length Git commit
   hashes. The repository’s commit graph is needed to evaluate whether a given
@@ -373,11 +374,6 @@ processors.
   Specifying one or more `GIT` ranges does NOT remove the requirement to specify
 an explicitly enumerated `versions` list, because `GIT` range inclusion queries
 cannot be answered without access to a copy of the underlying Git repository.
-
-Again, it is important to note that to allow portable (non-ecosystem-specific)
-processors to answer "is this version affected?", either `SEMVER` ranges or an
-explicit `versions` list must be given. The `ECOSYSTEM` and `GIT` ranges
-are only for adding additional context.
 
 ### affected[].ranges[].events fields
 
