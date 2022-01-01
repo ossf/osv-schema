@@ -762,6 +762,7 @@ OSV uses this format already for its vulnerabilities. Here is the encoding of on
 
 ```json
 {
+    "schema_version": "1.1.0",
     "id": "OSV-2020-584",
     "published": "2020-07-01T00:00:18.401815Z",
     "modified": "2021-03-09T04:49:05.965964Z",
