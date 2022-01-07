@@ -40,6 +40,20 @@
     "details": {
       "type": "string"
     },
+    "cvss": {
+      "type": "object",
+      "properties": {
+        "score": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "score"
+      ]
+    },
     "affected": {
       "type": "array",
       "items": {

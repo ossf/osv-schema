@@ -65,6 +65,10 @@ A JSON Schema for validation is also available
 	"related": [ string ],
 	"summary": string,
 	"details": string,
+	"cvss": {
+		"score": string,
+		"version": string
+	},
 	"affected": [ {
 		"package": {
 			"ecosystem": string,
@@ -240,6 +244,25 @@ as stripping raw HTML and links that do not start with http:// or https://.
 Databases are encouraged not to include those in the first place. (The goal is
 to balance flexibility of presentation with not exposing vulnerability database
 display sites to unnecessary vulnerabilities.)
+
+## cvss field
+
+```json
+{
+	"cvss": {
+		"score": string,
+		"version": string
+	}
+}
+```
+
+The `cvss` field represents the unique characteristics and severity of the
+vulnerability using the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/).
+The field is specified as an object with a string property `score`, and an
+optional string property `version` denoting the version of CVSS that was used to
+calculate the score, which can be helpful for determining how the score was
+derived. The `cvss` field itself is optional, but if present it must contain
+at least a `score` property.
 
 ## affected fields
 
