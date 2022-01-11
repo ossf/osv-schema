@@ -628,9 +628,9 @@ The known reference `type` values are:
 }
 ```
 
-The `credits` field is a JSON array providing a way to give credit where credit
-is due related to the discovery, confirmation, patch, or other events in the life
-cycle of a vulnerability.
+The `credits` field is a JSON array providing a way to give credit for the
+discovery, confirmation, patch, or other events in the life cycle of a
+vulnerability.
 
 Each of the objects in the `credits` array must contain at minimum a `name` field
 specifying the name of the individual or entity being credited, using whatever
@@ -666,7 +666,6 @@ as necessary and appropriate.
 | `GITHUB` | A valid, plain-text GitHub username for the credited. |
 | `TWITTER` | A valid, plain-text Twitter username, with or without the leading `@` symbol, for the credited. |
 | `URL` | A fully-qualified plain-text URL |
-| `OTHER` | A plain-text value that is not represented by any other available type and is self-evident in its usage as a means of contacting the credited individual or entity. |
 | Your contact type here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 #### credits[].contact[].value field
