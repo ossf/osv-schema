@@ -65,10 +65,10 @@ A JSON Schema for validation is also available
 	"related": [ string ],
 	"summary": string,
 	"details": string,
-	"cvss": {
-		"score": string,
-		"version": string
-	},
+	"severity": [ {
+		"type": string,
+		"score": string
+	} ],
 	"affected": [ {
 		"package": {
 			"ecosystem": string,
@@ -245,24 +245,38 @@ Databases are encouraged not to include those in the first place. (The goal is
 to balance flexibility of presentation with not exposing vulnerability database
 display sites to unnecessary vulnerabilities.)
 
-## cvss field
+## severity field
 
 ```json
 {
-	"cvss": {
-		"score": string,
-		"version": string
+	"severity": [ {
+		"type": string,
+		"score": string
 	}
-}
+} ]
 ```
 
-The `cvss` field represents the unique characteristics and severity of the
-vulnerability using the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/).
-The field is specified as an object with a string property `score`, and an
-optional string property `version` denoting the version of CVSS that was used to
-calculate the score, which can be helpful for determining how the score was
-derived. The `cvss` field itself is optional, but if present it must contain
-at least a `score` property.
+The `severity` field is a JSON array that allows generating systems to
+describe the severity of a vulnerability using one or more scoring
+methods. Each `severity` item is a JSON object specifying a `type` and
+`score` property, described below.
+
+### severity[].type field
+
+The `severity[].type` property must be one of the types defined below,
+which describe how the `associated` score was derived. This allows
+processing systems to decide how to handle each severity.
+
+| Severity Type | Score Description |
+| --------- | ----------- |
+| `CVSS_V3` | A computed score representing the unique characteristics and severity of the vulnerability using a version of the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/) that is >= 3.0 and < 4.0. |
+| `PLAIN_TEXT` | A human-derived and human-readable rating of the severity, based on interpretation of available vulnerability information. |
+| Your severity type here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
+
+### severity[].score field
+
+The `severity[].score` property is a string ranking the severity based on the
+selected `severity[].type`, as described above.
 
 ## affected fields
 

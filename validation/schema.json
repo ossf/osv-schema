@@ -40,19 +40,28 @@
     "details": {
       "type": "string"
     },
-    "cvss": {
-      "type": "object",
-      "properties": {
-        "score": {
-          "type": "string"
+    "severity": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "CVSS_V3",
+              "PLAIN_TEXT",
+              "OTHER"
+            ]
+          },
+          "score": {
+            "type": "string"
+          }
         },
-        "version": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "score"
-      ]
+        "required": [
+          "type",
+          "score"
+        ]
+      }
     },
     "affected": {
       "type": "array",
