@@ -229,26 +229,7 @@
           "contact": {
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "enum": [
-                    "EMAIL",
-                    "GITHUB",
-                    "OTHER",
-                    "TWITTER",
-                    "URL"
-                  ]
-                },
-                "value": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "type",
-                "value"
-              ]
+              "type": "string"
             }
           }
         },

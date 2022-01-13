@@ -90,10 +90,7 @@ A JSON Schema for validation is also available
 	} ],
 	"credits": [ {
 		"name": string,
-		"contact": [ {
-			"type": string,
-			"value": string
-		} ]
+		"contact": [ string ]
 	} ],
 	"database_specific": { see description }
 }
@@ -620,10 +617,7 @@ The known reference `type` values are:
 {
 	"credits": [ {
 		"name": string,
-		"contact": [ {
-			"type": string,
-			"value": string
-		} ],
+		"contact": [ string ],
 	} ]
 }
 ```
@@ -634,44 +628,36 @@ vulnerability.
 
 Each of the objects in the `credits` array must contain at minimum a `name` field
 specifying the name of the individual or entity being credited, using whatever
-notation they prefer.
-
-Each `credits` entry can optionally include a `contact` array. Each entry in the
-`contact` list is an object that indicates the `type` of contact info being
-described and a `value` based on the type. These are described in more detail below.
+notation they prefer. It can also optionally include a `contact` JSON array.
 
 ### credits[].name field
 
 `credits[].name` should specify the name, label, or other identifier of the
 individual or entity being credited, using whatever notation the creditor prefers.
-For instance, this could contain a real name like `Chris Bloom`, an Internet handle
-like `chrisbloom7`, an entity name like `GitHub`, or something else. This field is
-required for each `credits` entry.
+For instance, this could contain a real name like `Kovács János`, an Internet handle
+like `erikamustermann`, an entity name like `GitHub`, or something else. This field
+is required for each `credits` entry.
 
 ### credits[].contact[] field
 
-Each `credits[].contact[]` entry is a JSON object that defines the type of contact
-being described. Providing contact entries is optional, but when present each
-entry must provide both a `type` and `value` property.
+Each `credits[].contact[]` entry should be a valid, fully qualified, plain-text URL
+at which the credited can be reached. Providing contacts is optional.
 
-#### credits[].contact[].type field
+#### Examples
 
-The `credits[].contact[].type` property must be one of those defined below, which
-allows processing systems to interpret and display contact information dynamically
-as necessary and appropriate.
+Including a URL and an email address in `credits[].contact[]`:
 
-| Contact Type | Value Description |
-| --------- | ----------- |
-| `EMAIL` | A valid, fully qualified, plain-text email adddress at which the credited can be reached. |
-| `GITHUB` | A valid, plain-text GitHub username for the credited. |
-| `TWITTER` | A valid, plain-text Twitter username, with or without the leading `@` symbol, for the credited. |
-| `URL` | A fully-qualified plain-text URL |
-| Your contact type here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
-
-#### credits[].contact[].value field
-
-The `credits[].contact[].value` property is a string. The format of the property
-is determined by the `type` as described above.
+```json
+{
+	"credits": [ {
+		"name": "Janina Kowalska",
+		"contact": [
+			"https://twitter.com/JaninaKowalska01",
+			"mailto:nina@kowalska-family.net"
+		],
+	} ]
+}
+```
 
 ## database_specific field
 
