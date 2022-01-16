@@ -88,6 +88,10 @@ A JSON Schema for validation is also available
 		"type": string,
 		"url": string
 	} ],
+	"credits": [ {
+		"name": string,
+		"contact": [ string ]
+	} ],
 	"database_specific": { see description }
 }
 ```
@@ -606,6 +610,54 @@ The known reference `type` values are:
   `GIT`-typed `affected[].ranges` entries (described above).
 - `PACKAGE`: A web page for the affected package itself.
 - `WEB`: A web page of some unspecified kind.
+
+## credits fields
+
+```json
+{
+	"credits": [ {
+		"name": string,
+		"contact": [ string ],
+	} ]
+}
+```
+
+The `credits` field is a JSON array providing a way to give credit for the
+discovery, confirmation, patch, or other events in the life cycle of a
+vulnerability.
+
+Each of the objects in the `credits` array must contain at minimum a `name` field
+specifying the name of the individual or entity being credited, using whatever
+notation they prefer. It can also optionally include a `contact` JSON array.
+
+### credits[].name field
+
+`credits[].name` should specify the name, label, or other identifier of the
+individual or entity being credited, using whatever notation the creditor prefers.
+For instance, this could contain a real name like `Kovács János`, an Internet handle
+like `erikamustermann`, an entity name like `GitHub`, or something else. This field
+is required for each `credits` entry.
+
+### credits[].contact[] field
+
+Each `credits[].contact[]` entry should be a valid, fully qualified, plain-text URL
+at which the credited can be reached. Providing contacts is optional.
+
+#### Examples
+
+Including a URL and an email address in `credits[].contact[]`:
+
+```json
+{
+	"credits": [ {
+		"name": "Janina Kowalska",
+		"contact": [
+			"https://twitter.com/JaninaKowalska01",
+			"mailto:nina@kowalska-family.net"
+		],
+	} ]
+}
+```
 
 ## database_specific field
 
