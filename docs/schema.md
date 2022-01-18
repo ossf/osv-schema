@@ -252,8 +252,8 @@ display sites to unnecessary vulnerabilities.)
 	"severity": [ {
 		"type": string,
 		"score": string
-	}
-} ]
+	} ]
+}
 ```
 
 The `severity` field is a JSON array that allows generating systems to describe
