@@ -256,27 +256,25 @@ display sites to unnecessary vulnerabilities.)
 } ]
 ```
 
-The `severity` field is a JSON array that allows generating systems to
-describe the severity of a vulnerability using one or more scoring
-methods. Each `severity` item is a JSON object specifying a `type` and
-`score` property, described below.
+The `severity` field is a JSON array that allows generating systems to describe
+the severity of a vulnerability using one or more quantitative scoring methods.
+Each `severity` item is a JSON object specifying a `type` and `score` property,
+described below.
 
 ### severity[].type field
 
-The `severity[].type` property must be one of the types defined below,
-which describe how the `associated` score was derived. This allows
-processing systems to decide how to handle each severity.
+The `severity[].type` property must be one of the types defined below, which
+describes the quantitative method used to calculate the associated `score`.
 
 | Severity Type | Score Description |
 | --------- | ----------- |
 | `CVSS_V3` | A computed score representing the unique characteristics and severity of the vulnerability using a version of the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/) that is >= 3.0 and < 4.0. |
-| `PLAIN_TEXT` | A human-derived and human-readable rating of the severity, based on interpretation of available vulnerability information. |
-| Your severity type here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
+| Your quantitative severity type here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 ### severity[].score field
 
-The `severity[].score` property is a string ranking the severity based on the
-selected `severity[].type`, as described above.
+The `severity[].score` property is a string representing the severity score based
+on the selected `severity[].type`, as described above.
 
 ## affected fields
 
