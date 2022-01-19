@@ -65,6 +65,10 @@ A JSON Schema for validation is also available
 	"related": [ string ],
 	"summary": string,
 	"details": string,
+	"severity": [ {
+		"type": string,
+		"score": string
+	} ],
 	"affected": [ {
 		"package": {
 			"ecosystem": string,
@@ -244,6 +248,37 @@ as stripping raw HTML and links that do not start with http:// or https://.
 Databases are encouraged not to include those in the first place. (The goal is
 to balance flexibility of presentation with not exposing vulnerability database
 display sites to unnecessary vulnerabilities.)
+
+## severity field
+
+```json
+{
+	"severity": [ {
+		"type": string,
+		"score": string
+	} ]
+}
+```
+
+The `severity` field is a JSON array that allows generating systems to describe
+the severity of a vulnerability using one or more quantitative scoring methods.
+Each `severity` item is a JSON object specifying a `type` and `score` property,
+described below.
+
+### severity[].type field
+
+The `severity[].type` property must be one of the types defined below, which
+describes the quantitative method used to calculate the associated `score`.
+
+| Severity Type | Score Description |
+| --------- | ----------- |
+| `CVSS_V3` | A computed score representing the unique characteristics and severity of the vulnerability using a version of the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/) that is >= 3.0 and < 4.0. |
+| Your quantitative severity type here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
+
+### severity[].score field
+
+The `severity[].score` property is a string representing the severity score based
+on the selected `severity[].type`, as described above.
 
 ## affected fields
 
