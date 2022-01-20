@@ -643,7 +643,7 @@ The known reference `type` values are:
   the `fix` type is meant for viewing by people using web browsers.  Programs
   interested in analyzing the exact commit range would do better to use the
   `GIT`-typed `affected[].ranges` entries (described above).
-- `PACKAGE`: A web page for the affected package itself.
+- `PACKAGE`: A description or home web page for the package.
 - `WEB`: A web page of some unspecified kind.
 
 ## credits fields
