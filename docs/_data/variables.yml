@@ -11,7 +11,7 @@ default:
   chart: false
   toc:
     selectors: 'h1,h2,h3'
-  sources: bootcdn
+  sources: jsdelivr
 
   page:
     mode: normal
@@ -38,6 +38,9 @@ default:
     search: default
 
 sources:
+  jsdelivr:
+    font_awesome: 'https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css'
+    jquery: 'https://cdn.jsdelivr.net/npm/jquery@3.1.1/dist/jquery.min.js'
   bootcdn:
     font_awesome: 'https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css'
     jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js'
