@@ -272,7 +272,7 @@ describes the quantitative method used to calculate the associated `score`.
 
 | Severity Type | Score Description |
 | --------- | ----------- |
-| `CVSS_V3` | A computed score representing the unique characteristics and severity of the vulnerability using a version of the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/) that is >= 3.0 and < 4.0. |
+| `CVSS_V3` | A CVSS vector string representing the unique characteristics and severity of the vulnerability using a version of the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/) that is >= 3.0 and < 4.0 (e.g.`"CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:N"`).|
 | Your quantitative severity type here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 ### severity[].score field
@@ -811,7 +811,7 @@ Neither GitHub nor NPM uses this format currently, but here is how a recent NPM 
     "summary": "Use of a Broken or Risky Cryptographic Algorithm",
     "details": "elliptic is a Fast elliptic-curve cryptography in a plain javascript implementation.\n\nAffected versions of this package are vulnerable to Cryptographic Issues via the secp256k1 implementation in elliptic/ec/key.js. There is no check to confirm that the public key point passed into the derive function actually exists on the secp256k1 curve. This results in the potential for the private key used in this implementation to be revealed after a number of ECDH operations are performed.\n\nRemediation: Upgrade elliptic to version 6.5.4 or higher.\n",
     "severity": {
-        {"type": "CVSS_V3", "score": "6.8"}
+        {"type": "CVSS_V3", "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:N"}
     },
     "database_specific": {
         "CWE": "CWE-327",
