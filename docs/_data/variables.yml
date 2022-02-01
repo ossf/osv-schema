@@ -39,7 +39,7 @@ default:
 
 sources:
   jsdelivr:
-    font_awesome: 'https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css'
+    font_awesome: 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css'
     jquery: 'https://cdn.jsdelivr.net/npm/jquery@3.1.1/dist/jquery.min.js'
   bootcdn:
     font_awesome: 'https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css'
