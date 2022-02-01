@@ -272,7 +272,7 @@ describes the quantitative method used to calculate the associated `score`.
 
 | Severity Type | Score Description |
 | --------- | ----------- |
-| `CVSS_V3` | A computed score representing the unique characteristics and severity of the vulnerability using a version of the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/) that is >= 3.0 and < 4.0. |
+| `CVSS_V3` | A CVSS vector string representing the unique characteristics and severity of the vulnerability using a version of the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/) that is >= 3.0 and < 4.0 (e.g.`"CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:N"`).|
 | Your quantitative severity type here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 ### severity[].score field
@@ -720,6 +720,7 @@ Here is a complete entry for a recent Go vulnerability:
 
 ```json
 {
+    "schema_version": "1.2.0",
     "id": "GO-2021-99998",
     "published": "2021-01-21T19:15:00Z",
     "modified": "2021-03-10T23:20:53Z",
@@ -762,6 +763,7 @@ applications.  Here is an entry for a recent Go tool vulnerability:
 
 ```json
 {
+    "schema_version": "1.2.0",
     "id": "GO-2021-99999",
     "published": "2021-01-21T19:15:00Z",
     "modified": "2021-03-10T23:20:53Z",
@@ -800,6 +802,7 @@ Neither GitHub nor NPM uses this format currently, but here is how a recent NPM 
 
 ```json
 {
+    "schema_version": "1.2.0",
     "id": "GHSA-r9p9-mrjm-926w",
     "published": "2021-03-07T11:27:00Z",
     "modified": "2021-03-10T23:40:39Z",
@@ -807,6 +810,19 @@ Neither GitHub nor NPM uses this format currently, but here is how a recent NPM 
     "related": ["NPM-1649", "SNYK-JAVA-ORGWEBJARSNPM-1069836"],
     "summary": "Use of a Broken or Risky Cryptographic Algorithm",
     "details": "elliptic is a Fast elliptic-curve cryptography in a plain javascript implementation.\n\nAffected versions of this package are vulnerable to Cryptographic Issues via the secp256k1 implementation in elliptic/ec/key.js. There is no check to confirm that the public key point passed into the derive function actually exists on the secp256k1 curve. This results in the potential for the private key used in this implementation to be revealed after a number of ECDH operations are performed.\n\nRemediation: Upgrade elliptic to version 6.5.4 or higher.\n",
+    "severity": {
+        {"type": "CVSS_V3", "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:N"}
+    },
+    "database_specific": {
+        "CWE": "CWE-327",
+    },
+    "credits": [ {
+        "name": "Janina Kowalska",
+        "contact": [
+            "https://twitter.com/JaninaKowalska01",
+            "mailto:nina@kowalska-family.net"
+        ],
+    } ]
     "references": [
         {"type": "ADVISORY", "url": "https://www.npmjs.com/advisories/1648"},
         {"type": "ADVISORY", "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-28498"},
@@ -826,19 +842,11 @@ Neither GitHub nor NPM uses this format currently, but here is how a recent NPM 
                "events": [
                    { "introduced": "1.15.0" },
                    { "fixed": "1.15.17" },
-		   { "introduced": "6.5.0" },
+                   { "introduced": "6.5.0" },
                    { "fixed": "6.5.4" }
                ]
             }
         ],
-        "database_specific": {
-            "CWE": "CWE-327",
-            "CVSS": {
-                "Score": "6.8",
-                "Severity": "Medium",
-                "Code": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:N"
-            }
-        }
     } ]
 }
 ```
@@ -849,7 +857,7 @@ OSV uses this format already for its vulnerabilities. Here is the encoding of on
 
 ```json
 {
-    "schema_version": "1.1.0",
+    "schema_version": "1.2.0",
     "id": "OSV-2020-584",
     "published": "2020-07-01T00:00:18.401815Z",
     "modified": "2021-03-09T04:49:05.965964Z",
@@ -884,6 +892,7 @@ format. Here’s an example entry:
 
 ```json
 {
+    "schema_version": "1.2.0",
     "id": "RUSTSEC-2019-0033",
     "published": "2019-11-16T00:00:00Z",
     "modified": "2021-01-04T19:02:00Z",
@@ -926,6 +935,7 @@ potential encoding of a vulnerability entry.
 
 ```json
 {
+    "schema_version": "1.2.0",
     "id": "PYSEC-2021-XXXX",
     "published": "2021-04-01T20:15:00Z",
     "modified": "2021-04-07T15:14:00Z",
@@ -972,6 +982,7 @@ Ruby does not use this format currently, but here is a potential translation of 
 
 ```json
 {
+    "schema_version": "1.2.0",
     "id": "CVE-2019-3881",
     "published": "2018-04-23T00:00:00Z",
     "modified": "2021-05-10T00:00:00Z",
@@ -1024,6 +1035,9 @@ Ruby does not use this format currently, but here is a potential translation of 
   make migration easier. Also use "events" containing single versions to
   represent affected version ranges instead.
 - 2021-09-08 Promoted schema to 1.0.
+- 2022-01-19 Released version 1.2.0. Includes various changes suggested by
+  GitHub (`schema_version`, top-level `database_specific`, `credits`,
+  `severity`, relaxation of version enumeration requirement).
 
 ## Status - 2021-04-07
 
