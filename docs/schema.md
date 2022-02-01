@@ -376,6 +376,7 @@ The defined ecosystems are:
 | `Linux` | The Linux kernel. The only supported `name` is `Kernel`. |
 | `Debian` | The Debian package ecosystem; the `name` is the name of the package. |
 | `Hex` | The package manager for the Erlang ecosystem; the `name` is a Hex package name. |
+| `Android`  | The Android ecosystem; the `name` field is the Android component name that the patch applies to, as shown in the [Android Security Bulletins](https://source.android.com/security/bulletin) such as `Framework`, `Media Framework` and `Kernel Component`. The exhaustive list of components can be found at the [Appendix](#android-ecosystem-components).|
 | Your ecosystem here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 It is permitted for a database name (the DB prefix in the `id` field) and an
@@ -1237,3 +1238,31 @@ data to more easily handle old and new versions of entries.
 We've decided to promote our schema to 1.0, based on positive feedback from
 existing consumers and producers of this data. From this point on, no backwards
 incompatible changes will be made in any 1.x version.
+
+# Appendix
+
+## Android Ecosystem Components
+
+A package name in the `Android` ecosystem indicates the component of Android that the advisory applies to. This matches the component names used in [Android Security Bulletins (ASB)](https://source.android.com/security/bulletin). The complete list of components used in ASB is as follows:
+
+- Framework
+- Library
+- Media Framework
+- System
+- Android Runtime
+- Kernel
+- Kernel LTS
+- Android TV
+- AMLogic
+- ARM
+- Broadcom
+- FPC
+- HTC
+- LG
+- MediaTek
+- Marvell
+- NVIDIA
+- Qualcomm
+- Telecommunication
+- Unisoc
+- Widevine DRM
