@@ -1229,7 +1229,7 @@ incompatible changes will be made in any 1.x version.
 
 ## Android Ecosystem Components
 
-A component of `Android` ecosystem CVE indicates the component of Android firmware that the patch applies to. This matches to the component names used in [Android Security Bulletins (ASB)](https://source.android.com/security/bulletin). The complete list of components used in ASB is as follows:
+A package name in the `Android` ecosystem indicates the component of Android that the advisory applies to. This matches the component names used in [Android Security Bulletins (ASB)](https://source.android.com/security/bulletin). The complete list of components used in ASB is as follows:
 
 - Framework
 - Library
