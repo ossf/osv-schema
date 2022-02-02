@@ -320,7 +320,8 @@ needed.
 The `versions` field can enumerate a specific set of affected versions, and the
 `ranges` field can list ranges of affected versions, under a given defined
 ordering. **A version is considered affected if it lies within any one of the
-ranges or is listed in the versions list.**
+ranges or is listed in the versions list.** Pseudocode for evaluating if a
+given version is affected is available [here](#evaluation).
 
 The `versions` list is generally recommended to always be present, to allow
 software to easily answer the question "is this specific version affected?"
@@ -467,32 +468,6 @@ There must be at least one `"introduced"` object in the `events` array. While
 not required, it's also recommended to keep the `events` array sorted according
 to the `affected[].ranges[].type` of the range.
 
-#### Evaluation
-
-The algorithm to evaluate if `v` is impacted by a range is:
-
-```python
-func BeforeLimits(v, range)
-  if no limit events in range.events
-    # implicit "*" entry is assumed
-    return true
-	
-  for evt in range.events
-    if evt.limit is present and v < evt.limit
-      return true
-
-  return false
-
-vulnerable = false
-for range in affected.ranges
-  if BeforeLimits(v, range)
-    for evt in sorted(range.events)
-      if evt.introduced is present && v >= evt.introduced
-         vulnerable = true
-      else if evt.fixed is present && v >= evt.fixed
-         vulnerable = false
-```
-
 See [examples](#examples) for examples of how to describe affected ranges.
 
 ### affected[].ranges[].repo field
@@ -537,6 +512,53 @@ scores for ecosystems that do not provide them could add that information here.
 
 Note that this is a single field with key "database_specific", which itself
 contains a JSON object with unspecified fields.
+
+### Evaluation
+
+The algorithm to evaluate if a package `pkg` at version `v` is vulnerable is
+given by the `IsVulnerable` function in the pseudocode below:
+
+```python
+func IsVulnerable(pkg, v, osv)
+  for affected in osv.affected
+    if affected.package == pkg
+      if IncludedInVersions(v, affected.versions) ||
+           IncludedInRanges(v, affected.ranges)
+        return true 
+
+  return false
+
+func IncludedInVersions(v, versions)
+  for version in versions
+    if v == version
+      return true
+
+  return false
+
+func IncludedInRanges(v, ranges)
+  vulnerable = false
+  for range in ranges
+    if BeforeLimits(v, range)
+      for evt in sorted(range.events)
+        if evt.introduced is present && v >= evt.introduced
+           vulnerable = true
+        else if evt.fixed is present && v >= evt.fixed
+           vulnerable = false
+
+  return vulnerable
+
+func BeforeLimits(v, range)
+  if no limit events in range.events
+    # implicit "*" entry is assumed
+    return true
+
+  for evt in range.events
+    if evt.limit is present and v < evt.limit
+      return true
+
+  return false
+
+```
 
 ### Examples
 The following expresses that "every possible version is affected".
