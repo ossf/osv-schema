@@ -1,7 +1,7 @@
 # Open Source Vulnerability Schema 
 
 This is the repository for the Open Source Vulnerability schema, which is currently exported by:
-- [GitHub Security Advisories](https://github.com/github/security-advisories),
+- [GitHub Security Advisories](https://github.com/github/security-advisories)
 - [PyPI Advisory Database](https://github.com/pypa/advisory-database)
 - [Go Vulnerability Database](https://github.com/golang/vulndb)
 - [Rust Advisory Database](https://github.com/RustSec/advisory-db)
