@@ -146,6 +146,9 @@
                     ]
                   },
                   "minItems": 1
+                },
+                "database_specific": {
+                  "type": "object"
                 }
               },
               "allOf": [
