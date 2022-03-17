@@ -135,6 +135,17 @@
                       {
                         "type": "object",
                         "properties": {
+                          "last_affected": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "last_affected"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
                           "limit": {
                             "type": "string"
                           }
