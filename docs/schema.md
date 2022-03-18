@@ -491,7 +491,7 @@ additional information about the range from which the record was obtained. The
 meaning of the values within the object is entirely defined by the database and
 beyond the scope of this document.
 
-Databases should only use this field to enable lossless conversion from the OSV
+Databases should only use this field to store additional context that may be useful in converting from the OSV
 format back into the original database representation. Values in this field
 have no effect on the [evaluation algorithm](#evaluation).
 
