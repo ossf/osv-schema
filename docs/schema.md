@@ -444,7 +444,7 @@ The `ranges` object's `events` field is a JSON array of objects. Each object
 describes a single version that either:
 1. Introduces a vulnerability: `{"introduced": string}`
 2. Fixes a vulnerability: `{"fixed": string}`
-3. Describes the last affected version: `{"last_affected": string}`
+3. Describes the last known affected version: `{"last_affected": string}`
 4. Sets an upper limit on the range being described: `{"limit": string}`
 
 These `events` objects represent a "timeline" of status changes for the affected
