@@ -173,6 +173,28 @@
                       "repo"
                     ]
                   }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "events": {
+                        "contains": {
+                          "required": ["last_affected"]
+                        }
+                      }
+                    }
+                  },
+                  "then": {
+                    "not": {
+                      "properties": {
+                        "events": {
+                          "contains": {
+                            "required": ["fixed"]
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
               ],
               "required": [
