@@ -83,7 +83,8 @@ A JSON Schema for validation is also available
 				"fixed": string,
 				"last_affected": string,
 				"limit": string
-			} ]
+			} ],
+			"database_specific": { see description }
 		} ],
 		"versions": [ string ],
 		"ecosystem_specific": { see description },
@@ -489,6 +490,17 @@ describing a single range.  The range object defines the fields `type`,
 `events`, `repo`.  `introduced`, `fixed`, and additional type-specific fields as needed.
 
 This field is required if `affected[].ranges[].type` is `GIT`.
+
+### affected[].ranges[].database_specific field
+
+The `ranges` object's `database_specific` field is a JSON object holding
+additional information about the range from which the record was obtained. The
+meaning of the values within the object is entirely defined by the database and
+beyond the scope of this document.
+
+Databases should only use this field to store additional context that may be useful in converting from the OSV
+format back into the original database representation. Values in this field
+have no effect on the [evaluation algorithm](#evaluation).
 
 ### affected[].ecosystem_specific field
 
