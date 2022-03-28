@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.2.0 (January 19, 2021)**
+**Version 1.3.0 (March 24, 2022)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -81,8 +81,10 @@ A JSON Schema for validation is also available
 			"events": [ {
 				"introduced": string,
 				"fixed": string,
+				"last_affected": string,
 				"limit": string
-			} ]
+			} ],
+			"database_specific": { see description }
 		} ],
 		"versions": [ string ],
 		"ecosystem_specific": { see description },
@@ -443,7 +445,8 @@ The `ranges` object's `events` field is a JSON array of objects. Each object
 describes a single version that either:
 1. Introduces a vulnerability: `{"introduced": string}`
 2. Fixes a vulnerability: `{"fixed": string}`
-3. Sets an upper limit on the range being described: `{"limit": string}`
+3. Describes the last known affected version: `{"last_affected": string}`
+4. Sets an upper limit on the range being described: `{"limit": string}`
 
 These `events` objects represent a "timeline" of status changes for the affected
 package.
@@ -461,9 +464,14 @@ by the `affected[].ranges[].type` field.
 
 #### Requirements
 
-Only **a single type** (either `"introduced"`, `"fixed"`, `"limit"`) is allowed in
-each event object. For instance, `{"introduced": "1.0.0", "fixed": "1.0.2"}` is
-**invalid**.
+Only **a single type** (either `"introduced"`, `"fixed"`, `"last_affected"`,
+`"limit"`) is allowed in each event object. For instance,
+`{"introduced": "1.0.0", "fixed": "1.0.2"}` is **invalid**.
+
+Entries in the `events` array can contain either `"last_affected"` or `"fixed"`
+events, but not both. It's **strongly recommended** to use `"fixed"` instead of
+`"last_affected"` where possible, as it precisely identifies the version which
+contains the fix.
 
 There must be at least one `"introduced"` object in the `events` array. While
 not required, it's also recommended to keep the `events` array sorted according
@@ -482,6 +490,17 @@ describing a single range.  The range object defines the fields `type`,
 `events`, `repo`.  `introduced`, `fixed`, and additional type-specific fields as needed.
 
 This field is required if `affected[].ranges[].type` is `GIT`.
+
+### affected[].ranges[].database_specific field
+
+The `ranges` object's `database_specific` field is a JSON object holding
+additional information about the range from which the record was obtained. The
+meaning of the values within the object is entirely defined by the database and
+beyond the scope of this document.
+
+Databases should only use this field to store additional context that may be useful in converting from the OSV
+format back into the original database representation. Values in this field
+have no effect on the [evaluation algorithm](#evaluation).
 
 ### affected[].ecosystem_specific field
 
@@ -544,6 +563,8 @@ func IncludedInRanges(v, ranges)
         if evt.introduced is present && v >= evt.introduced
            vulnerable = true
         else if evt.fixed is present && v >= evt.fixed
+           vulnerable = false
+        else if evt.last_affected is present && v > evt.last_affected
            vulnerable = false
 
   return vulnerable
@@ -1062,6 +1083,9 @@ Ruby does not use this format currently, but here is a potential translation of 
 - 2022-01-19 Released version 1.2.0. Includes various changes suggested by
   GitHub (`schema_version`, top-level `database_specific`, `credits`,
   `severity`, relaxation of version enumeration requirement).
+- 2022-03-24 Released version 1.3.0. Added `last_affected` event type and
+  `database_specific` to `affected[].ranges[]`.
+  Context: https://github.com/ossf/osv-schema/issues/35.
 
 ## Status - 2021-04-07
 
