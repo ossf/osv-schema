@@ -843,56 +843,83 @@ applications.  Here is an entry for a recent Go tool vulnerability:
 
 ## NPM vulnerability in GitHub database
 
-Neither GitHub nor NPM uses this format currently, but here is how a recent NPM vulnerability would look as part of the GitHub database assuming the NPM ecosystem is allocated.
+GitHub uses this format already for its vulnerabilities. Here is the encoding of one entry:
 
 ```json
 {
-    "schema_version": "1.2.0",
-    "id": "GHSA-r9p9-mrjm-926w",
-    "published": "2021-03-07T11:27:00Z",
-    "modified": "2021-03-10T23:40:39Z",
-    "aliases": ["NPM-1648", "CVE-2020-28498", "SNYK-JS-ELLIPTIC-1064899"],
-    "related": ["NPM-1649", "SNYK-JAVA-ORGWEBJARSNPM-1069836"],
-    "summary": "Use of a Broken or Risky Cryptographic Algorithm",
-    "details": "elliptic is a Fast elliptic-curve cryptography in a plain javascript implementation.\n\nAffected versions of this package are vulnerable to Cryptographic Issues via the secp256k1 implementation in elliptic/ec/key.js. There is no check to confirm that the public key point passed into the derive function actually exists on the secp256k1 curve. This results in the potential for the private key used in this implementation to be revealed after a number of ECDH operations are performed.\n\nRemediation: Upgrade elliptic to version 6.5.4 or higher.\n",
-    "severity": {
-        {"type": "CVSS_V3", "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:N"}
-    },
-    "database_specific": {
-        "CWE": "CWE-327",
-    },
-    "credits": [ {
-        "name": "Janina Kowalska",
-        "contact": [
-            "https://twitter.com/JaninaKowalska01",
-            "mailto:nina@kowalska-family.net"
-        ],
-    } ]
-    "references": [
-        {"type": "ADVISORY", "url": "https://www.npmjs.com/advisories/1648"},
-        {"type": "ADVISORY", "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-28498"},
-        {"type": "FIX", "url": "https://github.com/indutny/elliptic/commit/441b7428"},
-        {"type": "ARTICLE", "url": "https://github.com/christianlundkvist/blog/blob/master/2020_05_26_secp256k1_twist_attacks/secp256k1_twist_attacks.md"},
-        {"type": "ADVISORY", "url": "https://snyk.io/vuln/SNYK-JS-ELLIPTIC-1064899"},
-        {"type": "PACKAGE", "url": "https://www.npmjs.com/package/elliptic"}
-    ],
-    "affected": [ {
-        "package": {
-            "ecosystem": "npm",
-            "name": "elliptic"
-        },
-        "ranges": [
+  "schema_version": "1.2.0",
+  "id": "GHSA-r9p9-mrjm-926w",
+  "modified": "2021-03-08T16:02:43Z",
+  "published": "2021-03-08T16:06:50Z",
+  "aliases": [
+    "CVE-2020-28498"
+  ],
+  "summary": "Use of a Broken or Risky Cryptographic Algorithm",
+  "details": "The npm package `elliptic` before version 6.5.4 are vulnerable to Cryptographic Issues via the secp256k1 implementation in elliptic/ec/key.js. There is no check to confirm that the public key point passed into the derive function actually exists on the secp256k1 curve. This results in the potential for the private key used in this implementation to be revealed after a number of ECDH operations are performed.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "elliptic"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
             {
-               "type": "SEMVER",
-               "events": [
-                   { "introduced": "1.15.0" },
-                   { "fixed": "1.15.17" },
-                   { "introduced": "6.5.0" },
-                   { "fixed": "6.5.4" }
-               ]
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.5.4"
             }
-        ],
-    } ]
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-28498"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/indutny/elliptic/pull/244/commits"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/indutny/elliptic/commit/441b7428b0e8f6636c42118ad2aaa186d3c34c3f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/christianlundkvist/blog/blob/master/2020_05_26_secp256k1_twist_attacks/secp256k1_twist_attacks.md"
+    },
+    {
+      "type": "WEB",
+      "url": "https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-1069836"
+    },
+    {
+      "type": "WEB",
+      "url": "https://snyk.io/vuln/SNYK-JS-ELLIPTIC-1064899"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.npmjs.com/package/elliptic"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-327"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true
+  }
 }
 ```
 
