@@ -371,7 +371,7 @@ The defined ecosystems are:
 | `Go` | The Go ecosystem; the `name` field is a Go module path. |
 | `npm` | The NPM ecosystem; the `name` field is an NPM package name. |
 | `OSS-Fuzz` | For reports from the OSS-Fuzz project that have no more appropriate ecosystem; the `name` field is the name assigned by the OSS-Fuzz project, as recorded in the submitted fuzzing configuration. |
-| `PyPI` | the Python PyPI ecosystem; the `name` field is a [normalized](https://www.python.org/dev/peps/pep-0503/#normalized-names) PyPI package name. |
+| `PyPI` | the Python PyPI ecosystem; the `name` field is a PyPI package name. |
 | `RubyGems` | The RubyGems ecosystem; the `name` field is a gem name. |
 | `crates.io` | The crates.io ecosystem for Rust; the `name` field is a crate name. |
 | `Packagist` | The PHP package manager ecosystem; the `name` is a package name. |
