@@ -7,6 +7,7 @@ This is the repository for the Open Source Vulnerability schema, which is curren
 - [Rust Advisory Database](https://github.com/RustSec/advisory-db)
 - [Global Security Database](https://github.com/cloudsecurityalliance/gsd-database)
 - [OSS-Fuzz](https://github.com/google/oss-fuzz-vulns)
+- [LoopBack Advisory Database](https://github.com/loopbackio/security/tree/main/advisories)
 
 Together, these include vulnerabilities from:
 - npm
