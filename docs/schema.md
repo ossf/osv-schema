@@ -557,9 +557,9 @@ func IncludedInVersions(v, versions)
   return false
 
 func IncludedInRanges(v, ranges)
-  vulnerable = false
   for range in ranges
     if BeforeLimits(v, range)
+      vulnerable = false
       for evt in sorted(range.events)
         if evt.introduced is present && v >= evt.introduced
            vulnerable = true
@@ -567,8 +567,11 @@ func IncludedInRanges(v, ranges)
            vulnerable = false
         else if evt.last_affected is present && v > evt.last_affected
            vulnerable = false
+      
+      if vulnerable
+        return true
 
-  return vulnerable
+  return false
 
 func BeforeLimits(v, range)
   if no limit events in range.events
