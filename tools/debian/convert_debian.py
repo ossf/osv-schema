@@ -17,8 +17,10 @@ import json
 import os
 import re
 import traceback
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, TextIO
 import xml.etree.ElementTree as ET
+import markdownify
+import datetime
 
 import osv
 import osv.ecosystems
@@ -34,97 +36,179 @@ DSA_PATTERN = re.compile(r'\[.*?\]\s*([\w-]+)\s*(.*)')
 # e.g. [buster] - xz-utils 5.2.4-1+deb10u1
 VERSION_PATTERN = re.compile(r'\[(.*?)\]\s*-\s*([^\s]+)\s*([^\s]+)')
 
+# e.g. <define-tag moreinfo>\n Some html here \n</define-tag>
+WML_DESCRIPTION_PATTERN = re.compile(r'<define-tag moreinfo>((?:.|\n)*)</define-tag>', re.MULTILINE)
 
-class VersionInfo:
-    """Debian version info."""
+# e.g.
+WML_REPORT_DATE_PATTERN = re.compile(r'<define-tag report_date>(.*)</define-tag>')
+
+
+class DebianSpecificInfo:
     release: str
+
+    def __init__(self, release: str):
+        self.release = release
+
+    def __repr__(self):
+        return json.dumps(self, default=dumper)
+
+
+class AffectedInfo:
+    """Debian version info."""
+    ecosystem_specific: DebianSpecificInfo
     package: str
+    ranges: [str]
     fixed: str
+    versions: [str]
 
     def __init__(self, release: str, package: str, fixed: str):
-        self.release = release
+        self.ecosystem_specific = DebianSpecificInfo(release)
         self.package = package
         self.fixed = fixed
 
+    def toJSON(self):
+        return {
+            "ecosystem_specific": self.ecosystem_specific,
+            "package": {
+                "ecosystem": "Debian",
+                "name": self.package
+            },
+            "ranges": [
+                {
+                    "type": "ECOSYSTEM",
+                    "events": [
+                        {"fixed": self.fixed}
+                    ]
+                }
+            ],
+        }
+
     def __repr__(self):
-        return str({
-            'release': self.release,
-            'package': self.package,
-            'fixed': self.fixed,
-        })
+        return json.dumps(self, default=dumper)
 
 
 class AdvisoryInfo:
     """Debian advisory info."""
     id: str
     summary: str
-    versions: [VersionInfo]
-    cves: [str]
+    details: str
+    published: str
+    affected: [AffectedInfo]
+    aliases: [str]
 
     def __init__(self, id, summary):
         self.id = id
         self.summary = summary
-        self.versions = []
-        self.cves = []
+        self.affected = []
+        self.aliases = []
+        self.published = ""
+        self.details = ""
 
     def __repr__(self):
-        return str({
-            'id': self.id,
-            'summary': self.summary,
-            'versions': self.versions,
-            'cves': self.cves,
-        })
+        return json.dumps(self, default=dumper, indent=2)
 
 
-def convert_debian(webwml_repo: str, security_tracker_repo: str,
-                   output_dir: str):
-    """Convert Debian advisory data into OSV."""
-    advisories = {}
+def dumper(obj):
+    try:
+        return obj.toJSON()
+    except AttributeError:
+        return obj.__dict__
+
+
+def parse_security_tracker_file(advisories: dict[str, AdvisoryInfo], file_handle: TextIO):
     current_advisory = None
+
+    for line in file_handle:
+        line = line.rstrip()
+        if not line:
+            continue
+
+        if LEADING_WHITESPACE.match(line):
+            # Within current advisory.
+            if not current_advisory:
+                raise ValueError('Unexpected tab.')
+
+            # {CVE-XXXX-XXXX CVE-XXXX-XXXX}
+            line = line.lstrip()
+            if line.startswith('{'):
+                advisories[current_advisory].aliases = line.strip('{}').split()
+                continue
+
+            if line.startswith('NOTE:'):
+                continue
+
+            version_match = VERSION_PATTERN.match(line)
+            if not version_match:
+                raise ValueError('Invalid version line: ' + line)
+
+            advisories[current_advisory].affected.append(
+                AffectedInfo(version_match.group(1), version_match.group(2),
+                             version_match.group(3)))
+        else:
+            if line.strip().startswith('NOTE:'):
+                continue
+
+            # New advisory.
+            dsa_match = DSA_PATTERN.match(line)
+            if not dsa_match:
+                raise ValueError('Invalid line: ' + line)
+
+            current_advisory = dsa_match.group(1)
+            advisories[current_advisory] = AdvisoryInfo(
+                current_advisory, dsa_match.group(2))
+
+
+def write_output(output_dir: str, advisories: dict[str, AdvisoryInfo]):
+    for key in advisories:
+        output_file = open(os.path.join(output_dir, key + ".json"), "w")
+        output_file.write(str(advisories[key]))
+        print("Writing: " + os.path.join(output_dir, key + ".json"), flush=True)
+
+    print("Complete")
+
+
+def convert_debian(webwml_repo: str, security_tracker_repo: str, output_dir: str):
+    """Convert Debian advisory data into OSV."""
+    advisories: dict[str, AdvisoryInfo] = {}
 
     # Enumerate advisories + version info from security-tracker.
     with open(os.path.join(security_tracker_repo,
                            SECURITY_TRACKER_DSA_PATH)) as handle:
-        for line in handle:
-            line = line.rstrip()
-            if not line:
-                continue
+        parse_security_tracker_file(advisories, handle)
 
-            if LEADING_WHITESPACE.match(line):
-                # Within current advisory.
-                if not current_advisory:
-                    raise ValueError('Unexpected tab.')
+    file_path_map = {}
 
-                # {CVE-XXXX-XXXX CVE-XXXX-XXXX}
-                line = line.lstrip()
-                if line.startswith('{'):
-                    advisories[current_advisory].cves = line.strip('{}').split()
-                    continue
+    for root, dirs, files in os.walk(os.path.join(webwml_repo, WEBWML_SECURITY_PATH)):
+        for file in files:
+            file_path_map[file] = os.path.join(root, file)
 
-                if line.startswith('NOTE:'):
-                    continue
+    # Add descriptions to advisories from wml files
+    for key in advisories:
+        # TODO: use regex to remove suffix?
+        mapped_key_no_ext = key.lower().removesuffix('-1').removesuffix('-2').removesuffix('-3').removesuffix('-4')
+        val_wml = file_path_map.get(mapped_key_no_ext + ".wml")
+        val_data = file_path_map.get(mapped_key_no_ext + ".data")
 
-                version_match = VERSION_PATTERN.match(line)
-                if not version_match:
-                    raise ValueError('Invalid version line: ' + line)
+        if not val_wml:
+            print(mapped_key_no_ext)
+        else:
+            with open(val_wml) as handle:
+                data = handle.read()
+                html = WML_DESCRIPTION_PATTERN.findall(data)[0]
+                res = markdownify.markdownify(html)
+                advisories[key].details = res
 
-                advisories[current_advisory].versions.append(
-                    VersionInfo(version_match.group(1), version_match.group(2),
-                                version_match.group(3)))
-            else:
-                if line.strip().startswith('NOTE:'):
-                    continue
+        if not val_data:
+            print(mapped_key_no_ext)
+        else:
+            with open(val_data) as handle:
+                data: str = handle.read()
+                report_date: str = WML_REPORT_DATE_PATTERN.findall(data)[0]
+                # Split by ',' here for the occasional case where there are two dates in the "publish" field
+                advisories[key].published = \
+                    datetime.datetime.strptime(report_date.split(",")[0], "%Y-%m-%d").isoformat() + "Z"
 
-                # New advisory.
-                dsa_match = DSA_PATTERN.match(line)
-                if not dsa_match:
-                    raise ValueError('Invalid line: ' + line)
-
-                current_advisory = dsa_match.group(1)
-                advisories[current_advisory] = AdvisoryInfo(
-                    current_advisory, dsa_match.group(2))
-
-    print(advisories)
+    write_output(output_dir, advisories)
 
 
 def main():
