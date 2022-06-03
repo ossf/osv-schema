@@ -16,14 +16,13 @@ import argparse
 import json
 import os
 import re
-import traceback
-from typing import Any, Dict, Optional, TextIO
-import xml.etree.ElementTree as ET
-import markdownify
+from typing import TextIO
 import datetime
 
-import osv
-import osv.ecosystems
+import markdownify
+
+# import osv
+# import osv.ecosystems
 
 WEBWML_SECURITY_PATH = os.path.join('english', 'security')
 SECURITY_TRACKER_DSA_PATH = os.path.join('data', 'DSA', 'list')
@@ -37,10 +36,15 @@ DSA_PATTERN = re.compile(r'\[.*?\]\s*([\w-]+)\s*(.*)')
 VERSION_PATTERN = re.compile(r'\[(.*?)\]\s*-\s*([^\s]+)\s*([^\s]+)')
 
 # e.g. <define-tag moreinfo>\n Some html here \n</define-tag>
-WML_DESCRIPTION_PATTERN = re.compile(r'<define-tag moreinfo>((?:.|\n)*)</define-tag>', re.MULTILINE)
+WML_DESCRIPTION_PATTERN = re.compile(
+    r'<define-tag moreinfo>((?:.|\n)*)</define-tag>', re.MULTILINE)
 
-# e.g.
-WML_REPORT_DATE_PATTERN = re.compile(r'<define-tag report_date>(.*)</define-tag>')
+# e.g. <define-tag report_date>(.*)</define-tag>
+WML_REPORT_DATE_PATTERN = re.compile(
+    r'<define-tag report_date>(.*)</define-tag>')
+
+# e.g. DSA-12345-2, -2 is the extension
+MATCH_EXTENSION_FROM_DSA = re.compile(r'-\d+$')
 
 
 class DebianSpecificInfo:
@@ -55,6 +59,7 @@ class DebianSpecificInfo:
 
 class AffectedInfo:
     """Debian version info."""
+
     ecosystem_specific: DebianSpecificInfo
     package: str
     ranges: [str]
@@ -66,21 +71,20 @@ class AffectedInfo:
         self.package = package
         self.fixed = fixed
 
-    def toJSON(self):
+    def to_json(self):
         return {
-            "ecosystem_specific": self.ecosystem_specific,
-            "package": {
-                "ecosystem": "Debian",
-                "name": self.package
+            'ecosystem_specific':
+                self.ecosystem_specific,
+            'package': {
+                'ecosystem': 'Debian',
+                'name': self.package
             },
-            "ranges": [
-                {
-                    "type": "ECOSYSTEM",
-                    "events": [
-                        {"fixed": self.fixed}
-                    ]
-                }
-            ],
+            'ranges': [{
+                'type': 'ECOSYSTEM',
+                'events': [{
+                    'fixed': self.fixed
+                }]
+            }],
         }
 
     def __repr__(self):
@@ -89,6 +93,7 @@ class AffectedInfo:
 
 class AdvisoryInfo:
     """Debian advisory info."""
+
     id: str
     summary: str
     details: str
@@ -96,26 +101,31 @@ class AdvisoryInfo:
     affected: [AffectedInfo]
     aliases: [str]
 
-    def __init__(self, id, summary):
-        self.id = id
+    def __init__(self, adv_id, summary):
+        self.id = adv_id
         self.summary = summary
         self.affected = []
         self.aliases = []
-        self.published = ""
-        self.details = ""
+        self.published = ''
+        self.details = ''
 
     def __repr__(self):
         return json.dumps(self, default=dumper, indent=2)
 
 
+Advisories = dict[str, AdvisoryInfo]
+"""Type alias for collection of advisory info"""
+
+
 def dumper(obj):
     try:
-        return obj.toJSON()
+        return obj.to_json()
     except AttributeError:
         return obj.__dict__
 
 
-def parse_security_tracker_file(advisories: dict[str, AdvisoryInfo], file_handle: TextIO):
+def parse_security_tracker_file(advisories: Advisories,
+                                file_handle: TextIO):
     current_advisory = None
 
     for line in file_handle:
@@ -142,8 +152,11 @@ def parse_security_tracker_file(advisories: dict[str, AdvisoryInfo], file_handle
                 raise ValueError('Invalid version line: ' + line)
 
             advisories[current_advisory].affected.append(
-                AffectedInfo(version_match.group(1), version_match.group(2),
-                             version_match.group(3)))
+                AffectedInfo(
+                    version_match.group(1),
+                    version_match.group(2),
+                    version_match.group(3),
+                ))
         else:
             if line.strip().startswith('NOTE:'):
                 continue
@@ -154,59 +167,70 @@ def parse_security_tracker_file(advisories: dict[str, AdvisoryInfo], file_handle
                 raise ValueError('Invalid line: ' + line)
 
             current_advisory = dsa_match.group(1)
-            advisories[current_advisory] = AdvisoryInfo(
-                current_advisory, dsa_match.group(2))
+            advisories[current_advisory] = AdvisoryInfo(current_advisory,
+                                                        dsa_match.group(2))
 
 
-def write_output(output_dir: str, advisories: dict[str, AdvisoryInfo]):
-    for key in advisories:
-        output_file = open(os.path.join(output_dir, key + ".json"), "w")
-        output_file.write(str(advisories[key]))
-        print("Writing: " + os.path.join(output_dir, key + ".json"), flush=True)
-
-    print("Complete")
-
-
-def convert_debian(webwml_repo: str, security_tracker_repo: str, output_dir: str):
-    """Convert Debian advisory data into OSV."""
-    advisories: dict[str, AdvisoryInfo] = {}
-
-    # Enumerate advisories + version info from security-tracker.
-    with open(os.path.join(security_tracker_repo,
-                           SECURITY_TRACKER_DSA_PATH)) as handle:
-        parse_security_tracker_file(advisories, handle)
-
+def parse_webwml_files(advisories: Advisories, webwml_repo: str):
     file_path_map = {}
 
-    for root, dirs, files in os.walk(os.path.join(webwml_repo, WEBWML_SECURITY_PATH)):
+    for root, _, files in os.walk(
+            os.path.join(webwml_repo, WEBWML_SECURITY_PATH)):
         for file in files:
             file_path_map[file] = os.path.join(root, file)
 
     # Add descriptions to advisories from wml files
-    for key in advisories:
-        # TODO: use regex to remove suffix?
-        mapped_key_no_ext = key.lower().removesuffix('-1').removesuffix('-2').removesuffix('-3').removesuffix('-4')
-        val_wml = file_path_map.get(mapped_key_no_ext + ".wml")
-        val_data = file_path_map.get(mapped_key_no_ext + ".data")
+    for key, adv in advisories.items():
+
+        # remove potential extension (e.g. DSA-12345-2, -2 is the extension)
+        mapped_key_no_ext = (MATCH_EXTENSION_FROM_DSA.sub(key.lower(), ''))
+        val_wml = file_path_map.get(mapped_key_no_ext + '.wml')
+        val_data = file_path_map.get(mapped_key_no_ext + '.data')
 
         if not val_wml:
             print(mapped_key_no_ext)
         else:
-            with open(val_wml) as handle:
+            with open(val_wml, encoding='utf-8') as handle:
                 data = handle.read()
                 html = WML_DESCRIPTION_PATTERN.findall(data)[0]
                 res = markdownify.markdownify(html)
-                advisories[key].details = res
+                adv.details = res
 
         if not val_data:
             print(mapped_key_no_ext)
         else:
-            with open(val_data) as handle:
+            with open(val_data, encoding='utf-8') as handle:
                 data: str = handle.read()
                 report_date: str = WML_REPORT_DATE_PATTERN.findall(data)[0]
-                # Split by ',' here for the occasional case where there are two dates in the "publish" field
-                advisories[key].published = \
-                    datetime.datetime.strptime(report_date.split(",")[0], "%Y-%m-%d").isoformat() + "Z"
+                # Split by ',' here for the occasional case where there
+                # are two dates in the 'publish' field
+                adv.published = (datetime.datetime.strptime(
+                    report_date.split(',')[0], '%Y-%m-%d').isoformat() + 'Z')
+
+
+def write_output(output_dir: str, advisories: Advisories):
+    for key in advisories:
+        with open(os.path.join(output_dir, key + '.json'),
+                  'w',
+                  encoding='utf-8') as output_file:
+            output_file.write(str(advisories[key]))
+            print('Writing: ' + os.path.join(output_dir, key + '.json'),
+                  flush=True)
+
+    print('Complete')
+
+
+def convert_debian(webwml_repo: str, security_tracker_repo: str,
+                   output_dir: str):
+    """Convert Debian advisory data into OSV."""
+    advisories: Advisories = {}
+
+    # Enumerate advisories + version info from security-tracker.
+    with open(os.path.join(security_tracker_repo, SECURITY_TRACKER_DSA_PATH),
+              encoding='utf-8') as handle:
+        parse_security_tracker_file(advisories, handle)
+
+    parse_webwml_files(advisories, webwml_repo)
 
     write_output(output_dir, advisories)
 
