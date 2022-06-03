@@ -39,7 +39,7 @@ VERSION_PATTERN = re.compile(r'\[(.*?)\]\s*-\s*([^\s]+)\s*([^\s]+)')
 WML_DESCRIPTION_PATTERN = re.compile(
     r'<define-tag moreinfo>((?:.|\n)*)</define-tag>', re.MULTILINE)
 
-# e.g. <define-tag report_date>(.*)</define-tag>
+# e.g. <define-tag report_date>2022-1-04</define-tag>
 WML_REPORT_DATE_PATTERN = re.compile(
     r'<define-tag report_date>(.*)</define-tag>')
 
@@ -187,18 +187,16 @@ def parse_webwml_files(advisories: Advisories, webwml_repo: str):
         val_wml = file_path_map.get(mapped_key_no_ext + '.wml')
         val_data = file_path_map.get(mapped_key_no_ext + '.data')
 
-        if not val_wml:
-            print(mapped_key_no_ext)
-        else:
+        if val_wml:
             with open(val_wml, encoding='utf-8') as handle:
                 data = handle.read()
                 html = WML_DESCRIPTION_PATTERN.findall(data)[0]
                 res = markdownify.markdownify(html)
                 adv.details = res
-
-        if not val_data:
-            print(mapped_key_no_ext)
         else:
+            print('No WML file yet for this:' + mapped_key_no_ext)
+
+        if val_data:
             with open(val_data, encoding='utf-8') as handle:
                 data: str = handle.read()
                 report_date: str = WML_REPORT_DATE_PATTERN.findall(data)[0]
