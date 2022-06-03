@@ -44,10 +44,13 @@ WML_REPORT_DATE_PATTERN = re.compile(
     r'<define-tag report_date>(.*)</define-tag>')
 
 # e.g. DSA-12345-2, -2 is the extension
-MATCH_EXTENSION_FROM_DSA = re.compile(r'-\d+$')
+CAPTURE_DSA_WITH_NO_EXT = re.compile(r'dsa-\d+')
 
 
 class DebianSpecificInfo:
+    """Specific Debian information, exports to the
+    `ecosystem_specific` field in osv"""
+
     release: str
 
     def __init__(self, release: str):
@@ -183,7 +186,7 @@ def parse_webwml_files(advisories: Advisories, webwml_repo: str):
     for key, adv in advisories.items():
 
         # remove potential extension (e.g. DSA-12345-2, -2 is the extension)
-        mapped_key_no_ext = (MATCH_EXTENSION_FROM_DSA.sub(key.lower(), ''))
+        mapped_key_no_ext = CAPTURE_DSA_WITH_NO_EXT.findall(key.lower())[0]
         val_wml = file_path_map.get(mapped_key_no_ext + '.wml')
         val_data = file_path_map.get(mapped_key_no_ext + '.data')
 
@@ -194,12 +197,18 @@ def parse_webwml_files(advisories: Advisories, webwml_repo: str):
                 res = markdownify.markdownify(html)
                 adv.details = res
         else:
-            print('No WML file yet for this:' + mapped_key_no_ext)
+            print('No WML file yet for this: ' + mapped_key_no_ext)
 
         if val_data:
             with open(val_data, encoding='utf-8') as handle:
                 data: str = handle.read()
                 report_date: str = WML_REPORT_DATE_PATTERN.findall(data)[0]
+
+                # TODO: Handle multiple dates? What does the multiple report dates mean
+                # if len(report_date.split(',')) > 1:
+                #     print(report_date)
+                #     print(key)
+
                 # Split by ',' here for the occasional case where there
                 # are two dates in the 'publish' field
                 adv.published = (datetime.datetime.strptime(
@@ -207,11 +216,11 @@ def parse_webwml_files(advisories: Advisories, webwml_repo: str):
 
 
 def write_output(output_dir: str, advisories: Advisories):
-    for key in advisories:
+    for key, value in advisories.items():
         with open(os.path.join(output_dir, key + '.json'),
                   'w',
                   encoding='utf-8') as output_file:
-            output_file.write(str(advisories[key]))
+            output_file.write(str(value))
             print('Writing: ' + os.path.join(output_dir, key + '.json'),
                   flush=True)
 
