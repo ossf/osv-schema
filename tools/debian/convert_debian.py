@@ -107,6 +107,7 @@ class AdvisoryInfo:
     summary: str
     details: str
     published: str
+    # TODO: Add modified field
     affected: [AffectedInfo]
     aliases: [str]
 
@@ -207,6 +208,7 @@ def parse_webwml_files(advisories: Advisories, webwml_repo: str):
         val_data = file_path_map.get(mapped_key_no_ext + '.data')
 
         if not val_wml:
+            # TODO: Fill out partial advisory schema
             print('No WML file yet for this: ' + mapped_key_no_ext)
             continue
 
