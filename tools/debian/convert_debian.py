@@ -16,7 +16,6 @@ import argparse
 import json
 import os
 import re
-from typing import TextIO
 import datetime
 
 import markdownify
@@ -34,6 +33,10 @@ DSA_PATTERN = re.compile(r'\[.*?\]\s*([\w-]+)\s*(.*)')
 
 # e.g. [buster] - xz-utils 5.2.4-1+deb10u1
 VERSION_PATTERN = re.compile(r'\[(.*?)\]\s*-\s*([^\s]+)\s*([^\s]+)')
+
+# TODO: Alternative is to use a xml parser here,
+#  though the data is not fully compliant with the xml standard
+#  It is possible to parse with an html parser however
 
 # e.g. <define-tag moreinfo>\n Some html here \n</define-tag>
 WML_DESCRIPTION_PATTERN = re.compile(
@@ -74,7 +77,7 @@ class AffectedInfo:
         self.package = package
         self.fixed = fixed
 
-    def to_json(self):
+    def to_dict(self):
         return {
             'ecosystem_specific':
                 self.ecosystem_specific,
@@ -122,59 +125,66 @@ Advisories = dict[str, AdvisoryInfo]
 
 def dumper(obj):
     try:
-        return obj.to_json()
+        return obj.to_dict()
     except AttributeError:
         return obj.__dict__
 
 
 def parse_security_tracker_file(advisories: Advisories,
-                                file_handle: TextIO):
-    current_advisory = None
+                                security_tracker_repo: str):
+    """Parses the security tracker files into the advisories object"""
 
-    for line in file_handle:
-        line = line.rstrip()
-        if not line:
-            continue
+    with open(os.path.join(security_tracker_repo, SECURITY_TRACKER_DSA_PATH),
+              encoding='utf-8') as file_handle:
+        current_advisory = None
 
-        if LEADING_WHITESPACE.match(line):
-            # Within current advisory.
-            if not current_advisory:
-                raise ValueError('Unexpected tab.')
-
-            # {CVE-XXXX-XXXX CVE-XXXX-XXXX}
-            line = line.lstrip()
-            if line.startswith('{'):
-                advisories[current_advisory].aliases = line.strip('{}').split()
+        # Enumerate advisories + version info from security-tracker.
+        for line in file_handle:
+            line = line.rstrip()
+            if not line:
                 continue
 
-            if line.startswith('NOTE:'):
-                continue
+            if LEADING_WHITESPACE.match(line):
+                # Within current advisory.
+                if not current_advisory:
+                    raise ValueError('Unexpected tab.')
 
-            version_match = VERSION_PATTERN.match(line)
-            if not version_match:
-                raise ValueError('Invalid version line: ' + line)
+                # {CVE-XXXX-XXXX CVE-XXXX-XXXX}
+                line = line.lstrip()
+                if line.startswith('{'):
+                    advisories[current_advisory].aliases = line.strip(
+                        '{}').split()
+                    continue
 
-            advisories[current_advisory].affected.append(
-                AffectedInfo(
-                    version_match.group(1),
-                    version_match.group(2),
-                    version_match.group(3),
-                ))
-        else:
-            if line.strip().startswith('NOTE:'):
-                continue
+                if line.startswith('NOTE:'):
+                    continue
 
-            # New advisory.
-            dsa_match = DSA_PATTERN.match(line)
-            if not dsa_match:
-                raise ValueError('Invalid line: ' + line)
+                version_match = VERSION_PATTERN.match(line)
+                if not version_match:
+                    raise ValueError('Invalid version line: ' + line)
 
-            current_advisory = dsa_match.group(1)
-            advisories[current_advisory] = AdvisoryInfo(current_advisory,
-                                                        dsa_match.group(2))
+                advisories[current_advisory].affected.append(
+                    AffectedInfo(
+                        version_match.group(1),
+                        version_match.group(2),
+                        version_match.group(3),
+                    ))
+            else:
+                if line.strip().startswith('NOTE:'):
+                    continue
+
+                # New advisory.
+                dsa_match = DSA_PATTERN.match(line)
+                if not dsa_match:
+                    raise ValueError('Invalid line: ' + line)
+
+                current_advisory = dsa_match.group(1)
+                advisories[current_advisory] = AdvisoryInfo(
+                    current_advisory, dsa_match.group(2))
 
 
 def parse_webwml_files(advisories: Advisories, webwml_repo: str):
+    """Parses the webwml file into the advisories object"""
     file_path_map = {}
 
     for root, _, files in os.walk(
@@ -183,45 +193,47 @@ def parse_webwml_files(advisories: Advisories, webwml_repo: str):
             file_path_map[file] = os.path.join(root, file)
 
     # Add descriptions to advisories from wml files
-    for key, adv in advisories.items():
+    for dsa_id, advisory in advisories.items():
 
         # remove potential extension (e.g. DSA-12345-2, -2 is the extension)
-        mapped_key_no_ext = CAPTURE_DSA_WITH_NO_EXT.findall(key.lower())[0]
+        mapped_key_no_ext = CAPTURE_DSA_WITH_NO_EXT.findall(dsa_id.lower())[0]
         val_wml = file_path_map.get(mapped_key_no_ext + '.wml')
         val_data = file_path_map.get(mapped_key_no_ext + '.data')
 
-        if val_wml:
-            with open(val_wml, encoding='utf-8') as handle:
-                data = handle.read()
-                html = WML_DESCRIPTION_PATTERN.findall(data)[0]
-                res = markdownify.markdownify(html)
-                adv.details = res
-        else:
+        if not val_wml:
             print('No WML file yet for this: ' + mapped_key_no_ext)
+            continue
 
-        if val_data:
-            with open(val_data, encoding='utf-8') as handle:
-                data: str = handle.read()
-                report_date: str = WML_REPORT_DATE_PATTERN.findall(data)[0]
+        with open(val_wml, encoding='utf-8') as handle:
+            data = handle.read()
+            html = WML_DESCRIPTION_PATTERN.findall(data)[0]
+            res = markdownify.markdownify(html)
+            advisory.details = res
 
-                # TODO: Handle multiple dates? What does the multiple report dates mean
-                # if len(report_date.split(',')) > 1:
-                #     print(report_date)
-                #     print(key)
+        with open(val_data, encoding='utf-8') as handle:
+            data: str = handle.read()
+            report_date: str = WML_REPORT_DATE_PATTERN.findall(data)[0]
 
-                # Split by ',' here for the occasional case where there
-                # are two dates in the 'publish' field
-                adv.published = (datetime.datetime.strptime(
-                    report_date.split(',')[0], '%Y-%m-%d').isoformat() + 'Z')
+            # TODO: Handle multiple dates? What does the
+            #  multiple report dates mean
+            # if len(report_date.split(',')) > 1:
+            #     print(report_date)
+            #     print(key)
+
+            # Split by ',' here for the occasional case where there
+            # are two dates in the 'publish' field
+            advisory.published = (datetime.datetime.strptime(
+                report_date.split(',')[0], '%Y-%m-%d').isoformat() + 'Z')
 
 
 def write_output(output_dir: str, advisories: Advisories):
-    for key, value in advisories.items():
-        with open(os.path.join(output_dir, key + '.json'),
+    """Writes the advisory dict into individual json files"""
+    for dsa_id, advisory in advisories.items():
+        with open(os.path.join(output_dir, dsa_id + '.json'),
                   'w',
                   encoding='utf-8') as output_file:
-            output_file.write(str(value))
-            print('Writing: ' + os.path.join(output_dir, key + '.json'),
+            output_file.write(str(advisory))
+            print('Writing: ' + os.path.join(output_dir, dsa_id + '.json'),
                   flush=True)
 
     print('Complete')
@@ -232,10 +244,7 @@ def convert_debian(webwml_repo: str, security_tracker_repo: str,
     """Convert Debian advisory data into OSV."""
     advisories: Advisories = {}
 
-    # Enumerate advisories + version info from security-tracker.
-    with open(os.path.join(security_tracker_repo, SECURITY_TRACKER_DSA_PATH),
-              encoding='utf-8') as handle:
-        parse_security_tracker_file(advisories, handle)
+    parse_security_tracker_file(advisories, security_tracker_repo)
 
     parse_webwml_files(advisories, webwml_repo)
 
