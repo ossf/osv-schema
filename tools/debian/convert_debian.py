@@ -253,9 +253,7 @@ def convert_debian(webwml_repo: str, security_tracker_repo: str,
     advisories: Advisories = {}
 
     parse_security_tracker_file(advisories, security_tracker_repo)
-
     parse_webwml_files(advisories, webwml_repo)
-
     write_output(output_dir, advisories)
 
 
