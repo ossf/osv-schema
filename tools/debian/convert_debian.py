@@ -59,6 +59,9 @@ class DebianSpecificInfo:
     def __init__(self, release: str):
         self.release = release
 
+    def to_dict(self):
+        return self.__dict__
+
     def __repr__(self):
         return json.dumps(self, default=dumper)
 
@@ -115,8 +118,11 @@ class AdvisoryInfo:
         self.published = ''
         self.details = ''
 
+    def to_dict(self):
+        return self.__dict__
+
     def __repr__(self):
-        return json.dumps(self, default=dumper, indent=2)
+        return json.dumps(self, default=dumper)
 
 
 Advisories = dict[str, AdvisoryInfo]
@@ -218,7 +224,7 @@ def parse_webwml_files(advisories: Advisories, webwml_repo: str):
             #  multiple report dates mean
             # if len(report_date.split(',')) > 1:
             #     print(report_date)
-            #     print(key)
+            #     print(dsa_id)
 
             # Split by ',' here for the occasional case where there
             # are two dates in the 'publish' field
@@ -232,7 +238,7 @@ def write_output(output_dir: str, advisories: Advisories):
         with open(os.path.join(output_dir, dsa_id + '.json'),
                   'w',
                   encoding='utf-8') as output_file:
-            output_file.write(str(advisory))
+            output_file.write(json.dumps(advisory, default=dumper, indent=2))
             print('Writing: ' + os.path.join(output_dir, dsa_id + '.json'),
                   flush=True)
 
