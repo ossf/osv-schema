@@ -15,8 +15,12 @@
 import argparse
 import json
 import os
+import pathlib
 import re
 import datetime
+import subprocess
+import pytz
+from types import SimpleNamespace
 
 import markdownify
 
@@ -107,9 +111,11 @@ class AdvisoryInfo:
     summary: str
     details: str
     published: str
-    # TODO: Add modified field
+    modified: str
     affected: [AffectedInfo]
     aliases: [str]
+    # Internal use for the script
+    preexisting: bool
 
     def __init__(self, adv_id, summary):
         self.id = adv_id
@@ -118,9 +124,14 @@ class AdvisoryInfo:
         self.aliases = []
         self.published = ''
         self.details = ''
+        self.preexisting = False
 
     def to_dict(self):
-        return self.__dict__
+        result = self.__dict__
+        # Remove the preexisting key from the json output since
+        # it's only for internal use in the script
+        result.pop('preexisting')
+        return result
 
     def __repr__(self):
         return json.dumps(self, default=dumper)
@@ -156,6 +167,9 @@ def parse_security_tracker_file(advisories: Advisories,
                 if not current_advisory:
                     raise ValueError('Unexpected tab.')
 
+                if advisories[current_advisory].preexisting:
+                    continue
+
                 # {CVE-XXXX-XXXX CVE-XXXX-XXXX}
                 line = line.lstrip()
                 if line.startswith('{'):
@@ -186,8 +200,11 @@ def parse_security_tracker_file(advisories: Advisories,
                     raise ValueError('Invalid line: ' + line)
 
                 current_advisory = dsa_match.group(1)
-                advisories[current_advisory] = AdvisoryInfo(
-                    current_advisory, dsa_match.group(2))
+                if not (current_advisory in advisories and
+                        advisories[current_advisory].preexisting):
+                    print(current_advisory)
+                    advisories[current_advisory] = AdvisoryInfo(
+                        current_advisory, dsa_match.group(2))
 
 
 def parse_webwml_files(advisories: Advisories, webwml_repo: str):
@@ -202,14 +219,16 @@ def parse_webwml_files(advisories: Advisories, webwml_repo: str):
     # Add descriptions to advisories from wml files
     for dsa_id, advisory in advisories.items():
 
+        if advisory.preexisting:
+            continue
         # remove potential extension (e.g. DSA-12345-2, -2 is the extension)
         mapped_key_no_ext = CAPTURE_DSA_WITH_NO_EXT.findall(dsa_id.lower())[0]
         val_wml = file_path_map.get(mapped_key_no_ext + '.wml')
         val_data = file_path_map.get(mapped_key_no_ext + '.data')
 
         if not val_wml:
-            # TODO: Fill out partial advisory schema
-            print('No WML file yet for this: ' + mapped_key_no_ext)
+            print('No WML file yet for this: ' + mapped_key_no_ext +
+                  ', creating partial schema')
             continue
 
         with open(val_wml, encoding='utf-8') as handle:
@@ -222,21 +241,33 @@ def parse_webwml_files(advisories: Advisories, webwml_repo: str):
             data: str = handle.read()
             report_date: str = WML_REPORT_DATE_PATTERN.findall(data)[0]
 
-            # TODO: Handle multiple dates? What does the
-            #  multiple report dates mean
-            # if len(report_date.split(',')) > 1:
-            #     print(report_date)
-            #     print(dsa_id)
-
             # Split by ',' here for the occasional case where there
-            # are two dates in the 'publish' field
+            # are two dates in the 'publish' field.
+            # Multiple dates are caused by major modification later on.
+            # This is accounted for with the modified timestamp with git
+            # below though, so we don't need to parse them here
             advisory.published = (datetime.datetime.strptime(
                 report_date.split(',')[0], '%Y-%m-%d').isoformat() + 'Z')
+
+        git_relative_path = pathlib.Path(val_data).relative_to(webwml_repo)
+        git_date_output = subprocess.check_output(
+            ['git', 'log', '--pretty="%aI"', '-n', '1', git_relative_path],
+            cwd=webwml_repo)
+
+        git_date_output_stripped = git_date_output.decode('utf-8').strip('"\n')
+
+        advisory.modified = datetime.datetime.fromisoformat(
+            git_date_output_stripped).astimezone(pytz.UTC).isoformat() + 'Z'
+
+        print(advisory.modified + '    ' + advisory.id)
 
 
 def write_output(output_dir: str, advisories: Advisories):
     """Writes the advisory dict into individual json files"""
     for dsa_id, advisory in advisories.items():
+        if advisory.preexisting:
+            continue
+
         with open(os.path.join(output_dir, dsa_id + '.json'),
                   'w',
                   encoding='utf-8') as output_file:
@@ -247,10 +278,34 @@ def write_output(output_dir: str, advisories: Advisories):
     print('Complete')
 
 
+def is_dsa_file(name: str):
+    """Check if filename is a DSA output file, e.g. DSA-1234-1.json"""
+    return name.startswith('DSA-') and name.endswith('.json')
+
+
+def load_advisories(json_dir: str, advisories: Advisories):
+    """Loads the existing converted advisories"""
+    for file in filter(is_dsa_file, os.listdir(json_dir)):
+        with open(os.path.join(json_dir, file), encoding='utf-8') as handle:
+            # SimpleNamespace loads in the json as a
+            # python object instead of a dict
+            loaded_advisory: AdvisoryInfo = json.loads(
+                handle.read(), object_hook=lambda d: SimpleNamespace(**d))
+            if not hasattr(loaded_advisory,
+                           'modified') or not loaded_advisory.modified:
+                continue
+
+            loaded_advisory.preexisting = True
+            advisories[file.removesuffix('.json')] = loaded_advisory
+
+
 def convert_debian(webwml_repo: str, security_tracker_repo: str,
-                   output_dir: str):
+                   output_dir: str, rebuild: bool):
     """Convert Debian advisory data into OSV."""
     advisories: Advisories = {}
+
+    if not rebuild:
+        load_advisories(output_dir, advisories)
 
     parse_security_tracker_file(advisories, security_tracker_repo)
     parse_webwml_files(advisories, webwml_repo)
@@ -267,10 +322,14 @@ def main():
                         '--output-dir',
                         help='Output directory',
                         required=True)
+    parser.add_argument('--rebuild',
+                        help='Redo every DSA file',
+                        default=False,
+                        action=argparse.BooleanOptionalAction)
     args = parser.parse_args()
 
     convert_debian(args.webwml_repo, args.security_tracker_repo,
-                   args.output_dir)
+                   args.output_dir, args.rebuild)
 
 
 if __name__ == '__main__':
