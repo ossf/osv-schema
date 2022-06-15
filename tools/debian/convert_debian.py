@@ -13,16 +13,17 @@
 # limitations under the License.
 """Debian to OSV converter."""
 import argparse
+import copy
 import json
 import os
-import pathlib
 import re
 import datetime
-import subprocess
-import pytz
 from types import SimpleNamespace
 
 import markdownify
+import pandas as pd
+
+import first_package_finder
 
 # import osv
 # import osv.ecosystems
@@ -58,10 +59,20 @@ class DebianSpecificInfo:
     """Specific Debian information, exports to the
     `ecosystem_specific` field in osv"""
 
+    # Debian release name
     release: str
 
-    def __init__(self, release: str):
+    # Debian release version number
+    version: str
+
+    def __init__(self, release: str, version: str):
         self.release = release
+        self.version = version
+
+    # try:
+    #         self.version = codename_to_version[self.release]
+    #     except KeyError as e:
+    #         raise Exception("Debian release name does not exist in map") from e
 
     def to_dict(self):
         return self.__dict__
@@ -77,26 +88,29 @@ class AffectedInfo:
     package: str
     ranges: [str]
     fixed: str
+    introduced: str
     versions: [str]
 
-    def __init__(self, release: str, package: str, fixed: str):
-        self.ecosystem_specific = DebianSpecificInfo(release)
+    def __init__(self, release: str, version: str, package: str, fixed: str, introduced: str):
+        self.ecosystem_specific = DebianSpecificInfo(release, version)
         self.package = package
         self.fixed = fixed
+        self.introduced = introduced
 
     def to_dict(self):
         return {
             'ecosystem_specific':
                 self.ecosystem_specific,
             'package': {
-                'ecosystem': 'Debian',
+                'ecosystem': 'debian:' + self.ecosystem_specific.version,
                 'name': self.package
             },
             'ranges': [{
                 'type': 'ECOSYSTEM',
-                'events': [{
-                    'fixed': self.fixed
-                }]
+                'events': [
+                    {'introduced': self.introduced},
+                    {'fixed': self.fixed}
+                ]
             }],
         }
 
@@ -127,9 +141,10 @@ class AdvisoryInfo:
         self.preexisting = False
 
     def to_dict(self):
-        result = self.__dict__
+        result = copy.copy(self.__dict__)
         # Remove the preexisting key from the json output since
         # it's only for internal use in the script
+
         result.pop('preexisting')
         return result
 
@@ -149,7 +164,8 @@ def dumper(obj):
 
 
 def parse_security_tracker_file(advisories: Advisories,
-                                security_tracker_repo: str):
+                                security_tracker_repo: str,
+                                package_data: pd.DataFrame):
     """Parses the security tracker files into the advisories object"""
 
     with open(os.path.join(security_tracker_repo, SECURITY_TRACKER_DSA_PATH),
@@ -184,11 +200,19 @@ def parse_security_tracker_file(advisories: Advisories,
                 if not version_match:
                     raise ValueError('Invalid version line: ' + line)
 
+                release_name = version_match.group(1)
+                package_name = version_match.group(2)
                 advisories[current_advisory].affected.append(
                     AffectedInfo(
-                        version_match.group(1),
-                        version_match.group(2),
+                        release_name,
+                        package_data.loc[release_name].version,
+                        package_name,
                         version_match.group(3),
+                        first_package_finder.get_first_package_version(
+                            package_data,
+                            package_name,
+                            release_name
+                        )
                     ))
             else:
                 if line.strip().startswith('NOTE:'):
@@ -249,17 +273,17 @@ def parse_webwml_files(advisories: Advisories, webwml_repo: str):
             advisory.published = (datetime.datetime.strptime(
                 report_date.split(',')[0], '%Y-%m-%d').isoformat() + 'Z')
 
-        git_relative_path = pathlib.Path(val_data).relative_to(webwml_repo)
-        git_date_output = subprocess.check_output(
-            ['git', 'log', '--pretty="%aI"', '-n', '1', git_relative_path],
-            cwd=webwml_repo)
-
-        git_date_output_stripped = git_date_output.decode('utf-8').strip('"\n')
-
-        advisory.modified = datetime.datetime.fromisoformat(
-            git_date_output_stripped).astimezone(pytz.UTC).isoformat() + 'Z'
-
-        print(advisory.modified + '    ' + advisory.id)
+        # git_relative_path = pathlib.Path(val_data).relative_to(webwml_repo)
+        # git_date_output = subprocess.check_output(
+        #     ['git', 'log', '--pretty="%aI"', '-n', '1', git_relative_path],
+        #     cwd=webwml_repo)
+        #
+        # git_date_output_stripped = git_date_output.decode('utf-8').strip('"\n')
+        #
+        # advisory.modified = datetime.datetime.fromisoformat(
+        #     git_date_output_stripped).astimezone(pytz.UTC).isoformat() + 'Z'
+        #
+        # print(advisory.modified + '    ' + advisory.id)
 
 
 def write_output(output_dir: str, advisories: Advisories):
@@ -300,14 +324,14 @@ def load_advisories(json_dir: str, advisories: Advisories):
 
 
 def convert_debian(webwml_repo: str, security_tracker_repo: str,
-                   output_dir: str, rebuild: bool):
+                   output_dir: str, rebuild: bool, package_data: pd.DataFrame):
     """Convert Debian advisory data into OSV."""
     advisories: Advisories = {}
 
     if not rebuild:
         load_advisories(output_dir, advisories)
 
-    parse_security_tracker_file(advisories, security_tracker_repo)
+    parse_security_tracker_file(advisories, security_tracker_repo, package_data)
     parse_webwml_files(advisories, webwml_repo)
     write_output(output_dir, advisories)
 
@@ -328,8 +352,10 @@ def main():
                         action=argparse.BooleanOptionalAction)
     args = parser.parse_args()
 
+    package_data = first_package_finder.load_first_packages()
+
     convert_debian(args.webwml_repo, args.security_tracker_repo,
-                   args.output_dir, args.rebuild)
+                   args.output_dir, True, package_data)
 
 
 if __name__ == '__main__':
