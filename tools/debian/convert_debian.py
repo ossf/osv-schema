@@ -343,11 +343,13 @@ def main():
       'security_tracker_repo', help='Debian security-tracker repo')
   parser.add_argument(
       '-o', '--output-dir', help='Output directory', required=True)
-  parser.add_argument(
-      '--rebuild',
-      help='Redo every DSA file',
-      default=False,
-      action=argparse.BooleanOptionalAction)
+  # TODO: Potentially add rebuilding as an option if modified date takes too long
+  # parser.add_argument(
+  #     '--rebuild',
+  #     help='Redo every DSA file',
+  #     default=False,
+  #     action=argparse.BooleanOptionalAction)
+
   args = parser.parse_args()
 
   package_data = first_package_finder.load_first_packages()
