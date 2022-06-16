@@ -6,6 +6,7 @@ import gzip
 
 import pandas as pd
 
+DEBIAN_RELEASE_VERSIONS_URL = 'https://debian.pages.debian.net/distro-info-data/debian.csv'
 
 def create_url(date: datetime, version: str = None):
   """Create an url for snapshot.debian.org"""
@@ -30,8 +31,7 @@ def convert_datetime_to_str_datetime(input_datetime: datetime) -> str:
 
 def create_codename_to_version() -> pd.DataFrame:
   """Returns the codename to version mapping"""
-  with request.urlopen(
-      'https://debian.pages.debian.net/distro-info-data/debian.csv') as csv:
+  with request.urlopen(DEBIAN_RELEASE_VERSIONS_URL) as csv:
     df = pd.read_csv(csv, dtype=str)
     # `series` appears to be `codename` but with no caps
     df['sources'] = ''
@@ -118,3 +118,13 @@ def get_first_package_version(first_pkg_data: pd.DataFrame, package_name: str,
     # So it is safe to return 0, indicating the earliest version
     # given by the snapshot API
     return '0'
+
+
+def main():
+  dataframe = load_first_packages()
+  print(dataframe)
+  dataframe.to_pickle('first_package_cache.pickle.gz', compression='gzip')
+
+
+if __name__ == '__main__':
+  main()

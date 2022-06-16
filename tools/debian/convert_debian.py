@@ -277,6 +277,7 @@ def parse_webwml_files(advisories: Advisories, webwml_repo: str):
           datetime.datetime.strptime(report_date.split(',')[0],
                                      '%Y-%m-%d').isoformat() + 'Z')
 
+    # TODO: Re-enable and improve performance
     # git_relative_path = pathlib.Path(val_data).relative_to(webwml_repo)
     # git_date_output = subprocess.check_output(
     #     ['git', 'log', '--pretty="%aI"', '-n', '1', git_relative_path],
