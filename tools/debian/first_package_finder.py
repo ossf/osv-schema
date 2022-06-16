@@ -1,5 +1,5 @@
 """Functions to help find the first package version for a specific release"""
-
+import json
 from urllib import request
 from datetime import datetime
 import gzip
@@ -7,6 +7,7 @@ import gzip
 import pandas as pd
 
 DEBIAN_RELEASE_VERSIONS_URL = 'https://debian.pages.debian.net/distro-info-data/debian.csv'
+
 
 def create_url(date: datetime, version: str = None):
   """Create an url for snapshot.debian.org"""
@@ -123,7 +124,10 @@ def get_first_package_version(first_pkg_data: pd.DataFrame, package_name: str,
 def main():
   dataframe = load_first_packages()
   print(dataframe)
-  dataframe.to_pickle('first_package_cache.pickle.gz', compression='gzip')
+  version_to_sources = dict(zip(dataframe['version'], dataframe['sources']))
+  with open('first_package_cache.json.gz', 'wb') as output_file:
+    result = gzip.compress(bytes(json.dumps(version_to_sources), 'utf-8'))
+    output_file.write(result)
 
 
 if __name__ == '__main__':
