@@ -18,12 +18,11 @@ import json
 import os
 import re
 import datetime
+from urllib import request
 from types import SimpleNamespace
 
 import markdownify
 import pandas as pd
-
-import first_package_finder
 
 # import osv
 # import osv.ecosystems
@@ -90,28 +89,25 @@ class AffectedInfo:
   package: str
   ranges: [str]
   fixed: str
-  introduced: str
   versions: [str]
 
-  def __init__(self, release: str, version: str, package: str, fixed: str,
-               introduced: str):
+  def __init__(self, release: str, version: str, package: str, fixed: str):
     self.ecosystem_specific = DebianSpecificInfo(release, version)
     self.package = package
     self.fixed = fixed
-    self.introduced = introduced
 
   def to_dict(self):
     return {
         'ecosystem_specific':
             self.ecosystem_specific,
         'package': {
-            'ecosystem': 'debian:' + self.ecosystem_specific.version,
+            'ecosystem': 'Debian:' + self.ecosystem_specific.version,
             'name': self.package
         },
         'ranges': [{
             'type': 'ECOSYSTEM',
             'events': [{
-                'introduced': self.introduced
+                'introduced': '0'
             }, {
                 'fixed': self.fixed
             }]
@@ -160,6 +156,17 @@ Advisories = dict[str, AdvisoryInfo]
 """Type alias for collection of advisory info"""
 
 
+def create_codename_to_version() -> dict[str, str]:
+  """Returns the codename to version mapping"""
+  with request.urlopen(
+      'https://debian.pages.debian.net/distro-info-data/debian.csv') as csv:
+    df = pd.read_csv(csv, dtype=str)
+    # `series` appears to be `codename` but with all lowercase
+    result = dict(zip(df['series'], df['version']))
+    result['sid'] = 'unstable'
+    return result
+
+
 def dumper(obj):
   try:
     return obj.to_dict()
@@ -168,9 +175,10 @@ def dumper(obj):
 
 
 def parse_security_tracker_file(advisories: Advisories,
-                                security_tracker_repo: str,
-                                package_data: pd.DataFrame):
+                                security_tracker_repo: str):
   """Parses the security tracker files into the advisories object"""
+
+  codename_to_version = create_codename_to_version()
 
   with open(
       os.path.join(security_tracker_repo, SECURITY_TRACKER_DSA_PATH),
@@ -207,11 +215,8 @@ def parse_security_tracker_file(advisories: Advisories,
         release_name = version_match.group(1)
         package_name = version_match.group(2)
         advisories[current_advisory].affected.append(
-            AffectedInfo(
-                release_name, package_data.loc[release_name].version,
-                package_name, version_match.group(3),
-                first_package_finder.get_first_package_version(
-                    package_data, package_name, release_name)))
+            AffectedInfo(release_name, codename_to_version[release_name],
+                         package_name, version_match.group(3)))
       else:
         if line.strip().startswith('NOTE:'):
           continue
@@ -323,14 +328,14 @@ def load_advisories(json_dir: str, advisories: Advisories):
 
 
 def convert_debian(webwml_repo: str, security_tracker_repo: str,
-                   output_dir: str, rebuild: bool, package_data: pd.DataFrame):
+                   output_dir: str, rebuild: bool):
   """Convert Debian advisory data into OSV."""
   advisories: Advisories = {}
 
   if not rebuild:
     load_advisories(output_dir, advisories)
 
-  parse_security_tracker_file(advisories, security_tracker_repo, package_data)
+  parse_security_tracker_file(advisories, security_tracker_repo)
   parse_webwml_files(advisories, webwml_repo)
   write_output(output_dir, advisories)
 
@@ -352,10 +357,8 @@ def main():
 
   args = parser.parse_args()
 
-  package_data = first_package_finder.load_first_packages()
-
   convert_debian(args.webwml_repo, args.security_tracker_repo, args.output_dir,
-                 True, package_data)
+                 True)
 
 
 if __name__ == '__main__':
