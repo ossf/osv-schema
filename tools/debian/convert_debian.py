@@ -128,8 +128,6 @@ class AdvisoryInfo:
   modified: str
   affected: [AffectedInfo]
   aliases: [str]
-  # Internal use for the script
-  preexisting: bool
 
   def __init__(self, adv_id, summary):
     self.id = adv_id
@@ -138,15 +136,9 @@ class AdvisoryInfo:
     self.aliases = []
     self.published = ''
     self.details = ''
-    self.preexisting = False
 
   def to_dict(self):
-    result = copy.copy(self.__dict__)
-    # Remove the preexisting key from the json output since
-    # it's only for internal use in the script
-
-    result.pop('preexisting')
-    return result
+    return self.__dict__
 
   def __repr__(self):
     return json.dumps(self, default=dumper)
@@ -196,9 +188,6 @@ def parse_security_tracker_file(advisories: Advisories,
         if not current_advisory:
           raise ValueError('Unexpected tab.')
 
-        if advisories[current_advisory].preexisting:
-          continue
-
         # {CVE-XXXX-XXXX CVE-XXXX-XXXX}
         line = line.lstrip()
         if line.startswith('{'):
@@ -227,11 +216,8 @@ def parse_security_tracker_file(advisories: Advisories,
           raise ValueError('Invalid line: ' + line)
 
         current_advisory = dsa_match.group(1)
-        if not (current_advisory in advisories and
-                advisories[current_advisory].preexisting):
-          print(current_advisory)
-          advisories[current_advisory] = AdvisoryInfo(current_advisory,
-                                                      dsa_match.group(2))
+        advisories[current_advisory] = AdvisoryInfo(current_advisory,
+                                                    dsa_match.group(2))
 
 
 def parse_webwml_files(advisories: Advisories, webwml_repo: str):
@@ -246,8 +232,6 @@ def parse_webwml_files(advisories: Advisories, webwml_repo: str):
   # Add descriptions to advisories from wml files
   for dsa_id, advisory in advisories.items():
 
-    if advisory.preexisting:
-      continue
     # remove potential extension (e.g. DSA-12345-2, -2 is the extension)
     mapped_key_no_ext = CAPTURE_DSA_WITH_NO_EXT.findall(dsa_id.lower())[0]
     val_wml = file_path_map.get(mapped_key_no_ext + '.wml')
@@ -294,8 +278,6 @@ def parse_webwml_files(advisories: Advisories, webwml_repo: str):
 def write_output(output_dir: str, advisories: Advisories):
   """Writes the advisory dict into individual json files"""
   for dsa_id, advisory in advisories.items():
-    if advisory.preexisting:
-      continue
 
     with open(
         os.path.join(output_dir, dsa_id + '.json'), 'w',
@@ -312,29 +294,10 @@ def is_dsa_file(name: str):
   return name.startswith('DSA-') and name.endswith('.json')
 
 
-def load_advisories(json_dir: str, advisories: Advisories):
-  """Loads the existing converted advisories"""
-  for file in filter(is_dsa_file, os.listdir(json_dir)):
-    with open(os.path.join(json_dir, file), encoding='utf-8') as handle:
-      # SimpleNamespace loads in the json as a
-      # python object instead of a dict
-      loaded_advisory: AdvisoryInfo = json.loads(
-          handle.read(), object_hook=lambda d: SimpleNamespace(**d))
-      if not hasattr(loaded_advisory,
-                     'modified') or not loaded_advisory.modified:
-        continue
-
-      loaded_advisory.preexisting = True
-      advisories[file.removesuffix('.json')] = loaded_advisory
-
-
 def convert_debian(webwml_repo: str, security_tracker_repo: str,
-                   output_dir: str, rebuild: bool):
+                   output_dir: str):
   """Convert Debian advisory data into OSV."""
   advisories: Advisories = {}
-
-  if not rebuild:
-    load_advisories(output_dir, advisories)
 
   parse_security_tracker_file(advisories, security_tracker_repo)
   parse_webwml_files(advisories, webwml_repo)
@@ -349,17 +312,10 @@ def main():
       'security_tracker_repo', help='Debian security-tracker repo')
   parser.add_argument(
       '-o', '--output-dir', help='Output directory', required=True)
-  # TODO: Potentially add rebuilding as an option if modified date takes too long
-  # parser.add_argument(
-  #     '--rebuild',
-  #     help='Redo every DSA file',
-  #     default=False,
-  #     action=argparse.BooleanOptionalAction)
 
   args = parser.parse_args()
 
-  convert_debian(args.webwml_repo, args.security_tracker_repo, args.output_dir,
-                 True)
+  convert_debian(args.webwml_repo, args.security_tracker_repo, args.output_dir)
 
 
 if __name__ == '__main__':
