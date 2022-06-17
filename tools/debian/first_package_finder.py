@@ -1,28 +1,32 @@
 """Functions to help find the first package version for a specific release"""
-import json
-from urllib import request
 from datetime import datetime
+import json
 import gzip
+from urllib import request
 
 import pandas as pd
 
-DEBIAN_RELEASE_VERSIONS_URL = 'https://debian.pages.debian.net/distro-info-data/debian.csv'
+DEBIAN_RELEASE_VERSIONS_URL = \
+  'https://debian.pages.debian.net/distro-info-data/debian.csv'
+DEBIAN_SNAPSHOT_URL = 'https://snapshot.debian.org/archive/debian/{date}/dists/'
+# `.gz` format always exist for all snapshots
+DEBIAN_SOURCES_URL_EXTENSION = '{version}/main/source/Sources.gz'
 
 
-def create_url(date: datetime, version: str = None):
+def get_debian_dists_url(date: datetime):
+  """Create an url for snapshot.debian.org to get distribution"""
+  formatted_date = convert_datetime_to_str_datetime(date)
+  return DEBIAN_SNAPSHOT_URL.format(date=formatted_date)
+
+
+def get_debian_sources_url(date: datetime, version: str):
   """Create an url for snapshot.debian.org"""
-  base_url = 'https://snapshot.debian.org/archive/debian/{date}/dists/'
-  # `.gz` format always exist for all snapshots
-  source_path = '{version}/main/source/Sources.gz'
 
   formatted_date = convert_datetime_to_str_datetime(date)
 
-  if version is None:
-    # return url for retrieving all versions for date
-    return base_url.format(date=formatted_date)
-  else:
-    return base_url.format(date=formatted_date) \
-           + source_path.format(version=version)
+  return DEBIAN_SNAPSHOT_URL.format(
+      date=formatted_date) + DEBIAN_SOURCES_URL_EXTENSION.format(
+          version=version)
 
 
 def convert_datetime_to_str_datetime(input_datetime: datetime) -> str:
@@ -30,7 +34,7 @@ def convert_datetime_to_str_datetime(input_datetime: datetime) -> str:
   return input_datetime.isoformat().replace('-', '').replace(':', '') + 'Z'
 
 
-def create_codename_to_version() -> pd.DataFrame:
+def retrieve_codename_to_version() -> pd.DataFrame:
   """Returns the codename to version mapping"""
   with request.urlopen(DEBIAN_RELEASE_VERSIONS_URL) as csv:
     df = pd.read_csv(csv, dtype=str)
@@ -50,7 +54,7 @@ def parse_first_seen_dates(date: str) -> datetime:
 
 def fillout_first_seen(date: datetime, first_seen_dict: dict[str, datetime]):
   """Fill out first seen version dict"""
-  with request.urlopen(create_url(date)) as result:
+  with request.urlopen(get_debian_dists_url(date)) as result:
     # Pandas will try to convert every table on the webpage to a dataframe.
     # Select the first and only table
     df = pd.read_html(result.read())[0]
@@ -70,7 +74,7 @@ def fillout_first_seen(date: datetime, first_seen_dict: dict[str, datetime]):
 
 def load_sources(date: datetime, dist: str) -> dict[str, str]:
   """Load the sources file and store in a dictionary of {name: version}"""
-  with request.urlopen(create_url(date, dist)) as res:
+  with request.urlopen(get_debian_sources_url(date, dist)) as res:
     decompressed = gzip.decompress(res.read()).decode('utf-8', errors='ignore')
     package_version_dict = {}
     current_package = None
@@ -89,7 +93,7 @@ def load_sources(date: datetime, dist: str) -> dict[str, str]:
 def load_first_packages() -> pd.DataFrame:
   """Loads the dataframe containing the first version of packages per distro"""
 
-  codename_to_version: pd.DataFrame = create_codename_to_version()
+  codename_to_version: pd.DataFrame = retrieve_codename_to_version()
 
   # 2005 is when first snapshot is taken
   search_date = datetime.fromisoformat('2005-12-01T00:00:00')
@@ -123,7 +127,6 @@ def get_first_package_version(first_pkg_data: pd.DataFrame, package_name: str,
 
 def main():
   dataframe = load_first_packages()
-  print(dataframe)
   version_to_sources = dict(zip(dataframe['version'], dataframe['sources']))
   with open('first_package_cache.json.gz', 'wb') as output_file:
     result = gzip.compress(bytes(json.dumps(version_to_sources), 'utf-8'))

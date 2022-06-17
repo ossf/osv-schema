@@ -70,11 +70,6 @@ class DebianSpecificInfo:
     self.release = release
     self.version = version
 
-  # try:
-  #         self.version = codename_to_version[self.release]
-  #     except KeyError as e:
-  #         raise Exception("Debian release name does not exist in map") from e
-
   def to_dict(self):
     return self.__dict__
 
@@ -84,7 +79,6 @@ class DebianSpecificInfo:
 
 class AffectedInfo:
   """Debian version info."""
-
   ecosystem_specific: DebianSpecificInfo
   package: str
   ranges: [str]
@@ -231,7 +225,6 @@ def parse_webwml_files(advisories: Advisories, webwml_repo: str):
 
   # Add descriptions to advisories from wml files
   for dsa_id, advisory in advisories.items():
-
     # remove potential extension (e.g. DSA-12345-2, -2 is the extension)
     mapped_key_no_ext = CAPTURE_DSA_WITH_NO_EXT.findall(dsa_id.lower())[0]
     val_wml = file_path_map.get(mapped_key_no_ext + '.wml')
