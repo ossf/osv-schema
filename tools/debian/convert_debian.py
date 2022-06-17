@@ -13,13 +13,11 @@
 # limitations under the License.
 """Debian to OSV converter."""
 import argparse
-import copy
 import json
 import os
 import re
 import datetime
 from urllib import request
-from types import SimpleNamespace
 
 import markdownify
 import pandas as pd
