@@ -92,7 +92,8 @@ A JSON Schema for validation is also available
 	} ],
 	"references": [ {
 		"type": string,
-		"url": string
+		"url": string,
+		"comment": string
 	} ],
 	"credits": [ {
 		"name": string,
@@ -671,17 +672,18 @@ Note that we did not specify a `fixed` event here as `limit` makes it redundant.
 {
 	"references": [ {
 		"type": string,
-		"url": string
+		"url": string,
+		"comment": string
 	} ]
 }
 ```
 
 The `references` field contains a list of JSON objects describing references.
-Each object has a string field `type` specifying the type of reference, and a
-string field `url`. The `url` is the fully-qualified URL (including the scheme,
-typically "https://") linking to additional information, advisories, issue
-tracker entries, and so on about the vulnerability itself. The `type` specifies
-what kind of reference the URL is.
+Each object has a string field `type` specifying the type of reference, a
+string field `url`, and a string field `comment`. The `url` is the
+fully-qualified URL (including the scheme, typically "https://") linking to
+additional information, advisories, issue tracker entries, and so on about the
+vulnerability itself. The `type` specifies what kind of reference the URL is.
 
 The known reference `type` values are:
 
@@ -694,6 +696,13 @@ The known reference `type` values are:
   `GIT`-typed `affected[].ranges` entries (described above).
 - `PACKAGE`: A home web page for the package.
 - `WEB`: A web page of some unspecified kind.
+- `EVIDENCE`: A demonstration of the validity of a vulnerability claim, e.g. `app.any.run`
+	replaying the exploitation of the vulnerability.
+
+The `comment` field is intended to complement the machine readable `type` field.
+It allows additional metadata on why a reference exists, as well as any other
+content that cannot be easily captured by the `type` field, but would be useful
+for humans viewing an OSV id directly.
 
 ## credits fields
 

@@ -261,12 +261,16 @@
               "FIX",
               "GIT",
               "PACKAGE",
-              "WEB"
+              "WEB",
+              "EVIDENCE"
             ]
           },
           "url": {
             "type": "string",
             "format": "uri"
+          },
+          "comment": {
+            "type": "string"
           }
         },
         "required": [
