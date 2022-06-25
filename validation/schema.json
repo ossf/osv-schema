@@ -300,6 +300,7 @@
     }
   },
   "required": [
+    "schema_version",
     "id",
     "modified"
   ]
