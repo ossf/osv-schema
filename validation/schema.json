@@ -5,10 +5,16 @@
   "type": "object",
   "properties": {
     "schema_format": {
-      "type": "string"
+      "type": "string",
+      "enum": [
+        "OSV"
+      ]
     },
     "schema_version": {
-      "type": "string"
+      "type": "string",
+      "enum": [
+        "1.2.0"
+      ]
     },
     "id": {
       "type": "string"
