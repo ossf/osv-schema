@@ -172,8 +172,8 @@ def parse_security_tracker_file(advisories: Advisories,
         release_name = version_match.group(1)
         package_name = version_match.group(2)
         advisories[current_advisory].affected.append(
-            AffectedInfo(codename_to_version[release_name],
-                         package_name, version_match.group(3)))
+            AffectedInfo(codename_to_version[release_name], package_name,
+                         version_match.group(3)))
       else:
         if line.strip().startswith('NOTE:'):
           continue
