@@ -17,6 +17,7 @@ DEBIAN_SOURCES_URL_EXTENSION = '{version}/main/source/Sources.gz'
 IGNORED_DEBIAN_VERSIONS = frozenset(
     ['experimental', 'buzz', 'rex', 'bo', 'hamm', 'slink', 'potato'])
 
+# Number of days to search (day by day) if the initial date returns 404
 FIRST_SEEN_LOOKAHEAD_DAYS = 10
 
 # First snapshot date for Debian
@@ -31,7 +32,6 @@ def get_debian_dists_url(date: datetime):
 
 def get_debian_sources_url(date: datetime, version: str):
   """Create an url for snapshot.debian.org"""
-
   formatted_date = convert_datetime_to_str_datetime(date)
 
   return DEBIAN_SNAPSHOT_URL.format(
@@ -91,7 +91,7 @@ def load_first_packages() -> pd.DataFrame:
       codename_to_version['created'].map(parse_created_dates_and_set_time))
 
   first_seen_dict: dict[str, datetime] = dict(
-    x for x in first_seen_dates if x[0] not in IGNORED_DEBIAN_VERSIONS)
+      x for x in first_seen_dates if x[0] not in IGNORED_DEBIAN_VERSIONS)
 
   for version, date in first_seen_dict.items():
     # retry for n days into the future if the first request doesn't work
