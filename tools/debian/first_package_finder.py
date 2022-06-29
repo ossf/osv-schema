@@ -1,5 +1,6 @@
 """Functions to help find the first package version for a specific release"""
-from datetime import datetime
+import urllib.error
+from datetime import datetime, timedelta
 import json
 import gzip
 from urllib import request
@@ -12,6 +13,8 @@ DEBIAN_SNAPSHOT_URL = 'https://snapshot.debian.org/archive/debian/{date}/dists/'
 # `.gz` format always exist for all snapshots
 DEBIAN_SOURCES_URL_EXTENSION = '{version}/main/source/Sources.gz'
 
+# List of ignored versions, mostly too early to be in snapshots
+IGNORED_DEBIAN_VERSIONS = ['experimental', 'buzz', 'rex', 'bo', 'hamm', 'slink', 'potato']
 
 def get_debian_dists_url(date: datetime):
   """Create an url for snapshot.debian.org to get distribution"""
@@ -47,29 +50,11 @@ def retrieve_codename_to_version() -> pd.DataFrame:
   return codename_to_version
 
 
-def parse_first_seen_dates(date: str) -> datetime:
-  """Parse first seen date in debian table to datetime"""
-  return datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
-
-
-def fillout_first_seen(date: datetime, first_seen_dict: dict[str, datetime]):
-  """Fill out first seen version dict"""
-  with request.urlopen(get_debian_dists_url(date)) as result:
-    # Pandas will try to convert every table on the webpage to a dataframe.
-    # Select the first and only table
-    df = pd.read_html(result.read())[0]
-    # Select only directories
-    df = df.loc[df.iloc[:, 0] == 'd']
-    # Remove names that contain - since they are generally
-    # special versions of the main releases
-    df: pd.DataFrame = df[(~df['Name'].str.contains('-'))]
-    # Remove '/' from the directory names
-    df['Name'] = df['Name'].map(lambda x: x.rstrip('/'))
-    # Remove special parent directory
-    df = df[df['Name'] != '..']
-    # Convert first_seen date format to python datetime
-    first_seen_mapped = df['first seen'].map(parse_first_seen_dates)
-    first_seen_dict.update(zip(df['Name'], first_seen_mapped))
+def parse_created_dates_and_set_time(date: str) -> datetime:
+  """Parse created date in debian version csv to datetime plus one day"""
+  result = datetime.strptime(date, '%Y-%m-%d') + timedelta(days=1)
+  # Set minimum date to first debian snapshot
+  return max(result, datetime(2005, 3, 12))
 
 
 def load_sources(date: datetime, dist: str) -> dict[str, str]:
@@ -95,20 +80,27 @@ def load_first_packages() -> pd.DataFrame:
 
   codename_to_version: pd.DataFrame = retrieve_codename_to_version()
 
-  # 2005 is when first snapshot is taken
-  search_date = datetime.fromisoformat('2005-12-01T00:00:00')
-  first_seen_dict = {}
+  first_seen_dates = zip(
+      codename_to_version.index,
+      codename_to_version['created'].map(parse_created_dates_and_set_time))
 
-  while search_date < datetime.today():
-    fillout_first_seen(search_date, first_seen_dict)
-    # Increments of 5 years will not skip any version
-    search_date = search_date.replace(year=search_date.year + 5)
-
-  # Search date is in the future, so debian will select the latest snapshot
-  fillout_first_seen(search_date, first_seen_dict)
+  first_seen_dict: dict[str, datetime] = dict(x for x in first_seen_dates if x[0] not in IGNORED_DEBIAN_VERSIONS)
 
   for version, dates in first_seen_dict.items():
-    codename_to_version.loc[version].sources = load_sources(dates, version)
+    # retry for 10 days into the future
+    for i in range(10):
+      actual_date = dates + timedelta(days=i)
+      try:
+        codename_to_version.loc[version].sources = load_sources(actual_date, version)
+        break
+      except urllib.error.HTTPError as http_error:
+        if http_error.code != 404:
+          raise
+        # Expect 404 errors for releases before snapshot exists
+
+      if actual_date > datetime.utcnow():
+        # No need to keep trying future dates
+        continue
 
   return codename_to_version
 
