@@ -14,7 +14,14 @@ DEBIAN_SNAPSHOT_URL = 'https://snapshot.debian.org/archive/debian/{date}/dists/'
 DEBIAN_SOURCES_URL_EXTENSION = '{version}/main/source/Sources.gz'
 
 # List of ignored versions, mostly too early to be in snapshots
-IGNORED_DEBIAN_VERSIONS = ['experimental', 'buzz', 'rex', 'bo', 'hamm', 'slink', 'potato']
+IGNORED_DEBIAN_VERSIONS = frozenset(
+    ['experimental', 'buzz', 'rex', 'bo', 'hamm', 'slink', 'potato'])
+
+FIRST_SEEN_LOOKAHEAD_DAYS = 10
+
+# First snapshot date for Debian
+FIRST_SNAPSHOT_DATE = datetime(2005, 3, 12)
+
 
 def get_debian_dists_url(date: datetime):
   """Create an url for snapshot.debian.org to get distribution"""
@@ -54,7 +61,7 @@ def parse_created_dates_and_set_time(date: str) -> datetime:
   """Parse created date in debian version csv to datetime plus one day"""
   result = datetime.strptime(date, '%Y-%m-%d') + timedelta(days=1)
   # Set minimum date to first debian snapshot
-  return max(result, datetime(2005, 3, 12))
+  return max(result, FIRST_SNAPSHOT_DATE)
 
 
 def load_sources(date: datetime, dist: str) -> dict[str, str]:
@@ -77,21 +84,22 @@ def load_sources(date: datetime, dist: str) -> dict[str, str]:
 
 def load_first_packages() -> pd.DataFrame:
   """Loads the dataframe containing the first version of packages per distro"""
-
   codename_to_version: pd.DataFrame = retrieve_codename_to_version()
 
   first_seen_dates = zip(
       codename_to_version.index,
       codename_to_version['created'].map(parse_created_dates_and_set_time))
 
-  first_seen_dict: dict[str, datetime] = dict(x for x in first_seen_dates if x[0] not in IGNORED_DEBIAN_VERSIONS)
+  first_seen_dict: dict[str, datetime] = \
+    dict(x for x in first_seen_dates if x[0] not in IGNORED_DEBIAN_VERSIONS)
 
-  for version, dates in first_seen_dict.items():
-    # retry for 10 days into the future
-    for i in range(10):
-      actual_date = dates + timedelta(days=i)
+  for version, date in first_seen_dict.items():
+    # retry for n days into the future if the first request doesn't work
+    for i in range(FIRST_SEEN_LOOKAHEAD_DAYS + 1):
+      actual_date = date + timedelta(days=i)
       try:
-        codename_to_version.loc[version].sources = load_sources(actual_date, version)
+        codename_to_version.loc[version].sources = load_sources(
+            actual_date, version)
         break
       except urllib.error.HTTPError as http_error:
         if http_error.code != 404:
@@ -100,7 +108,7 @@ def load_first_packages() -> pd.DataFrame:
 
       if actual_date > datetime.utcnow():
         # No need to keep trying future dates
-        continue
+        break
 
   return codename_to_version
 
@@ -121,7 +129,7 @@ def main():
   dataframe = load_first_packages()
   version_to_sources = dict(zip(dataframe['version'], dataframe['sources']))
   with open('first_package_cache.json.gz', 'wb') as output_file:
-    result = gzip.compress(bytes(json.dumps(version_to_sources), 'utf-8'))
+    result = gzip.compress(json.dumps(version_to_sources).encode('utf-8'))
     output_file.write(result)
 
 
