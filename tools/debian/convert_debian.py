@@ -52,48 +52,23 @@ WML_REPORT_DATE_PATTERN = re.compile(
 CAPTURE_DSA_WITH_NO_EXT = re.compile(r'dsa-\d+')
 
 
-class DebianSpecificInfo:
-  """Specific Debian information, exports to the
-
-  `ecosystem_specific` field in osv
-  """
-
-  # Debian release name
-  release: str
-
-  # Debian release version number
-  version: str
-
-  def __init__(self, release: str, version: str):
-    self.release = release
-    self.version = version
-
-  def to_dict(self):
-    return self.__dict__
-
-  def __repr__(self):
-    return json.dumps(self, default=dumper)
-
-
 class AffectedInfo:
   """Debian version info."""
-  ecosystem_specific: DebianSpecificInfo
   package: str
   ranges: [str]
   fixed: str
   versions: [str]
+  debian_release_version: str
 
-  def __init__(self, release: str, version: str, package: str, fixed: str):
-    self.ecosystem_specific = DebianSpecificInfo(release, version)
+  def __init__(self, version: str, package: str, fixed: str):
     self.package = package
     self.fixed = fixed
+    self.debian_release_version = version
 
   def to_dict(self):
     return {
-        'ecosystem_specific':
-            self.ecosystem_specific,
         'package': {
-            'ecosystem': 'Debian:' + self.ecosystem_specific.version,
+            'ecosystem': 'Debian:' + self.debian_release_version,
             'name': self.package
         },
         'ranges': [{
@@ -117,7 +92,7 @@ class AdvisoryInfo:
   summary: str
   details: str
   published: str
-  modified: str
+  # modified: str
   affected: [AffectedInfo]
   aliases: [str]
 
@@ -128,6 +103,7 @@ class AdvisoryInfo:
     self.aliases = []
     self.published = ''
     self.details = ''
+    # self.modified = ''
 
   def to_dict(self):
     return self.__dict__
@@ -196,7 +172,7 @@ def parse_security_tracker_file(advisories: Advisories,
         release_name = version_match.group(1)
         package_name = version_match.group(2)
         advisories[current_advisory].affected.append(
-            AffectedInfo(release_name, codename_to_version[release_name],
+            AffectedInfo(codename_to_version[release_name],
                          package_name, version_match.group(3)))
       else:
         if line.strip().startswith('NOTE:'):
