@@ -90,8 +90,8 @@ def load_first_packages() -> pd.DataFrame:
       codename_to_version.index,
       codename_to_version['created'].map(parse_created_dates_and_set_time))
 
-  first_seen_dict: dict[str, datetime] = \
-    dict(x for x in first_seen_dates if x[0] not in IGNORED_DEBIAN_VERSIONS)
+  first_seen_dict: dict[str, datetime] = dict(
+    x for x in first_seen_dates if x[0] not in IGNORED_DEBIAN_VERSIONS)
 
   for version, date in first_seen_dict.items():
     # retry for n days into the future if the first request doesn't work
