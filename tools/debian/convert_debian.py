@@ -17,6 +17,7 @@ import json
 import os
 import re
 import datetime
+import typing
 from urllib import request
 
 import markdownify
@@ -112,11 +113,11 @@ class AdvisoryInfo:
     return json.dumps(self, default=dumper)
 
 
-Advisories = dict[str, AdvisoryInfo]
+Advisories = typing.Dict[str, AdvisoryInfo]
 """Type alias for collection of advisory info"""
 
 
-def create_codename_to_version() -> dict[str, str]:
+def create_codename_to_version() -> typing.Dict[str, str]:
   """Returns the codename to version mapping"""
   with request.urlopen(
       'https://debian.pages.debian.net/distro-info-data/debian.csv') as csv:

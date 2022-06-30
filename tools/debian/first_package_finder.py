@@ -1,4 +1,5 @@
 """Functions to help find the first package version for a specific release"""
+import typing
 import urllib.error
 from datetime import datetime, timedelta
 import json
@@ -64,7 +65,7 @@ def parse_created_dates_and_set_time(date: str) -> datetime:
   return max(result, FIRST_SNAPSHOT_DATE)
 
 
-def load_sources(date: datetime, dist: str) -> dict[str, str]:
+def load_sources(date: datetime, dist: str) -> typing.Dict[str, str]:
   """Load the sources file and store in a dictionary of {name: version}"""
   with request.urlopen(get_debian_sources_url(date, dist)) as res:
     decompressed = gzip.decompress(res.read()).decode('utf-8', errors='ignore')
@@ -90,7 +91,7 @@ def load_first_packages() -> pd.DataFrame:
       codename_to_version.index,
       codename_to_version['created'].map(parse_created_dates_and_set_time))
 
-  first_seen_dict: dict[str, datetime] = dict(
+  first_seen_dict: typing.Dict[str, datetime] = dict(
       x for x in first_seen_dates if x[0] not in IGNORED_DEBIAN_VERSIONS)
 
   for version, date in first_seen_dict.items():
