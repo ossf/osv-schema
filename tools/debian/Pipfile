@@ -4,9 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-requests = "*"
 osv = "*"
 markdownify = "*"
+pandas = "*"
 
 [dev-packages]
 pylint = "*"

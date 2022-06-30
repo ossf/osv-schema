@@ -6,6 +6,8 @@ Clone the following two repositories:
 - https://salsa.debian.org/security-tracker-team/security-tracker.git
 - https://salsa.debian.org/webmaster-team/webwml.git
 
+`git` also has to be installed and on the `PATH`, 
+used to read modified dates of files 
 
 ## Run converter
 
