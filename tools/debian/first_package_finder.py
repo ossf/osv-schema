@@ -73,11 +73,11 @@ def load_sources(date: datetime, dist: str) -> typing.Dict[str, str]:
     current_package = None
     for line in decompressed.splitlines():
       if line.startswith('Package: '):
-        current_package = line.removeprefix('Package: ')
+        current_package = line[len('Package: '):]
         continue
 
       if line.startswith('Version: '):
-        package_version_dict[current_package] = line.removeprefix('Version: ')
+        package_version_dict[current_package] = line[len('Version: '):]
         continue
 
     return package_version_dict
