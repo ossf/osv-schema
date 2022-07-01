@@ -24,6 +24,9 @@ FIRST_SEEN_LOOKAHEAD_DAYS = 10
 # First snapshot date for Debian
 FIRST_SNAPSHOT_DATE = datetime(2005, 3, 12)
 
+# Prefixes used in the Sources file
+PACKAGE_KEY = 'Package: '
+VERSION_KEY = 'Version: '
 
 def get_debian_dists_url(date: datetime):
   """Create an url for snapshot.debian.org to get distribution"""
@@ -72,12 +75,12 @@ def load_sources(date: datetime, dist: str) -> typing.Dict[str, str]:
     package_version_dict = {}
     current_package = None
     for line in decompressed.splitlines():
-      if line.startswith('Package: '):
-        current_package = line[len('Package: '):]
+      if line.startswith(PACKAGE_KEY):
+        current_package = line[len(PACKAGE_KEY):]
         continue
 
-      if line.startswith('Version: '):
-        package_version_dict[current_package] = line[len('Version: '):]
+      if line.startswith(VERSION_KEY):
+        package_version_dict[current_package] = line[len(VERSION_KEY):]
         continue
 
     return package_version_dict
