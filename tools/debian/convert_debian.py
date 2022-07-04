@@ -52,8 +52,7 @@ WML_REPORT_DATE_PATTERN = re.compile(
     r'<define-tag report_date>(.*)</define-tag>')
 
 # e.g. DSA-12345-2, -2 is the extension
-CAPTURE_DSA_WITH_NO_EXT = re.compile(r'dsa-\d+')
-CAPTURE_DLA_WITH_NO_EXT = re.compile(r'dla-\d+')
+DSA_OR_DLA_WITH_NO_EXT = re.compile(r'd[sl]a-\d+')
 
 NOT_AFFECTED_VERSION = '<not-affected>'
 
@@ -141,11 +140,12 @@ def dumper(obj):
 
 
 def parse_security_tracker_file(advisories: Advisories,
-                                security_tracker_repo: str, lts: bool):
+                                security_tracker_repo: str,
+                                security_tracker_path: str):
   """Parses the security tracker files into the advisories object"""
 
   codename_to_version = create_codename_to_version()
-  security_tracker_path = SECURITY_TRACKER_DLA_PATH if lts else SECURITY_TRACKER_DSA_PATH
+
   with open(
       os.path.join(security_tracker_repo, security_tracker_path),
       encoding='utf-8') as file_handle:
@@ -197,21 +197,19 @@ def parse_security_tracker_file(advisories: Advisories,
                                                     dsa_match.group(2))
 
 
-def parse_webwml_files(advisories: Advisories, webwml_repo: str, lts: bool):
+def parse_webwml_files(advisories: Advisories, webwml_repo: str,
+                       webwml_path: str):
   """Parses the webwml file into the advisories object"""
   file_path_map = {}
 
-  security_path = WEBWML_LTS_SECURITY_PATH if lts else WEBWML_SECURITY_PATH
-  capture_no_ext = CAPTURE_DLA_WITH_NO_EXT if lts else CAPTURE_DSA_WITH_NO_EXT
-
-  for root, _, files in os.walk(os.path.join(webwml_repo, security_path)):
+  for root, _, files in os.walk(os.path.join(webwml_repo, webwml_path)):
     for file in files:
       file_path_map[file] = os.path.join(root, file)
 
   # Add descriptions to advisories from wml files
   for dsa_id, advisory in advisories.items():
     # remove potential extension (e.g. DSA-12345-2, -2 is the extension)
-    mapped_key_no_ext = capture_no_ext.findall(dsa_id.lower())[0]
+    mapped_key_no_ext = DSA_OR_DLA_WITH_NO_EXT.findall(dsa_id.lower())[0]
     val_wml = file_path_map.get(mapped_key_no_ext + '.wml')
     val_data = file_path_map.get(mapped_key_no_ext + '.data')
 
@@ -258,6 +256,7 @@ def write_output(output_dir: str, advisories: Advisories):
   for dsa_id, advisory in advisories.items():
     # Skip advisories that does not affect anything
     if len(advisory.affected) == 0:
+      print('Skipping: ' + dsa_id + ' because no affected versions')
       continue
 
     with open(
@@ -280,8 +279,14 @@ def convert_debian(webwml_repo: str, security_tracker_repo: str,
   """Convert Debian advisory data into OSV."""
   advisories: Advisories = {}
 
-  parse_security_tracker_file(advisories, security_tracker_repo, lts)
-  parse_webwml_files(advisories, webwml_repo, lts)
+  if lts:
+    parse_security_tracker_file(advisories, security_tracker_repo,
+                                SECURITY_TRACKER_DLA_PATH)
+    parse_webwml_files(advisories, webwml_repo, WEBWML_LTS_SECURITY_PATH)
+  else:
+    parse_security_tracker_file(advisories, security_tracker_repo,
+                                SECURITY_TRACKER_DSA_PATH)
+    parse_webwml_files(advisories, webwml_repo, WEBWML_SECURITY_PATH)
 
   write_output(output_dir, advisories)
 
