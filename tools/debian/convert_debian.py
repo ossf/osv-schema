@@ -34,10 +34,10 @@ SECURITY_TRACKER_DLA_PATH = os.path.join('data', 'DLA', 'list')
 LEADING_WHITESPACE = re.compile(r'^\s')
 
 # e.g. [25 Apr 2022] DSA-5124-1 ffmpeg - security update
-DSA_PATTERN = re.compile(r'\[.*?\]\s*([\w-]+)\s*(.*)')
+DSA_PATTERN = re.compile(r'\[.*?]\s*([\w-]+)\s*(.*)')
 
 # e.g. [buster] - xz-utils 5.2.4-1+deb10u1
-VERSION_PATTERN = re.compile(r'\[(.*?)\]\s*-\s*([^\s]+)\s*([^\s]+)')
+VERSION_PATTERN = re.compile(r'\[(.*?)]\s*-\s*([^\s]+)\s*([^\s]+)')
 
 # TODO: Alternative is to use a xml parser here,
 #  though the data is not fully compliant with the xml standard
@@ -254,7 +254,7 @@ def parse_webwml_files(advisories: Advisories, webwml_repo: str,
 def write_output(output_dir: str, advisories: Advisories):
   """Writes the advisory dict into individual json files"""
   for dsa_id, advisory in advisories.items():
-    # Skip advisories that does not affect anything
+    # Skip advisories that do not affect anything
     if len(advisory.affected) == 0:
       print('Skipping: ' + dsa_id + ' because no affected versions')
       continue
