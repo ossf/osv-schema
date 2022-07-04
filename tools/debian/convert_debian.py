@@ -27,7 +27,9 @@ import pandas as pd
 # import osv.ecosystems
 
 WEBWML_SECURITY_PATH = os.path.join('english', 'security')
+WEBWML_LTS_SECURITY_PATH = os.path.join('english', 'LTS', 'security')
 SECURITY_TRACKER_DSA_PATH = os.path.join('data', 'DSA', 'list')
+SECURITY_TRACKER_DLA_PATH = os.path.join('data', 'DLA', 'list')
 
 LEADING_WHITESPACE = re.compile(r'^\s')
 
@@ -51,6 +53,7 @@ WML_REPORT_DATE_PATTERN = re.compile(
 
 # e.g. DSA-12345-2, -2 is the extension
 CAPTURE_DSA_WITH_NO_EXT = re.compile(r'dsa-\d+')
+CAPTURE_DLA_WITH_NO_EXT = re.compile(r'dla-\d+')
 
 
 class AffectedInfo:
@@ -136,13 +139,13 @@ def dumper(obj):
 
 
 def parse_security_tracker_file(advisories: Advisories,
-                                security_tracker_repo: str):
+                                security_tracker_repo: str, lts: bool):
   """Parses the security tracker files into the advisories object"""
 
   codename_to_version = create_codename_to_version()
-
+  security_tracker_path = SECURITY_TRACKER_DLA_PATH if lts else SECURITY_TRACKER_DSA_PATH
   with open(
-      os.path.join(security_tracker_repo, SECURITY_TRACKER_DSA_PATH),
+      os.path.join(security_tracker_repo, security_tracker_path),
       encoding='utf-8') as file_handle:
     current_advisory = None
 
@@ -189,19 +192,21 @@ def parse_security_tracker_file(advisories: Advisories,
                                                     dsa_match.group(2))
 
 
-def parse_webwml_files(advisories: Advisories, webwml_repo: str):
+def parse_webwml_files(advisories: Advisories, webwml_repo: str, lts: bool):
   """Parses the webwml file into the advisories object"""
   file_path_map = {}
 
-  for root, _, files in os.walk(
-      os.path.join(webwml_repo, WEBWML_SECURITY_PATH)):
+  security_path = WEBWML_LTS_SECURITY_PATH if lts else WEBWML_SECURITY_PATH
+  capture_no_ext = CAPTURE_DLA_WITH_NO_EXT if lts else CAPTURE_DSA_WITH_NO_EXT
+
+  for root, _, files in os.walk(os.path.join(webwml_repo, security_path)):
     for file in files:
       file_path_map[file] = os.path.join(root, file)
 
   # Add descriptions to advisories from wml files
   for dsa_id, advisory in advisories.items():
     # remove potential extension (e.g. DSA-12345-2, -2 is the extension)
-    mapped_key_no_ext = CAPTURE_DSA_WITH_NO_EXT.findall(dsa_id.lower())[0]
+    mapped_key_no_ext = capture_no_ext.findall(dsa_id.lower())[0]
     val_wml = file_path_map.get(mapped_key_no_ext + '.wml')
     val_data = file_path_map.get(mapped_key_no_ext + '.data')
 
@@ -263,12 +268,13 @@ def is_dsa_file(name: str):
 
 
 def convert_debian(webwml_repo: str, security_tracker_repo: str,
-                   output_dir: str):
+                   output_dir: str, lts: bool):
   """Convert Debian advisory data into OSV."""
   advisories: Advisories = {}
 
-  parse_security_tracker_file(advisories, security_tracker_repo)
-  parse_webwml_files(advisories, webwml_repo)
+  parse_security_tracker_file(advisories, security_tracker_repo, lts)
+  parse_webwml_files(advisories, webwml_repo, lts)
+
   write_output(output_dir, advisories)
 
 
@@ -280,10 +286,14 @@ def main():
       'security_tracker_repo', help='Debian security-tracker repo')
   parser.add_argument(
       '-o', '--output-dir', help='Output directory', required=True)
+  parser.add_argument(
+      '--lts', help='Convert long term support advisories', action='store_true')
+  parser.set_defaults(feature=False)
 
   args = parser.parse_args()
 
-  convert_debian(args.webwml_repo, args.security_tracker_repo, args.output_dir)
+  convert_debian(args.webwml_repo, args.security_tracker_repo, args.output_dir,
+                 args.lts)
 
 
 if __name__ == '__main__':
