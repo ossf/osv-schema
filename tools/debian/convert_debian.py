@@ -55,6 +55,8 @@ WML_REPORT_DATE_PATTERN = re.compile(
 CAPTURE_DSA_WITH_NO_EXT = re.compile(r'dsa-\d+')
 CAPTURE_DLA_WITH_NO_EXT = re.compile(r'dla-\d+')
 
+NOT_AFFECTED_VERSION = '<not-affected>'
+
 
 class AffectedInfo:
   """Debian version info."""
@@ -175,9 +177,12 @@ def parse_security_tracker_file(advisories: Advisories,
 
         release_name = version_match.group(1)
         package_name = version_match.group(2)
-        advisories[current_advisory].affected.append(
-            AffectedInfo(codename_to_version[release_name], package_name,
-                         version_match.group(3)))
+        fixed_ver = version_match.group(3)
+        if fixed_ver != NOT_AFFECTED_VERSION:
+          advisories[current_advisory].affected.append(
+              AffectedInfo(codename_to_version[release_name], package_name,
+                           fixed_ver))
+
       else:
         if line.strip().startswith('NOTE:'):
           continue
