@@ -256,6 +256,9 @@ def parse_webwml_files(advisories: Advisories, webwml_repo: str, lts: bool):
 def write_output(output_dir: str, advisories: Advisories):
   """Writes the advisory dict into individual json files"""
   for dsa_id, advisory in advisories.items():
+    # Skip advisories that does not affect anything
+    if len(advisory.affected) == 0:
+      continue
 
     with open(
         os.path.join(output_dir, dsa_id + '.json'), 'w',
