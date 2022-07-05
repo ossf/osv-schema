@@ -27,7 +27,7 @@ import pandas as pd
 # import osv.ecosystems
 
 WEBWML_SECURITY_PATH = os.path.join('english', 'security')
-WEBWML_LTS_SECURITY_PATH = os.path.join('english', 'LTS', 'security')
+WEBWML_LTS_SECURITY_PATH = os.path.join('english', 'lts', 'security')
 SECURITY_TRACKER_DSA_PATH = os.path.join('data', 'DSA', 'list')
 SECURITY_TRACKER_DLA_PATH = os.path.join('data', 'DLA', 'list')
 
@@ -218,7 +218,7 @@ def parse_webwml_files(advisories: Advisories, webwml_repo: str,
             ', creating partial schema')
       continue
 
-    with open(val_wml, encoding='utf-8') as handle:
+    with open(val_wml, encoding='iso-8859-2') as handle:
       data = handle.read()
       html = WML_DESCRIPTION_PATTERN.findall(data)[0]
       res = markdownify.markdownify(html)

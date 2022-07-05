@@ -71,7 +71,7 @@ def parse_created_dates_and_set_time(date: str) -> datetime:
 def load_sources(date: datetime, dist: str) -> typing.Dict[str, str]:
   """Load the sources file and store in a dictionary of {name: version}"""
   with request.urlopen(get_debian_sources_url(date, dist)) as res:
-    decompressed = gzip.decompress(res.read()).decode('utf-8', errors='ignore')
+    decompressed = gzip.decompress(res.read()).decode('iso-8859-2')
     package_version_dict = {}
     current_package = None
     for line in decompressed.splitlines():
