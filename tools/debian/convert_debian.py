@@ -30,6 +30,7 @@ WEBWML_SECURITY_PATH = os.path.join('english', 'security')
 WEBWML_LTS_SECURITY_PATH = os.path.join('english', 'lts', 'security')
 SECURITY_TRACKER_DSA_PATH = os.path.join('data', 'DSA', 'list')
 SECURITY_TRACKER_DLA_PATH = os.path.join('data', 'DLA', 'list')
+DEBIAN_BASE_URL = "https://www.debian.org"
 
 LEADING_WHITESPACE = re.compile(r'^\s')
 
@@ -90,6 +91,17 @@ class AffectedInfo:
     return json.dumps(self, default=dumper)
 
 
+class Reference:
+  """OSV reference format"""
+
+  type: str
+  url: str
+
+  def __init__(self, url_type, url):
+    self.type = url_type
+    self.url = url
+
+
 class AdvisoryInfo:
   """Debian advisory info."""
 
@@ -100,14 +112,16 @@ class AdvisoryInfo:
   # modified: str
   affected: [AffectedInfo]
   aliases: [str]
+  references: [Reference]
 
-  def __init__(self, adv_id, summary):
+  def __init__(self, adv_id: str, summary: str):
     self.id = adv_id
     self.summary = summary
     self.affected = []
     self.aliases = []
     self.published = ''
     self.details = ''
+    self.references = []
     # self.modified = ''
 
   def to_dict(self):
@@ -197,12 +211,12 @@ def parse_security_tracker_file(advisories: Advisories,
                                                     dsa_match.group(2))
 
 
-def parse_webwml_files(advisories: Advisories, webwml_repo: str,
-                       webwml_path: str):
+def parse_webwml_files(advisories: Advisories, webwml_repo_path: str,
+                       wml_file_sub_path: str):
   """Parses the webwml file into the advisories object"""
   file_path_map = {}
 
-  for root, _, files in os.walk(os.path.join(webwml_repo, webwml_path)):
+  for root, _, files in os.walk(os.path.join(webwml_repo_path, wml_file_sub_path)):
     for file in files:
       file_path_map[file] = os.path.join(root, file)
 
@@ -210,21 +224,21 @@ def parse_webwml_files(advisories: Advisories, webwml_repo: str,
   for dsa_id, advisory in advisories.items():
     # remove potential extension (e.g. DSA-12345-2, -2 is the extension)
     mapped_key_no_ext = DSA_OR_DLA_WITH_NO_EXT.findall(dsa_id.lower())[0]
-    val_wml = file_path_map.get(mapped_key_no_ext + '.wml')
-    val_data = file_path_map.get(mapped_key_no_ext + '.data')
+    wml_path = file_path_map.get(mapped_key_no_ext + '.wml')
+    data_path = file_path_map.get(mapped_key_no_ext + '.data')
 
-    if not val_wml:
+    if not wml_path:
       print('No WML file yet for this: ' + mapped_key_no_ext +
             ', creating partial schema')
       continue
 
-    with open(val_wml, encoding='iso-8859-2') as handle:
+    with open(wml_path, encoding='iso-8859-2') as handle:
       data = handle.read()
       html = WML_DESCRIPTION_PATTERN.findall(data)[0]
       res = markdownify.markdownify(html)
       advisory.details = res
 
-    with open(val_data, encoding='utf-8') as handle:
+    with open(data_path, encoding='utf-8') as handle:
       data: str = handle.read()
       report_date: str = WML_REPORT_DATE_PATTERN.findall(data)[0]
 
@@ -237,8 +251,16 @@ def parse_webwml_files(advisories: Advisories, webwml_repo: str,
           datetime.datetime.strptime(report_date.split(',')[0],
                                      '%Y-%m-%d').isoformat() + 'Z')
 
+    advisory_url_path = os.path.relpath(wml_path, os.path.join(webwml_repo_path, 'english'))
+    advisory_url_path = os.path.splitext(advisory_url_path)[0]
+    advisory_url = f'{DEBIAN_BASE_URL}/{advisory_url_path}'
+
+    advisory.references.append(
+      Reference('ADVISORY', advisory_url)
+    )
+
     # TODO: Re-enable and improve performance
-    # git_relative_path = pathlib.Path(val_data).relative_to(webwml_repo)
+    # git_relative_path = pathlib.Path(data_path).relative_to(webwml_repo)
     # git_date_output = subprocess.check_output(
     #     ['git', 'log', '--pretty="%aI"', '-n', '1', git_relative_path],
     #     cwd=webwml_repo)
