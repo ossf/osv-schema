@@ -215,9 +215,8 @@ def parse_webwml_files(advisories: Advisories, webwml_repo: str,
                        webwml_path: str):
   """Parses the webwml file into the advisories object"""
   file_path_map = {}
-  joined_webwml_path = os.path.join(webwml_repo, webwml_path)
 
-  for root, _, files in os.walk(joined_webwml_path):
+  for root, _, files in os.walk(os.path.join(webwml_repo, webwml_path)):
     for file in files:
       file_path_map[file] = os.path.join(root, file)
 
