@@ -253,6 +253,7 @@ def parse_webwml_files(advisories: Advisories, webwml_repo: str,
 
     advisory_url = '/'.join([DEBIAN_BASE_PATH,
                              # Remove webwml/english/ from the path
+                             # And also remove the .wml extension
                              *val_wml.split('/')[2:]])[:-len('.wml')]
 
     advisory.references.append(
