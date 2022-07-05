@@ -30,6 +30,7 @@ WEBWML_SECURITY_PATH = os.path.join('english', 'security')
 WEBWML_LTS_SECURITY_PATH = os.path.join('english', 'lts', 'security')
 SECURITY_TRACKER_DSA_PATH = os.path.join('data', 'DSA', 'list')
 SECURITY_TRACKER_DLA_PATH = os.path.join('data', 'DLA', 'list')
+DEBIAN_BASE_PATH = "https://www.debian.org"
 
 LEADING_WHITESPACE = re.compile(r'^\s')
 
@@ -90,6 +91,17 @@ class AffectedInfo:
     return json.dumps(self, default=dumper)
 
 
+class Reference:
+  """OSV reference format"""
+
+  type: str
+  url: str
+
+  def __init__(self, url_type, url):
+    self.type = url_type
+    self.url = url
+
+
 class AdvisoryInfo:
   """Debian advisory info."""
 
@@ -100,14 +112,16 @@ class AdvisoryInfo:
   # modified: str
   affected: [AffectedInfo]
   aliases: [str]
+  references: [Reference]
 
-  def __init__(self, adv_id, summary):
+  def __init__(self, adv_id: str, summary: str):
     self.id = adv_id
     self.summary = summary
     self.affected = []
     self.aliases = []
     self.published = ''
     self.details = ''
+    self.references = []
     # self.modified = ''
 
   def to_dict(self):
@@ -201,8 +215,9 @@ def parse_webwml_files(advisories: Advisories, webwml_repo: str,
                        webwml_path: str):
   """Parses the webwml file into the advisories object"""
   file_path_map = {}
+  joined_webwml_path = os.path.join(webwml_repo, webwml_path)
 
-  for root, _, files in os.walk(os.path.join(webwml_repo, webwml_path)):
+  for root, _, files in os.walk(joined_webwml_path):
     for file in files:
       file_path_map[file] = os.path.join(root, file)
 
@@ -236,6 +251,14 @@ def parse_webwml_files(advisories: Advisories, webwml_repo: str,
       advisory.published = (
           datetime.datetime.strptime(report_date.split(',')[0],
                                      '%Y-%m-%d').isoformat() + 'Z')
+
+    advisory_url = '/'.join([DEBIAN_BASE_PATH,
+                             # Remove webwml/english/ from the path
+                             *val_wml.split('/')[2:]][:-len('.wml')])
+
+    advisory.references.append(
+      Reference('ADVISORY', advisory_url)
+    )
 
     # TODO: Re-enable and improve performance
     # git_relative_path = pathlib.Path(val_data).relative_to(webwml_repo)
