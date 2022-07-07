@@ -290,6 +290,11 @@ def parse_webwml_files(advisories: Advisories, webwml_repo_path: str,
     if dsa_id:
       advisories[dsa_id].modified = current_date
 
+    # Empty dictionary means no more files need modification dates
+    # Safely skip rest of the commits
+    if not git_relative_data_paths:
+      break
+
 
 def write_output(output_dir: str, advisories: Advisories):
   """Writes the advisory dict into individual json files"""
