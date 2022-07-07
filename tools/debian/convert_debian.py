@@ -13,10 +13,12 @@
 # limitations under the License.
 """Debian to OSV converter."""
 import argparse
+import io
 import json
 import os
 import re
 import datetime
+import subprocess
 import typing
 from urllib import request
 
@@ -30,7 +32,7 @@ WEBWML_SECURITY_PATH = os.path.join('english', 'security')
 WEBWML_LTS_SECURITY_PATH = os.path.join('english', 'lts', 'security')
 SECURITY_TRACKER_DSA_PATH = os.path.join('data', 'DSA', 'list')
 SECURITY_TRACKER_DLA_PATH = os.path.join('data', 'DLA', 'list')
-DEBIAN_BASE_URL = "https://www.debian.org"
+DEBIAN_BASE_URL = 'https://www.debian.org'
 
 LEADING_WHITESPACE = re.compile(r'^\s')
 
@@ -57,6 +59,8 @@ DSA_OR_DLA_WITH_NO_EXT = re.compile(r'd[sl]a-\d+')
 
 NOT_AFFECTED_VERSION = '<not-affected>'
 
+# Prefix used to identify a new date line
+GIT_DATE_PREFIX = '-----'
 
 class AffectedInfo:
   """Debian version info."""
@@ -109,7 +113,7 @@ class AdvisoryInfo:
   summary: str
   details: str
   published: str
-  # modified: str
+  modified: str
   affected: [AffectedInfo]
   aliases: [str]
   references: [Reference]
@@ -120,9 +124,9 @@ class AdvisoryInfo:
     self.affected = []
     self.aliases = []
     self.published = ''
+    self.modified = ''
     self.details = ''
     self.references = []
-    # self.modified = ''
 
   def to_dict(self):
     return self.__dict__
@@ -216,10 +220,12 @@ def parse_webwml_files(advisories: Advisories, webwml_repo_path: str,
   """Parses the webwml file into the advisories object"""
   file_path_map = {}
 
-  for root, _, files in os.walk(os.path.join(webwml_repo_path, wml_file_sub_path)):
+  for root, _, files in os.walk(
+      os.path.join(webwml_repo_path, wml_file_sub_path)):
     for file in files:
       file_path_map[file] = os.path.join(root, file)
 
+  git_relative_data_paths = {}
   # Add descriptions to advisories from wml files
   for dsa_id, advisory in advisories.items():
     # remove potential extension (e.g. DSA-12345-2, -2 is the extension)
@@ -251,26 +257,43 @@ def parse_webwml_files(advisories: Advisories, webwml_repo_path: str,
           datetime.datetime.strptime(report_date.split(',')[0],
                                      '%Y-%m-%d').isoformat() + 'Z')
 
-    advisory_url_path = os.path.relpath(wml_path, os.path.join(webwml_repo_path, 'english'))
+    advisory_url_path = os.path.relpath(
+        wml_path, os.path.join(webwml_repo_path, 'english'))
     advisory_url_path = os.path.splitext(advisory_url_path)[0]
     advisory_url = f'{DEBIAN_BASE_URL}/{advisory_url_path}'
 
-    advisory.references.append(
-      Reference('ADVISORY', advisory_url)
-    )
+    advisory.references.append(Reference('ADVISORY', advisory_url))
 
-    # TODO: Re-enable and improve performance
-    # git_relative_path = pathlib.Path(data_path).relative_to(webwml_repo)
-    # git_date_output = subprocess.check_output(
-    #     ['git', 'log', '--pretty="%aI"', '-n', '1', git_relative_path],
-    #     cwd=webwml_repo)
-    #
-    # git_date_output_stripped = git_date_output.decode('utf-8').strip('"\n')
-    #
-    # advisory.modified = datetime.datetime.fromisoformat(
-    #     git_date_output_stripped).astimezone(pytz.UTC).isoformat() + 'Z'
-    #
-    # print(advisory.modified + '    ' + advisory.id)
+    git_relative_path = os.path.relpath(data_path, webwml_repo_path)
+    git_relative_data_paths[git_relative_path] = dsa_id
+
+  current_date = None
+  proc = subprocess.Popen([
+      'git', 'log', f'--pretty={GIT_DATE_PREFIX}%aI', '--name-only',
+      '--author-date-order'
+  ],
+                          cwd=webwml_repo_path,
+                          stdout=subprocess.PIPE)
+  # Loop through each commit to get the first time a file is mentioned
+  # Save the date as the last modified date of said file
+  for line in io.TextIOWrapper(proc.stdout, encoding='utf-8'):
+    line = line.strip()
+    if not line:
+      continue
+
+    if line.startswith(GIT_DATE_PREFIX):
+      current_date = datetime.datetime.fromisoformat(
+          line[len(GIT_DATE_PREFIX):]).astimezone(datetime.timezone.utc).isoformat() + 'Z'
+      continue
+
+    dsa_id = git_relative_data_paths.pop(line, None)
+    if dsa_id:
+      advisories[dsa_id].modified = current_date
+
+    # Empty dictionary means no more files need modification dates
+    # Safely skip rest of the commits
+    if not git_relative_data_paths:
+      break
 
 
 def write_output(output_dir: str, advisories: Advisories):
