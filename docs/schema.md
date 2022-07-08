@@ -170,7 +170,7 @@ databases operating without custom identifier prefixes are:
 - Your database here. [Send us a PR](https://github.com/ossf/osv-schema/compare).
 
 The `modified` field gives the time the entry was last modified, as an
-RFC3339-formatted timestamptime stamp in UTC (ending in "Z"). Given two
+RFC3339-formatted timestamp in UTC (ending in "Z"). Given two
 different entries claiming to describe the same `id` field, the one with the
 later modification time is considered authoritative.
 
