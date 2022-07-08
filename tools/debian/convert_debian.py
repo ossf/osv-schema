@@ -62,6 +62,7 @@ NOT_AFFECTED_VERSION = '<not-affected>'
 # Prefix used to identify a new date line
 GIT_DATE_PREFIX = '-----'
 
+
 class AffectedInfo:
   """Debian version info."""
   package: str
@@ -283,7 +284,9 @@ def parse_webwml_files(advisories: Advisories, webwml_repo_path: str,
 
     if line.startswith(GIT_DATE_PREFIX):
       current_date = datetime.datetime.fromisoformat(
-          line[len(GIT_DATE_PREFIX):]).astimezone(datetime.timezone.utc).isoformat() + 'Z'
+          line[len(GIT_DATE_PREFIX):]).astimezone(
+              # OSV spec requires a "Z" offset
+              datetime.timezone.utc).isoformat().replace('+00:00', 'Z')
       continue
 
     dsa_id = git_relative_data_paths.pop(line, None)
