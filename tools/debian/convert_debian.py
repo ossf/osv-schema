@@ -256,8 +256,8 @@ def parse_webwml_files(advisories: Advisories, webwml_repo_path: str,
       # This is accounted for with the modified timestamp with git
       # below though, so we don't need to parse them here
       advisory.published = (
-          datetime.strptime(report_date.split(',')[0],
-                                     '%Y-%m-%d').isoformat() + 'Z')
+          datetime.strptime(report_date.split(',')[0], '%Y-%m-%d').isoformat() +
+          'Z')
 
     advisory_url_path = os.path.relpath(
         wml_path, os.path.join(webwml_repo_path, 'english'))
@@ -272,7 +272,7 @@ def parse_webwml_files(advisories: Advisories, webwml_repo_path: str,
     git_relative_paths[git_relative_path_data] = dsa_id
 
   modified_date_dict = collections.defaultdict(
-    lambda: datetime.fromtimestamp(0, timezone.utc))
+      lambda: datetime.fromtimestamp(0, timezone.utc))
   current_date = None
   proc = subprocess.Popen([
       'git', 'log', f'--pretty={GIT_DATE_PREFIX}%aI', '--name-only',
@@ -304,7 +304,8 @@ def parse_webwml_files(advisories: Advisories, webwml_repo_path: str,
 
   for dsa_id, modified_date in modified_date_dict.items():
     # OSV spec requires a "Z" offset
-    advisories[dsa_id].modified = modified_date.isoformat().replace('+00:00', 'Z')
+    advisories[dsa_id].modified = modified_date.isoformat().replace(
+        '+00:00', 'Z')
 
 
 def write_output(output_dir: str, advisories: Advisories):
