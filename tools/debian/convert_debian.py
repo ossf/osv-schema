@@ -13,11 +13,12 @@
 # limitations under the License.
 """Debian to OSV converter."""
 import argparse
+import collections
 import io
 import json
 import os
 import re
-import datetime
+from datetime import datetime, timezone
 import subprocess
 import typing
 from urllib import request
@@ -226,7 +227,7 @@ def parse_webwml_files(advisories: Advisories, webwml_repo_path: str,
     for file in files:
       file_path_map[file] = os.path.join(root, file)
 
-  git_relative_data_paths = {}
+  git_relative_paths = {}
   # Add descriptions to advisories from wml files
   for dsa_id, advisory in advisories.items():
     # remove potential extension (e.g. DSA-12345-2, -2 is the extension)
@@ -255,7 +256,7 @@ def parse_webwml_files(advisories: Advisories, webwml_repo_path: str,
       # This is accounted for with the modified timestamp with git
       # below though, so we don't need to parse them here
       advisory.published = (
-          datetime.datetime.strptime(report_date.split(',')[0],
+          datetime.strptime(report_date.split(',')[0],
                                      '%Y-%m-%d').isoformat() + 'Z')
 
     advisory_url_path = os.path.relpath(
@@ -265,9 +266,13 @@ def parse_webwml_files(advisories: Advisories, webwml_repo_path: str,
 
     advisory.references.append(Reference('ADVISORY', advisory_url))
 
-    git_relative_path = os.path.relpath(data_path, webwml_repo_path)
-    git_relative_data_paths[git_relative_path] = dsa_id
+    git_relative_path_wml = os.path.relpath(wml_path, webwml_repo_path)
+    git_relative_path_data = os.path.relpath(data_path, webwml_repo_path)
+    git_relative_paths[git_relative_path_wml] = dsa_id
+    git_relative_paths[git_relative_path_data] = dsa_id
 
+  modified_date_dict = collections.defaultdict(
+    lambda: datetime.fromtimestamp(0, timezone.utc))
   current_date = None
   proc = subprocess.Popen([
       'git', 'log', f'--pretty={GIT_DATE_PREFIX}%aI', '--name-only',
@@ -283,20 +288,23 @@ def parse_webwml_files(advisories: Advisories, webwml_repo_path: str,
       continue
 
     if line.startswith(GIT_DATE_PREFIX):
-      current_date = datetime.datetime.fromisoformat(
-          line[len(GIT_DATE_PREFIX):]).astimezone(
-              # OSV spec requires a "Z" offset
-              datetime.timezone.utc).isoformat().replace('+00:00', 'Z')
+      current_date = datetime.fromisoformat(
+          line[len(GIT_DATE_PREFIX):]).astimezone(timezone.utc)
       continue
 
-    dsa_id = git_relative_data_paths.pop(line, None)
+    dsa_id = git_relative_paths.pop(line, None)
     if dsa_id:
-      advisories[dsa_id].modified = current_date
+      # Set modified date to the latest of the .data and .wml files.
+      modified_date_dict[dsa_id] = max(modified_date_dict[dsa_id], current_date)
 
     # Empty dictionary means no more files need modification dates
     # Safely skip rest of the commits
-    if not git_relative_data_paths:
+    if not git_relative_paths:
       break
+
+  for dsa_id, modified_date in modified_date_dict.items():
+    # OSV spec requires a "Z" offset
+    advisories[dsa_id].modified = modified_date.isoformat().replace('+00:00', 'Z')
 
 
 def write_output(output_dir: str, advisories: Advisories):
