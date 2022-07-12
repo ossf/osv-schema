@@ -227,7 +227,7 @@ def parse_webwml_files(advisories: Advisories, webwml_repo_path: str,
     for file in files:
       file_path_map[file] = os.path.join(root, file)
 
-  git_relative_paths = {}
+  git_relative_paths = collections.defaultdict(list)
   # Add descriptions to advisories from wml files
   for dsa_id, advisory in advisories.items():
     # remove potential extension (e.g. DSA-12345-2, -2 is the extension)
@@ -268,8 +268,8 @@ def parse_webwml_files(advisories: Advisories, webwml_repo_path: str,
 
     git_relative_path_wml = os.path.relpath(wml_path, webwml_repo_path)
     git_relative_path_data = os.path.relpath(data_path, webwml_repo_path)
-    git_relative_paths[git_relative_path_wml] = dsa_id
-    git_relative_paths[git_relative_path_data] = dsa_id
+    git_relative_paths[git_relative_path_wml].append(dsa_id)
+    git_relative_paths[git_relative_path_data].append(dsa_id)
 
   modified_date_dict = collections.defaultdict(
       lambda: datetime.fromtimestamp(0, timezone.utc))
@@ -292,8 +292,11 @@ def parse_webwml_files(advisories: Advisories, webwml_repo_path: str,
           line[len(GIT_DATE_PREFIX):]).astimezone(timezone.utc)
       continue
 
-    dsa_id = git_relative_paths.pop(line, None)
-    if dsa_id:
+    dsa_ids = git_relative_paths.pop(line, None)
+    if not dsa_ids:
+      continue
+
+    for dsa_id in dsa_ids:
       # Set modified date to the latest of the .data and .wml files.
       modified_date_dict[dsa_id] = max(modified_date_dict[dsa_id], current_date)
 
