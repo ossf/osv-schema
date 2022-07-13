@@ -379,7 +379,7 @@ The defined ecosystems are:
 | `Maven` | The Maven Java package ecosystem. The `name` field is a Maven package name.  |
 | `NuGet` | The NuGet package ecosystem. The `name` field is a NuGet package name.  |
 | `Linux` | The Linux kernel. The only supported `name` is `Kernel`. |
-| `Debian` | The Debian package ecosystem; the `name` is the name of the package. The ecosystem string might optionally have a `:<RELEASE>` suffix, with `<RELEASE>` being the release number specified in the [distro info csv](https://debian.pages.debian.net/distro-info-data/debian.csv)  |
+| `Debian` | The Debian package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Debian release. `<RELEASE>` is a numeric version specified in the [Debian distro-info-data](https://debian.pages.debian.net/distro-info-data/debian.csv). For example, the ecosystem string "Debian:7" refers to the Debian 7 (wheezy) release.  |
 | `Hex` | The package manager for the Erlang ecosystem; the `name` is a Hex package name.  |
 | `Android`  | The Android ecosystem; the `name` field is the Android component name that the patch applies to, as shown in the [Android Security Bulletins](https://source.android.com/security/bulletin) such as `Framework`, `Media Framework` and `Kernel Component`. The exhaustive list of components can be found at the [Appendix](#android-ecosystem-components). |
 | Your ecosystem here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
