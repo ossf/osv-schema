@@ -1057,7 +1057,8 @@ potential encoding of a vulnerability entry.
 
 ## Debian vulnerability
 
-Debian security advisory (DSA) does not use this format currently, but using the tool located in `/tools/debian/`, 
+Debian security advisory (DSA) does not use this format currently, but using the 
+[conversion tool](https://github.com/ossf/osv-schema/blob/79c4fbb1715a441985aad591acdd22c449d98960/tools/debian/convert_debian.py), 
 the DSA can be converted into the OSV format. 
 
 ```json
