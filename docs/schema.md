@@ -367,21 +367,21 @@ versions and different potential vulnerabilities:
 
 The defined ecosystems are:
 
-| Ecosystem | Description |
-| --------- | ----------- |
-| `Go` | The Go ecosystem; the `name` field is a Go module path. |
-| `npm` | The NPM ecosystem; the `name` field is an NPM package name. |
-| `OSS-Fuzz` | For reports from the OSS-Fuzz project that have no more appropriate ecosystem; the `name` field is the name assigned by the OSS-Fuzz project, as recorded in the submitted fuzzing configuration. |
-| `PyPI` | the Python PyPI ecosystem; the `name` field is a [normalized](https://www.python.org/dev/peps/pep-0503/#normalized-names) PyPI package name. |
-| `RubyGems` | The RubyGems ecosystem; the `name` field is a gem name. |
-| `crates.io` | The crates.io ecosystem for Rust; the `name` field is a crate name. |
-| `Packagist` | The PHP package manager ecosystem; the `name` is a package name. |
-| `Maven` | The Maven Java package ecosystem. The `name` field is a Maven package name. |
-| `NuGet` | The NuGet package ecosystem. The `name` field is a NuGet package name. |
+| Ecosystem | Description  |
+| --------- |-----------------|
+| `Go` | The Go ecosystem; the `name` field is a Go module path.  |
+| `npm` | The NPM ecosystem; the `name` field is an NPM package name.  |
+| `OSS-Fuzz` | For reports from the OSS-Fuzz project that have no more appropriate ecosystem; the `name` field is the name assigned by the OSS-Fuzz project, as recorded in the submitted fuzzing configuration.  |
+| `PyPI` | the Python PyPI ecosystem; the `name` field is a [normalized](https://www.python.org/dev/peps/pep-0503/#normalized-names) PyPI package name.  |
+| `RubyGems` | The RubyGems ecosystem; the `name` field is a gem name.  |
+| `crates.io` | The crates.io ecosystem for Rust; the `name` field is a crate name.  |
+| `Packagist` | The PHP package manager ecosystem; the `name` is a package name.  |
+| `Maven` | The Maven Java package ecosystem. The `name` field is a Maven package name.  |
+| `NuGet` | The NuGet package ecosystem. The `name` field is a NuGet package name.  |
 | `Linux` | The Linux kernel. The only supported `name` is `Kernel`. |
-| `Debian` | The Debian package ecosystem; the `name` is the name of the package. |
-| `Hex` | The package manager for the Erlang ecosystem; the `name` is a Hex package name. |
-| `Android`  | The Android ecosystem; the `name` field is the Android component name that the patch applies to, as shown in the [Android Security Bulletins](https://source.android.com/security/bulletin) such as `Framework`, `Media Framework` and `Kernel Component`. The exhaustive list of components can be found at the [Appendix](#android-ecosystem-components).|
+| `Debian` | The Debian package ecosystem; the `name` is the name of the package. The ecosystem string might optionally have a `:<RELEASE>` suffix, with `<RELEASE>` being the release number specified in the [distro info csv](https://debian.pages.debian.net/distro-info-data/debian.csv)  |
+| `Hex` | The package manager for the Erlang ecosystem; the `name` is a Hex package name.  |
+| `Android`  | The Android ecosystem; the `name` field is the Android component name that the patch applies to, as shown in the [Android Security Bulletins](https://source.android.com/security/bulletin) such as `Framework`, `Media Framework` and `Kernel Component`. The exhaustive list of components can be found at the [Appendix](#android-ecosystem-components). |
 | Your ecosystem here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 It is permitted for a database name (the DB prefix in the `id` field) and an
@@ -1052,6 +1052,51 @@ potential encoding of a vulnerability entry.
             "severity": "HIGH"
         }
     } ]
+}
+```
+
+## Debian vulnerability
+
+Debian security advisory (DSA) does not use this format currently, but using the tool located in `/tools/debian/`, 
+the DSA is converted into the OSV format. 
+
+```json
+{
+  "id": "DSA-3029-1",
+  "summary": "nginx - security update",
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Debian:7",
+        "name": "nginx"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.2.1-2.2+wheezy3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "aliases": [
+    "CVE-2014-3616"
+  ],
+  "published": "2014-09-20T00:00:00Z",
+  "modified": "2014-09-20T08:18:07Z",
+  "details": "\nAntoine Delignat-Lavaud and Karthikeyan Bhargavan discovered that it was\npossible to reuse cached SSL sessions in unrelated contexts, allowing\nvirtual host confusion attacks in some configurations by an attacker in\na privileged network position.\n\n\nFor the stable distribution (wheezy), this problem has been fixed in\nversion 1.2.1-2.2+wheezy3.\n\n\nFor the testing distribution (jessie), this problem has been fixed in\nversion 1.6.2-1.\n\n\nFor the unstable distribution (sid), this problem has been fixed in\nversion 1.6.2-1.\n\n\nWe recommend that you upgrade your nginx packages.\n\n\n",
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://www.debian.org/security/2014/dsa-3029"
+    }
+  ]
 }
 ```
 
