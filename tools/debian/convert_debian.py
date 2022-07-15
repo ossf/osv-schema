@@ -22,7 +22,9 @@ from datetime import datetime, timezone
 import subprocess
 import typing
 from urllib import request
+from enum import Enum
 
+import dateutil.parser
 import markdownify
 import pandas as pd
 
@@ -32,13 +34,14 @@ import pandas as pd
 WEBWML_SECURITY_PATH = os.path.join('english', 'security')
 WEBWML_LTS_SECURITY_PATH = os.path.join('english', 'lts', 'security')
 SECURITY_TRACKER_DSA_PATH = os.path.join('data', 'DSA', 'list')
+SECURITY_TRACKER_DTSA_PATH = os.path.join('data', 'DTSA', 'list')
 SECURITY_TRACKER_DLA_PATH = os.path.join('data', 'DLA', 'list')
 DEBIAN_BASE_URL = 'https://www.debian.org'
 
 LEADING_WHITESPACE = re.compile(r'^\s')
 
 # e.g. [25 Apr 2022] DSA-5124-1 ffmpeg - security update
-DSA_PATTERN = re.compile(r'\[.*?]\s*([\w-]+)\s*(.*)')
+DSA_PATTERN = re.compile(r'\[(.*?)]\s*([\w-]+)\s*(.*)')
 
 # e.g. [buster] - xz-utils 5.2.4-1+deb10u1
 VERSION_PATTERN = re.compile(r'\[(.*?)]\s*-\s*([^\s]+)\s*([^\s]+)')
@@ -62,6 +65,15 @@ NOT_AFFECTED_VERSION = '<not-affected>'
 
 # Prefix used to identify a new date line
 GIT_DATE_PREFIX = '-----'
+
+
+class AdvisoryType(Enum):
+  DSA = 'DSA'
+  DLA = 'DLA'
+  DTSA = 'DTSA'
+
+  def __str__(self):
+    return self.value
 
 
 class AffectedInfo:
@@ -120,13 +132,15 @@ class AdvisoryInfo:
   aliases: [str]
   references: [Reference]
 
-  def __init__(self, adv_id: str, summary: str):
+  def __init__(self, adv_id: str, summary: str, published: str):
     self.id = adv_id
     self.summary = summary
     self.affected = []
     self.aliases = []
-    self.published = ''
-    self.modified = ''
+    # Set a placeholder value for published and modified, if there is wml files
+    # this will be replaced
+    self.published = published
+    self.modified = published
     self.details = ''
     self.references = []
 
@@ -212,9 +226,12 @@ def parse_security_tracker_file(advisories: Advisories,
         if not dsa_match:
           raise ValueError('Invalid line: ' + line)
 
-        current_advisory = dsa_match.group(1)
+        parsed_date = dateutil.parser.parse(
+            dsa_match.group(1)).isoformat() + 'Z'
+        current_advisory = dsa_match.group(2)
         advisories[current_advisory] = AdvisoryInfo(current_advisory,
-                                                    dsa_match.group(2))
+                                                    dsa_match.group(3),
+                                                    parsed_date)
 
 
 def parse_webwml_files(advisories: Advisories, webwml_repo_path: str,
@@ -335,18 +352,23 @@ def is_dsa_file(name: str):
 
 
 def convert_debian(webwml_repo: str, security_tracker_repo: str,
-                   output_dir: str, lts: bool):
+                   output_dir: str, adv_type: AdvisoryType):
   """Convert Debian advisory data into OSV."""
   advisories: Advisories = {}
 
-  if lts:
+  if adv_type == AdvisoryType.DLA:
     parse_security_tracker_file(advisories, security_tracker_repo,
                                 SECURITY_TRACKER_DLA_PATH)
     parse_webwml_files(advisories, webwml_repo, WEBWML_LTS_SECURITY_PATH)
-  else:
+  elif adv_type == AdvisoryType.DSA:
     parse_security_tracker_file(advisories, security_tracker_repo,
                                 SECURITY_TRACKER_DSA_PATH)
     parse_webwml_files(advisories, webwml_repo, WEBWML_SECURITY_PATH)
+  elif adv_type == AdvisoryType.DTSA:
+    parse_security_tracker_file(advisories, security_tracker_repo,
+                                SECURITY_TRACKER_DTSA_PATH)
+  else:
+    raise ValueError('Invalid advisory type')
 
   write_output(output_dir, advisories)
 
@@ -360,13 +382,16 @@ def main():
   parser.add_argument(
       '-o', '--output-dir', help='Output directory', required=True)
   parser.add_argument(
-      '--lts', help='Convert long term support advisories', action='store_true')
+      '--adv_type',
+      help='Advisory type',
+      type=AdvisoryType,
+      choices=list(AdvisoryType))
   parser.set_defaults(feature=False)
 
   args = parser.parse_args()
 
   convert_debian(args.webwml_repo, args.security_tracker_repo, args.output_dir,
-                 args.lts)
+                 args.adv_type)
 
 
 if __name__ == '__main__':
