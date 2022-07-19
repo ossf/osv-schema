@@ -150,8 +150,7 @@ def main():
       continue
 
     for package, versions in sources.items():
-      with open(os.path.join(versions_path, package + '.txt'),
-                'w') as output_file:
+      with open(os.path.join(versions_path, package), 'w') as output_file:
         output_file.write(versions)
 
 
