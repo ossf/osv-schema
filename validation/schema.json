@@ -4,8 +4,17 @@
   "description": "A schema for describing a vulnerability in an open source package.",
   "type": "object",
   "properties": {
+    "schema_format": {
+      "type": "string",
+      "enum": [
+        "OSV"
+      ]
+    },
     "schema_version": {
-      "type": "string"
+      "type": "string",
+      "enum": [
+        "1.2.0"
+      ]
     },
     "id": {
       "type": "string"
@@ -301,6 +310,8 @@
     }
   },
   "required": [
+    "schema_format",
+    "schema_version",
     "id",
     "modified"
   ]
