@@ -143,15 +143,11 @@ def main():
   dataframe = load_first_packages()
   version_to_sources = dict(zip(dataframe['version'], dataframe['sources']))
 
+  os.makedirs(args.output_dir, exist_ok=True)
   for version, sources in version_to_sources.items():
-    versions_path = os.path.join(args.output_dir, version)
-    os.makedirs(versions_path, exist_ok=True)
-    if not sources:
-      continue
-
-    for package, versions in sources.items():
-      with open(os.path.join(versions_path, package), 'w') as output_file:
-        output_file.write(versions)
+    versions_path = os.path.join(args.output_dir, version + '.json')
+    with open(versions_path, 'w') as handle:
+      handle.write(json.dumps(sources))
 
 
 if __name__ == '__main__':
