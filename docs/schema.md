@@ -773,39 +773,47 @@ Here is a complete entry for a recent Go vulnerability:
 
 ```json
 {
-    "schema_version": "1.2.0",
-    "id": "GO-2021-99998",
-    "published": "2021-01-21T19:15:00Z",
-    "modified": "2021-03-10T23:20:53Z",
-    "aliases": ["CVE-2021-3114"],
-    "summary": "incorrect P-224 curve operations",
-    "details": "The P224() Curve implementation can in rare circumstances generate incorrect outputs, including returning invalid points from ScalarMult.\n\nThe crypto/x509 and golang.org/x/crypto/ocsp (but not crypto/tls) packages support P-224 ECDSA keys, but they are not supported by publicly trusted certificate authorities. No other standard library or golang.org/x/crypto package supports or uses the P-224 curve.\n\nThe incorrect output was found by the elliptic-curve-differential-fuzzer project running on OSS-Fuzz and reported by Philippe Antoine (Catena cyber).",
-    "references": [
-        {"type": "REPORT", "url": "https://golang.org/issue/43786"},
-        {"type": "WEB", "url": "https://github.com/catenacyber/elliptic-curve-differential-fuzzer"}
-    ],
-    "affected": [ {
-        "package": {
-            "ecosystem": "Go",
-            "name": "crypto/elliptic"
-        },
-        "ranges": [
+  "id": "GO-2022-0492",
+  "published": "2022-07-15T23:30:03Z",
+  "modified": "2022-07-15T23:30:03Z",
+  "aliases": [
+    "CVE-2022-25856",
+    "GHSA-qpgx-64h2-gc3c"
+  ],
+  "details": "GitArtifactReader is vulnerable to directory traversal attacks.\n\nThe GitArtifactReader.Read function reads and returns the\ncontents of a Git repository file. A maliciously crafted repository\ncan exploit this to cause Read to read from arbitrary files on\nthe filesystem.\n",
+  "affected": [
+    {
+      "package": {
+        "name": "github.com/argoproj/argo-events",
+        "ecosystem": "Go"
+      },
+      "ranges": [
+        {
+          "type": "SEMVER",
+          "events": [
             {
-                "type": "SEMVER",
-                "events": [
-                    { "introduced": "1.0.0" },
-                    { "fixed": "1.14.14" },
-                    { "introduced": "1.15.0" },
-                    { "fixed": "1.15.17" }
-                ]
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.7.1"
             }
-        ],
-        "ecosystem_specific": {
-            "functions": ["P224"],
-            "module": "std",
-            "severity": "HIGH"
+          ]
         }
-    } ]
+      ],
+      "database_specific": { "url": "https://pkg.go.dev/vuln/GO-2022-0492" },
+      "ecosystem_specific": {
+        "package": "github.com/argoproj/argo-events/sensors/artifacts",
+        "symbols": [
+          "NewGitReader",
+          "GetArtifactReader"
+        ]
+      }
+    }
+  ],
+  "references": [
+    { "type": "FIX", "url": "https://github.com/argoproj/argo-events/pull/1965" },
+    { "type": "WEB", "url": "https://github.com/argoproj/argo-events/issues/1947" }
+  ]
 }
 ```
 
@@ -829,7 +837,7 @@ applications.  Here is an entry for a recent Go tool vulnerability:
     "affected": [ {
         "package": {
             "ecosystem": "Go",
-            "name": "cmd/go"
+            "name": "std"
         },
         "ranges": [
             {
@@ -844,6 +852,7 @@ applications.  Here is an entry for a recent Go tool vulnerability:
         ],
         "ecosystem_specific": {
             "severity": "HIGH"
+            "package": "cmd/go"
         }
     } ]
 }
