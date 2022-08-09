@@ -776,10 +776,7 @@ Here is a complete entry for a recent Go vulnerability:
   "id": "GO-2022-0492",
   "published": "2022-07-15T23:30:03Z",
   "modified": "2022-07-15T23:30:03Z",
-  "aliases": [
-    "CVE-2022-25856",
-    "GHSA-qpgx-64h2-gc3c"
-  ],
+  "aliases": [ "CVE-2022-25856", "GHSA-qpgx-64h2-gc3c" ],
   "details": "GitArtifactReader is vulnerable to directory traversal attacks.\n\nThe GitArtifactReader.Read function reads and returns the\ncontents of a Git repository file. A maliciously crafted repository\ncan exploit this to cause Read to read from arbitrary files on\nthe filesystem.\n",
   "affected": [
     {
@@ -791,12 +788,8 @@ Here is a complete entry for a recent Go vulnerability:
         {
           "type": "SEMVER",
           "events": [
-            {
-              "introduced": "0"
-            },
-            {
-              "fixed": "1.7.1"
-            }
+            { "introduced": "0" },
+            { "fixed": "1.7.1" }
           ]
         }
       ],
@@ -824,37 +817,45 @@ applications.  Here is an entry for a recent Go tool vulnerability:
 
 ```json
 {
-    "schema_version": "1.2.0",
-    "id": "GO-2021-99999",
-    "published": "2021-01-21T19:15:00Z",
-    "modified": "2021-03-10T23:20:53Z",
-    "aliases": ["CVE-2021-3115"],
-    "summary": "packages using cgo can cause arbitrary code execution at build time",
-    "details": "The go command may execute arbitrary code at build time when cgo is in use on Windows. This may occur when running \"go get\", or any other command that builds code. Only users who build untrusted code (and don’t execute it) are affected.\n\nIn addition to Windows users, this can also affect Unix users who have \".\" listed explicitly in their PATH and are running \"go get\" or build commands outside of a module or with module mode disabled.\n\nThanks to RyotaK (https://twitter.com/ryotkak) for reporting this issue.",
-    "references": [
-        {"type": "REPORT", "url": "https://golang.org/issue/43783"}
-    ],
-    "affected": [ {
-        "package": {
-            "ecosystem": "Go",
-            "name": "std"
-        },
-        "ranges": [
-            {
-                "type": "SEMVER",
-                "events": [
-                    { "introduced": "1.0.0" },
-                    { "fixed": "1.14.14" },
-                    { "introduced": "1.15.10" },
-                    { "fixed": "1.15.17" }
-                ]
-            }
-        ],
-        "ecosystem_specific": {
-            "severity": "HIGH"
-            "package": "cmd/go"
+  "id": "GO-2021-0068",
+  "published": "2021-04-14T20:04:52Z",
+  "modified": "2022-05-23T18:04:20Z",
+  "aliases": [ "CVE-2021-3115" ],
+  "details": "The go command may execute arbitrary code at build time when using cgo on Windows.\nThis can be triggered by running go get on a malicious module, or any other time\nthe code is built.\n",
+  "affected": [
+    {
+      "package": {
+        "name": "std",
+        "ecosystem": "Go"
+      },
+      "ranges": [
+        {
+          "type": "SEMVER",
+          "events": [
+            { "introduced": "0" },
+            { "fixed": "1.14.14" },
+            { "introduced": "1.15.0" },
+            { "fixed": "1.15.7" }
+          ]
         }
-    } ]
+      ],
+      "database_specific": { "url": "https://pkg.go.dev/vuln/GO-2021-0068" },
+      "ecosystem_specific": {
+        "package": "cmd/go"
+        "goos": [
+          "windows"
+        ]
+      }
+    }
+  ],
+  "references": [
+    { "type": "FIX", "url": "https://go.dev/cl/284783" },
+    { "type": "FIX", "url": "https://go.googlesource.com/go/+/953d1feca9b21af075ad5fc8a3dad096d3ccc3a0" },
+    { "type": "WEB", "url": "https://go.dev/issue/43783" },
+    { "type": "WEB", "url": "https://groups.google.com/g/golang-announce/c/mperVMGa98w/m/yo5W5wnvAAAJ" },
+    { "type": "WEB", "url": "https://go.dev/cl/284780" },
+    { "type": "WEB", "url": "https://go.googlesource.com/go/+/46e2e2e9d99925bbf724b12693c6d3e27a95d6a0" }
+  ]
 }
 ```
 
