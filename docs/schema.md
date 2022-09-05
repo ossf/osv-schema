@@ -765,8 +765,8 @@ contains a JSON object with unspecified fields.
 
 ## Go vulnerability
 
-The [Go vulnerability database](https://go.dev/security/vulndb/) uses this format.
-See <https://go.dev/security/vulndb/api> for example entries and details of
+The [Go vulnerability database](https://go.dev/security/vuln) uses this format.
+See <https://go.dev/security/vuln/database> for example entries and details of
 `ecosystem_specific` fields.
 
 ## NPM vulnerability in GitHub database
