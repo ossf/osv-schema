@@ -765,89 +765,9 @@ contains a JSON object with unspecified fields.
 
 ## Go vulnerability
 
-The Go vulnerability database and ecosystem define that the `ecosystem_specific`
-field is a JSON object with additional fields including `module`, the Go module
-in which the package appears.
-
-Here is a complete entry for a recent Go vulnerability:
-
-```json
-{
-    "schema_version": "1.2.0",
-    "id": "GO-2021-99998",
-    "published": "2021-01-21T19:15:00Z",
-    "modified": "2021-03-10T23:20:53Z",
-    "aliases": ["CVE-2021-3114"],
-    "summary": "incorrect P-224 curve operations",
-    "details": "The P224() Curve implementation can in rare circumstances generate incorrect outputs, including returning invalid points from ScalarMult.\n\nThe crypto/x509 and golang.org/x/crypto/ocsp (but not crypto/tls) packages support P-224 ECDSA keys, but they are not supported by publicly trusted certificate authorities. No other standard library or golang.org/x/crypto package supports or uses the P-224 curve.\n\nThe incorrect output was found by the elliptic-curve-differential-fuzzer project running on OSS-Fuzz and reported by Philippe Antoine (Catena cyber).",
-    "references": [
-        {"type": "REPORT", "url": "https://golang.org/issue/43786"},
-        {"type": "WEB", "url": "https://github.com/catenacyber/elliptic-curve-differential-fuzzer"}
-    ],
-    "affected": [ {
-        "package": {
-            "ecosystem": "Go",
-            "name": "crypto/elliptic"
-        },
-        "ranges": [
-            {
-                "type": "SEMVER",
-                "events": [
-                    { "introduced": "1.0.0" },
-                    { "fixed": "1.14.14" },
-                    { "introduced": "1.15.0" },
-                    { "fixed": "1.15.17" }
-                ]
-            }
-        ],
-        "ecosystem_specific": {
-            "functions": ["P224"],
-            "module": "std",
-            "severity": "HIGH"
-        }
-    } ]
-}
-```
-
-## Go tool vulnerability
-
-The shared format can also be used to describe vulnerabilities in commands and
-applications.  Here is an entry for a recent Go tool vulnerability:
-
-```json
-{
-    "schema_version": "1.2.0",
-    "id": "GO-2021-99999",
-    "published": "2021-01-21T19:15:00Z",
-    "modified": "2021-03-10T23:20:53Z",
-    "aliases": ["CVE-2021-3115"],
-    "summary": "packages using cgo can cause arbitrary code execution at build time",
-    "details": "The go command may execute arbitrary code at build time when cgo is in use on Windows. This may occur when running \"go get\", or any other command that builds code. Only users who build untrusted code (and don’t execute it) are affected.\n\nIn addition to Windows users, this can also affect Unix users who have \".\" listed explicitly in their PATH and are running \"go get\" or build commands outside of a module or with module mode disabled.\n\nThanks to RyotaK (https://twitter.com/ryotkak) for reporting this issue.",
-    "references": [
-        {"type": "REPORT", "url": "https://golang.org/issue/43783"}
-    ],
-    "affected": [ {
-        "package": {
-            "ecosystem": "Go",
-            "name": "cmd/go"
-        },
-        "ranges": [
-            {
-                "type": "SEMVER",
-                "events": [
-                    { "introduced": "1.0.0" },
-                    { "fixed": "1.14.14" },
-                    { "introduced": "1.15.10" },
-                    { "fixed": "1.15.17" }
-                ]
-            }
-        ],
-        "ecosystem_specific": {
-            "severity": "HIGH"
-        }
-    } ]
-}
-```
+The [Go vulnerability database](https://go.dev/security/vuln) uses this format.
+See <https://go.dev/security/vuln/database> for example entries and details of
+`ecosystem_specific` fields.
 
 ## NPM vulnerability in GitHub database
 
