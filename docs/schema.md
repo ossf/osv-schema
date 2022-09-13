@@ -226,7 +226,7 @@ same database, the duplicate entry could be written using only the `id`,
 ```
 
 The `related` field gives a list of IDs of closely related vulnerabilities, such
-as the same problem in alternate ecosystems. 
+as the same problem in alternate ecosystems.
 
 ## summary, details fields
 
@@ -242,7 +242,7 @@ vulnerability. It is recommended that this field be kept short, on the order of
 no more than 120 characters.
 
 The `details` field gives additional English textual details about the
-vulnerability. 
+vulnerability.
 
 The `summary` field is plain text.
 
@@ -276,6 +276,7 @@ describes the quantitative method used to calculate the associated `score`.
 
 | Severity Type | Score Description |
 | --------- | ----------- |
+| `CVSS_V2` | A CVSS vector string representing the unique characteristics and severity of the vulnerability using a version of the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/v2/) that is == 2.0 (e.g.`"AV:L/AC:M/Au:N/C:N/I:P/A:C"`).|
 | `CVSS_V3` | A CVSS vector string representing the unique characteristics and severity of the vulnerability using a version of the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/) that is >= 3.0 and < 4.0 (e.g.`"CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:N"`).|
 | Your quantitative severity type here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
@@ -528,7 +529,7 @@ entirely defined by the database and beyond the scope of this document.
 
 In general, the canonical database for a particular ecosystem should record its
 information in `ecosystem_specific`, allowing other aggregator databases to put
-their own summaries in `database_specific`. 
+their own summaries in `database_specific`.
 
 For example, databases that add additional information such as computed CVSS
 scores for ecosystems that do not provide them could add that information here.
@@ -547,7 +548,7 @@ func IsVulnerable(pkg, v, osv)
     if affected.package == pkg
       if IncludedInVersions(v, affected.versions) ||
            IncludedInRanges(v, affected.ranges)
-        return true 
+        return true
 
   return false
 
@@ -569,7 +570,7 @@ func IncludedInRanges(v, ranges)
            vulnerable = false
         else if evt.last_affected is present && v > evt.last_affected
            vulnerable = false
-      
+
       if vulnerable
         return true
 
@@ -979,9 +980,9 @@ potential encoding of a vulnerability entry.
 
 ## Debian vulnerability
 
-Debian security advisory (DSA) does not use this format currently, but using the 
-[conversion tool](https://github.com/ossf/osv-schema/blob/79c4fbb1715a441985aad591acdd22c449d98960/tools/debian/convert_debian.py), 
-the DSA can be converted into the OSV format. 
+Debian security advisory (DSA) does not use this format currently, but using the
+[conversion tool](https://github.com/ossf/osv-schema/blob/79c4fbb1715a441985aad591acdd22c449d98960/tools/debian/convert_debian.py),
+the DSA can be converted into the OSV format.
 
 ```json
 {
@@ -1047,13 +1048,13 @@ Ruby does not use this format currently, but here is a potential translation of 
             ]
         } ],
         "versions": [
-            "1.14.0", "1.14.1", "1.14.2", "1.14.3", "1.14.4", "1.14.5", 
+            "1.14.0", "1.14.1", "1.14.2", "1.14.3", "1.14.4", "1.14.5",
             "1.14.6", "1.15.0.pre.1", "1.15.0.pre.2", "1.15.0.pre.3",
-            "1.15.0.pre.4", "1.15.0", "1.15.1", "1.15.2", "1.15.3", "1.15.4", 
-            "1.16.0.pre.1", "1.16.0.pre.2", "1.16.0.pre.3", "1.16.0", 
-            "1.16.1", "1.16.2", "1.16.3", "1.16.4", "1.16.5", "1.16.6", 
+            "1.15.0.pre.4", "1.15.0", "1.15.1", "1.15.2", "1.15.3", "1.15.4",
+            "1.16.0.pre.1", "1.16.0.pre.2", "1.16.0.pre.3", "1.16.0",
+            "1.16.1", "1.16.2", "1.16.3", "1.16.4", "1.16.5", "1.16.6",
             "1.17.0.pre.1", "1.17.0.pre.2", "1.17.0", "1.17.1", "1.17.2",
-            "1.17.3", "2.0.0.pre.1", "2.0.0.pre.2", "2.0.0.pre.3", "2.0.0", 
+            "1.17.3", "2.0.0.pre.1", "2.0.0.pre.2", "2.0.0.pre.3", "2.0.0",
             "2.0.1", "2.0.2", "2.1.0.pre.1", "2.1.0.pre.2", "2.1.0.pre.3"
         ]
     } ],
@@ -1123,7 +1124,7 @@ to be able to unify the entries in different existing databases into a single
 entry (for a particular vulnerability). That was a non-goal: the assumption is
 that there will always be multiple databases, because at the least each
 ecosystem will have its own database with its own custom metadata that doesn't
-really make sense to other databases. 
+really make sense to other databases.
 
 The open issue for "delete severity" illustrates this. If you are only
 collecting info from an ecosystem's database, it probably does help to be able
@@ -1185,7 +1186,7 @@ https://github.com/advisories/GHSA-wh77-3x4m-4q9g (npm).
 
 Similarly, the example I happened to pick for NPM above was assigned
 SNYK-JS-ELLIPTIC-1064899 but has the related entry
-SNYK-JAVA-ORGWEBJARSNPM-1069836 for that code vendored into the Java world. 
+SNYK-JAVA-ORGWEBJARSNPM-1069836 for that code vendored into the Java world.
 
 I’ve resolved the open issue in favor of single-ecosystem entries rather than
 multi-ecosystem entries. Following a suggestion from Robert Schultheis, I added
