@@ -258,11 +258,13 @@
             "enum": [
               "ADVISORY",
               "ARTICLE",
-              "REPORT",
+              "DETECTION",
+              "DISCUSSION",
+              "EVIDENCE",
               "FIX",
               "GIT",
               "PACKAGE",
-              "EVIDENCE",
+              "REPORT",
               "WEB"
             ]
           },

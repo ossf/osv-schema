@@ -690,14 +690,17 @@ The known reference `type` values are:
 
 - `ADVISORY`: A published security advisory for the vulnerability.
 - `ARTICLE`: An article or blog post describing the vulnerability.
-- `REPORT`: A report, typically on a bug or issue tracker, of the vulnerability.
+- `DETECTION`: An article or code that provides detection of the vulnerability.
+- `DISCUSSION`: A discussion of the vulnerability and related issues, e.g.
+	Twitter, Reddit.
+- `EVIDENCE`: A demonstration of the validity of a vulnerability claim, e.g.
+	`app.any.run` replaying the exploitation of the vulnerability.
 - `FIX`: A source code browser link to the fix (e.g., a GitHub commit) Note that
   the `fix` type is meant for viewing by people using web browsers.  Programs
   interested in analyzing the exact commit range would do better to use the
   `GIT`-typed `affected[].ranges` entries (described above).
 - `PACKAGE`: A home web page for the package.
-- `EVIDENCE`: A demonstration of the validity of a vulnerability claim, e.g.
-	`app.any.run` replaying the exploitation of the vulnerability.
+- `REPORT`: A report, typically on a bug or issue tracker, of the vulnerability.
 - `WEB`: A web page of some unspecified kind.
 
 ## credits fields
