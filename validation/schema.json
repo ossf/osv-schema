@@ -230,7 +230,8 @@
                       "type": {
                         "enum": [
                           "SEMVER",
-                          "ECOSYSTEM"
+                          "ECOSYSTEM",
+                          "GIT"
                         ]
                       }
                     }
