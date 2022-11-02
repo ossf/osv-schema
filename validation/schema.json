@@ -219,33 +219,7 @@
           "database_specific": {
             "type": "object"
           }
-        },
-        "allOf": [
-          {
-            "if": {
-              "properties": {
-                "ranges": {
-                  "contains": {
-                    "properties": {
-                      "type": {
-                        "enum": [
-                          "SEMVER",
-                          "ECOSYSTEM"
-                        ]
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "then": {},
-            "else": {
-              "required": [
-                "versions"
-              ]
-            }
-          }
-        ]
+        }
       }
     },
     "references": {
