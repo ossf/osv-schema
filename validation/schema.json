@@ -41,7 +41,7 @@
       "type": "string"
     },
     "severity": {
-      "type": "array",
+      "type": ["array", "null"],
       "items": {
         "type": "object",
         "properties": {
@@ -276,7 +276,10 @@
     }
   },
   "required": [
-    "id",
-    "modified"
+    "id"
+  ],
+  "anyOf": [
+    { "required": ["modified"] },
+    { "required": ["withdrawn"] }
   ]
 }
