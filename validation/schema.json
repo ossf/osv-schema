@@ -276,10 +276,7 @@
     }
   },
   "required": [
-    "id"
-  ],
-  "anyOf": [
-    { "required": ["modified"] },
-    { "required": ["withdrawn"] }
+    "id",
+    "modified"
   ]
 }
