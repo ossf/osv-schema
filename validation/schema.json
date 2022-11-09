@@ -23,7 +23,7 @@
       "format": "date-time"
     },
     "aliases": {
-      "type": "array",
+      "type": ["array", "null"],
       "items": {
         "type": "string"
       }
@@ -41,7 +41,7 @@
       "type": "string"
     },
     "severity": {
-      "type": "array",
+      "type": ["array", "null"],
       "items": {
         "type": "object",
         "properties": {
@@ -63,7 +63,7 @@
       }
     },
     "affected": {
-      "type": "array",
+      "type": ["array", "null"],
       "items": {
         "type": "object",
         "properties": {
@@ -223,7 +223,7 @@
       }
     },
     "references": {
-      "type": "array",
+      "type": ["array", "null"],
       "items": {
         "type": "object",
         "properties": {
