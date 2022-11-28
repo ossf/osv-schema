@@ -381,7 +381,7 @@ The defined ecosystems are:
 | `NuGet` | The NuGet package ecosystem. The `name` field is a NuGet package name.  |
 | `Linux` | The Linux kernel. The only supported `name` is `Kernel`. |
 | `Debian` | The Debian package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Debian release. `<RELEASE>` is a numeric version specified in the [Debian distro-info-data](https://debian.pages.debian.net/distro-info-data/debian.csv). For example, the ecosystem string "Debian:7" refers to the Debian 7 (wheezy) release.  |
-| `Alpine` | The Alpine package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Alpine release branch. E.g. `v3.16` |
+| `Alpine` | The Alpine package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:v<RELEASE-NUMBER>` suffix to scope the package to a particular Alpine release branch (the `v` prefix is required). E.g. `v3.16`. |
 | `Hex` | The package manager for the Erlang ecosystem; the `name` is a Hex package name.  |
 | `Android`  | The Android ecosystem; the `name` field is the Android component name that the patch applies to, as shown in the [Android Security Bulletins](https://source.android.com/security/bulletin) such as `Framework`, `Media Framework` and `Kernel Component`. The exhaustive list of components can be found at the [Appendix](#android-ecosystem-components). |
 | `GitHub Actions` | The GitHub Actions ecosystem; the `name` field is the action's repository name with owner e.g. `{owner}/{repo}`. |
