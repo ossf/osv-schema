@@ -152,6 +152,7 @@ The defined database prefixes and their "home" databases are:
 
 | Prefix | Description |
 | ------ | ----------- |
+| `A` | The [Android vulnerability database](TODO). Serving the shared format [here](https://storage.googleapis.com/android-osv/). |
 | `GO` | The [Go vulnerability database](https://github.com/golang/vulndb). Serving the shared format [here](https://storage.googleapis.com/go-vulndb/). |
 | `OSV` | The <https://osv.dev> vulnerability database. Serving `<ID>` in the shared format at `https://api.osv.dev/v1/vulns/<ID>` |
 | `PYSEC` | The [PyPI vulnerability database](https://github.com/pypa/advisory-db). Serving `<ID>` in the shared format at `https://api.osv.dev/v1/vulns/<ID>` |
@@ -159,6 +160,7 @@ The defined database prefixes and their "home" databases are:
 | `GSD` | The GSD database. Serving the shared format [here](https://github.com/cloudsecurityalliance/gsd-database). |
 | `GHSA` | The GitHub Security Advisory database. Serving the shared format [here](https://github.com/github/advisory-database). |
 | `LBSEC` | The LoopBack Advisory Database. Serving the shared format [here](https://github.com/loopbackio/security/tree/main/advisories). |
+| `DSA`/`DLA`/`DTSA` | The [Debian Security Advisory](https://www.debian.org/security/) database. Serving the shared format [here](https://storage.googleapis.com/debian-osv/dsa-osv/). |
 | Your database here | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 In addition to those prefixes, other databases may serve information about
@@ -166,7 +168,7 @@ non-database-specific prefixes. For example a language ecosystem might decide to
 use CVE identifiers to index its database rather than a custom prefix. The known
 databases operating without custom identifier prefixes are:
 
-- (Currently none.)
+- Alpine Security Advisory. Serving the shared format [here](https://storage.googleapis.com/cve-osv-conversion/osv-output/).
 - Your database here. [Send us a PR](https://github.com/ossf/osv-schema/compare).
 
 The `modified` field gives the time the entry was last modified, as an
