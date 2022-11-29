@@ -10,16 +10,21 @@ This is the repository for the Open Source Vulnerability schema, which is curren
 - [LoopBack Advisory Database](https://github.com/loopbackio/security/tree/main/advisories)
 
 Together, these include vulnerabilities from:
-- npm
-- Maven
-- Go
-- NuGet
-- PyPI
-- RubyGems
-- crates.io
-- Packagist
-- Linux
-- OSS-Fuzz
+-   Android
+-   crates.io
+-   Debian GNU/Linux
+-   GitHub Actions
+-   Go
+-   Hex
+-   Linux kernel
+-   Maven
+-   npm
+-   NuGet
+-   OSS-Fuzz
+-   Packagist
+-   Pub
+-   PyPI
+-   RubyGems
 
 These vulnerabilites are aggregated by https://osv.dev.
 
