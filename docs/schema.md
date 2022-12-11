@@ -168,7 +168,7 @@ non-database-specific prefixes. For example a language ecosystem might decide to
 use CVE identifiers to index its database rather than a custom prefix. The known
 databases operating without custom identifier prefixes are:
 
-- Alpine Security Advisory. Serving the shared format [here](https://storage.googleapis.com/cve-osv-conversion/osv-output/).
+- Alpine Security Advisory. Serving the shared format [here](https://storage.googleapis.com/cve-osv-conversion/).
 - Your database here. [Send us a PR](https://github.com/ossf/osv-schema/compare).
 
 The `modified` field gives the time the entry was last modified, as an
