@@ -161,6 +161,7 @@ The defined database prefixes and their "home" databases are:
 | `GHSA` | The GitHub Security Advisory database. Serving the shared format [here](https://github.com/github/advisory-database). |
 | `LBSEC` | The LoopBack Advisory Database. Serving the shared format [here](https://github.com/loopbackio/security/tree/main/advisories). |
 | `DSA`/`DLA`/`DTSA` | The [Debian Security Advisory](https://www.debian.org/security/) database. Serving the shared format [here](https://storage.googleapis.com/debian-osv/dsa-osv/). |
+| `ELA` | The [Debian Extended Security Advisory](https://www.freexian.com/lts/extended/). Serving the shared format [here](https://github.com/captn3m0/debian-elts-advisories)|
 | Your database here | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 In addition to those prefixes, other databases may serve information about
