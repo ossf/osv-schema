@@ -73,12 +73,12 @@ A JSON Schema for validation is also available
 		"package": {
 			"ecosystem": string,
 			"name": string,
-			"purl": string,
-			"severity": [ {
-				"type": string,
-				"score": string
-			} ]
+			"purl": string
 		},
+		"severity": [ {
+			"type": string,
+			"score": string
+		} ],
 		"ranges": [ {
 			"type": string,
 			"repo": string,
@@ -299,12 +299,12 @@ on the selected `severity[].type`, as described above.
 		"package": {
 			"ecosystem": string,
 			"name": string,
-			"purl": string,
-			"severity": [ {
-				"type": string,
-				"score": string
-			} ]
+			"purl": string
 		},
+		"severity": [ {
+			"type": string,
+			"score": string
+		} ],
 		"ranges": [ {
 			"type": string,
 			"repo": string,
@@ -331,6 +331,12 @@ versions. In rare cases, for example if the `ecosystem_specific` encodes
 platform information that doesn't apply equally to all listed versions and
 ranges, a separate entry with the same `package` in the `affected` array may be
 needed.
+
+The `severity` field is an optional element [defined here](#severity-field). 
+This `severity` field applies to a specific package, in cases where affected 
+packages have differing severities for the same vulnerability. If any package 
+level `severity` fields are set, the top level [`severity`](#severity-field) 
+must not be set. 
 
 The `versions` field can enumerate a specific set of affected versions, and the
 `ranges` field can list ranges of affected versions, under a given defined
@@ -363,12 +369,6 @@ within its ecosystem. The two fields must both be present, because the
 The `purl` field is a string following the
  [Package URL specification](https://github.com/package-url/purl-spec) that
 identifies the package. This field is optional but recommended.
-
-The `severity` field is an optional element [defined here](#severity-field). 
-Per package severity override is optional for different packages. It is only 
-recommended to have both top level and affected package `severity` fields
-when there are mutliple affected packages. For single affected package, 
-`severity` override is not needed.
 
 Different ecosystems can define the same names; they identify different
 packages. For example, these denote different libraries with different sets of
@@ -407,6 +407,10 @@ The defined ecosystems are:
 It is permitted for a database name (the DB prefix in the `id` field) and an
 ecosystem name to be the same, provided they have the same owner who can make
 decisions about the meaning of the `ecosystem_specific` field (see below).
+
+### affected[].severity field
+
+The `severity` field is an optional element [defined here](#severity-field). 
 
 ### affected[].versions field
 
