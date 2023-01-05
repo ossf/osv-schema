@@ -66,28 +66,6 @@
       "type": ["array", "null"],
       "items": {
         "type": "object",
-        "severity": {
-          "type": ["array", "null"],
-          "items": {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "enum": [
-                  "CVSS_V2",
-                  "CVSS_V3"
-                ]
-              },
-              "score": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "type",
-              "score"
-            ]
-          }
-        },
         "properties": {
           "package": {
             "type": "object",
@@ -106,6 +84,28 @@
               "ecosystem",
               "name"
             ]
+          },
+          "severity": {
+            "type": ["array", "null"],
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "CVSS_V2",
+                    "CVSS_V3"
+                  ]
+                },
+                "score": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type",
+                "score"
+              ]
+            }
           },
           "ranges": {
             "type": "array",
