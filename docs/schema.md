@@ -388,7 +388,7 @@ The defined ecosystems are:
 | `Android`  | The Android ecosystem; the `name` field is the Android component name that the patch applies to, as shown in the [Android Security Bulletins](https://source.android.com/security/bulletin) such as `Framework`, `Media Framework` and `Kernel Component`. The exhaustive list of components can be found at the [Appendix](#android-ecosystem-components). |
 | `GitHub Actions` | The GitHub Actions ecosystem; the `name` field is the action's repository name with owner e.g. `{owner}/{repo}`. |
 | `Pub` | The package manager for the Dart ecosystem; the `name` field is a Dart package name. |
-| `conan.io` | The conan.io ecosystem for C and C++; the `name` field is a conan package name.  |
+| `conan` | The conan ecosystem for C and C++; the `name` field is a conan package name.  |
 | Your ecosystem here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 It is permitted for a database name (the DB prefix in the `id` field) and an
