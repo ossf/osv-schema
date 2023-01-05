@@ -73,7 +73,11 @@ A JSON Schema for validation is also available
 		"package": {
 			"ecosystem": string,
 			"name": string,
-			"purl": string
+			"purl": string,
+			"severity": [ {
+				"type": string,
+				"score": string
+			} ]
 		},
 		"ranges": [ {
 			"type": string,
@@ -295,7 +299,11 @@ on the selected `severity[].type`, as described above.
 		"package": {
 			"ecosystem": string,
 			"name": string,
-			"purl": string
+			"purl": string,
+			"severity": [ {
+				"type": string,
+				"score": string
+			} ]
 		},
 		"ranges": [ {
 			"type": string,
@@ -355,6 +363,11 @@ within its ecosystem. The two fields must both be present, because the
 The `purl` field is a string following the
  [Package URL specification](https://github.com/package-url/purl-spec) that
 identifies the package. This field is optional but recommended.
+
+The `severity` field is an optional JSON array that allows generating systems to 
+describe the severity of a vulnerability using one or more quantitative scoring 
+methods. Each `severity` item is a JSON object specifying a `type` and `score` 
+property, described above.
 
 Different ecosystems can define the same names; they identify different
 packages. For example, these denote different libraries with different sets of
