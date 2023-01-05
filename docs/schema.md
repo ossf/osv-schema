@@ -364,10 +364,11 @@ The `purl` field is a string following the
  [Package URL specification](https://github.com/package-url/purl-spec) that
 identifies the package. This field is optional but recommended.
 
-The `severity` field is an optional JSON array that allows generating systems to 
-describe the severity of a vulnerability using one or more quantitative scoring 
-methods. Each `severity` item is a JSON object specifying a `type` and `score` 
-property, described above.
+The `severity` field is an optional element [defined here](#severity-field). 
+Per package severity override is optional for different packages. It is only 
+recommended to have both, top level and affected package `severity` fields
+when there are mutliple affected packages. For single affected package, 
+`severity` override is not needed.
 
 Different ecosystems can define the same names; they identify different
 packages. For example, these denote different libraries with different sets of
