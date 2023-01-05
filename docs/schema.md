@@ -366,7 +366,7 @@ identifies the package. This field is optional but recommended.
 
 The `severity` field is an optional element [defined here](#severity-field). 
 Per package severity override is optional for different packages. It is only 
-recommended to have both, top level and affected package `severity` fields
+recommended to have both top level and affected package `severity` fields
 when there are mutliple affected packages. For single affected package, 
 `severity` override is not needed.
 
