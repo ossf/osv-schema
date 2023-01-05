@@ -13,6 +13,7 @@ This is the repository for the Open Source Vulnerability schema, which is curren
 - [Haskell Security Advisories](https://github.com/haskell/security-advisories)
 - [Bitnami Vulnerability Database](https://github.com/bitnami/vulndb)
 - [OSV.dev maintained converters](https://github.com/google/osv.dev#current-data-sources)
+- [VMWare Photon OS](https://github.com/vmware/photon/wiki/Security-Advisories) (unofficial)
 
 Together, these include vulnerabilities from:
 -   AlmaLinux
@@ -31,6 +32,7 @@ Together, these include vulnerabilities from:
 -   NuGet
 -   OSS-Fuzz
 -   Packagist
+-   Photon OS
 -   Pub
 -   PyPI
 -   Rocky Linux
