@@ -332,12 +332,6 @@ platform information that doesn't apply equally to all listed versions and
 ranges, a separate entry with the same `package` in the `affected` array may be
 needed.
 
-The `severity` field is an optional element [defined here](#severity-field). 
-This `severity` field applies to a specific package, in cases where affected 
-packages have differing severities for the same vulnerability. If any package 
-level `severity` fields are set, the top level [`severity`](#severity-field) 
-must not be set. 
-
 The `versions` field can enumerate a specific set of affected versions, and the
 `ranges` field can list ranges of affected versions, under a given defined
 ordering. **A version is considered affected if it lies within any one of the
@@ -411,6 +405,10 @@ decisions about the meaning of the `ecosystem_specific` field (see below).
 ### affected[].severity field
 
 The `severity` field is an optional element [defined here](#severity-field). 
+This `severity` field applies to a specific package, in cases where affected 
+packages have differing severities for the same vulnerability. If any package 
+level `severity` fields are set, the top level [`severity`](#severity-field) 
+must not be set. 
 
 ### affected[].versions field
 
