@@ -75,6 +75,10 @@ A JSON Schema for validation is also available
 			"name": string,
 			"purl": string
 		},
+		"severity": [ {
+			"type": string,
+			"score": string
+		} ],
 		"ranges": [ {
 			"type": string,
 			"repo": string,
@@ -297,6 +301,10 @@ on the selected `severity[].type`, as described above.
 			"name": string,
 			"purl": string
 		},
+		"severity": [ {
+			"type": string,
+			"score": string
+		} ],
 		"ranges": [ {
 			"type": string,
 			"repo": string,
@@ -393,6 +401,14 @@ The defined ecosystems are:
 It is permitted for a database name (the DB prefix in the `id` field) and an
 ecosystem name to be the same, provided they have the same owner who can make
 decisions about the meaning of the `ecosystem_specific` field (see below).
+
+### affected[].severity field
+
+The `severity` field is an optional element [defined here](#severity-field). 
+This `severity` field applies to a specific package, in cases where affected 
+packages have differing severities for the same vulnerability. If any package 
+level `severity` fields are set, the top level [`severity`](#severity-field) 
+must not be set. 
 
 ### affected[].versions field
 
