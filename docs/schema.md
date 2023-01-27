@@ -100,7 +100,8 @@ A JSON Schema for validation is also available
 	} ],
 	"credits": [ {
 		"name": string,
-		"contact": [ string ]
+		"contact": [ string ],
+    "type": [ string ]
 	} ],
 	"database_specific": { see description }
 }
@@ -727,6 +728,7 @@ The known reference `type` values are:
 	"credits": [ {
 		"name": string,
 		"contact": [ string ],
+    "type": [ string ],
 	} ]
 }
 ```
@@ -752,9 +754,26 @@ is required for each `credits` entry.
 Each `credits[].contact[]` entry should be a valid, fully qualified, plain-text URL
 at which the credited can be reached. Providing contacts is optional.
 
+### credits[].type[] field
+
+The `credits[].type[]` field corresponds with credit types in the 
+[MITRE CVE specification](https://github.com/CVEProject/cve-schema/blob/master/schema/v5.0/CVE_JSON_5.0_schema.json#L997-L1006) 
+and must be one of the defined credit types:
+
+- "finder"
+- "reporter"
+- "analyst"
+- "coordinator"
+- "remediation developer"
+- "remediation reviewer"
+- "remediation verifier"
+- "tool"
+- "sponsor"
+- "other"
+
 #### Examples
 
-Including a URL and an email address in `credits[].contact[]`:
+Including a URL and an email address in `credits[].contact[]` and a credit type:
 
 ```json
 {
@@ -764,6 +783,7 @@ Including a URL and an email address in `credits[].contact[]`:
 			"https://twitter.com/JaninaKowalska01",
 			"mailto:nina@kowalska-family.net"
 		],
+    "type": "remediation developer",
 	} ]
 }
 ```
