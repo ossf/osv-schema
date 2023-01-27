@@ -756,20 +756,22 @@ at which the credited can be reached. Providing contacts is optional.
 
 ### credits[].type[] field
 
-The `credits[].type[]` field corresponds with credit types in the 
-[MITRE CVE specification](https://github.com/CVEProject/cve-schema/blob/master/schema/v5.0/CVE_JSON_5.0_schema.json#L997-L1006) 
-and must be one of the defined credit types:
+The `credits[].type[]` field should specify type or role of the individual or entity
+being credited.  It must be one of the following defined credit types:
 
-- "finder"
-- "reporter"
-- "analyst"
-- "coordinator"
-- "remediation developer"
-- "remediation reviewer"
-- "remediation verifier"
-- "tool"
-- "sponsor"
-- "other"
+- `FINDER`
+- `REPORTER`
+- `ANALYST`
+- `COORDINATOR`
+- `REMEDIATION DEVELOPER`
+- `REMEDIATION REVIEWER`
+- `REMEDIATION VERIFIER`
+- `TOOL`
+- `SPONSOR`
+- `OTHER`
+
+These values and their definitions correspond directly to the credit types defined in the
+[MITRE CVE specification](https://github.com/CVEProject/cve-schema/blob/master/schema/v5.0/CVE_JSON_5.0_schema.json#L997-L1006).
 
 #### Examples
 
@@ -783,7 +785,7 @@ Including a URL and an email address in `credits[].contact[]` and a credit type:
 			"https://twitter.com/JaninaKowalska01",
 			"mailto:nina@kowalska-family.net"
 		],
-    "type": "remediation developer",
+    "type": "REMEDIATION DEVELOPER",
 	} ]
 }
 ```
