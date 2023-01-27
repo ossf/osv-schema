@@ -286,6 +286,21 @@
             "items": {
               "type": "string"
             }
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "finder",
+              "reporter",
+              "analyst",
+              "coordinator",
+              "remediation developer",
+              "remediation reviewer",
+              "remediation verifier",
+              "tool",
+              "sponsor",
+              "other"
+          ]
           }
         },
         "required": [
