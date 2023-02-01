@@ -101,7 +101,7 @@ A JSON Schema for validation is also available
 	"credits": [ {
 		"name": string,
 		"contact": [ string ],
-    "type": [ string ]
+		"type": [ string ]
 	} ],
 	"database_specific": { see description }
 }
@@ -759,19 +759,19 @@ at which the credited can be reached. Providing contacts is optional.
 The `credits[].type[]` field should specify type or role of the individual or entity
 being credited.  It must be one of the following defined credit types:
 
-- `FINDER`
-- `REPORTER`
-- `ANALYST`
-- `COORDINATOR`
-- `REMEDIATION DEVELOPER`
-- `REMEDIATION REVIEWER`
-- `REMEDIATION VERIFIER`
-- `TOOL`
-- `SPONSOR`
+- `FINDER`: identifies the vulnerability
+- `REPORTER`: notifies the vendor of the vulnerability to a CNA.
+- `ANALYST`: validates the vulnerability to ensure accuracy or severity.
+- `COORDINATOR`: facilitates the coordinated response process.
+- `REMEDIATION DEVELOPER`: prepares a code change or other remediation plans.
+- `REMEDIATION REVIEWER`: reviews vulnerability remediation plans or code changes for effectiveness and completeness.
+- `REMEDIATION VERIFIER`: tests and verifies the vulnerability or its remediation.
+- `TOOL`: names of tools used in vulnerability discovery or identification.
+- `SPONSOR`: supports the vulnerability identification or remediation activities.
 - `OTHER`
 
 These values and their definitions correspond directly to the credit types defined in the
-[MITRE CVE specification](https://github.com/CVEProject/cve-schema/blob/master/schema/v5.0/CVE_JSON_5.0_schema.json#L997-L1006).
+[MITRE CVE specification](https://cveproject.github.io/cve-schema/schema/v5.0/docs/#collapseDescription_oneOf_i0_containers_cna_credits_items_type).
 
 #### Examples
 
