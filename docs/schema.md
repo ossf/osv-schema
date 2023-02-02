@@ -728,7 +728,7 @@ The known reference `type` values are:
 	"credits": [ {
 		"name": string,
 		"contact": [ string ],
-    "type": [ string ],
+		"type": [ string ],
 	} ]
 }
 ```
