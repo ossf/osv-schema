@@ -759,7 +759,7 @@ at which the credited can be reached. Providing contacts is optional.
 The `credits[].type[]` field should specify type or role of the individual or entity
 being credited.  It must be one of the following defined credit types:
 
-- `FINDER`: identifies the vulnerability
+- `FINDER`: identifies the vulnerability.
 - `REPORTER`: notifies the vendor of the vulnerability to a CNA.
 - `ANALYST`: validates the vulnerability to ensure accuracy or severity.
 - `COORDINATOR`: facilitates the coordinated response process.
@@ -768,7 +768,7 @@ being credited.  It must be one of the following defined credit types:
 - `REMEDIATION VERIFIER`: tests and verifies the vulnerability or its remediation.
 - `TOOL`: names of tools used in vulnerability discovery or identification.
 - `SPONSOR`: supports the vulnerability identification or remediation activities.
-- `OTHER`
+- `OTHER`: any other type or role that does not fall under the categories described above.
 
 These values and their definitions correspond directly to the credit types defined in the
 [MITRE CVE specification](https://cveproject.github.io/cve-schema/schema/v5.0/docs/#collapseDescription_oneOf_i0_containers_cna_credits_items_type).
