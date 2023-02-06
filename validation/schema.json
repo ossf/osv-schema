@@ -294,9 +294,9 @@
               "REPORTER",
               "ANALYST",
               "COORDINATOR",
-              "REMEDIATION DEVELOPER",
-              "REMEDIATION REVIEWER",
-              "REMEDIATION VERIFIER",
+              "REMEDIATION_DEVELOPER",
+              "REMEDIATION_REVIEWER",
+              "REMEDIATION_VERIFIER",
               "TOOL",
               "SPONSOR",
               "OTHER"

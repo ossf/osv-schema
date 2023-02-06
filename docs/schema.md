@@ -756,18 +756,18 @@ at which the credited can be reached. Providing contacts is optional.
 
 ### credits[].type[] field
 
-The `credits[].type[]` field should specify type or role of the individual or entity
+The `credits[].type[]` field should specify the type or role of the individual or entity
 being credited.  It must be one of the following defined credit types:
 
-- `FINDER`: identifies the vulnerability.
-- `REPORTER`: notifies the vendor of the vulnerability to a CNA.
-- `ANALYST`: validates the vulnerability to ensure accuracy or severity.
-- `COORDINATOR`: facilitates the coordinated response process.
-- `REMEDIATION DEVELOPER`: prepares a code change or other remediation plans.
-- `REMEDIATION REVIEWER`: reviews vulnerability remediation plans or code changes for effectiveness and completeness.
-- `REMEDIATION VERIFIER`: tests and verifies the vulnerability or its remediation.
+- `FINDER`: identified the vulnerability.
+- `REPORTER`: notified the vendor of the vulnerability to a CNA.
+- `ANALYST`: validated the vulnerability to ensure accuracy or severity.
+- `COORDINATOR`: facilitated the coordinated response process.
+- `REMEDIATION_DEVELOPER`: prepared a code change or other remediation plans.
+- `REMEDIATION_REVIEWER`: reviewed vulnerability remediation plans or code changes for effectiveness and completeness.
+- `REMEDIATION_VERIFIER`: tested and verified the vulnerability or its remediation.
 - `TOOL`: names of tools used in vulnerability discovery or identification.
-- `SPONSOR`: supports the vulnerability identification or remediation activities.
+- `SPONSOR`: supported the vulnerability identification or remediation activities.
 - `OTHER`: any other type or role that does not fall under the categories described above.
 
 These values and their definitions correspond directly to the credit types defined in the
