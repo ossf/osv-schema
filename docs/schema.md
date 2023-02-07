@@ -756,7 +756,7 @@ at which the credited can be reached. Providing contacts is optional.
 
 ### credits[].type[] field
 
-The `credits[].type[]` field should specify the type or role of the individual or entity
+The optional `credits[].type[]` field should specify the type or role of the individual or entity
 being credited.  It must be one of the following defined credit types:
 
 - `FINDER`: identified the vulnerability.
@@ -785,7 +785,7 @@ Including a URL and an email address in `credits[].contact[]` and a credit type:
 			"https://twitter.com/JaninaKowalska01",
 			"mailto:nina@kowalska-family.net"
 		],
-    "type": "REMEDIATION DEVELOPER",
+		"type": "REMEDIATION DEVELOPER",
 	} ]
 }
 ```
