@@ -785,7 +785,7 @@ Including a URL and an email address in `credits[].contact[]` and a credit type:
 			"https://twitter.com/JaninaKowalska01",
 			"mailto:nina@kowalska-family.net"
 		],
-		"type": "REMEDIATION DEVELOPER",
+		"type": "REMEDIATION_DEVELOPER",
 	} ]
 }
 ```
