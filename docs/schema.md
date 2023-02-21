@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.3.1 (September 28, 2022)**
+**Version 1.4.0 (February 21, 2023)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -1130,6 +1130,8 @@ Ruby does not use this format currently, but here is a potential translation of 
 - 2022-03-24 Released version 1.3.0. Added `last_affected` event type and
   `database_specific` to `affected[].ranges[]`.
   Context: https://github.com/ossf/osv-schema/issues/35.
+- 2023-02-21 Released version 1.4.0. Added per package `severity` and 
+  credit types. 
 
 ## Status - 2021-04-07
 
