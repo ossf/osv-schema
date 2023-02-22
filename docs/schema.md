@@ -476,8 +476,8 @@ describes a single version that either:
 These `events` objects represent a "timeline" of status changes for the affected
 package.
 
-The values of "introduced", "fixed" and "limit" are version strings as defined
-by the `affected[].ranges[].type` field.
+The values of "introduced", "fixed", "last_affected" and "limit" are version strings
+as defined by the `affected[].ranges[].type` field.
 
 #### Special values
 
