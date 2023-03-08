@@ -1,6 +1,6 @@
 # Open Source Vulnerability Schema 
 
-This is the repository for the Open Source Vulnerability schema, which is currently exported by:
+This is the repository for the Open Source Vulnerability schema (OSV-schema), which is currently exported by:
 - [GitHub Security Advisories](https://github.com/github/advisory-database)
 - [PyPI Advisory Database](https://github.com/pypa/advisory-database)
 - [Go Vulnerability Database](https://github.com/golang/vulndb)
@@ -26,8 +26,10 @@ Together, these include vulnerabilities from:
 -   PyPI
 -   RubyGems
 
-These vulnerabilites are aggregated by https://osv.dev.
+These vulnerabilites are aggregated by <https://osv.dev>.
 
 Reference tooling (e.g. converters) can be found in the [tools/](tools) directory
 
-The current version of spec is rendered [here](https://ossf.github.io/osv-schema/).
+The current version of the specification is rendered [here](https://ossf.github.io/osv-schema/).
+
+The OSV-Schema specification and the tools here are maintained by the [Open Source Security Foundation (OpenSSF)](https://openssf.org/) [Vulnerability Disclosures Working Group (WG)](https://github.com/ossf/wg-vulnerability-disclosures).
