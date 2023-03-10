@@ -101,7 +101,7 @@ A JSON Schema for validation is also available
 	"credits": [ {
 		"name": string,
 		"contact": [ string ],
-		"type": [ string ]
+		"type": string
 	} ],
 	"database_specific": { see description }
 }
@@ -730,7 +730,7 @@ The known reference `type` values are:
 	"credits": [ {
 		"name": string,
 		"contact": [ string ],
-		"type": [ string ],
+		"type": string,
 	} ]
 }
 ```
@@ -756,10 +756,11 @@ is required for each `credits` entry.
 Each `credits[].contact[]` entry should be a valid, fully qualified, plain-text URL
 at which the credited can be reached. Providing contacts is optional.
 
-### credits[].type[] field
+### credits[].type field
 
-The optional `credits[].type[]` field should specify the type or role of the individual or entity
-being credited.  It must be one of the following defined credit types:
+The optional `credits[].type` field should specify the type or role of the
+individual or entity being credited. It must be one of the following defined
+credit types:
 
 - `FINDER`: identified the vulnerability.
 - `REPORTER`: notified the vendor of the vulnerability to a CNA.
