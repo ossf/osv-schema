@@ -182,7 +182,8 @@ RFC3339-formatted timestamp in UTC (ending in "Z"). Given two
 different entries claiming to describe the same `id` field, the one with the
 later modification time is considered authoritative.
 
-The `id` and `modified` fields are required. All other fields are optional,
+The `id` and `modified` fields are required. For schema versions above 1.0.0,
+the `schema_version` field is also required. All other fields are optional,
 although of course an entry with no other metadata is not particularly useful.
 (It could potentially stand for a reserved ID with no other public information.)
 
