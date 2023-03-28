@@ -256,6 +256,7 @@
               "ARTICLE",
               "REPORT",
               "FIX",
+              "INTRODUCED",
               "GIT",
               "PACKAGE",
               "EVIDENCE",
