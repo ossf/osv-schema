@@ -30,9 +30,40 @@
     },
     "related": {
       "type": "array",
-      "items": {
-        "type": "string"
-      }
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          }
+        },
+        {
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "CAUSES",
+                  "CAUSED_BY",
+                  "DUPLICATE_OF",
+                  "DUPLICATED_BY",
+                  "INSPIRES",
+                  "INSPIRED_BY",
+                  "INSUFFICIENT_FIX_OF",
+                  "SIMILAR_TO"
+                ]
+              },
+              "id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "type",
+              "id"
+            ]
+          }
+        }
+      ]
     },
     "summary": {
       "type": "string"
