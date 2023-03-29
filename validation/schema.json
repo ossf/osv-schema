@@ -303,6 +303,7 @@
   },
   "required": [
     "id",
-    "modified"
+    "modified",
+    "schema_version"
   ]
 }
