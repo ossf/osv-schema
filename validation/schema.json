@@ -254,6 +254,7 @@
             "enum": [
               "ADVISORY",
               "ARTICLE",
+              "DISCUSSION",
               "REPORT",
               "FIX",
               "GIT",
