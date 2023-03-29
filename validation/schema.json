@@ -303,6 +303,8 @@
   },
   "required": [
     "id",
-    "modified"
+    "modified",
+    "summary",
+    "details"
   ]
 }
