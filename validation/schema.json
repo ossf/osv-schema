@@ -5,7 +5,8 @@
   "type": "object",
   "properties": {
     "schema_version": {
-      "type": "string"
+      "type": "string",
+      "enum": ["1.4.1"]
     },
     "id": {
       "type": "string"
