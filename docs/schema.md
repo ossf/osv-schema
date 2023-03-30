@@ -56,7 +56,7 @@ A JSON Schema for validation is also available
 
 ```json
 {
-  "schema_type": string,
+	"schema_type": string,
 	"schema_version": string,
 	"id": string,
 	"modified": string,
