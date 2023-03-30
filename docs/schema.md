@@ -467,6 +467,12 @@ provides automation for auto-populating the `versions` list based on supported
 an explicitly enumerated `versions` list, because `GIT` range inclusion queries
 cannot be answered without access to a copy of the underlying Git repository.
 
+- `TIMESTAMP`: The versions `introduced` and `fixed` are RFC 3339 compliant
+  timestamps denoting a time range. This is primarily useful for humans directly
+  consuming a vulnerability to know if they were impacted by a vulnerability.
+  For example, knowing if you were impacted by CVE-2023-28858 by comparing the
+  range to when you were using the service.
+
 ### affected[].ranges[].events fields
 
 The `ranges` object's `events` field is a JSON array of objects. Each object
