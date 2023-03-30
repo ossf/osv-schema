@@ -409,11 +409,11 @@ decisions about the meaning of the `ecosystem_specific` field (see below).
 
 ### affected[].severity field
 
-The `severity` field is an optional element [defined here](#severity-field). 
-This `severity` field applies to a specific package, in cases where affected 
-packages have differing severities for the same vulnerability. If any package 
-level `severity` fields are set, the top level [`severity`](#severity-field) 
-must not be set. 
+The `severity` field is an optional element [defined here](#severity-field).
+This `severity` field applies to a specific package, in cases where affected
+packages have differing severities for the same vulnerability. If any package
+level `severity` fields are set, the top level [`severity`](#severity-field)
+must not be set.
 
 ### affected[].versions field
 
@@ -714,6 +714,9 @@ The known reference `type` values are:
 
 - `ADVISORY`: A published security advisory for the vulnerability.
 - `ARTICLE`: An article or blog post describing the vulnerability.
+- `DETECTION`: A tool, script, scanner, or other mechanism that allows for
+  detection of the vulnerability in production environments. e.g. YARA rules,
+  hashes, virus signature, or other scanners.
 - `REPORT`: A report, typically on a bug or issue tracker, of the vulnerability.
 - `FIX`: A source code browser link to the fix (e.g., a GitHub commit) Note that
   the `fix` type is meant for viewing by people using web browsers.  Programs
@@ -1134,8 +1137,8 @@ Ruby does not use this format currently, but here is a potential translation of 
 - 2022-03-24 Released version 1.3.0. Added `last_affected` event type and
   `database_specific` to `affected[].ranges[]`.
   Context: https://github.com/ossf/osv-schema/issues/35.
-- 2023-02-21 Released version 1.4.0. Added per package `severity` and 
-  credit types. 
+- 2023-02-21 Released version 1.4.0. Added per package `severity` and
+  credit types.
 
 ## Status - 2021-04-07
 
@@ -1150,7 +1153,7 @@ A vulnerability-checking tool can check a build manifest against a collection of
 
 The vision we had for this was that the same underlying vulnerability might be
 described by multiple databases. We wanted a way for databases to be able to
-cross-link with each other and understand what the others were publishing.  
+cross-link with each other and understand what the others were publishing.
 
 See also the "Goal: Standard Schema for Vulnerability Databases" section in
 https://security.googleblog.com/2021/02/know-prevent-fix-framework-for-shifting.html,
