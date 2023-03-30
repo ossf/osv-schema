@@ -56,6 +56,7 @@ A JSON Schema for validation is also available
 
 ```json
 {
+  "schema_type": string,
 	"schema_version": string,
 	"id": string,
 	"modified": string,
@@ -119,6 +120,18 @@ absolutely must be shared between databases, leaving customizations to the
 "ecosystem_specific" and "database_specific" blocks (see below)
 
 # Field Details
+
+## schema_type field
+
+```json
+{
+  "schema_type": "OSV"
+}
+```
+
+The `schema_type` field is a hint to parsers (and humans) that the following
+json object is explicitly OSV formatted. This string should always contain "OSV"
+when following the OSV schema.
 
 ## schema_version field
 
