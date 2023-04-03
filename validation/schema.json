@@ -254,9 +254,11 @@
             "enum": [
               "ADVISORY",
               "ARTICLE",
+              "DETECTION",
               "DISCUSSION",
               "REPORT",
               "FIX",
+              "INTRODUCED",
               "GIT",
               "PACKAGE",
               "EVIDENCE",
