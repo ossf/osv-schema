@@ -254,6 +254,7 @@
             "enum": [
               "ADVISORY",
               "ARTICLE",
+              "DETECTION",
               "REPORT",
               "FIX",
               "INTRODUCED",
