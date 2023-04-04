@@ -314,7 +314,7 @@ on the selected `severity[].type`, as described above.
 			"events": [ {
 				"introduced": string,
 				"fixed": string,
-        "last_affected": string,
+				"last_affected": string,
 				"limit": string
 			} ]
 		} ],
