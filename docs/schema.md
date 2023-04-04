@@ -167,6 +167,7 @@ The defined database prefixes and their "home" databases are:
 | `LBSEC` | The LoopBack Advisory Database. Serving the shared format [here](https://github.com/loopbackio/security/tree/main/advisories). |
 | `DSA`/`DLA`/`DTSA` | The [Debian Security Advisory](https://www.debian.org/security/) database. Serving the shared format [here](https://storage.googleapis.com/debian-osv/dsa-osv/). |
 | `RLSA`/`RXSA` | The [Rocky Linux Security Advisory](https://errata.rockylinux.org) database. Serving the shared format [here](https://apollo.build.resf.org/api/v3/osv/)
+| `ALSA`/`ALBA`/`ALEA` | The [AlmaLinux Security Advisory](https://errata.almalinux.org/). Serving the shared format [here](https://github.com/AlmaLinux/osv-database)
 | Your database here | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 In addition to those prefixes, other databases may serve information about
@@ -401,6 +402,7 @@ The defined ecosystems are:
 | `Pub` | The package manager for the Dart ecosystem; the `name` field is a Dart package name. |
 | `ConanCenter` | The ConanCenter ecosystem for C and C++; the `name` field is a Conan package name.  |
 | `Rocky Linux` | The Rocky Linux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Rocky Linux release. `<RELEASE>` is a numeric version.
+| `AlmaLinux` | AlmaLinux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular AlmaLinux release. `<RELEASE>` is a numeric version.
 | Your ecosystem here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 It is permitted for a database name (the DB prefix in the `id` field) and an
