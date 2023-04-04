@@ -250,7 +250,7 @@ as the same problem in alternate ecosystems.
   "relationships": [ {
     "type": string,
     "id": string,
-    "canonical_url"
+    "canonical_url": string
   } ]
 }
 ```
