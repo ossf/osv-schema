@@ -63,11 +63,11 @@ A JSON Schema for validation is also available
 	"withdrawn": string,
 	"aliases": [ string ],
 	"related": [ string ],
-  "relationships": [ {
-    "type": string,
-    "id": string,
-    "canonical_url": string
-  } ],
+	"relationships": [ {
+		"type": string,
+		"id": string,
+		"canonical_url": string
+	} ],
 	"summary": string,
 	"details": string,
 	"severity": [ {
