@@ -1,5 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/ossf/osv-schema/main/validation/schema.json",
   "title": "Open Source Vulnerability",
   "description": "A schema for describing a vulnerability in an open source package.",
   "type": "object",
