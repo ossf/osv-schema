@@ -46,6 +46,7 @@
               "ALIAS",
               "CAUSES",
               "CAUSED_BY",
+              "COMMON_NAME",
               "DUPLICATED_BY",
               "DUPLICATE_OF",
               "INCOMPLETE_FIX_FOR",

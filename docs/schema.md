@@ -63,6 +63,11 @@ A JSON Schema for validation is also available
 	"withdrawn": string,
 	"aliases": [ string ],
 	"related": [ string ],
+  "relationships": [ {
+    "type": string,
+    "id": string,
+    "canonical_url": string
+  } ],
 	"summary": string,
 	"details": string,
 	"severity": [ {
@@ -238,6 +243,69 @@ same database, the duplicate entry could be written using only the `id`,
 The `related` field gives a list of IDs of closely related vulnerabilities, such
 as the same problem in alternate ecosystems.
 
+## relationships field
+
+```json
+{
+  "relationships": [ {
+    "type": string,
+    "id": string,
+    "canonical_url"
+  } ]
+}
+```
+
+The `relationships` field is an expanded alternative to the `aliases` and
+`related` fields. It allows providing more specific relationship types, as well
+as additional (optional) information such as a canonical URL for the ID.
+
+If provided, each relationship must include at minimum the `type` and `id`.
+
+### relationships[].id field
+
+Specifies the other identifier or common name (e.g., `CVE-2021-44228` or
+`Log4Shell` respectively).
+
+### relationships[].canonical_url field
+
+Specifies the canonical URL of the other identifier, for example:
+
+```json
+{
+  "type": string,
+  "id": "CVE-2021-44228",
+  "canonical_url": "https://www.cve.org/CVERecord?id=CVE-2021-44228"
+}
+```
+
+### relationships[].type field
+
+Specifies the type of relationship this OSV has to the other identifier. Must
+include one of the following types:
+
+- `ALIAS`: An alias, or identifier that is referring to the exact same
+  vulnerability. This is for connecting identifiers from different databases,
+  and not for marking duplicate IDs within the same database, which should use
+  `DUPLICATED_BY` or `DUPLICATE_OF` respectively.
+- `CAUSES`: Causes a related vulnerability, for example Log4Shell causing
+  binaries that embed the vulnerable version of Log4j to be vulnerable to RCE.
+- `CAUSED_BY`: Caused by a related vulnerability, most often an embedded
+  dependency.
+- `COMMON_NAME`: A name used to colloquially refer to a specific, usually high
+  impact, vulnerability. For example, "Log4Shell" would be a common name for
+  CVE-2021-44228.
+- `DUPLICATED_BY`: Other identifiers within the same database that are marked as
+  a duplicate of this ID.
+- `DUPLICATE_OF`: Points to the canonical identifier for a vulnerability within
+  a given database.
+- `INCOMPLETE_FIX_FOR`: When the remediation for a vulnerability is incomplete,
+  and causes a related vulnerability. For example, Log4Shell (CVE-2021-44228)
+  would be an incomplete fix for CVE-2021-45046.
+- `INSUFFICIENT_FIX_OF`: Fixes a vulnerability caused by a previous remediation
+  being incomplete. For example, CVE-2021-45046 would be an insufficient fix of
+  Log4Shell (CVE-2021-44228).
+- `RELATED`: An identifier that is related in an unspecified way.
+
 ## summary, details fields
 
 ```json
@@ -285,7 +353,7 @@ The `severity[].type` property must be one of the types defined below, which
 describes the quantitative method used to calculate the associated `score`.
 
 | Severity Type | Score Description |
-| --------- | ----------- |
+| ------------- | ----------------- |
 | `CVSS_V2` | A CVSS vector string representing the unique characteristics and severity of the vulnerability using a version of the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/v2/) that is == 2.0 (e.g.`"AV:L/AC:M/Au:N/C:N/I:P/A:C"`).|
 | `CVSS_V3` | A CVSS vector string representing the unique characteristics and severity of the vulnerability using a version of the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/) that is >= 3.0 and < 4.0 (e.g.`"CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:N"`).|
 | Your quantitative severity type here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
@@ -725,9 +793,9 @@ The known reference `type` values are:
   the `fix` type is meant for viewing by people using web browsers.  Programs
   interested in analyzing the exact commit range would do better to use the
   `GIT`-typed `affected[].ranges` entries (described above).
-- `INTRODUCED`: A source code browser link to the introduction of the vulnerability 
-  (e.g., a GitHub commit) Note that the `introduced` type is meant for viewing by people using 
-  web browsers.  Programs interested in analyzing the exact commit range would do better 
+- `INTRODUCED`: A source code browser link to the introduction of the vulnerability
+  (e.g., a GitHub commit) Note that the `introduced` type is meant for viewing by people using
+  web browsers.  Programs interested in analyzing the exact commit range would do better
   to use the `GIT`-typed `affected[].ranges` entries (described above).
 - `PACKAGE`: A home web page for the package.
 - `EVIDENCE`: A demonstration of the validity of a vulnerability claim, e.g.
