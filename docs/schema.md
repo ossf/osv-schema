@@ -158,15 +158,21 @@ The defined database prefixes and their "home" databases are:
 | Prefix | Description |
 | ------ | ----------- |
 | `A` | The [Android vulnerability database](TODO). Serving the shared format [here](https://storage.googleapis.com/android-osv/). |
+| `ALAS` | The [Amazon Linux AMI vulnerability](https://alas.aws.amazon.com/) database. Serving the 'ID' in the shared format at `https://alas.aws.amazon.com/<ID>.html` |
+| `DSA`/`DLA`/`DTSA` | The [Debian Security Advisory](https://www.debian.org/security/) database. Serving the shared format [here](https://storage.googleapis.com/debian-osv/dsa-osv/). |
+| `GHSA` | The GitHub Security Advisory database. Serving the shared format [here](https://github.com/github/advisory-database). |
 | `GO` | The [Go vulnerability database](https://github.com/golang/vulndb). Serving the shared format [here](https://storage.googleapis.com/go-vulndb/). |
+| `GSD` | The GSD database. Serving the shared format [here](https://github.com/cloudsecurityalliance/gsd-database). |
+| `LBSEC` | The LoopBack Advisory Database. Serving the shared format [here](https://github.com/loopbackio/security/tree/main/advisories). |
+| `MFSA` | The [Mozilla Foundation Security Advisory](https://www.mozilla.org/en-US/security/advisories/) database. Serving `ID` in the shared format at `https://www.mozilla.org/en-US/security/advisories/<ID>/`. |
+| `MGASA` | The [Mageia Security Advisory](https://advisories.mageia.org/) database. Serving `ID` in the shared format at `https://advisories.mageia.org/<ID>.html/`. |
 | `OSV` | The <https://osv.dev> vulnerability database. Serving `<ID>` in the shared format at `https://api.osv.dev/v1/vulns/<ID>` |
 | `PYSEC` | The [PyPI vulnerability database](https://github.com/pypa/advisory-db). Serving `<ID>` in the shared format at `https://api.osv.dev/v1/vulns/<ID>` |
-| `RUSTSEC` | [The Rust crates vulnerability database](https://github.com/rustsec/advisory-db). Serving `<ID>` in the shared format at  `https://github.com/RustSec/advisory-db/blob/osv/crates/<ID>.json` |
-| `GSD` | The GSD database. Serving the shared format [here](https://github.com/cloudsecurityalliance/gsd-database). |
-| `GHSA` | The GitHub Security Advisory database. Serving the shared format [here](https://github.com/github/advisory-database). |
-| `LBSEC` | The LoopBack Advisory Database. Serving the shared format [here](https://github.com/loopbackio/security/tree/main/advisories). |
-| `DSA`/`DLA`/`DTSA` | The [Debian Security Advisory](https://www.debian.org/security/) database. Serving the shared format [here](https://storage.googleapis.com/debian-osv/dsa-osv/). |
+| `RHSA` | The [Red Hat Security Advisory](https://access.redhat.com/security/security-updates/#/security-advisories) database. Serving `ID` in the shared format at `https://access.redhat.com/errata/<ID>`. |
 | `RLSA`/`RXSA` | The [Rocky Linux Security Advisory](https://errata.rockylinux.org) database. Serving the shared format [here](https://apollo.build.resf.org/api/v3/osv/)
+| `RUSTSEC` | [The Rust crates vulnerability database](https://github.com/rustsec/advisory-db). Serving `<ID>` in the shared format at  `https://github.com/RustSec/advisory-db/blob/osv/crates/<ID>.json` |
+| `SUSE` | The [SUSE Security Advisory](https://www.suse.com/support/update/) database. Serving `ID` in the shared format at `https://www.suse.com/support/update/announcement/2023/<ID>/`. |
+| `USN` | The [Ubuntu Security Advisory](https://ubuntu.com/security/notices) database. Serving `ID` in the shared format at `https://ubuntu.com/security/notices/<ID>/`. |
 | Your database here | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 In addition to those prefixes, other databases may serve information about
