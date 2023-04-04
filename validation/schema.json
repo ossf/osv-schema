@@ -31,40 +31,41 @@
     },
     "related": {
       "type": "array",
-      "anyOf": [
-        {
-          "items": {
+      "items": {
+        "type": "string"
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "ALIAS",
+              "CAUSES",
+              "CAUSED_BY",
+              "DUPLICATED_BY",
+              "DUPLICATE_OF",
+              "INCOMPLETE_FIX_FOR",
+              "INSUFFICIENT_FIX_OF",
+              "RELATED"
+            ]
+          },
+          "id": {
             "type": "string"
+          },
+          "canonical_url": {
+            "type": "string",
+            "format": "uri"
           }
         },
-        {
-          "items": {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "enum": [
-                  "CAUSES",
-                  "CAUSED_BY",
-                  "DUPLICATE_OF",
-                  "DUPLICATED_BY",
-                  "INSPIRES",
-                  "INSPIRED_BY",
-                  "INSUFFICIENT_FIX_OF",
-                  "SIMILAR_TO"
-                ]
-              },
-              "id": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "type",
-              "id"
-            ]
-          }
-        }
-      ]
+        "required": [
+          "type",
+          "id"
+        ]
+      }
     },
     "summary": {
       "type": "string"
