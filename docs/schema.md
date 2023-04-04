@@ -283,7 +283,7 @@ Specifies the canonical URL of the other identifier, for example:
 Specifies the type of relationship this OSV has to the other identifier. Must
 include one of the following types:
 
-- `ALIAS`: An alias, or identifier that is referring to the exact same
+- `ALIAS`: An alias, or, identifier that is referring to the exact same
   vulnerability. This is for connecting identifiers from different databases,
   and not for marking duplicate IDs within the same database, which should use
   `DUPLICATED_BY` or `DUPLICATE_OF` respectively.
