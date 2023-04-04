@@ -8,18 +8,29 @@ This is the repository for the Open Source Vulnerability schema, which is curren
 - [Global Security Database](https://github.com/cloudsecurityalliance/gsd-database)
 - [OSS-Fuzz](https://github.com/google/oss-fuzz-vulns)
 - [LoopBack Advisory Database](https://github.com/loopbackio/security/tree/main/advisories)
+- [Rocky Linux](https://distro-tools.rocky.page/apollo/openapi/#osv)
+- [AlmaLinux](https://github.com/AlmaLinux/osv-database)
+- [OSV.dev maintained converters](https://github.com/google/osv.dev#current-data-sources)
 
 Together, these include vulnerabilities from:
-- npm
-- Maven
-- Go
-- NuGet
-- PyPI
-- RubyGems
-- crates.io
-- Packagist
-- Linux
-- OSS-Fuzz
+-   AlmaLinux
+-   Alpine
+-   Android
+-   crates.io
+-   Debian GNU/Linux
+-   GitHub Actions
+-   Go
+-   Hex
+-   Linux kernel
+-   Maven
+-   npm
+-   NuGet
+-   OSS-Fuzz
+-   Packagist
+-   Pub
+-   PyPI
+-   Rocky Linux
+-   RubyGems
 
 These vulnerabilites are aggregated by https://osv.dev.
 

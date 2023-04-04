@@ -1,5 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/ossf/osv-schema/main/validation/schema.json",
   "title": "Open Source Vulnerability",
   "description": "A schema for describing a vulnerability in an open source package.",
   "type": "object",
@@ -23,7 +24,7 @@
       "format": "date-time"
     },
     "aliases": {
-      "type": "array",
+      "type": ["array", "null"],
       "items": {
         "type": "string"
       }
@@ -72,7 +73,7 @@
       "type": "string"
     },
     "severity": {
-      "type": "array",
+      "type": ["array", "null"],
       "items": {
         "type": "object",
         "properties": {
@@ -94,7 +95,7 @@
       }
     },
     "affected": {
-      "type": "array",
+      "type": ["array", "null"],
       "items": {
         "type": "object",
         "properties": {
@@ -115,6 +116,28 @@
               "ecosystem",
               "name"
             ]
+          },
+          "severity": {
+            "type": ["array", "null"],
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "CVSS_V2",
+                    "CVSS_V3"
+                  ]
+                },
+                "score": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type",
+                "score"
+              ]
+            }
           },
           "ranges": {
             "type": "array",
@@ -250,37 +273,11 @@
           "database_specific": {
             "type": "object"
           }
-        },
-        "allOf": [
-          {
-            "if": {
-              "properties": {
-                "ranges": {
-                  "contains": {
-                    "properties": {
-                      "type": {
-                        "enum": [
-                          "SEMVER",
-                          "ECOSYSTEM"
-                        ]
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "then": {},
-            "else": {
-              "required": [
-                "versions"
-              ]
-            }
-          }
-        ]
+        }
       }
     },
     "references": {
-      "type": "array",
+      "type": ["array", "null"],
       "items": {
         "type": "object",
         "properties": {
@@ -289,8 +286,10 @@
             "enum": [
               "ADVISORY",
               "ARTICLE",
+              "DETECTION",
               "REPORT",
               "FIX",
+              "INTRODUCED",
               "GIT",
               "PACKAGE",
               "EVIDENCE",
@@ -321,6 +320,21 @@
             "items": {
               "type": "string"
             }
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "FINDER",
+              "REPORTER",
+              "ANALYST",
+              "COORDINATOR",
+              "REMEDIATION_DEVELOPER",
+              "REMEDIATION_REVIEWER",
+              "REMEDIATION_VERIFIER",
+              "TOOL",
+              "SPONSOR",
+              "OTHER"
+          ]
           }
         },
         "required": [

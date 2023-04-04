@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.3.1 (September 28, 2022)**
+**Version 1.4.0 (February 21, 2023)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -75,6 +75,10 @@ A JSON Schema for validation is also available
 			"name": string,
 			"purl": string
 		},
+		"severity": [ {
+			"type": string,
+			"score": string
+		} ],
 		"ranges": [ {
 			"type": string,
 			"repo": string,
@@ -96,7 +100,8 @@ A JSON Schema for validation is also available
 	} ],
 	"credits": [ {
 		"name": string,
-		"contact": [ string ]
+		"contact": [ string ],
+		"type": string
 	} ],
 	"database_specific": { see description }
 }
@@ -152,6 +157,7 @@ The defined database prefixes and their "home" databases are:
 
 | Prefix | Description |
 | ------ | ----------- |
+| `A` | The [Android vulnerability database](TODO). Serving the shared format [here](https://storage.googleapis.com/android-osv/). |
 | `GO` | The [Go vulnerability database](https://github.com/golang/vulndb). Serving the shared format [here](https://storage.googleapis.com/go-vulndb/). |
 | `OSV` | The <https://osv.dev> vulnerability database. Serving `<ID>` in the shared format at `https://api.osv.dev/v1/vulns/<ID>` |
 | `PYSEC` | The [PyPI vulnerability database](https://github.com/pypa/advisory-db). Serving `<ID>` in the shared format at `https://api.osv.dev/v1/vulns/<ID>` |
@@ -159,6 +165,9 @@ The defined database prefixes and their "home" databases are:
 | `GSD` | The GSD database. Serving the shared format [here](https://github.com/cloudsecurityalliance/gsd-database). |
 | `GHSA` | The GitHub Security Advisory database. Serving the shared format [here](https://github.com/github/advisory-database). |
 | `LBSEC` | The LoopBack Advisory Database. Serving the shared format [here](https://github.com/loopbackio/security/tree/main/advisories). |
+| `DSA`/`DLA`/`DTSA` | The [Debian Security Advisory](https://www.debian.org/security/) database. Serving the shared format [here](https://storage.googleapis.com/debian-osv/dsa-osv/). |
+| `RLSA`/`RXSA` | The [Rocky Linux Security Advisory](https://errata.rockylinux.org) database. Serving the shared format [here](https://apollo.build.resf.org/api/v3/osv/)
+| `ALSA`/`ALBA`/`ALEA` | The [AlmaLinux Security Advisory](https://errata.almalinux.org/). Serving the shared format [here](https://github.com/AlmaLinux/osv-database)
 | Your database here | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 In addition to those prefixes, other databases may serve information about
@@ -166,7 +175,7 @@ non-database-specific prefixes. For example a language ecosystem might decide to
 use CVE identifiers to index its database rather than a custom prefix. The known
 databases operating without custom identifier prefixes are:
 
-- (Currently none.)
+- Alpine Security Advisory. Serving `<ID>` in the shared format at `https://storage.googleapis.com/cve-osv-conversion/osv-output/<ID>.json`.
 - Your database here. [Send us a PR](https://github.com/ossf/osv-schema/compare).
 
 The `modified` field gives the time the entry was last modified, as an
@@ -174,7 +183,8 @@ RFC3339-formatted timestamp in UTC (ending in "Z"). Given two
 different entries claiming to describe the same `id` field, the one with the
 later modification time is considered authoritative.
 
-The `id` and `modified` fields are required. All other fields are optional,
+The `id` and `modified` fields are required. For schema versions above 1.0.0,
+the `schema_version` field is also required. All other fields are optional,
 although of course an entry with no other metadata is not particularly useful.
 (It could potentially stand for a reserved ID with no other public information.)
 
@@ -295,12 +305,17 @@ on the selected `severity[].type`, as described above.
 			"name": string,
 			"purl": string
 		},
+		"severity": [ {
+			"type": string,
+			"score": string
+		} ],
 		"ranges": [ {
 			"type": string,
 			"repo": string,
 			"events": [ {
 				"introduced": string,
 				"fixed": string,
+				"last_affected": string,
 				"limit": string
 			} ]
 		} ],
@@ -381,15 +396,27 @@ The defined ecosystems are:
 | `NuGet` | The NuGet package ecosystem. The `name` field is a NuGet package name.  |
 | `Linux` | The Linux kernel. The only supported `name` is `Kernel`. |
 | `Debian` | The Debian package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Debian release. `<RELEASE>` is a numeric version specified in the [Debian distro-info-data](https://debian.pages.debian.net/distro-info-data/debian.csv). For example, the ecosystem string "Debian:7" refers to the Debian 7 (wheezy) release.  |
+| `Alpine` | The Alpine package ecosystem; the `name` is the name of the source package. The ecosystem string must have a `:v<RELEASE-NUMBER>` suffix to scope the package to a particular Alpine release branch (the `v` prefix is required). E.g. `v3.16`. |
 | `Hex` | The package manager for the Erlang ecosystem; the `name` is a Hex package name.  |
 | `Android`  | The Android ecosystem; the `name` field is the Android component name that the patch applies to, as shown in the [Android Security Bulletins](https://source.android.com/security/bulletin) such as `Framework`, `Media Framework` and `Kernel Component`. The exhaustive list of components can be found at the [Appendix](#android-ecosystem-components). |
 | `GitHub Actions` | The GitHub Actions ecosystem; the `name` field is the action's repository name with owner e.g. `{owner}/{repo}`. |
 | `Pub` | The package manager for the Dart ecosystem; the `name` field is a Dart package name. |
+| `ConanCenter` | The ConanCenter ecosystem for C and C++; the `name` field is a Conan package name.  |
+| `Rocky Linux` | The Rocky Linux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Rocky Linux release. `<RELEASE>` is a numeric version.
+| `AlmaLinux` | AlmaLinux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular AlmaLinux release. `<RELEASE>` is a numeric version.
 | Your ecosystem here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 It is permitted for a database name (the DB prefix in the `id` field) and an
 ecosystem name to be the same, provided they have the same owner who can make
 decisions about the meaning of the `ecosystem_specific` field (see below).
+
+### affected[].severity field
+
+The `severity` field is an optional element [defined here](#severity-field).
+This `severity` field applies to a specific package, in cases where affected
+packages have differing severities for the same vulnerability. If any package
+level `severity` fields are set, the top level [`severity`](#severity-field)
+must not be set.
 
 ### affected[].versions field
 
@@ -455,8 +482,8 @@ describes a single version that either:
 These `events` objects represent a "timeline" of status changes for the affected
 package.
 
-The values of "introduced", "fixed" and "limit" are version strings as defined
-by the `affected[].ranges[].type` field.
+The values of "introduced", "fixed", "last_affected" and "limit" are version strings
+as defined by the `affected[].ranges[].type` field.
 
 #### Special values
 
@@ -690,11 +717,18 @@ The known reference `type` values are:
 
 - `ADVISORY`: A published security advisory for the vulnerability.
 - `ARTICLE`: An article or blog post describing the vulnerability.
+- `DETECTION`: A tool, script, scanner, or other mechanism that allows for
+  detection of the vulnerability in production environments. e.g. YARA rules,
+  hashes, virus signature, or other scanners.
 - `REPORT`: A report, typically on a bug or issue tracker, of the vulnerability.
 - `FIX`: A source code browser link to the fix (e.g., a GitHub commit) Note that
   the `fix` type is meant for viewing by people using web browsers.  Programs
   interested in analyzing the exact commit range would do better to use the
   `GIT`-typed `affected[].ranges` entries (described above).
+- `INTRODUCED`: A source code browser link to the introduction of the vulnerability 
+  (e.g., a GitHub commit) Note that the `introduced` type is meant for viewing by people using 
+  web browsers.  Programs interested in analyzing the exact commit range would do better 
+  to use the `GIT`-typed `affected[].ranges` entries (described above).
 - `PACKAGE`: A home web page for the package.
 - `EVIDENCE`: A demonstration of the validity of a vulnerability claim, e.g.
 	`app.any.run` replaying the exploitation of the vulnerability.
@@ -707,6 +741,7 @@ The known reference `type` values are:
 	"credits": [ {
 		"name": string,
 		"contact": [ string ],
+		"type": string,
 	} ]
 }
 ```
@@ -732,9 +767,29 @@ is required for each `credits` entry.
 Each `credits[].contact[]` entry should be a valid, fully qualified, plain-text URL
 at which the credited can be reached. Providing contacts is optional.
 
+### credits[].type field
+
+The optional `credits[].type` field should specify the type or role of the
+individual or entity being credited. It must be one of the following defined
+credit types:
+
+- `FINDER`: identified the vulnerability.
+- `REPORTER`: notified the vendor of the vulnerability to a CNA.
+- `ANALYST`: validated the vulnerability to ensure accuracy or severity.
+- `COORDINATOR`: facilitated the coordinated response process.
+- `REMEDIATION_DEVELOPER`: prepared a code change or other remediation plans.
+- `REMEDIATION_REVIEWER`: reviewed vulnerability remediation plans or code changes for effectiveness and completeness.
+- `REMEDIATION_VERIFIER`: tested and verified the vulnerability or its remediation.
+- `TOOL`: names of tools used in vulnerability discovery or identification.
+- `SPONSOR`: supported the vulnerability identification or remediation activities.
+- `OTHER`: any other type or role that does not fall under the categories described above.
+
+These values and their definitions correspond directly to the credit types defined in the
+[MITRE CVE specification](https://cveproject.github.io/cve-schema/schema/v5.0/docs/#collapseDescription_oneOf_i0_containers_cna_credits_items_type).
+
 #### Examples
 
-Including a URL and an email address in `credits[].contact[]`:
+Including a URL and an email address in `credits[].contact[]` and a credit type:
 
 ```json
 {
@@ -744,6 +799,7 @@ Including a URL and an email address in `credits[].contact[]`:
 			"https://twitter.com/JaninaKowalska01",
 			"mailto:nina@kowalska-family.net"
 		],
+		"type": "REMEDIATION_DEVELOPER",
 	} ]
 }
 ```
@@ -1088,6 +1144,8 @@ Ruby does not use this format currently, but here is a potential translation of 
 - 2022-03-24 Released version 1.3.0. Added `last_affected` event type and
   `database_specific` to `affected[].ranges[]`.
   Context: https://github.com/ossf/osv-schema/issues/35.
+- 2023-02-21 Released version 1.4.0. Added per package `severity` and
+  credit types.
 
 ## Status - 2021-04-07
 
@@ -1102,7 +1160,7 @@ A vulnerability-checking tool can check a build manifest against a collection of
 
 The vision we had for this was that the same underlying vulnerability might be
 described by multiple databases. We wanted a way for databases to be able to
-cross-link with each other and understand what the others were publishing.  
+cross-link with each other and understand what the others were publishing.
 
 See also the "Goal: Standard Schema for Vulnerability Databases" section in
 https://security.googleblog.com/2021/02/know-prevent-fix-framework-for-shifting.html,
