@@ -256,6 +256,7 @@
               "ADVISORY",
               "ARTICLE",
               "DETECTION",
+              "DISCUSSION",
               "REPORT",
               "FIX",
               "INTRODUCED",
