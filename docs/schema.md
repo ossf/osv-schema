@@ -171,9 +171,8 @@ The defined database prefixes and their "home" databases are:
       <td>
         <ul>
           <li>How to contribute: TBD</li>
-          <li>ID Canonical URL: <code>N/A</code></li>
-          <li>ID API Endpoint: <code>https://storage.googleapis.com/android-osv/&lt;ID&gt;.json</code></li>
-          <li>ID Regex: <code>/^(ASB-A|A)-\d{4,}$/</code></li>
+          <li>Source URL: <code>N/A</code></li>
+          <li>OSV Formatted URL: <code>https://storage.googleapis.com/android-osv/&lt;ID&gt;.json</code></li>
         </ul>
       </td>
     </tr>
@@ -183,9 +182,8 @@ The defined database prefixes and their "home" databases are:
       <td>
         <ul>
           <li>How to contribute: TBD</li>
-          <li>ID Canonical URL: <code>https://pkg.go.dev/vuln/&lt;ID&gt;</code></li>
-          <li>ID API Endpoint: <code>https://vuln.go.dev/ID/&lt;ID&gt;.json</code></li>
-          <li>ID Regex: <code>/^GO-\d{4}-\d{4,}$/</code></li>
+          <li>Source URL: <code>https://pkg.go.dev/vuln/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://vuln.go.dev/ID/&lt;ID&gt;.json</code></li>
         </ul>
       </td>
     </tr>
@@ -195,9 +193,8 @@ The defined database prefixes and their "home" databases are:
       <td>
         <ul>
           <li>How to contribute: TBD</li>
-          <li>ID Canonical URL: <code>https://osv.dev/vulnerability/&lt;ID&gt;</code></li>
-          <li>ID API Endpoint: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
-          <li>ID Regex: <code>/^OSV-\d{4}-\d{1,}$/</code></li>
+          <li>Source URL: <code>https://osv.dev/vulnerability/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
         </ul>
       </td>
     </tr>
@@ -207,9 +204,8 @@ The defined database prefixes and their "home" databases are:
       <td>
         <ul>
           <li>How to contribute: TBD</li>
-          <li>ID Canonical URL: <code>https://osv.dev/vulnerability/&lt;ID&gt;</code></li>
-          <li>ID API Endpoint: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
-          <li>ID Regex: <code>/^PYSEC-\d{4}-\d{1,}$/</code></li>
+          <li>Source URL: <code>https://osv.dev/vulnerability/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
         </ul>
       </td>
     </tr>
@@ -219,9 +215,8 @@ The defined database prefixes and their "home" databases are:
       <td>
         <ul>
           <li>How to contribute: TBD</li>
-          <li>ID Canonical URL: <code>https://rustsec.org/advisories/&lt;ID&gt;</code></li>
-          <li>ID API Endpoint: <code>https://raw.githubusercontent.com/rustsec/advisory-db/osv/crates/&lt;ID&gt;.json</code></li>
-          <li>ID Regex: <code>/^RUSTSEC-\d{4}-\d{4,}$/</code></li>
+          <li>Source URL: <code>https://rustsec.org/advisories/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/rustsec/advisory-db/osv/crates/&lt;ID&gt;.json</code></li>
         </ul>
       </td>
     </tr>
@@ -231,9 +226,8 @@ The defined database prefixes and their "home" databases are:
       <td>
         <ul>
           <li>How to contribute: TBD</li>
-          <li>ID Canonical URL: <code>https://gsd.id/&lt;ID&gt;</code></li>
-          <li>ID API Endpoint: <code>https://api.gsd.id/&lt;ID&gt;</code></li>
-          <li>ID Regex: <code>/^GSD-\d{4}-\d{4,}$/</code></li>
+          <li>Source URL: <code>https://gsd.id/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://api.gsd.id/&lt;ID&gt;</code></li>
         </ul>
       </td>
     </tr>
@@ -243,9 +237,8 @@ The defined database prefixes and their "home" databases are:
       <td>
         <ul>
           <li>How to contribute: TBD</li>
-          <li>ID Canonical URL: <code>https://github.com/advisories/&lt;ID&gt;</code></li>
-          <li>ID API Endpoint: <code>N/A</code></li>
-          <li>ID Regex: <code>/^GHSA-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}$/</code></li>
+          <li>Source URL: <code>https://github.com/advisories/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>N/A</code></li>
         </ul>
       </td>
     </tr>
@@ -255,9 +248,8 @@ The defined database prefixes and their "home" databases are:
       <td>
         <ul>
           <li>How to contribute: TBD</li>
-          <li>ID Canonical URL: <code>N/A</code></li>
-          <li>ID API Endpoint: <code>N/A</code></li>
-          <li>ID Regex: <code>/^lbsa-\d{8}$/</code></li>
+          <li>Source URL: <code>N/A</code></li>
+          <li>OSV Formatted URL: <code>N/A</code></li>
         </ul>
       </td>
     </tr>
@@ -267,9 +259,8 @@ The defined database prefixes and their "home" databases are:
       <td>
         <ul>
           <li>How to contribute: TBD</li>
-          <li>ID Canonical URL: <code>https://debian.org/security/&lt;YEAR&gt;/&lt;ID&gt;</code> (lowercase dsa)</li>
-          <li>ID API Endpoint: <code>N/A</code></li>
-          <li>ID Regex: <code>/^DSA-\d{4}$/</code></li>
+          <li>Source URL: <code>https://debian.org/security/&lt;YEAR&gt;/&lt;ID&gt;</code> (lowercase dsa)</li>
+          <li>OSV Formatted URL: <code>N/A</code></li>
         </ul>
       </td>
     </tr>
@@ -279,9 +270,8 @@ The defined database prefixes and their "home" databases are:
       <td>
         <ul>
           <li>How to contribute: TBD</li>
-          <li>ID Canonical URL: <code>https://errata.rockylinux.org/&lt;ID&gt;</code></li>
-          <li>ID API Endpoint: <code>https://apollo.build.resf.org/api/v3/osv/&lt;ID&gt;</code></li>
-          <li>ID Regex: <code>/^RLSA-\d{4}:\d{4,}$/</code></li>
+          <li>Source URL: <code>https://errata.rockylinux.org/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://apollo.build.resf.org/api/v3/osv/&lt;ID&gt;</code></li>
         </ul>
       </td>
     </tr>
@@ -291,9 +281,8 @@ The defined database prefixes and their "home" databases are:
       <td>
         <ul>
           <li>How to contribute: TBD</li>
-          <li>ID Canonical URL: <code>https://errata.almalinux.org/&lt;alma version&gt;/&lt;ID&gt;.html</code></li>
-          <li>ID API Endpoint: <code>N/A</code></li>
-          <li>ID Regex: <code>/^ALSA-\d{4}:\d{4,}$/</code></li>
+          <li>Source URL: <code>https://errata.almalinux.org/&lt;alma version&gt;/&lt;ID&gt;.html</code></li>
+          <li>OSV Formatted URL: <code>N/A</code></li>
         </ul>
       </td>
     </tr>
