@@ -238,7 +238,7 @@ The defined database prefixes and their "home" databases are:
         <ul>
           <li>How to contribute: TBD</li>
           <li>Source URL: <code>https://github.com/advisories/&lt;ID&gt;</code></li>
-          <li>OSV Formatted URL: <code>N/A</code></li>
+          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
         </ul>
       </td>
     </tr>
@@ -260,7 +260,7 @@ The defined database prefixes and their "home" databases are:
         <ul>
           <li>How to contribute: TBD</li>
           <li>Source URL: <code>https://debian.org/security/&lt;YEAR&gt;/&lt;ID&gt;</code> (lowercase dsa)</li>
-          <li>OSV Formatted URL: <code>N/A</code></li>
+          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
         </ul>
       </td>
     </tr>
