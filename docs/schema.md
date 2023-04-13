@@ -181,7 +181,7 @@ The defined database prefixes and their "home" databases are:
       <td><a href="https://pkg.go.dev/vuln/">Go Vulnerability Database</a></td>
       <td>
         <ul>
-          <li>How to contribute: TBD</li>
+          <li>How to contribute: <a href="https://github.com/golang/vulndb/issues/new/choose">https://github.com/golang/vulndb/issues/new/choose</a></li>
           <li>Source URL: <code>https://pkg.go.dev/vuln/&lt;ID&gt;</code></li>
           <li>OSV Formatted URL: <code>https://vuln.go.dev/ID/&lt;ID&gt;.json</code></li>
         </ul>
@@ -192,7 +192,7 @@ The defined database prefixes and their "home" databases are:
       <td><a href="https://osv.dev/list">OSV Vulnerability Database</a></td>
       <td>
         <ul>
-          <li>How to contribute: TBD</li>
+          <li>How to contribute: <a href="https://github.com/google/oss-fuzz-vulns/issues">https://github.com/google/oss-fuzz-vulns/issues</a></li>
           <li>Source URL: <code>https://osv.dev/vulnerability/&lt;ID&gt;</code></li>
           <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
         </ul>
@@ -203,7 +203,7 @@ The defined database prefixes and their "home" databases are:
       <td><a href="https://github.com/pypa/advisory-db">PyPI Vulnerability Database</a></td>
       <td>
         <ul>
-          <li>How to contribute: TBD</li>
+          <li>How to contribute: <a href="https://github.com/pypa/advisory-database/issues">https://github.com/pypa/advisory-database/issues</a></li>
           <li>Source URL: <code>https://osv.dev/vulnerability/&lt;ID&gt;</code></li>
           <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
         </ul>
@@ -214,7 +214,7 @@ The defined database prefixes and their "home" databases are:
       <td><a href="https://github.com/rustsec/advisory-db">RustSec Advisory Database</a></td>
       <td>
         <ul>
-          <li>How to contribute: TBD</li>
+          <li>How to contribute: <a href="https://github.com/RustSec/advisory-db/blob/main/CONTRIBUTING.md">https://github.com/RustSec/advisory-db/blob/main/CONTRIBUTING.md</a></li>
           <li>Source URL: <code>https://rustsec.org/advisories/&lt;ID&gt;</code></li>
           <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/rustsec/advisory-db/osv/crates/&lt;ID&gt;.json</code></li>
         </ul>
@@ -236,7 +236,7 @@ The defined database prefixes and their "home" databases are:
       <td><a href="https://github.com/github/advisory-database">GitHub Security Advisory Database</a></td>
       <td>
         <ul>
-          <li>How to contribute: TBD</li>
+          <li>How to contribute: <a href="https://github.com/github/advisory-database#contributions">https://github.com/github/advisory-database#contributions</a></li>
           <li>Source URL: <code>https://github.com/advisories/&lt;ID&gt;</code></li>
           <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
         </ul>
