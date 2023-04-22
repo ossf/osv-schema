@@ -155,19 +155,143 @@ string of the format `<DB>-<ENTRYID>`, where `DB` names the database and
 
 The defined database prefixes and their "home" databases are:
 
-| Prefix | Description |
-| ------ | ----------- |
-| `A` | The [Android vulnerability database](TODO). Serving the shared format [here](https://storage.googleapis.com/android-osv/). |
-| `GO` | The [Go vulnerability database](https://github.com/golang/vulndb). Serving the shared format [here](https://storage.googleapis.com/go-vulndb/). |
-| `OSV` | The <https://osv.dev> vulnerability database. Serving `<ID>` in the shared format at `https://api.osv.dev/v1/vulns/<ID>` |
-| `PYSEC` | The [PyPI vulnerability database](https://github.com/pypa/advisory-db). Serving `<ID>` in the shared format at `https://api.osv.dev/v1/vulns/<ID>` |
-| `RUSTSEC` | [The Rust crates vulnerability database](https://github.com/rustsec/advisory-db). Serving `<ID>` in the shared format at  `https://github.com/RustSec/advisory-db/blob/osv/crates/<ID>.json` |
-| `GSD` | The GSD database. Serving the shared format [here](https://github.com/cloudsecurityalliance/gsd-database). |
-| `GHSA` | The GitHub Security Advisory database. Serving the shared format [here](https://github.com/github/advisory-database). |
-| `LBSEC` | The LoopBack Advisory Database. Serving the shared format [here](https://github.com/loopbackio/security/tree/main/advisories). |
-| `DSA`/`DLA`/`DTSA` | The [Debian Security Advisory](https://www.debian.org/security/) database. Serving the shared format [here](https://storage.googleapis.com/debian-osv/dsa-osv/). |
-| `RLSA`/`RXSA` | The [Rocky Linux Security Advisory](https://errata.rockylinux.org) database. Serving the shared format [here](https://apollo.build.resf.org/api/v3/osv/)
-| Your database here | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
+<!-- Unfortunately, markdown tables are even worse than this to read/write -->
+<table>
+  <thead>
+    <tr>
+      <th>Prefix</th>
+      <th>Database</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>A</code></td>
+      <td><a href="https://storage.googleapis.com/android-osv/">Android Vulnerability Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>N/A</code></li>
+          <li>OSV Formatted URL: <code>https://storage.googleapis.com/android-osv/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>GO</code></td>
+      <td><a href="https://pkg.go.dev/vuln/">Go Vulnerability Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/golang/vulndb/issues/new/choose">https://github.com/golang/vulndb/issues/new/choose</a></li>
+          <li>Source URL: <code>https://pkg.go.dev/vuln/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://vuln.go.dev/ID/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>OSV</code></td>
+      <td><a href="https://osv.dev/list">OSV Vulnerability Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/google/oss-fuzz-vulns/issues">https://github.com/google/oss-fuzz-vulns/issues</a></li>
+          <li>Source URL: <code>https://osv.dev/vulnerability/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>PYSEC</code></td>
+      <td><a href="https://github.com/pypa/advisory-db">PyPI Vulnerability Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/pypa/advisory-database/issues">https://github.com/pypa/advisory-database/issues</a></li>
+          <li>Source URL: <code>https://osv.dev/vulnerability/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>RUSTSEC</code></td>
+      <td><a href="https://github.com/rustsec/advisory-db">RustSec Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/RustSec/advisory-db/blob/main/CONTRIBUTING.md">https://github.com/RustSec/advisory-db/blob/main/CONTRIBUTING.md</a></li>
+          <li>Source URL: <code>https://rustsec.org/advisories/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/rustsec/advisory-db/osv/crates/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>GSD</code></td>
+      <td><a href="https://github.com/cloudsecurityalliance/gsd-database">Global Security Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>https://gsd.id/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://api.gsd.id/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>GHSA</code></td>
+      <td><a href="https://github.com/github/advisory-database">GitHub Security Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/github/advisory-database#contributions">https://github.com/github/advisory-database#contributions</a></li>
+          <li>Source URL: <code>https://github.com/advisories/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>LBSEC</code></td>
+      <td><a href="https://github.com/loopbackio/security/tree/main/advisories">LoopBack Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>N/A</code></li>
+          <li>OSV Formatted URL: <code>N/A</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>DSA</code>/<code>DLA</code>/<code>DTSA</code></td>
+      <td><a href="https://www.debian.org/security/">Debian Security Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>https://debian.org/security/&lt;YEAR&gt;/&lt;ID&gt;</code> (lowercase dsa)</li>
+          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>RLSA</code>/<code>RXSA</code></td>
+      <td><a href="https://errata.rockylinux.org">Rocky Linux Security Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>https://errata.rockylinux.org/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://apollo.build.resf.org/api/v3/osv/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>ALSA</code>/<code>ALBA</code>/<code>ALEA</code></td>
+      <td><a href="https://errata.almalinux.org/">AlmaLinux Security Advisory</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>https://errata.almalinux.org/&lt;alma version&gt;/&lt;ID&gt;.html</code></li>
+          <li>OSV Formatted URL: <code>N/A</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Your database here</td>
+      <td colspan="2"><a href="https://github.com/ossf/osv-schema/compare">Send us a PR</a></td>
+    </tr>
+  </tbody>
+</table>
 
 In addition to those prefixes, other databases may serve information about
 non-database-specific prefixes. For example a language ecosystem might decide to
@@ -314,6 +438,7 @@ on the selected `severity[].type`, as described above.
 			"events": [ {
 				"introduced": string,
 				"fixed": string,
+				"last_affected": string,
 				"limit": string
 			} ]
 		} ],
@@ -401,6 +526,7 @@ The defined ecosystems are:
 | `Pub` | The package manager for the Dart ecosystem; the `name` field is a Dart package name. |
 | `ConanCenter` | The ConanCenter ecosystem for C and C++; the `name` field is a Conan package name.  |
 | `Rocky Linux` | The Rocky Linux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Rocky Linux release. `<RELEASE>` is a numeric version.
+| `AlmaLinux` | AlmaLinux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular AlmaLinux release. `<RELEASE>` is a numeric version.
 | Your ecosystem here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 It is permitted for a database name (the DB prefix in the `id` field) and an
@@ -717,14 +843,16 @@ The known reference `type` values are:
 - `DETECTION`: A tool, script, scanner, or other mechanism that allows for
   detection of the vulnerability in production environments. e.g. YARA rules,
   hashes, virus signature, or other scanners.
+- `DISCUSSION`: A social media discussion regarding the vulnerability, e.g.
+  a Twitter, Mastodon, Hacker News, or Reddit thread.
 - `REPORT`: A report, typically on a bug or issue tracker, of the vulnerability.
 - `FIX`: A source code browser link to the fix (e.g., a GitHub commit) Note that
   the `fix` type is meant for viewing by people using web browsers.  Programs
   interested in analyzing the exact commit range would do better to use the
   `GIT`-typed `affected[].ranges` entries (described above).
-- `INTRODUCED`: A source code browser link to the introduction of the vulnerability 
-  (e.g., a GitHub commit) Note that the `introduced` type is meant for viewing by people using 
-  web browsers.  Programs interested in analyzing the exact commit range would do better 
+- `INTRODUCED`: A source code browser link to the introduction of the vulnerability
+  (e.g., a GitHub commit) Note that the `introduced` type is meant for viewing by people using
+  web browsers.  Programs interested in analyzing the exact commit range would do better
   to use the `GIT`-typed `affected[].ranges` entries (described above).
 - `PACKAGE`: A home web page for the package.
 - `EVIDENCE`: A demonstration of the validity of a vulnerability claim, e.g.
