@@ -411,6 +411,7 @@ describes the quantitative method used to calculate the associated `score`.
 | --------- | ----------- |
 | `CVSS_V2` | A CVSS vector string representing the unique characteristics and severity of the vulnerability using a version of the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/v2/) that is == 2.0 (e.g.`"AV:L/AC:M/Au:N/C:N/I:P/A:C"`).|
 | `CVSS_V3` | A CVSS vector string representing the unique characteristics and severity of the vulnerability using a version of the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/) that is >= 3.0 and < 4.0 (e.g.`"CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:N"`).|
+| `EPSS` | An EPSS score and percentile string representing the chance of exploitability of this vulnerability using the [Exploit Prediction Scoring System](https://www.first.org/epss/) that is in the current form of epss	and percentile (e.g.`"EPSS/0.00043/0.06996"`).|
 | Your quantitative severity type here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 ### severity[].score field
