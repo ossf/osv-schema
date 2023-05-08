@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.4.0 (February 21, 2023)**
+**Version 1.5.0 (April 26, 2023)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -1271,6 +1271,7 @@ Ruby does not use this format currently, but here is a potential translation of 
   Context: https://github.com/ossf/osv-schema/issues/35.
 - 2023-02-21 Released version 1.4.0. Added per package `severity` and
   credit types.
+- 2023-04-26 Released version 1.5.0. Added new reference types. 
 
 ## Status - 2021-04-07
 
