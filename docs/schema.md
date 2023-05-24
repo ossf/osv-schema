@@ -287,6 +287,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>BITNAMI</code></td>
+      <td><a href="https://github.com/bitnami/vulndb">Bitnami Vulnerability Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/bitnami/vulndb/blob/main/CONTRIBUTING.md">https://github.com/bitnami/vulndb/blob/main/CONTRIBUTING.md</a></li>
+          <li>Source URL: <code>https://github.com/bitnami/vulndb/blob/main/data/&lt;component&gt;/&lt;ID&gt;.json</code></li>
+          <li>OSV Formatted URL: <code>N/A</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td>Your database here</td>
       <td colspan="2"><a href="https://github.com/ossf/osv-schema/compare">Send us a PR</a></td>
     </tr>
@@ -527,6 +538,7 @@ The defined ecosystems are:
 | `ConanCenter` | The ConanCenter ecosystem for C and C++; the `name` field is a Conan package name.  |
 | `Rocky Linux` | The Rocky Linux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Rocky Linux release. `<RELEASE>` is a numeric version.
 | `AlmaLinux` | AlmaLinux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular AlmaLinux release. `<RELEASE>` is a numeric version.
+| `Bitnami` | Bitnami package ecosystem; the `name` is the name of the affected component. |
 | Your ecosystem here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 It is permitted for a database name (the DB prefix in the `id` field) and an
@@ -1271,7 +1283,7 @@ Ruby does not use this format currently, but here is a potential translation of 
   Context: https://github.com/ossf/osv-schema/issues/35.
 - 2023-02-21 Released version 1.4.0. Added per package `severity` and
   credit types.
-- 2023-04-26 Released version 1.5.0. Added new reference types. 
+- 2023-04-26 Released version 1.5.0. Added new reference types.
 
 ## Status - 2021-04-07
 
