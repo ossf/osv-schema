@@ -287,17 +287,6 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
-      <td><code>BITNAMI</code></td>
-      <td><a href="https://github.com/bitnami/vulndb">Bitnami Vulnerability Database</a></td>
-      <td>
-        <ul>
-          <li>How to contribute: <a href="https://github.com/bitnami/vulndb/blob/main/CONTRIBUTING.md">https://github.com/bitnami/vulndb/blob/main/CONTRIBUTING.md</a></li>
-          <li>Source URL: <code>https://github.com/bitnami/vulndb/blob/main/data/&lt;component&gt;/&lt;ID&gt;.json</code></li>
-          <li>OSV Formatted URL: <code>N/A</code></li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
       <td>Your database here</td>
       <td colspan="2"><a href="https://github.com/ossf/osv-schema/compare">Send us a PR</a></td>
     </tr>
