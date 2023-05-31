@@ -1300,7 +1300,7 @@ TODO
   Context: https://github.com/ossf/osv-schema/issues/35.
 - 2023-02-21 Released version 1.4.0. Added per package `severity` and
   credit types.
-- 2023-04-26 Released version 1.5.0. Added new reference types. 
+- 2023-04-26 Released version 1.5.0. Added new reference types.
 
 ## Status - 2021-04-07
 
