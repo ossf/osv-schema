@@ -1258,6 +1258,22 @@ Ruby does not use this format currently, but here is a potential translation of 
 }
 ```
 
+## Haskell Hackage vulnerability
+TODO
+
+```json
+{
+}
+```
+
+## Haskell GHC vulnerability
+TODO
+
+```json
+{
+}
+```
+
 # Change Log
 
 - 2021-03-29 added "withdrawn" field
