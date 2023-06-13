@@ -1,4 +1,4 @@
-# Open Source Vulnerability Schema 
+# Open Source Vulnerability Schema
 
 This is the repository for the Open Source Vulnerability schema, which is currently exported by:
 - [GitHub Security Advisories](https://github.com/github/advisory-database)
@@ -10,6 +10,7 @@ This is the repository for the Open Source Vulnerability schema, which is curren
 - [LoopBack Advisory Database](https://github.com/loopbackio/security/tree/main/advisories)
 - [Rocky Linux](https://distro-tools.rocky.page/apollo/openapi/#osv)
 - [AlmaLinux](https://github.com/AlmaLinux/osv-database)
+- [Haskell Security Advisories](https://github.com/haskell/security-advisories)
 - [OSV.dev maintained converters](https://github.com/google/osv.dev#current-data-sources)
 
 Together, these include vulnerabilities from:
@@ -20,6 +21,7 @@ Together, these include vulnerabilities from:
 -   Debian GNU/Linux
 -   GitHub Actions
 -   Go
+-   Haskell
 -   Hex
 -   Linux kernel
 -   Maven
