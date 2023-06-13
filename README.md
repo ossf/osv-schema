@@ -18,8 +18,8 @@ Together, these include vulnerabilities from:
 -   AlmaLinux
 -   Alpine
 -   Android
--   crates.io
 -   Bitnami
+-   crates.io
 -   Debian GNU/Linux
 -   GitHub Actions
 -   Go
