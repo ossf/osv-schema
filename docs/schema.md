@@ -650,7 +650,10 @@ Only **a single type** (either `"introduced"`, `"fixed"`, `"last_affected"`,
 Entries in the `events` array can contain either `"last_affected"` or `"fixed"`
 events, but not both. It's **strongly recommended** to use `"fixed"` instead of
 `"last_affected"` where possible, as it precisely identifies the version which
-contains the fix.
+contains the fix. `"last_affected"` should be thought of as a hard ceiling. 
+Versions above `"last_affected"` are considered unaffected. Unfortunately this 
+opens up the possibility for false negatives, which is why `"fixed"` is 
+overwhelmingly preferred.  
 
 There must be at least one `"introduced"` object in the `events` array. While
 not required, it's also recommended to keep the `events` array sorted according
