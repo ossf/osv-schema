@@ -11,12 +11,14 @@ This is the repository for the Open Source Vulnerability schema, which is curren
 - [Rocky Linux](https://distro-tools.rocky.page/apollo/openapi/#osv)
 - [AlmaLinux](https://github.com/AlmaLinux/osv-database)
 - [Haskell Security Advisories](https://github.com/haskell/security-advisories)
+- [Bitnami Vulnerability Database](https://github.com/bitnami/vulndb)
 - [OSV.dev maintained converters](https://github.com/google/osv.dev#current-data-sources)
 
 Together, these include vulnerabilities from:
 -   AlmaLinux
 -   Alpine
 -   Android
+-   Bitnami
 -   crates.io
 -   Debian GNU/Linux
 -   GitHub Actions
