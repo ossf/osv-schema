@@ -221,6 +221,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>HSEC</code></td>
+      <td><a href="https://github.com/haskell/security-advisories">Haskell Security Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/haskell/security-advisories/blob/main/CONTRIBUTING.md">https://github.com/haskell/security-advisories/blob/main/CONTRIBUTING.md</a></li>
+          <li>Source URL: <code>TBD</code></li>
+          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/haskell/security-advisories/main/advisories/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>GSD</code></td>
       <td><a href="https://github.com/cloudsecurityalliance/gsd-database">Global Security Database</a></td>
       <td>
@@ -282,6 +293,17 @@ The defined database prefixes and their "home" databases are:
         <ul>
           <li>How to contribute: TBD</li>
           <li>Source URL: <code>https://errata.almalinux.org/&lt;alma version&gt;/&lt;ID&gt;.html</code></li>
+          <li>OSV Formatted URL: <code>N/A</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>BIT</code></td>
+      <td><a href="https://github.com/bitnami/vulndb">Bitnami Vulnerability Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/bitnami/vulndb/blob/main/CONTRIBUTING.md">https://github.com/bitnami/vulndb/blob/main/CONTRIBUTING.md</a></li>
+          <li>Source URL: <code>https://github.com/bitnami/vulndb/blob/main/data/&lt;component&gt;/&lt;ID&gt;.json</code></li>
           <li>OSV Formatted URL: <code>N/A</code></li>
         </ul>
       </td>
@@ -514,6 +536,8 @@ The defined ecosystems are:
 | `PyPI` | the Python PyPI ecosystem; the `name` field is a [normalized](https://www.python.org/dev/peps/pep-0503/#normalized-names) PyPI package name.  |
 | `RubyGems` | The RubyGems ecosystem; the `name` field is a gem name.  |
 | `crates.io` | The crates.io ecosystem for Rust; the `name` field is a crate name.  |
+| `Hackage` | The Haskell package ecosystem. The `name` field is a Haskell package name as published on Hackage.  |
+| `GHC` | The Haskell compiler ecosystem. The `name` field is the name of a component of the GHC compiler ecosystem (e.g., compiler, GHCI, RTS).  |
 | `Packagist` | The PHP package manager ecosystem; the `name` is a package name.  |
 | `Maven` | The Maven Java package ecosystem. The `name` field is a Maven package name.  |
 | `NuGet` | The NuGet package ecosystem. The `name` field is a NuGet package name.  |
@@ -527,6 +551,7 @@ The defined ecosystems are:
 | `ConanCenter` | The ConanCenter ecosystem for C and C++; the `name` field is a Conan package name.  |
 | `Rocky Linux` | The Rocky Linux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Rocky Linux release. `<RELEASE>` is a numeric version.
 | `AlmaLinux` | AlmaLinux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular AlmaLinux release. `<RELEASE>` is a numeric version.
+| `Bitnami` | Bitnami package ecosystem; the `name` is the name of the affected component. |
 | Your ecosystem here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 It is permitted for a database name (the DB prefix in the `id` field) and an
@@ -1245,6 +1270,22 @@ Ruby does not use this format currently, but here is a potential translation of 
 }
 ```
 
+## Haskell Hackage vulnerability
+TODO
+
+```json
+{
+}
+```
+
+## Haskell GHC vulnerability
+TODO
+
+```json
+{
+}
+```
+
 # Change Log
 
 - 2021-03-29 added "withdrawn" field
@@ -1271,7 +1312,7 @@ Ruby does not use this format currently, but here is a potential translation of 
   Context: https://github.com/ossf/osv-schema/issues/35.
 - 2023-02-21 Released version 1.4.0. Added per package `severity` and
   credit types.
-- 2023-04-26 Released version 1.5.0. Added new reference types. 
+- 2023-04-26 Released version 1.5.0. Added new reference types.
 
 ## Status - 2021-04-07
 
