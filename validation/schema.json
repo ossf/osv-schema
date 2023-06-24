@@ -324,7 +324,7 @@
             "then": {
               "properties": {
                 "score": {
-                  "pattern": "CVSS:3\\.[0-9]/AV:[NALP]\\/AC:[LH]\\/PR:[NLH]\\/UI:[NR]\\/S:[UC]\\/C:[NLH]\\/I:[NLH]\\/A:[NLH]"
+                  "pattern": "CVSS:3\\.[0-9]\\/AV:[NALP]\\/AC:[LH]\\/PR:[NLH]\\/UI:[NR]\\/S:[UC]\\/C:[NLH]\\/I:[NLH]\\/A:[NLH]"
                 }
               }
             }
