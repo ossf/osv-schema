@@ -289,7 +289,8 @@
             "type": "string",
             "enum": [
               "CVSS_V2",
-              "CVSS_V3"
+              "CVSS_V3",
+              "CVSS_V4"
             ]
           },
           "score": {
@@ -325,6 +326,22 @@
               "properties": {
                 "score": {
                   "pattern": "CVSS:3\\.[0-9]/AV:[NALP]\\/AC:[LH]\\/PR:[NLH]\\/UI:[NR]\\/S:[UC]\\/C:[NLH]\\/I:[NLH]\\/A:[NLH]"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "CVSS_V4"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "score": {
+                  "pattern": "CVSS:4\\.[0-9]\\/AV:[NALP]\\/AC:[LH]\\/AT:[NP]\\/PR:[NLH]\\/UI:[NPA](\\/VC:[HLN]\\/VI:[HLN]\\/VA:[HLN]\\/SC:[HLN]\\/SI:[HLN]\\/SA:[HLN])?\\/S:[XNP]\\/AU:[XNY]\\/R:[XAUI]\\/V:[XDC]\\/RE:[XLMH]\\/U:[XCGAR]\\/MAV:[XNALP]\\/MAC:[XLH]\\/MAT:[XNP]\\/MPR:[XNLH]\\/MUI:[XNPA]\\/MVC:[XHLN]\\/MVI:[XHLN]\\/MVA:[XHLN]\\/MSC:[XHLN]\\/MSI:[XSHLN]\\/MSA:[XSHLN]\\/CR:[XHML]\\/IR:[XHML]\\/AR:[XHML]\\/E:[XAPU]"
                 }
               }
             }
