@@ -12,6 +12,7 @@ This is the repository for the Open Source Vulnerability schema, which is curren
 - [AlmaLinux](https://github.com/AlmaLinux/osv-database)
 - [Haskell Security Advisories](https://github.com/haskell/security-advisories)
 - [Bitnami Vulnerability Database](https://github.com/bitnami/vulndb)
+- [Curl](https://curl.se/docs/vuln.json)
 - [OSV.dev maintained converters](https://github.com/google/osv.dev#current-data-sources)
 
 Together, these include vulnerabilities from:
