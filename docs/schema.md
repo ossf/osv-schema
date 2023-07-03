@@ -760,6 +760,7 @@ func IncludedInRanges(v, ranges)
         else if evt.fixed is present && v >= evt.fixed
            vulnerable = false
         else if evt.last_affected is present && v > evt.last_affected
+           # can lead to false negatives because `last_affected` is less accurate than `fixed`, see documentation
            vulnerable = false
 
       if vulnerable
