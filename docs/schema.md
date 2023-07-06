@@ -642,33 +642,34 @@ describes a single version that either:
 These `events` objects represent a "timeline" of status changes for the affected
 package.
 
-The values of "introduced", "fixed", "last_affected" and "limit" are version strings
+The values of `introduced`, `fixed`, `last_affected` and `limit` are version strings
 as defined by the `affected[].ranges[].type` field.
 
 #### Special values
 
-  - `"introduced"` allows a version of the value `"0"` to represent a version that
+  - `introduced` allows a version of the value `"0"` to represent a version that
     sorts before any other version.
-  - `"limit"` allows versions containing the string `"*"` to represent "infinity".
+  - `limit` allows versions containing the string `"*"` to represent "infinity".
     If no limit events are provided, an implicit `{ "limit": "*" }` is assumed to
-    exist. Multiple `"limit"` events are allowed in the same range.
+    exist. Multiple `limit` events are allowed in the same range.
 
 #### Requirements
 
-Only **a single type** (either `"introduced"`, `"fixed"`, `"last_affected"`,
-`"limit"`) is allowed in each event object. For instance,
+Only **a single type** (either `introduced`, `fixed`, `last_affected`,
+`limit`) is allowed in each event object. For instance,
 `{"introduced": "1.0.0", "fixed": "1.0.2"}` is **invalid**.
 
-Entries in the `events` array can contain either `"last_affected"` or `"fixed"`
-events, but not both. It's **strongly recommended** to use `"fixed"` instead of
-`"last_affected"` where possible, as it precisely identifies the version which
-contains the fix. `"last_affected"` should be thought of as the hard ceiling 
+Entries in the `events` array can contain either `last_affected` or `fixed`
+events, but not both. It's **strongly recommended** to use `fixed` instead of
+`last_affected` where possible, as it precisely identifies the version which
+contains the fix. `last_affected` should be thought of as the hard ceiling 
 of the vulnerability _at the time of publication_ in the absence of a fixed version.
-Versions above `"last_affected"` should be considered unaffected. Unfortunately
-this opens up the possibility for false negatives, which is why `"fixed"` is 
-overwhelmingly preferred.
+Versions above `last_affected` should be considered unaffected. Unfortunately
+this opens up the possibility for false negatives, which is why `fixed` is 
+overwhelmingly preferred. An [example](#last_affected-vs-fixed-example) is available to 
+illustrate the difference. 
 
-There must be at least one `"introduced"` object in the `events` array. While
+There must be at least one `introduced` object in the `events` array. While
 not required, it's also recommended to keep the `events` array sorted according
 to the `affected[].ranges[].type` of the range.
 
@@ -781,6 +782,7 @@ func BeforeLimits(v, range)
 ```
 
 ### Examples
+#### Unfixed vulnerability example
 The following expresses that "every possible version is affected".
 
 ```json
@@ -792,6 +794,7 @@ The following expresses that "every possible version is affected".
 } ]
 ```
 
+#### Fixed vulnerability example
 The following expresses that "everything before `1.0.2`" is affected.
 
 ```json
@@ -804,6 +807,7 @@ The following expresses that "everything before `1.0.2`" is affected.
 } ]
 ```
 
+#### Multiple range example
 The following expresses that versions in the SemVer ranges `[1.0.0,
 1.0.2)` or `[3.0.0, 3.2.5)` are affected. Everything else is unaffected.
 
@@ -819,7 +823,8 @@ The following expresses that versions in the SemVer ranges `[1.0.0,
 } ]
 ```
 
-`"limit"` events are typically not necessary for describing numbered (linear)
+#### Limit events
+`limit` events are typically not necessary for describing numbered (linear)
 version ranges and should not be used. They are more useful for git ranges,
 where it has more implications for the evaluation algorithm. Take the following
 git commit graph and git range:
@@ -854,10 +859,50 @@ A, B, C, D, E, F`. This is the desired behaviour in most cases.
 If `limit` is set to `Y`, the list of affected commits will be `X, A, B, C`. This
 is equivalent to `git rev-list X..Y` (but including `X` and excluding `Y`).
 This may be useful if the scope of a vulnerability entry is limited to a small
-set of linear branches. Multiple `"limit"` events may be specified for each
+set of linear branches. Multiple `limit` events may be specified for each
 branch -- each expands the scope of the git commit graph to cover.
 
 Note that we did not specify a `fixed` event here as `limit` makes it redundant.
+
+#### `last_affected` vs `fixed` example
+The difference between `last_affected` and `fixed` is subtle and these examples will 
+clarify the use of these fields. 
+
+The following example expresses that the vulnerability is present in all versions
+of the package, up to and including version `2.1.214`. Versions above `2.1.214` are
+assumed to be free from the vulnerability, but there is a potential for a false
+negative. The `last_affected` field is typically assigned at the time of discovery and 
+assumes the vulnerability will be addressed in the following version. 
+
+
+```json
+"ranges":[ {
+  "type":"ECOSYSTEM",
+  "events": [
+    {"introduced":"0"},
+    {"last_affected":"2.1.214"}
+  ]
+} ]
+```
+
+The following example looks similar, but there are differences in how it is interpreted. 
+The vulnerability is present in all versions of the package up to version `2.1.214`. In 
+this case `2.1.214` is not vulnerable. Versions `2.1.214` and above do not include the 
+vulnerability and there isn't the possibility for false negatives that we see in the 
+`last_affected` case. 
+
+```json
+"ranges": [ {
+    "type": "SEMVER",
+    "events": [
+      { "introduced": "0" },
+      { "fixed": "2.1.214" },
+    ]
+} ]
+```
+
+Using `fixed` is preferable to `last_affected` whenever possible. The use of `fixed` 
+requires fewer assumptions and eliminates the possibilities for false negatives. 
 
 ## references field
 
