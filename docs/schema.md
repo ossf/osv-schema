@@ -865,8 +865,8 @@ branch -- each expands the scope of the git commit graph to cover.
 Note that we did not specify a `fixed` event here as `limit` makes it redundant.
 
 #### `last_affected` vs `fixed` example
-The difference between `last_affected` and `fixed` is subtle and these examples will 
-clarify the use of these fields. 
+The difference between last_affected and fixed has additional implications around 
+false negatives. These examples will clarify the difference between these fields.
 
 The following example expresses that the vulnerability is present in all versions
 of the package, up to and including version `2.1.214`. Versions above `2.1.214` are
@@ -874,14 +874,13 @@ assumed to be free from the vulnerability, but there is a potential for a false
 negative. The `last_affected` field is typically assigned at the time of discovery and 
 assumes the vulnerability will be addressed in the following version. 
 
-
 ```json
 "ranges":[ {
-  "type":"ECOSYSTEM",
-  "events": [
-    {"introduced":"0"},
-    {"last_affected":"2.1.214"}
-  ]
+    "type":"ECOSYSTEM",
+    "events": [
+      { "introduced": "0" },
+      { "last_affected": "2.1.214" },
+    ]
 } ]
 ```
 
