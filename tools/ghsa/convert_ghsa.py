@@ -32,6 +32,7 @@ ECOSYSTEM_MAP = {
     'NUGET': 'NuGet',
     'COMPOSER': 'Packagist',
     'RUST': 'crates.io',
+    'ACTIONS': 'GitHub Actions',
 }
 
 NAME_NORMALIZER = {
