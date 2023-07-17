@@ -140,7 +140,7 @@ def convert_reference(reference: Dict[str, str]) -> Dict[str, str]:
 def convert(ghsa: Dict[str, Any]) -> Dict[str, Any]:
     """Converts a GHSA entry to an OSV entry."""
     entry = {
-        'schema_version': '1.4.0',
+        'schema_version': '1.5.0',
         'id': ghsa['ghsaId'],
         'aliases': [
             val['value'] for val in ghsa['identifiers']
