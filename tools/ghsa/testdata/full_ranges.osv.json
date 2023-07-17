@@ -1,4 +1,5 @@
 {
+  "schema_version": "1.5.0",
   "id": "GHSA-mr95-9rr4-668f",
   "aliases": [
     "CVE-2018-16115"

@@ -1,4 +1,5 @@
 {
+  "schema_version": "1.5.0",
   "id": "GHSA-f89g-whpf-6q9m",
   "aliases": [
     "CVE-2017-16008"

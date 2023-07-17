@@ -1,4 +1,5 @@
 {
+  "schema_version": "1.5.0",
   "id": "GHSA-jvf4-g24p-2qgw",
   "aliases": [
     "CVE-2020-7738"

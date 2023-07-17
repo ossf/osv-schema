@@ -1,4 +1,5 @@
 {
+  "schema_version": "1.5.0",
   "id": "GHSA-35c4-f3rq-f9g3",
   "aliases": [
     "CVE-2015-3227"

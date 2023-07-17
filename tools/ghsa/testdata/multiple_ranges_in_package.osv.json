@@ -1,4 +1,5 @@
 {
+  "schema_version": "1.5.0",
   "id": "GHSA-9qj7-jvg4-qr2x",
   "aliases": [
     "CVE-2013-2119"
