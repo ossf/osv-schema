@@ -53,10 +53,6 @@
       "versions": [],
       "database_specific": {
         "ghsa": "https://github.com/advisories/GHSA-35c4-f3rq-f9g3",
-        "cvss": {
-          "score": 0,
-          "vectorString": null
-        },
         "cwes": []
       }
     }

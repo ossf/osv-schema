@@ -26,15 +26,13 @@ class ConverterTest(unittest.TestCase):
 
     def setUp(self):
         self.maxDiff = None  # pylint: disable=invalid-name
-        self.include_cvss = True
-
 
     def check_conversion(self, name):
         """Check OSV conversation against the expected result."""
         with open(os.path.join(TEST_DIR, f'{name}.json')) as handle:
             input_data = json.load(handle)
 
-        output = convert_ghsa.convert(input_data, include_cvss=self.include_cvss)
+        output = convert_ghsa.convert(input_data)
 
         expected_path = os.path.join(TEST_DIR, f'{name}.osv.json')
         if os.getenv('TESTS_GENERATE'):
@@ -89,8 +87,3 @@ class ConverterTest(unittest.TestCase):
     def test_maven_greater_than(self):
         """Test npm > ranges."""
         self.check_conversion('npm_greater_than')
-
-    def test_no_cvss_option(self):
-        """Test with include_cvss = False."""
-        self.include_cvss = False
-        self.check_conversion('no_cvss_option')

@@ -105,13 +105,13 @@ def parse_ghsa_range(ghsa_range: str) -> GhsaRange:
     return parsed_range
 
 
-def convert_file(input_path: str, output_path: str, include_cvss: bool = True):
+def convert_file(input_path: str, output_path: str):
     """Converts `input_path` from GHSA JSON and output OSV JSON at
     `output_path`."""
     with open(input_path) as handle:
         ghsa = json.load(handle)
 
-    entry = convert(ghsa, include_cvss=include_cvss)
+    entry = convert(ghsa)
     vuln = osv.parse_vulnerability_from_dict(entry)
 
     osv.analyze(vuln,
@@ -138,7 +138,7 @@ def convert_reference(reference: Dict[str, str]) -> Dict[str, str]:
     }
 
 
-def convert(ghsa: Dict[str, Any], include_cvss: bool = True) -> Dict[str, Any]:
+def convert(ghsa: Dict[str, Any]) -> Dict[str, Any]:
     """Converts a GHSA entry to an OSV entry."""
     entry = {
         'schema_version': '1.5.0',
@@ -162,11 +162,11 @@ def convert(ghsa: Dict[str, Any], include_cvss: bool = True) -> Dict[str, Any]:
         'references': [convert_reference(ref) for ref in ghsa['references']]
     })
 
-    entry['affected'] = get_affected(ghsa, include_cvss=include_cvss)
+    entry['affected'] = get_affected(ghsa)
     return entry
 
 
-def get_affected(ghsa: Dict[str, Any], include_cvss: bool = True) -> List[Dict[str, Any]]:
+def get_affected(ghsa: Dict[str, Any]) -> List[Dict[str, Any]]:
     """Converts the GHSA entry into an OSV "affected" entry."""
     package_to_vulns = {}
 
@@ -177,7 +177,6 @@ def get_affected(ghsa: Dict[str, Any], include_cvss: bool = True) -> List[Dict[s
         package_to_vulns.setdefault((mapped_ecosystem, package['name']),
                                     []).append(vuln)
 
-    cvss = ghsa.get('cvss', {})
     cwes = ghsa.get('cwes', {}).get('nodes', [])
 
     # Convert the grouped vulnerabilities in OSV range structures.
@@ -186,15 +185,6 @@ def get_affected(ghsa: Dict[str, Any], include_cvss: bool = True) -> List[Dict[s
         if ecosystem in NAME_NORMALIZER:
             name = NAME_NORMALIZER[ecosystem](name)
 
-        db = {
-            # Attribution.
-            'ghsa': ghsa['permalink'],
-            'cwes': cwes,
-        }
-
-        if include_cvss:
-            db['cvss'] = cvss
-
         current = {
             'package': {
                 'ecosystem': ecosystem,
@@ -202,7 +192,11 @@ def get_affected(ghsa: Dict[str, Any], include_cvss: bool = True) -> List[Dict[s
             },
             'ranges': [],
             'versions': [],
-            'database_specific': db,
+            'database_specific': {
+                # Attribution.
+                'ghsa': ghsa['permalink'],
+                'cwes': cwes,
+            },
         }
         affected.append(current)
 
@@ -287,7 +281,6 @@ def main():
                         '--output-dir',
                         help='Output directory',
                         required=True)
-    parser.add_argument('--no-cvss', dest='cvss', default=True, action='store_false', help='Do not set CVSS scores')
 
     args = parser.parse_args()
 
@@ -295,8 +288,7 @@ def main():
         try:
             convert_file(
                 input_path,
-                os.path.join(args.output_dir, os.path.basename(input_path)),
-                include_cvss=args.cvss)
+                os.path.join(args.output_dir, os.path.basename(input_path)))
         except Exception:
             print('Failed to convert', input_path)
             traceback.print_exc()

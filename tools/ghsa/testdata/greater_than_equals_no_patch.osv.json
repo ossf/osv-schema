@@ -35,10 +35,6 @@
       "versions": [],
       "database_specific": {
         "ghsa": "https://github.com/advisories/GHSA-pxmp-fwjc-4x7q",
-        "cvss": {
-          "score": 0,
-          "vectorString": null
-        },
         "cwes": []
       }
     }
