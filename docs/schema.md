@@ -326,7 +326,7 @@ The defined database prefixes and their "home" databases are:
         <ul>
           <li>How to contribute: <a href="https://github.com/RConsortium/r-advisory-database#readme">https://github.com/RConsortium/r-advisory-database#readme</a></li>
           <li>Source URL: <code>https://osv.dev/vulnerability/&lt;ID&gt;</code></li>
-          <li>OSV Formatted URL: <code>https://github.com/RConsoritum/r-advisory-database/&lt;package&gt;/&lt;ID&gt;.yaml</code> (unofficial)</li>
+          <li>OSV Formatted URL: <code>https://github.com/RConsortium/r-advisory-database/blob/main/&lt;package&gt;/&lt;ID&gt;.yaml</code> (unofficial)</li>
         </ul>
       </td>
     </tr>
