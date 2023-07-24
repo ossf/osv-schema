@@ -14,6 +14,7 @@ This is the repository for the Open Source Vulnerability schema, which is curren
 - [Bitnami Vulnerability Database](https://github.com/bitnami/vulndb)
 - [OSV.dev maintained converters](https://github.com/google/osv.dev#current-data-sources)
 - [VMWare Photon OS](https://github.com/vmware/photon/wiki/Security-Advisories) (unofficial)
+- [RConsortium Advisory Database](https://github.com/RConsortium/r-advisory-database)
 
 Together, these include vulnerabilities from:
 -   AlmaLinux
@@ -35,6 +36,7 @@ Together, these include vulnerabilities from:
 -   Photon OS
 -   Pub
 -   PyPI
+-   R (CRAN and Bioconductor)
 -   Rocky Linux
 -   RubyGems
 

@@ -320,6 +320,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>RSEC</code></td>
+      <td><a href="https://github.com/RConsortium/r-advisory-database">RConsortium Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/RConsortium/r-advisory-database#readme">https://github.com/RConsortium/r-advisory-database#readme</a></li>
+          <li>Source URL: <code>https://osv.dev/vulnerability/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://github.com/RConsortium/r-advisory-database/blob/main/&lt;package&gt;/&lt;ID&gt;.yaml</code> (unofficial)</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td>Your database here</td>
       <td colspan="2"><a href="https://github.com/ossf/osv-schema/compare">Send us a PR</a></td>
     </tr>
@@ -564,6 +575,8 @@ The defined ecosystems are:
 | `AlmaLinux` | AlmaLinux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular AlmaLinux release. `<RELEASE>` is a numeric version.
 | `Bitnami` | Bitnami package ecosystem; the `name` is the name of the affected component. |
 | `Photon OS` | The Photon OS package ecosystem; the `name` is the name of the RPM package. The ecosystem string must have a `:<RELEASE-NUMBER>` suffix to scope the package to a particular Photon OS release. Eg `Photon OS:3.0`. |
+| `CRAN` | The biological R package ecosystem. The `name` is an R package name. |
+| `Bioconductor` | The R package ecosystem. The `name` is an R package name. |
 | Your ecosystem here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 It is permitted for a database name (the DB prefix in the `id` field) and an
@@ -1345,6 +1358,12 @@ TODO
 {
 }
 ```
+
+## R CRAN & Bioconductor vulnerability
+
+TODO
+
+<!-- Format pending, check https://github.com/RConsortium/r-advisory-database/pull/1 -->
 
 # Change Log
 
