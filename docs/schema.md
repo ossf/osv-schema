@@ -326,7 +326,7 @@ The defined database prefixes and their "home" databases are:
         <ul>
           <li>How to contribute: <a href="https://github.com/RConsortium/r-advisory-database#readme">https://github.com/RConsortium/r-advisory-database#readme</a></li>
           <li>Source URL: <code>https://osv.dev/vulnerability/&lt;ID&gt;</code></li>
-          <li>OSV Formatted URL: <code>https://github.com/RConsortium/r-advisory-database/blob/main/&lt;package&gt;/&lt;ID&gt;.yaml</code> (unofficial)</li>
+          <li>OSV Formatted URL: <code>https://github.com/RConsortium/r-advisory-database/blob/main/vulns/&lt;package&gt;/&lt;ID&gt;.yaml</code></li>
         </ul>
       </td>
     </tr>
@@ -675,12 +675,12 @@ Only **a single type** (either `introduced`, `fixed`, `last_affected`,
 Entries in the `events` array can contain either `last_affected` or `fixed`
 events, but not both. It's **strongly recommended** to use `fixed` instead of
 `last_affected` where possible, as it precisely identifies the version which
-contains the fix. `last_affected` should be thought of as the hard ceiling 
+contains the fix. `last_affected` should be thought of as the hard ceiling
 of the vulnerability _at the time of publication_ in the absence of a fixed version.
 Versions above `last_affected` should be considered unaffected. Unfortunately
-this opens up the possibility for false negatives, which is why `fixed` is 
-overwhelmingly preferred. An [example](#last_affected-vs-fixed-example) is available to 
-illustrate the difference. 
+this opens up the possibility for false negatives, which is why `fixed` is
+overwhelmingly preferred. An [example](#last_affected-vs-fixed-example) is available to
+illustrate the difference.
 
 There must be at least one `introduced` object in the `events` array. While
 not required, it's also recommended to keep the `events` array sorted according
@@ -878,14 +878,14 @@ branch -- each expands the scope of the git commit graph to cover.
 Note that we did not specify a `fixed` event here as `limit` makes it redundant.
 
 #### `last_affected` vs `fixed` example
-Understanding the difference between `last_affected` and `fixed` is essential to 
-identifying where false negatives may occur. 
+Understanding the difference between `last_affected` and `fixed` is essential to
+identifying where false negatives may occur.
 
 The following example expresses that the vulnerability is present in all versions
 of the package, up to and including version `2.1.214`. Versions above `2.1.214` are
 assumed to be free from the vulnerability, but there is a potential for a false
-negative. The `last_affected` field is typically assigned at the time of discovery and 
-assumes the vulnerability will be addressed in the following version. 
+negative. The `last_affected` field is typically assigned at the time of discovery and
+assumes the vulnerability will be addressed in the following version.
 
 ```json
 "ranges":[ {
@@ -897,11 +897,11 @@ assumes the vulnerability will be addressed in the following version.
 } ]
 ```
 
-The following example looks similar, but there are differences in how it is interpreted. 
-The vulnerability is present in all versions of the package up to version `2.1.214`. In 
-this case `2.1.214` is not vulnerable. Versions `2.1.214` and above do not include the 
-vulnerability and there isn't the possibility for false negatives that we see in the 
-`last_affected` case. 
+The following example looks similar, but there are differences in how it is interpreted.
+The vulnerability is present in all versions of the package up to version `2.1.214`. In
+this case `2.1.214` is not vulnerable. Versions `2.1.214` and above do not include the
+vulnerability and there isn't the possibility for false negatives that we see in the
+`last_affected` case.
 
 ```json
 "ranges": [ {
@@ -913,8 +913,8 @@ vulnerability and there isn't the possibility for false negatives that we see in
 } ]
 ```
 
-Using `fixed` is preferable to `last_affected` whenever possible. The use of `fixed` 
-requires fewer assumptions and eliminates the possibilities for false negatives. 
+Using `fixed` is preferable to `last_affected` whenever possible. The use of `fixed`
+requires fewer assumptions and eliminates the possibilities for false negatives.
 
 ## references field
 
@@ -1361,9 +1361,63 @@ TODO
 
 ## R CRAN & Bioconductor vulnerability
 
-TODO
+R currently has a [community vulnerability
+database](https://github.com/rconsortium/r-advisory-db) using this format. Here is an
+example encoding of a vulnerability entry.
 
-<!-- Format pending, check https://github.com/RConsortium/r-advisory-database/pull/1 -->
+```json
+{
+  "id": "RSEC-2023-2",
+  "details": "The readxl R package is exposed to a vulnerability owing to its underlying use of libxls library version 1.6.2. The vulnerability originates in the xls_getWorkSheet function within xls.c in libxls. Attackers can exploit this flaw by utilizing a specially crafted XLS file, leading to a Denial of Service (DoS) attack.",
+  "affected": [
+    {
+      "package": {
+        "name": "readxl",
+        "ecosystem": "CRAN"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.4.1"
+            },
+            {
+              "fixed": "1.4.2"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.4.1"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tidyverse/readxl/issues/679"
+    },
+    {
+      "type": "WEB",
+      "url": "https://readxl.tidyverse.org/news/index.html#readxl-142"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security-tracker.debian.org/tracker/source-package/r-cran-readxl"
+    },
+    {
+      "type": "WEB",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-27836"
+    }
+  ],
+  "aliases": [
+    "CVE-2021-27836"
+  ],
+  "modified": "2023-07-13T02:46:57.600Z",
+  "published": "2023-07-13T02:46:57.600Z"
+}
+```
 
 # Change Log
 
