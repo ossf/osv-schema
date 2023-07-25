@@ -44,10 +44,6 @@
       "versions": [],
       "database_specific": {
         "ghsa": "https://github.com/advisories/GHSA-p44j-xrqg-4xrr",
-        "cvss": {
-          "score": 0,
-          "vectorString": null
-        },
         "cwes": [
           {
             "cweId": "CWE-601",

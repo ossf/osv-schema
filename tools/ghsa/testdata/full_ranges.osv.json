@@ -40,10 +40,6 @@
       "versions": [],
       "database_specific": {
         "ghsa": "https://github.com/advisories/GHSA-mr95-9rr4-668f",
-        "cvss": {
-          "score": 9.1,
-          "vectorString": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
-        },
         "cwes": [
           {
             "cweId": "CWE-338",
@@ -74,10 +70,6 @@
       "versions": [],
       "database_specific": {
         "ghsa": "https://github.com/advisories/GHSA-mr95-9rr4-668f",
-        "cvss": {
-          "score": 9.1,
-          "vectorString": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
-        },
         "cwes": [
           {
             "cweId": "CWE-338",

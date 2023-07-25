@@ -113,6 +113,7 @@ def convert_file(input_path: str, output_path: str):
 
     entry = convert(ghsa)
     vuln = osv.parse_vulnerability_from_dict(entry)
+
     osv.analyze(vuln,
                 analyze_git=False,
                 detect_cherrypicks=False,
@@ -176,7 +177,6 @@ def get_affected(ghsa: Dict[str, Any]) -> List[Dict[str, Any]]:
         package_to_vulns.setdefault((mapped_ecosystem, package['name']),
                                     []).append(vuln)
 
-    cvss = ghsa.get('cvss', {})
     cwes = ghsa.get('cwes', {}).get('nodes', [])
 
     # Convert the grouped vulnerabilities in OSV range structures.
@@ -195,9 +195,8 @@ def get_affected(ghsa: Dict[str, Any]) -> List[Dict[str, Any]]:
             'database_specific': {
                 # Attribution.
                 'ghsa': ghsa['permalink'],
-                'cvss': cvss,
                 'cwes': cwes,
-            }
+            },
         }
         affected.append(current)
 
@@ -284,6 +283,7 @@ def main():
                         required=True)
 
     args = parser.parse_args()
+
     for input_path in args.input_files:
         try:
             convert_file(

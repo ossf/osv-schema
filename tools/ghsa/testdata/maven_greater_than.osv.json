@@ -56,10 +56,6 @@
       "versions": [],
       "database_specific": {
         "ghsa": "https://github.com/advisories/GHSA-76mp-659p-rw65",
-        "cvss": {
-          "score": 8.8,
-          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-        },
         "cwes": [
           {
             "cweId": "CWE-285",

@@ -40,10 +40,6 @@
       "versions": [],
       "database_specific": {
         "ghsa": "https://github.com/advisories/GHSA-f89g-whpf-6q9m",
-        "cvss": {
-          "score": 0,
-          "vectorString": null
-        },
         "cwes": [
           {
             "cweId": "CWE-79",
