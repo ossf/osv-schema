@@ -577,7 +577,7 @@ The defined ecosystems are:
 | `Photon OS` | The Photon OS package ecosystem; the `name` is the name of the RPM package. The ecosystem string must have a `:<RELEASE-NUMBER>` suffix to scope the package to a particular Photon OS release. Eg `Photon OS:3.0`. |
 | `CRAN` | The biological R package ecosystem. The `name` is an R package name. |
 | `Bioconductor` | The R package ecosystem. The `name` is an R package name. |
-| `SwiftURL` | The Swift Package Manager ecosystem. The `name` is a Git URL to the source of the package. |
+| `SwiftURL` | The Swift Package Manager ecosystem. The `name` is a Git URL to the source of the package. Versions are Git tags that comform to [SemVer 2.0](https://docs.swift.org/package-manager/PackageDescription/PackageDescription.html#version). |
 | Your ecosystem here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 It is permitted for a database name (the DB prefix in the `id` field) and an
