@@ -15,6 +15,7 @@ This is the repository for the Open Source Vulnerability schema, which is curren
 - [OSV.dev maintained converters](https://github.com/google/osv.dev#current-data-sources)
 - [VMWare Photon OS](https://github.com/vmware/photon/wiki/Security-Advisories) (unofficial)
 - [RConsortium Advisory Database](https://github.com/RConsortium/r-advisory-database)
+- [Python Software Foundation Database](https://github.com/psf/advisory-database)
 
 Together, these include vulnerabilities from:
 -   AlmaLinux
@@ -36,11 +37,12 @@ Together, these include vulnerabilities from:
 -   Photon OS
 -   Pub
 -   PyPI
+-   Python
 -   R (CRAN and Bioconductor)
 -   Rocky Linux
 -   RubyGems
 
-These vulnerabilites are aggregated by https://osv.dev.
+These vulnerabilities are aggregated by https://osv.dev.
 
 Reference tooling (e.g. converters) can be found in the [tools/](tools) directory
 
