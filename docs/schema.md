@@ -199,6 +199,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>PSF</code></td>
+      <td><a href="https://github.com/psf/advisory-database">Python Software Foundation Vulnerability Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/psf/advisory-database/issues">https://github.com/psf/advisory-database/issues</a></li>
+          <li>Source URL: <code>TBD</code></li>
+          <li>OSV Formatted URL: <code>TBD</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>PYSEC</code></td>
       <td><a href="https://github.com/pypa/advisory-db">PyPI Vulnerability Database</a></td>
       <td>
