@@ -401,9 +401,19 @@ the vulnerability has been withdrawn should go into the summary text.
 The `aliases` field gives a list of IDs of the same vulnerability in other
 databases, in the form of the `id` field. This allows one database to claim that
 its own entry describes the same vulnerability as one or more entries in other
-databases. Or if one database entry has been deduplicated into another in the
-same database, the duplicate entry could be written using only the `id`,
-`modified`, and `aliases` field, to point to the canonical one.
+databases.
+
+Two vulnerabilities can be described as aliases if a potential patch that
+addresses one of the vulnerabilities (and no other vulnerabilities) will also
+address the other vulnerability, and vice versa. Aliases may be used for
+vulnerabilities affecting different packages or ecosystems as long as they
+follow this definition.
+
+Aliases should be considered symmetric (if A is an alias of B, then B is an
+alias of A) and transitive (If A aliases B and B aliases C, then A aliases C).
+
+Aliases should **not** be used in records that bundle many different
+vulnerabilities in one patch of a distribution of a package.
 
 ## related field
 
@@ -414,7 +424,13 @@ same database, the duplicate entry could be written using only the `id`,
 ```
 
 The `related` field gives a list of IDs of closely related vulnerabilities, such
-as the same problem in alternate ecosystems.
+as:
+- A similar but completely different vulnerability.
+- A similar OSV entry that bundles multiple distinct vulnerabilities in the same
+entry.
+- Cases that do not satisfy the strict definition of `aliases`.
+
+Related vulnerabilities are symmetric but not transitive.
 
 ## summary, details fields
 
