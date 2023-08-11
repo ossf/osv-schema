@@ -1,4 +1,5 @@
 {
+  "schema_version": "1.5.0",
   "id": "GHSA-4g4c-8gqh-m4vm",
   "aliases": [
     "CVE-2019-13589"
@@ -29,10 +30,6 @@
       ],
       "database_specific": {
         "ghsa": "https://github.com/advisories/GHSA-4g4c-8gqh-m4vm",
-        "cvss": {
-          "score": 9.8,
-          "vectorString": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
-        },
         "cwes": [
           {
             "cweId": "CWE-829",

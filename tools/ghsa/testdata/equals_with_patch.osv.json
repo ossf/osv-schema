@@ -1,4 +1,5 @@
 {
+  "schema_version": "1.5.0",
   "id": "GHSA-fhjf-83wg-r2j9",
   "aliases": [
     "CVE-2019-10746"
@@ -45,10 +46,6 @@
       "versions": [],
       "database_specific": {
         "ghsa": "https://github.com/advisories/GHSA-fhjf-83wg-r2j9",
-        "cvss": {
-          "score": 9.8,
-          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
-        },
         "cwes": [
           {
             "cweId": "CWE-88",

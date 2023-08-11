@@ -1,4 +1,5 @@
 {
+  "schema_version": "1.5.0",
   "id": "GHSA-f89g-whpf-6q9m",
   "aliases": [
     "CVE-2017-16008"
@@ -39,10 +40,6 @@
       "versions": [],
       "database_specific": {
         "ghsa": "https://github.com/advisories/GHSA-f89g-whpf-6q9m",
-        "cvss": {
-          "score": 0,
-          "vectorString": null
-        },
         "cwes": [
           {
             "cweId": "CWE-79",

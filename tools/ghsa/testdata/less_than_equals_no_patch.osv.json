@@ -1,4 +1,5 @@
 {
+  "schema_version": "1.5.0",
   "id": "GHSA-jvf4-g24p-2qgw",
   "aliases": [
     "CVE-2020-7738"
@@ -36,10 +37,6 @@
       "versions": [],
       "database_specific": {
         "ghsa": "https://github.com/advisories/GHSA-jvf4-g24p-2qgw",
-        "cvss": {
-          "score": 8.3,
-          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:L"
-        },
         "cwes": [
           {
             "cweId": "CWE-94",

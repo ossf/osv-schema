@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.5.0 (April 26, 2023)**
+**Version 1.6.0 (Aug 11, 2023)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -199,6 +199,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>PSF</code></td>
+      <td><a href="https://github.com/psf/advisory-database">Python Software Foundation Vulnerability Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/psf/advisory-database/issues">https://github.com/psf/advisory-database/issues</a></li>
+          <li>Source URL: <code>TBD</code></li>
+          <li>OSV Formatted URL: <code>TBD</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>PYSEC</code></td>
       <td><a href="https://github.com/pypa/advisory-db">PyPI Vulnerability Database</a></td>
       <td>
@@ -217,6 +228,17 @@ The defined database prefixes and their "home" databases are:
           <li>How to contribute: <a href="https://github.com/RustSec/advisory-db/blob/main/CONTRIBUTING.md">https://github.com/RustSec/advisory-db/blob/main/CONTRIBUTING.md</a></li>
           <li>Source URL: <code>https://rustsec.org/advisories/&lt;ID&gt;</code></li>
           <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/rustsec/advisory-db/osv/crates/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>HSEC</code></td>
+      <td><a href="https://github.com/haskell/security-advisories">Haskell Security Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/haskell/security-advisories/blob/main/CONTRIBUTING.md">https://github.com/haskell/security-advisories/blob/main/CONTRIBUTING.md</a></li>
+          <li>Source URL: <code>TBD</code></li>
+          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/haskell/security-advisories/main/advisories/&lt;ID&gt;.json</code></li>
         </ul>
       </td>
     </tr>
@@ -287,6 +309,39 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>BIT</code></td>
+      <td><a href="https://github.com/bitnami/vulndb">Bitnami Vulnerability Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/bitnami/vulndb/blob/main/CONTRIBUTING.md">https://github.com/bitnami/vulndb/blob/main/CONTRIBUTING.md</a></li>
+          <li>Source URL: <code>https://github.com/bitnami/vulndb/blob/main/data/&lt;component&gt;/&lt;ID&gt;.json</code></li>
+          <li>OSV Formatted URL: <code>N/A</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>PHSA</code></td>
+      <td><a href="https://github.com/vmware/photon/wiki/Security-Advisories">VMWare Photon Security Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/captn3m0/photon-os-advisories#contributing">https://github.com/captn3m0/photon-os-advisories#contributing</a></li>
+          <li>Source URL: <code>https://github.com/vmware/photon/wiki/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://github.com/captn3m0/photon-os-advisories/blob/main/advisories/&lt;ID&gt;.json</code> (unofficial)</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>RSEC</code></td>
+      <td><a href="https://github.com/RConsortium/r-advisory-database">RConsortium Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/RConsortium/r-advisory-database#readme">https://github.com/RConsortium/r-advisory-database#readme</a></li>
+          <li>Source URL: <code>https://osv.dev/vulnerability/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://github.com/RConsortium/r-advisory-database/blob/main/vulns/&lt;package&gt;/&lt;ID&gt;.yaml</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td>Your database here</td>
       <td colspan="2"><a href="https://github.com/ossf/osv-schema/compare">Send us a PR</a></td>
     </tr>
@@ -346,9 +401,19 @@ the vulnerability has been withdrawn should go into the summary text.
 The `aliases` field gives a list of IDs of the same vulnerability in other
 databases, in the form of the `id` field. This allows one database to claim that
 its own entry describes the same vulnerability as one or more entries in other
-databases. Or if one database entry has been deduplicated into another in the
-same database, the duplicate entry could be written using only the `id`,
-`modified`, and `aliases` field, to point to the canonical one.
+databases.
+
+Two vulnerabilities can be described as aliases if a potential patch that
+addresses one of the vulnerabilities (and no other vulnerabilities) will also
+address the other vulnerability, and vice versa. Aliases may be used for
+vulnerabilities affecting different packages or ecosystems as long as they
+follow this definition.
+
+Aliases should be considered symmetric (if A is an alias of B, then B is an
+alias of A) and transitive (If A aliases B and B aliases C, then A aliases C).
+
+Aliases should **not** be used in records that bundle many different
+vulnerabilities in one patch of a distribution of a package.
 
 ## related field
 
@@ -359,7 +424,13 @@ same database, the duplicate entry could be written using only the `id`,
 ```
 
 The `related` field gives a list of IDs of closely related vulnerabilities, such
-as the same problem in alternate ecosystems.
+as:
+- A similar but completely different vulnerability.
+- A similar OSV entry that bundles multiple distinct vulnerabilities in the same
+entry.
+- Cases that do not satisfy the strict definition of `aliases`.
+
+Related vulnerabilities are symmetric but not transitive.
 
 ## summary, details fields
 
@@ -514,6 +585,8 @@ The defined ecosystems are:
 | `PyPI` | the Python PyPI ecosystem; the `name` field is a [normalized](https://www.python.org/dev/peps/pep-0503/#normalized-names) PyPI package name.  |
 | `RubyGems` | The RubyGems ecosystem; the `name` field is a gem name.  |
 | `crates.io` | The crates.io ecosystem for Rust; the `name` field is a crate name.  |
+| `Hackage` | The Haskell package ecosystem. The `name` field is a Haskell package name as published on Hackage.  |
+| `GHC` | The Haskell compiler ecosystem. The `name` field is the name of a component of the GHC compiler ecosystem (e.g., compiler, GHCI, RTS).  |
 | `Packagist` | The PHP package manager ecosystem; the `name` is a package name.  |
 | `Maven` | The Maven Java package ecosystem. The `name` field is a Maven package name.  |
 | `NuGet` | The NuGet package ecosystem. The `name` field is a NuGet package name.  |
@@ -527,6 +600,11 @@ The defined ecosystems are:
 | `ConanCenter` | The ConanCenter ecosystem for C and C++; the `name` field is a Conan package name.  |
 | `Rocky Linux` | The Rocky Linux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Rocky Linux release. `<RELEASE>` is a numeric version.
 | `AlmaLinux` | AlmaLinux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular AlmaLinux release. `<RELEASE>` is a numeric version.
+| `Bitnami` | Bitnami package ecosystem; the `name` is the name of the affected component. |
+| `Photon OS` | The Photon OS package ecosystem; the `name` is the name of the RPM package. The ecosystem string must have a `:<RELEASE-NUMBER>` suffix to scope the package to a particular Photon OS release. Eg `Photon OS:3.0`. |
+| `CRAN` | The biological R package ecosystem. The `name` is an R package name. |
+| `Bioconductor` | The R package ecosystem. The `name` is an R package name. |
+| `SwiftURL` | The Swift Package Manager ecosystem. The `name` is a Git URL to the source of the package. Versions are Git tags that comform to [SemVer 2.0](https://docs.swift.org/package-manager/PackageDescription/PackageDescription.html#version). |
 | Your ecosystem here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 It is permitted for a database name (the DB prefix in the `id` field) and an
@@ -605,29 +683,34 @@ describes a single version that either:
 These `events` objects represent a "timeline" of status changes for the affected
 package.
 
-The values of "introduced", "fixed", "last_affected" and "limit" are version strings
+The values of `introduced`, `fixed`, `last_affected` and `limit` are version strings
 as defined by the `affected[].ranges[].type` field.
 
 #### Special values
 
-  - `"introduced"` allows a version of the value `"0"` to represent a version that
+  - `introduced` allows a version of the value `"0"` to represent a version that
     sorts before any other version.
-  - `"limit"` allows versions containing the string `"*"` to represent "infinity".
+  - `limit` allows versions containing the string `"*"` to represent "infinity".
     If no limit events are provided, an implicit `{ "limit": "*" }` is assumed to
-    exist. Multiple `"limit"` events are allowed in the same range.
+    exist. Multiple `limit` events are allowed in the same range.
 
 #### Requirements
 
-Only **a single type** (either `"introduced"`, `"fixed"`, `"last_affected"`,
-`"limit"`) is allowed in each event object. For instance,
+Only **a single type** (either `introduced`, `fixed`, `last_affected`,
+`limit`) is allowed in each event object. For instance,
 `{"introduced": "1.0.0", "fixed": "1.0.2"}` is **invalid**.
 
-Entries in the `events` array can contain either `"last_affected"` or `"fixed"`
-events, but not both. It's **strongly recommended** to use `"fixed"` instead of
-`"last_affected"` where possible, as it precisely identifies the version which
-contains the fix.
+Entries in the `events` array can contain either `last_affected` or `fixed`
+events, but not both. It's **strongly recommended** to use `fixed` instead of
+`last_affected` where possible, as it precisely identifies the version which
+contains the fix. `last_affected` should be thought of as the hard ceiling
+of the vulnerability _at the time of publication_ in the absence of a fixed version.
+Versions above `last_affected` should be considered unaffected. Unfortunately
+this opens up the possibility for false negatives, which is why `fixed` is
+overwhelmingly preferred. An [example](#last_affected-vs-fixed-example) is available to
+illustrate the difference.
 
-There must be at least one `"introduced"` object in the `events` array. While
+There must be at least one `introduced` object in the `events` array. While
 not required, it's also recommended to keep the `events` array sorted according
 to the `affected[].ranges[].type` of the range.
 
@@ -740,6 +823,7 @@ func BeforeLimits(v, range)
 ```
 
 ### Examples
+#### Unfixed vulnerability example
 The following expresses that "every possible version is affected".
 
 ```json
@@ -751,6 +835,7 @@ The following expresses that "every possible version is affected".
 } ]
 ```
 
+#### Fixed vulnerability example
 The following expresses that "everything before `1.0.2`" is affected.
 
 ```json
@@ -763,6 +848,7 @@ The following expresses that "everything before `1.0.2`" is affected.
 } ]
 ```
 
+#### Multiple range example
 The following expresses that versions in the SemVer ranges `[1.0.0,
 1.0.2)` or `[3.0.0, 3.2.5)` are affected. Everything else is unaffected.
 
@@ -778,7 +864,8 @@ The following expresses that versions in the SemVer ranges `[1.0.0,
 } ]
 ```
 
-`"limit"` events are typically not necessary for describing numbered (linear)
+#### Limit events
+`limit` events are typically not necessary for describing numbered (linear)
 version ranges and should not be used. They are more useful for git ranges,
 where it has more implications for the evaluation algorithm. Take the following
 git commit graph and git range:
@@ -813,10 +900,49 @@ A, B, C, D, E, F`. This is the desired behaviour in most cases.
 If `limit` is set to `Y`, the list of affected commits will be `X, A, B, C`. This
 is equivalent to `git rev-list X..Y` (but including `X` and excluding `Y`).
 This may be useful if the scope of a vulnerability entry is limited to a small
-set of linear branches. Multiple `"limit"` events may be specified for each
+set of linear branches. Multiple `limit` events may be specified for each
 branch -- each expands the scope of the git commit graph to cover.
 
 Note that we did not specify a `fixed` event here as `limit` makes it redundant.
+
+#### `last_affected` vs `fixed` example
+Understanding the difference between `last_affected` and `fixed` is essential to
+identifying where false negatives may occur.
+
+The following example expresses that the vulnerability is present in all versions
+of the package, up to and including version `2.1.214`. Versions above `2.1.214` are
+assumed to be free from the vulnerability, but there is a potential for a false
+negative. The `last_affected` field is typically assigned at the time of discovery and
+assumes the vulnerability will be addressed in the following version.
+
+```json
+"ranges":[ {
+    "type":"ECOSYSTEM",
+    "events": [
+      { "introduced": "0" },
+      { "last_affected": "2.1.214" },
+    ]
+} ]
+```
+
+The following example looks similar, but there are differences in how it is interpreted.
+The vulnerability is present in all versions of the package up to version `2.1.214`. In
+this case `2.1.214` is not vulnerable. Versions `2.1.214` and above do not include the
+vulnerability and there isn't the possibility for false negatives that we see in the
+`last_affected` case.
+
+```json
+"ranges": [ {
+    "type": "SEMVER",
+    "events": [
+      { "introduced": "0" },
+      { "fixed": "2.1.214" },
+    ]
+} ]
+```
+
+Using `fixed` is preferable to `last_affected` whenever possible. The use of `fixed`
+requires fewer assumptions and eliminates the possibilities for false negatives.
 
 ## references field
 
@@ -1245,6 +1371,82 @@ Ruby does not use this format currently, but here is a potential translation of 
 }
 ```
 
+## Haskell Hackage vulnerability
+TODO
+
+```json
+{
+}
+```
+
+## Haskell GHC vulnerability
+TODO
+
+```json
+{
+}
+```
+
+## R CRAN & Bioconductor vulnerability
+
+R currently has a [community vulnerability
+database](https://github.com/rconsortium/r-advisory-db) using this format. Here is an
+example encoding of a vulnerability entry.
+
+```json
+{
+  "id": "RSEC-2023-2",
+  "details": "The readxl R package is exposed to a vulnerability owing to its underlying use of libxls library version 1.6.2. The vulnerability originates in the xls_getWorkSheet function within xls.c in libxls. Attackers can exploit this flaw by utilizing a specially crafted XLS file, leading to a Denial of Service (DoS) attack.",
+  "affected": [
+    {
+      "package": {
+        "name": "readxl",
+        "ecosystem": "CRAN"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.4.1"
+            },
+            {
+              "fixed": "1.4.2"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.4.1"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tidyverse/readxl/issues/679"
+    },
+    {
+      "type": "WEB",
+      "url": "https://readxl.tidyverse.org/news/index.html#readxl-142"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security-tracker.debian.org/tracker/source-package/r-cran-readxl"
+    },
+    {
+      "type": "WEB",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-27836"
+    }
+  ],
+  "aliases": [
+    "CVE-2021-27836"
+  ],
+  "modified": "2023-07-13T02:46:57.600Z",
+  "published": "2023-07-13T02:46:57.600Z"
+}
+```
+
 # Change Log
 
 - 2021-03-29 added "withdrawn" field
@@ -1271,7 +1473,9 @@ Ruby does not use this format currently, but here is a potential translation of 
   Context: https://github.com/ossf/osv-schema/issues/35.
 - 2023-02-21 Released version 1.4.0. Added per package `severity` and
   credit types.
-- 2023-04-26 Released version 1.5.0. Added new reference types. 
+- 2023-04-26 Released version 1.5.0. Added new reference types.
+- 2023-08-11 Released version 1.6.0. Several new databases and clarified
+  definitions of `aliases` and `related`.
 
 ## Status - 2021-04-07
 
