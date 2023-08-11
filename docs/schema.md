@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.5.0 (April 26, 2023)**
+**Version 1.6.0 (Aug 11, 2023)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -1474,6 +1474,8 @@ example encoding of a vulnerability entry.
 - 2023-02-21 Released version 1.4.0. Added per package `severity` and
   credit types.
 - 2023-04-26 Released version 1.5.0. Added new reference types.
+- 2023-08-11 Released version 1.6.0. Several new databases and clarified
+  definitions of `aliases` and `related`.
 
 ## Status - 2021-04-07
 
