@@ -594,7 +594,7 @@ The defined ecosystems are:
 | `Debian` | The Debian package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Debian release. `<RELEASE>` is a numeric version specified in the [Debian distro-info-data](https://debian.pages.debian.net/distro-info-data/debian.csv). For example, the ecosystem string "Debian:7" refers to the Debian 7 (wheezy) release.  |
 | `Alpine` | The Alpine package ecosystem; the `name` is the name of the source package. The ecosystem string must have a `:v<RELEASE-NUMBER>` suffix to scope the package to a particular Alpine release branch (the `v` prefix is required). E.g. `v3.16`. |
 | `Hex` | The package manager for the Erlang ecosystem; the `name` is a Hex package name.  |
-| `Android`  | The Android ecosystem; the `name` field is the Android component name that the patch applies to, as shown in the [Android Security Bulletins](https://source.android.com/security/bulletin) such as `Framework`, `Media Framework` and `Kernel Component`. The exhaustive list of components can be found at the [Appendix](#android-ecosystem-components). |
+| `Android`  | The Android ecosystem. Android organizes code using [`repo` tool](https://gerrit.googlesource.com/git-repo/+/HEAD/README.md), which manages multiple git projects under one or more remote git servers, where each project is identified by its name in [repo configuration](https://gerrit.googlesource.com/git-repo/+/HEAD/docs/manifest-format.md#Element-project) (e.g. `platform/frameworks/base`). The `name` field should contain the name of that affected git project/submodule. One exception is when the project contains the Linux kernel source code, in which case `name` field will be `:linux_kernel:`, followed by an optional SoC vendor name e.g. `:linux_kernel:Qualcomm`. The list of recognized SoC vendors is listed in the [Appendix](#android-soc-vendors) |
 | `GitHub Actions` | The GitHub Actions ecosystem; the `name` field is the action's repository name with owner e.g. `{owner}/{repo}`. |
 | `Pub` | The package manager for the Dart ecosystem; the `name` field is a Dart package name. |
 | `ConanCenter` | The ConanCenter ecosystem for C and C++; the `name` field is a Conan package name.  |
@@ -1678,28 +1678,16 @@ incompatible changes will be made in any 1.x version.
 
 # Appendix
 
-## Android Ecosystem Components
+## Android SoC Vendors
 
-A package name in the `Android` ecosystem indicates the component of Android that the advisory applies to. This matches the component names used in [Android Security Bulletins (ASB)](https://source.android.com/security/bulletin). The complete list of components used in ASB is as follows:
+When a package in the `Android` ecosystem is the Linux kernel source code, its `name` will be `:linux_kernel:`, optionally appended with one of the following SoC vendor names indicating applicability of the vulnerability to kernels of that particular vendor:
 
-- Framework
-- Library
-- Media Framework
-- System
-- Android Runtime
-- Kernel
-- Kernel LTS
-- Android TV
 - AMLogic
 - ARM
 - Broadcom
-- FPC
-- HTC
-- LG
 - MediaTek
 - Marvell
 - NVIDIA
 - Qualcomm
-- Telecommunication
 - Unisoc
-- Widevine DRM
+
