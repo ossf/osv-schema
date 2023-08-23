@@ -1372,7 +1372,6 @@ Ruby does not use this format currently, but here is a potential translation of 
 ```
 
 ## Haskell Hackage vulnerability
-TODO
 
 ```json
 {
@@ -1428,16 +1427,16 @@ one (similar to the Hackage example, but changing ecosystem to `"GHC"`):
     {
       "package": {
         "ecosystem": "GHC",
-        "name": "x509-validation"
+        "name": "RTS"
       },
       "ranges": [
         {
           "events": [
             {
-              "introduced": "1.4.0"
+              "introduced": "9.2.2"
             },
             {
-              "fixed": "1.4.8"
+              "fixed": "9.2.3"
             }
           ],
           "type": "ECOSYSTEM"
