@@ -1376,14 +1376,93 @@ TODO
 
 ```json
 {
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Hackage",
+        "name": "x509-validation"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "1.4.0"
+            },
+            {
+              "fixed": "1.4.8"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "severity": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:U/C:H/I:H/A:N",
+          "type": "CVSS_V3"
+        }
+      ]
+    }
+  ],
+  "details": "# x509-validation does not enforce pathLenConstraint\n\n*x509-validation* prior to version 1.4.8 did not enforce the\npathLenConstraint value.  Constrained CAs could accidentally (or\ndeliberately) issue CAs below the maximum depth and\n*x509-validation* would accept certificates issued by the\nunauthorised intermediate CAs.\n",
+  "id": "HSEC-2023-0006",
+  "modified": "2023-07-26T10:34:39Z",
+  "published": "2023-07-19T13:59:54Z",
+  "references": [
+    {
+      "type": "FIX",
+      "url": "https://github.com/haskell-tls/hs-certificate/commit/06d15dbbc53739314760d8504ca764000770e46e"
+    }
+  ],
+  "schema_version": "1.5.0",
+  "summary": "x509-validation does not enforce pathLenConstraint"
 }
 ```
 
 ## Haskell GHC vulnerability
-TODO
+We don't yet have a GHC vulnerability, but it would look like the following
+one (similar to the Hackage example, but changing ecosystem to `"GHC"`):
 
 ```json
 {
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "GHC",
+        "name": "x509-validation"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "1.4.0"
+            },
+            {
+              "fixed": "1.4.8"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "severity": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:U/C:H/I:H/A:N",
+          "type": "CVSS_V3"
+        }
+      ]
+    }
+  ],
+  "details": "# x509-validation does not enforce pathLenConstraint\n\n*x509-validation* prior to version 1.4.8 did not enforce the\npathLenConstraint value.  Constrained CAs could accidentally (or\ndeliberately) issue CAs below the maximum depth and\n*x509-validation* would accept certificates issued by the\nunauthorised intermediate CAs.\n",
+  "id": "HSEC-2023-0006",
+  "modified": "2023-07-26T10:34:39Z",
+  "published": "2023-07-19T13:59:54Z",
+  "references": [
+    {
+      "type": "FIX",
+      "url": "https://github.com/haskell-tls/hs-certificate/commit/06d15dbbc53739314760d8504ca764000770e46e"
+    }
+  ],
+  "schema_version": "1.5.0",
+  "summary": "x509-validation does not enforce pathLenConstraint"
 }
 ```
 
