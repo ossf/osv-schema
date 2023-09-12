@@ -602,8 +602,8 @@ The defined ecosystems are:
 | `AlmaLinux` | AlmaLinux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular AlmaLinux release. `<RELEASE>` is a numeric version.
 | `Bitnami` | Bitnami package ecosystem; the `name` is the name of the affected component. |
 | `Photon OS` | The Photon OS package ecosystem; the `name` is the name of the RPM package. The ecosystem string must have a `:<RELEASE-NUMBER>` suffix to scope the package to a particular Photon OS release. Eg `Photon OS:3.0`. |
-| `CRAN` | The biological R package ecosystem. The `name` is an R package name. |
-| `Bioconductor` | The R package ecosystem. The `name` is an R package name. |
+| `CRAN` | The R package ecosystem. The `name` is an R package name. |
+| `Bioconductor` | The biological R package ecosystem. The `name` is an R package name. |
 | `SwiftURL` | The Swift Package Manager ecosystem. The `name` is a Git URL to the source of the package. Versions are Git tags that comform to [SemVer 2.0](https://docs.swift.org/package-manager/PackageDescription/PackageDescription.html#version). |
 | Your ecosystem here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
