@@ -16,6 +16,7 @@ This is the repository for the Open Source Vulnerability schema, which is curren
 - [VMWare Photon OS](https://github.com/vmware/photon/wiki/Security-Advisories) (unofficial)
 - [RConsortium Advisory Database](https://github.com/RConsortium/r-advisory-database)
 - [Python Software Foundation Database](https://github.com/psf/advisory-database)
+- [Curl](https://curl.se/docs/vuln.json)
 
 Together, these include vulnerabilities from:
 -   AlmaLinux
