@@ -413,7 +413,10 @@ Aliases should be considered symmetric (if A is an alias of B, then B is an
 alias of A) and transitive (If A aliases B and B aliases C, then A aliases C).
 
 Aliases should **not** be used in records that bundle many different
-vulnerabilities in one patch of a distribution of a package.
+vulnerabilities in one patch of a distribution of a package. Listing multiple
+vulnerabilities as `aliases` would mean that they are all identical (due to the
+symmetry/transitivity of `aliases`), not that one release fixes multiple
+(distinct) vulnerabilities.
 
 ## related field
 
