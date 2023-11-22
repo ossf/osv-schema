@@ -20,7 +20,7 @@ import requests
 
 _BASE_QUERY = """
 {
-  securityAdvisories(first: 100 %s) {
+  securityAdvisories(first: 100 %(query)s %(cursor)s) {
     edges { cursor
       node {
         ghsaId
@@ -80,13 +80,13 @@ def run_graphql(query: str, token: str):
     return response.json()
 
 
-def dump(out_dir: str, token: str):
+def dump(out_dir: str, token: str, query: str):
     """Dumps advisories."""
     count = 0
     cursor_arg = ''
 
     while True:
-        result = run_graphql(_BASE_QUERY % cursor_arg, token)
+        result = run_graphql(_BASE_QUERY % {'cursor':cursor_arg, 'query':query}, token)
 
         if 'data' not in result:
             print('Got invalid response', result)
@@ -116,10 +116,11 @@ def main():
     """Main function."""
     parser = argparse.ArgumentParser(description='GHSA dumper.')
     parser.add_argument('--token', help='GitHub API token', required=True)
+    parser.add_argument('--query', help='GitHub Security Advisory Query')
     parser.add_argument('out_dir', help='Output directory')
 
     args = parser.parse_args()
-    dump(args.out_dir, args.token)
+    dump(args.out_dir, args.token, args.query)
 
 
 if __name__ == '__main__':

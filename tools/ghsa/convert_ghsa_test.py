@@ -21,7 +21,6 @@ import convert_ghsa
 
 TEST_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'testdata')
 
-
 class ConverterTest(unittest.TestCase):
     """Converter unit tests."""
 
