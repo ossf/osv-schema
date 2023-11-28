@@ -27,4 +27,4 @@
 - 2023-04-26 Released version 1.5.0. Added new reference types.
 - 2023-08-11 Released version 1.6.0. Several new databases and clarified
   definitions of `aliases` and `related`.
-- TBD Next version. Some cleanup of the schema layout.
+- 2023-11-29 Released version 1.6.1. Some cleanup of the schema layout.
