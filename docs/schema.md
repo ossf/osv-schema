@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.6.0 (Aug 11, 2023)**
+**Version 1.6.1 (Nov 21, 2023)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -16,34 +16,23 @@ Original authors:
 
 # Purpose
 
-There are many problems to solve industry-wide concerning vulnerability
-detection, tracking, and response. One low-level problem is that there are many
-databases and no standard interchange format. A client that wants to aggregate
-information from multiple databases must handle each database completely
-separately. Databases that want to exchange information with each other must
-also each have their own parser for each format. Systematic tracking of
-dependencies and collaboration between vulnerability database efforts is
-hampered by not having a common interchange format. See our
-[blog post](https://security.googleblog.com/2021/06/announcing-unified-vulnerability-schema.html) for more details.
+This document defines a standard interchange format for describing
+vulnerabilities in open source packages.
 
-This document defines a draft of a standard interchange format.
-We hope to define a format that all vulnerability databases can export, to make
-it easier for users, security researchers, and any other efforts to consume all
-available databases. Use of this format would also make it easier for the
-databases themselves to share or cross-check information.
-
-This shared interchange format is not expected to be the internal format for any
-particular database. We hope only that every vulnerability database will make
-its entries available in this format to enable interoperability.
-
-The idea for this format originally arose from discussions between the [Go
-vulnerability database](https://golang.org/design/draft-vulndb) team and the
-[OSV](https://osv.dev) team.
+We hope to define a simple format that all vulnerability databases can export,
+to make it easier for users, security researchers, and any other efforts to
+consume all available databases. Use of this format would also make it easier
+for the databases themselves to share or cross-check information. Ultimately,
+this format aims to enable automated, accurate, and distributed management
+of vulnerabilities in open source dependencies.
 
 This format is stable, but further backwards compatible changes may still be made.
 Feedback from maintainers of other vulnerability databases and security response teams
 is most welcome. Please feel free to create an
 [issue in this repo](https://github.com/ossf/osv-schema/issues/new).
+
+The current list of databases exporting this format can be found
+[here](#id-modified-fields).
 
 # Format Overview
 
@@ -156,6 +145,8 @@ string of the format `<DB>-<ENTRYID>`, where `DB` names the database and
 The defined database prefixes and their "home" databases are:
 
 <!-- Unfortunately, markdown tables are even worse than this to read/write -->
+<!-- Please keep this list alphabetically sorted -->
+
 <table>
   <thead>
     <tr>
@@ -173,127 +164,6 @@ The defined database prefixes and their "home" databases are:
           <li>How to contribute: TBD</li>
           <li>Source URL: <code>N/A</code></li>
           <li>OSV Formatted URL: <code>https://storage.googleapis.com/android-osv/&lt;ID&gt;.json</code></li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>GO</code></td>
-      <td><a href="https://pkg.go.dev/vuln/">Go Vulnerability Database</a></td>
-      <td>
-        <ul>
-          <li>How to contribute: <a href="https://github.com/golang/vulndb/issues/new/choose">https://github.com/golang/vulndb/issues/new/choose</a></li>
-          <li>Source URL: <code>https://pkg.go.dev/vuln/&lt;ID&gt;</code></li>
-          <li>OSV Formatted URL: <code>https://vuln.go.dev/ID/&lt;ID&gt;.json</code></li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>OSV</code></td>
-      <td><a href="https://osv.dev/list">OSV Vulnerability Database</a></td>
-      <td>
-        <ul>
-          <li>How to contribute: <a href="https://github.com/google/oss-fuzz-vulns/issues">https://github.com/google/oss-fuzz-vulns/issues</a></li>
-          <li>Source URL: <code>https://osv.dev/vulnerability/&lt;ID&gt;</code></li>
-          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>PSF</code></td>
-      <td><a href="https://github.com/psf/advisory-database">Python Software Foundation Vulnerability Database</a></td>
-      <td>
-        <ul>
-          <li>How to contribute: <a href="https://github.com/psf/advisory-database/issues">https://github.com/psf/advisory-database/issues</a></li>
-          <li>Source URL: <code>TBD</code></li>
-          <li>OSV Formatted URL: <code>TBD</code></li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>PYSEC</code></td>
-      <td><a href="https://github.com/pypa/advisory-db">PyPI Vulnerability Database</a></td>
-      <td>
-        <ul>
-          <li>How to contribute: <a href="https://github.com/pypa/advisory-database/issues">https://github.com/pypa/advisory-database/issues</a></li>
-          <li>Source URL: <code>https://osv.dev/vulnerability/&lt;ID&gt;</code></li>
-          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>RUSTSEC</code></td>
-      <td><a href="https://github.com/rustsec/advisory-db">RustSec Advisory Database</a></td>
-      <td>
-        <ul>
-          <li>How to contribute: <a href="https://github.com/RustSec/advisory-db/blob/main/CONTRIBUTING.md">https://github.com/RustSec/advisory-db/blob/main/CONTRIBUTING.md</a></li>
-          <li>Source URL: <code>https://rustsec.org/advisories/&lt;ID&gt;</code></li>
-          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/rustsec/advisory-db/osv/crates/&lt;ID&gt;.json</code></li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>HSEC</code></td>
-      <td><a href="https://github.com/haskell/security-advisories">Haskell Security Advisory Database</a></td>
-      <td>
-        <ul>
-          <li>How to contribute: <a href="https://github.com/haskell/security-advisories/blob/main/CONTRIBUTING.md">https://github.com/haskell/security-advisories/blob/main/CONTRIBUTING.md</a></li>
-          <li>Source URL: <code>TBD</code></li>
-          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/haskell/security-advisories/main/advisories/&lt;ID&gt;.json</code></li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>GSD</code></td>
-      <td><a href="https://github.com/cloudsecurityalliance/gsd-database">Global Security Database</a></td>
-      <td>
-        <ul>
-          <li>How to contribute: TBD</li>
-          <li>Source URL: <code>https://gsd.id/&lt;ID&gt;</code></li>
-          <li>OSV Formatted URL: <code>https://api.gsd.id/&lt;ID&gt;</code></li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>GHSA</code></td>
-      <td><a href="https://github.com/github/advisory-database">GitHub Security Advisory Database</a></td>
-      <td>
-        <ul>
-          <li>How to contribute: <a href="https://github.com/github/advisory-database#contributions">https://github.com/github/advisory-database#contributions</a></li>
-          <li>Source URL: <code>https://github.com/advisories/&lt;ID&gt;</code></li>
-          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>LBSEC</code></td>
-      <td><a href="https://github.com/loopbackio/security/tree/main/advisories">LoopBack Advisory Database</a></td>
-      <td>
-        <ul>
-          <li>How to contribute: TBD</li>
-          <li>Source URL: <code>N/A</code></li>
-          <li>OSV Formatted URL: <code>N/A</code></li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>DSA</code>/<code>DLA</code>/<code>DTSA</code></td>
-      <td><a href="https://www.debian.org/security/">Debian Security Advisory Database</a></td>
-      <td>
-        <ul>
-          <li>How to contribute: TBD</li>
-          <li>Source URL: <code>https://debian.org/security/&lt;YEAR&gt;/&lt;ID&gt;</code> (lowercase dsa)</li>
-          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>RLSA</code>/<code>RXSA</code></td>
-      <td><a href="https://errata.rockylinux.org">Rocky Linux Security Advisory Database</a></td>
-      <td>
-        <ul>
-          <li>How to contribute: TBD</li>
-          <li>Source URL: <code>https://errata.rockylinux.org/&lt;ID&gt;</code></li>
-          <li>OSV Formatted URL: <code>https://apollo.build.resf.org/api/v3/osv/&lt;ID&gt;</code></li>
         </ul>
       </td>
     </tr>
@@ -320,6 +190,105 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>CURL</code></td>
+      <td><a href="https://curl.se/docs/security.html">Curl CVEs</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>https://curl.se/docs/&lt;ID&gt;.html</code></li>
+          <li>OSV Formatted URL: <code>https://curl.se/docs/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>CVE</code></td>
+      <td><a href="https://nvd.nist.gov/">National Vulnerability Database (provided by OSV.dev)</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>https://nvd.nist.gov/vuln/detail/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>DSA</code>/<code>DLA</code>/<code>DTSA</code></td>
+      <td><a href="https://www.debian.org/security/">Debian Security Advisory Database (provided by OSV.dev)</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>https://debian.org/security/&lt;YEAR&gt;/&lt;ID&gt;</code> (lowercase dsa)</li>
+          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>GHSA</code></td>
+      <td><a href="https://github.com/github/advisory-database">GitHub Security Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/github/advisory-database#contributions">https://github.com/github/advisory-database#contributions</a></li>
+          <li>Source URL: <code>https://github.com/advisories/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>GO</code></td>
+      <td><a href="https://pkg.go.dev/vuln/">Go Vulnerability Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/golang/vulndb/issues/new/choose">https://github.com/golang/vulndb/issues/new/choose</a></li>
+          <li>Source URL: <code>https://pkg.go.dev/vuln/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://vuln.go.dev/ID/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>GSD</code></td>
+      <td><a href="https://github.com/cloudsecurityalliance/gsd-database">Global Security Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>https://gsd.id/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://api.gsd.id/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>HSEC</code></td>
+      <td><a href="https://github.com/haskell/security-advisories">Haskell Security Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/haskell/security-advisories/blob/main/CONTRIBUTING.md">https://github.com/haskell/security-advisories/blob/main/CONTRIBUTING.md</a></li>
+          <li>Source URL: <code>TBD</code></li>
+          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/haskell/security-advisories/main/advisories/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>LBSEC</code></td>
+      <td><a href="https://github.com/loopbackio/security/tree/main/advisories">LoopBack Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>N/A</code></li>
+          <li>OSV Formatted URL: <code>N/A</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>OSV</code></td>
+      <td><a href="https://osv.dev/list">Advisories allocated by OSV.dev (currently only from OSS-Fuzz)</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/google/oss-fuzz-vulns/issues">https://github.com/google/oss-fuzz-vulns/issues</a></li>
+          <li>Source URL: <code>https://osv.dev/vulnerability/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>PHSA</code></td>
       <td><a href="https://github.com/vmware/photon/wiki/Security-Advisories">VMWare Photon Security Advisory Database</a></td>
       <td>
@@ -331,6 +300,39 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>PSF</code></td>
+      <td><a href="https://github.com/psf/advisory-database">Python Software Foundation Vulnerability Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/psf/advisory-database/issues">https://github.com/psf/advisory-database/issues</a></li>
+          <li>Source URL: <code>TBD</code></li>
+          <li>OSV Formatted URL: <code>TBD</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>PYSEC</code></td>
+      <td><a href="https://github.com/pypa/advisory-db">PyPI Vulnerability Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/pypa/advisory-database/issues">https://github.com/pypa/advisory-database/issues</a></li>
+          <li>Source URL: <code>https://osv.dev/vulnerability/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>RLSA</code>/<code>RXSA</code></td>
+      <td><a href="https://errata.rockylinux.org">Rocky Linux Security Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>https://errata.rockylinux.org/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://apollo.build.resf.org/api/v3/osv/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>RSEC</code></td>
       <td><a href="https://github.com/RConsortium/r-advisory-database">RConsortium Advisory Database</a></td>
       <td>
@@ -338,6 +340,17 @@ The defined database prefixes and their "home" databases are:
           <li>How to contribute: <a href="https://github.com/RConsortium/r-advisory-database#readme">https://github.com/RConsortium/r-advisory-database#readme</a></li>
           <li>Source URL: <code>https://osv.dev/vulnerability/&lt;ID&gt;</code></li>
           <li>OSV Formatted URL: <code>https://github.com/RConsortium/r-advisory-database/blob/main/vulns/&lt;package&gt;/&lt;ID&gt;.yaml</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>RUSTSEC</code></td>
+      <td><a href="https://github.com/rustsec/advisory-db">RustSec Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/RustSec/advisory-db/blob/main/CONTRIBUTING.md">https://github.com/RustSec/advisory-db/blob/main/CONTRIBUTING.md</a></li>
+          <li>Source URL: <code>https://rustsec.org/advisories/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/rustsec/advisory-db/osv/crates/&lt;ID&gt;.json</code></li>
         </ul>
       </td>
     </tr>
@@ -578,35 +591,36 @@ versions and different potential vulnerabilities:
 {"ecosystem": "PyPI", "name": "zlib"}
 ```
 
+<!-- Please keep this list alphabetically sorted -->
 The defined ecosystems are:
 
 | Ecosystem | Description  |
 | --------- |-----------------|
-| `Go` | The Go ecosystem; the `name` field is a Go module path.  |
-| `npm` | The NPM ecosystem; the `name` field is an NPM package name.  |
-| `OSS-Fuzz` | For reports from the OSS-Fuzz project that have no more appropriate ecosystem; the `name` field is the name assigned by the OSS-Fuzz project, as recorded in the submitted fuzzing configuration.  |
-| `PyPI` | the Python PyPI ecosystem; the `name` field is a [normalized](https://www.python.org/dev/peps/pep-0503/#normalized-names) PyPI package name.  |
-| `RubyGems` | The RubyGems ecosystem; the `name` field is a gem name.  |
-| `crates.io` | The crates.io ecosystem for Rust; the `name` field is a crate name.  |
-| `Hackage` | The Haskell package ecosystem. The `name` field is a Haskell package name as published on Hackage.  |
-| `GHC` | The Haskell compiler ecosystem. The `name` field is the name of a component of the GHC compiler ecosystem (e.g., compiler, GHCI, RTS).  |
-| `Packagist` | The PHP package manager ecosystem; the `name` is a package name.  |
-| `Maven` | The Maven Java package ecosystem. The `name` field is a Maven package name.  |
-| `NuGet` | The NuGet package ecosystem. The `name` field is a NuGet package name.  |
-| `Linux` | The Linux kernel. The only supported `name` is `Kernel`. |
-| `Debian` | The Debian package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Debian release. `<RELEASE>` is a numeric version specified in the [Debian distro-info-data](https://debian.pages.debian.net/distro-info-data/debian.csv). For example, the ecosystem string "Debian:7" refers to the Debian 7 (wheezy) release.  |
-| `Alpine` | The Alpine package ecosystem; the `name` is the name of the source package. The ecosystem string must have a `:v<RELEASE-NUMBER>` suffix to scope the package to a particular Alpine release branch (the `v` prefix is required). E.g. `v3.16`. |
-| `Hex` | The package manager for the Erlang ecosystem; the `name` is a Hex package name.  |
-| `Android`  | The Android ecosystem. Android organizes code using [`repo` tool](https://gerrit.googlesource.com/git-repo/+/HEAD/README.md), which manages multiple git projects under one or more remote git servers, where each project is identified by its name in [repo configuration](https://gerrit.googlesource.com/git-repo/+/HEAD/docs/manifest-format.md#Element-project) (e.g. `platform/frameworks/base`). The `name` field should contain the name of that affected git project/submodule. One exception is when the project contains the Linux kernel source code, in which case `name` field will be `:linux_kernel:`, followed by an optional SoC vendor name e.g. `:linux_kernel:Qualcomm`. The list of recognized SoC vendors is listed in the [Appendix](#android-soc-vendors) |
-| `GitHub Actions` | The GitHub Actions ecosystem; the `name` field is the action's repository name with owner e.g. `{owner}/{repo}`. |
-| `Pub` | The package manager for the Dart ecosystem; the `name` field is a Dart package name. |
-| `ConanCenter` | The ConanCenter ecosystem for C and C++; the `name` field is a Conan package name.  |
-| `Rocky Linux` | The Rocky Linux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Rocky Linux release. `<RELEASE>` is a numeric version.
 | `AlmaLinux` | AlmaLinux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular AlmaLinux release. `<RELEASE>` is a numeric version.
-| `Bitnami` | Bitnami package ecosystem; the `name` is the name of the affected component. |
-| `Photon OS` | The Photon OS package ecosystem; the `name` is the name of the RPM package. The ecosystem string must have a `:<RELEASE-NUMBER>` suffix to scope the package to a particular Photon OS release. Eg `Photon OS:3.0`. |
-| `CRAN` | The R package ecosystem. The `name` is an R package name. |
+| `Alpine` | The Alpine package ecosystem; the `name` is the name of the source package. The ecosystem string must have a `:v<RELEASE-NUMBER>` suffix to scope the package to a particular Alpine release branch (the `v` prefix is required). E.g. `v3.16`. |
+| `Android`  | The Android ecosystem. Android organizes code using [`repo` tool](https://gerrit.googlesource.com/git-repo/+/HEAD/README.md), which manages multiple git projects under one or more remote git servers, where each project is identified by its name in [repo configuration](https://gerrit.googlesource.com/git-repo/+/HEAD/docs/manifest-format.md#Element-project) (e.g. `platform/frameworks/base`). The `name` field should contain the name of that affected git project/submodule. One exception is when the project contains the Linux kernel source code, in which case `name` field will be `:linux_kernel:`, followed by an optional SoC vendor name e.g. `:linux_kernel:Qualcomm`. The list of recognized SoC vendors is listed in the [Appendix](#android-soc-vendors) |
 | `Bioconductor` | The biological R package ecosystem. The `name` is an R package name. |
+| `Bitnami` | Bitnami package ecosystem; the `name` is the name of the affected component. |
+| `ConanCenter` | The ConanCenter ecosystem for C and C++; the `name` field is a Conan package name.  |
+| `CRAN` | The R package ecosystem. The `name` is an R package name. |
+| `crates.io` | The crates.io ecosystem for Rust; the `name` field is a crate name.  |
+| `Debian` | The Debian package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Debian release. `<RELEASE>` is a numeric version specified in the [Debian distro-info-data](https://debian.pages.debian.net/distro-info-data/debian.csv). For example, the ecosystem string "Debian:7" refers to the Debian 7 (wheezy) release.  |
+| `GHC` | The Haskell compiler ecosystem. The `name` field is the name of a component of the GHC compiler ecosystem (e.g., compiler, GHCI, RTS).  |
+| `GitHub Actions` | The GitHub Actions ecosystem; the `name` field is the action's repository name with owner e.g. `{owner}/{repo}`. |
+| `Go` | The Go ecosystem; the `name` field is a Go module path.  |
+| `Hackage` | The Haskell package ecosystem. The `name` field is a Haskell package name as published on Hackage.  |
+| `Hex` | The package manager for the Erlang ecosystem; the `name` is a Hex package name.  |
+| `Linux` | The Linux kernel. The only supported `name` is `Kernel`. |
+| `Maven` | The Maven Java package ecosystem. The `name` field is a Maven package name.  |
+| `npm` | The NPM ecosystem; the `name` field is an NPM package name.  |
+| `NuGet` | The NuGet package ecosystem. The `name` field is a NuGet package name.  |
+| `OSS-Fuzz` | For reports from the OSS-Fuzz project that have no more appropriate ecosystem; the `name` field is the name assigned by the OSS-Fuzz project, as recorded in the submitted fuzzing configuration.  |
+| `Packagist` | The PHP package manager ecosystem; the `name` is a package name.  |
+| `Photon OS` | The Photon OS package ecosystem; the `name` is the name of the RPM package. The ecosystem string must have a `:<RELEASE-NUMBER>` suffix to scope the package to a particular Photon OS release. Eg `Photon OS:3.0`. |
+| `Pub` | The package manager for the Dart ecosystem; the `name` field is a Dart package name. |
+| `PyPI` | the Python PyPI ecosystem; the `name` field is a [normalized](https://www.python.org/dev/peps/pep-0503/#normalized-names) PyPI package name.  |
+| `Rocky Linux` | The Rocky Linux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Rocky Linux release. `<RELEASE>` is a numeric version.
+| `RubyGems` | The RubyGems ecosystem; the `name` field is a gem name.  |
 | `SwiftURL` | The Swift Package Manager ecosystem. The `name` is a Git URL to the source of the package. Versions are Git tags that comform to [SemVer 2.0](https://docs.swift.org/package-manager/PackageDescription/PackageDescription.html#version). |
 | Your ecosystem here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
@@ -1527,235 +1541,6 @@ example encoding of a vulnerability entry.
   "published": "2023-07-13T02:46:57.600Z"
 }
 ```
-
-# Change Log
-
-- 2021-03-29 added "withdrawn" field
-- 2021-04-07 changed "details" to Markdown, change "references" to a list of
-  objects with a new "type" field in addition to the URL.
-- 2021-04-23 handful of changes, see Status - 2021-04-23 below for details. Corrected examples.
-- 2021-04-26 changed `database-specific` and `ecosystem-specific` to
-  `database_specific` and `ecosystem_specific` for easier access from languages
-  that access JSON field keys using x.field notation.
-- 2021-06-08 Added "purl" to the "package" field and some minor clarifications.
-- 2021-06-30 Fixed an incorrect/typoed specification for "affects" from an array
-  of objects to an object.
-- 2021-08-17 Support multiple packages per entry by moving `packages`,
-  `ecosystem_specific` and `database_specific` into `affected`. The `affected`
-  field is intentionally named differently to the previous `affects` field to
-  make migration easier. Also use "events" containing single versions to
-  represent affected version ranges instead.
-- 2021-09-08 Promoted schema to 1.0.
-- 2022-01-19 Released version 1.2.0. Includes various changes suggested by
-  GitHub (`schema_version`, top-level `database_specific`, `credits`,
-  `severity`, relaxation of version enumeration requirement).
-- 2022-03-24 Released version 1.3.0. Added `last_affected` event type and
-  `database_specific` to `affected[].ranges[]`.
-  Context: https://github.com/ossf/osv-schema/issues/35.
-- 2023-02-21 Released version 1.4.0. Added per package `severity` and
-  credit types.
-- 2023-04-26 Released version 1.5.0. Added new reference types.
-- 2023-08-11 Released version 1.6.0. Several new databases and clarified
-  definitions of `aliases` and `related`.
-
-## Status - 2021-04-07
-
-The unresolved open issues boil down to what the use case is for this data.
-
-The use case we had in mind was enabling computer processing of
-vulnerability databases, so that for example:
-
-A web site can display information about a vulnerability fetched from an unaffiliated database.
-A security researcher can fetch precise info about which versions are vulnerable for offline analysis.
-A vulnerability-checking tool can check a build manifest against a collection of these entries to see which are included in the build and then report a summary.
-
-The vision we had for this was that the same underlying vulnerability might be
-described by multiple databases. We wanted a way for databases to be able to
-cross-link with each other and understand what the others were publishing.
-
-See also the "Goal: Standard Schema for Vulnerability Databases" section in
-https://security.googleblog.com/2021/02/know-prevent-fix-framework-for-shifting.html,
-which I’ll quote here:
-
-> Goal: Standard Schema for Vulnerability Databases
-
-> Infrastructure and industry standards are needed to track and maintain open
-> source vulnerabilities, understand their consequences, and manage their
-> mitigations. A standard vulnerability schema would allow common tools to work
-> across multiple vulnerability databases and simplify the task of tracking,
-> especially when vulnerabilities touch multiple languages or subsystems.
-
-It was a non-goal to unify the entries in different existing databases into a
-single entry for a particular vulnerability.
-
-The open issues that remain seem to be pushing toward a new use case, which is
-to be able to unify the entries in different existing databases into a single
-entry (for a particular vulnerability). That was a non-goal: the assumption is
-that there will always be multiple databases, because at the least each
-ecosystem will have its own database with its own custom metadata that doesn't
-really make sense to other databases.
-
-The open issue for "delete severity" illustrates this. If you are only
-collecting info from an ecosystem's database, it probably does help to be able
-to find out what that ecosystem calls the severity of the vulnerability. But
-obviously if you are trying to provide a one-true-entry, then it's not going to
-make sense to have a global idea of severity.
-
-The open issue for being able to give the affected versions across multiple
-ecosystems also illustrates this. If each ecosystem has its own database and
-suppose there is a Rust TLS library with a vulnerability and a Go wrapper of
-that library, then you'd have two entries: one in the Go database and one in the
-Rust database. There's no need to try to put the Rust and Go versions into a
-single entry. Both entries could mention the other in "aliases", and maybe
-they'd both also list the same CVE in "aliases" as well. On the other hand if
-the goal is to define a "one true entry" then obviously you do need to be able
-to make the affected versions per-ecosystem, along with potentially most of the
-other fields.
-
-For the purpose of discussion, I assert that "one true entry" is still a
-non-goal for this schema and that aggregators can easily separate out "affected
-Rust versions" and "affected Go versions" from the two entries. I'm skeptical
-about a single global database both because of the overhead of coordination (it
-bogs down as more and more ecosystems get involved) and how much harder it makes
-it to customize and experiment on a per-ecosystem basis. I think there's still a
-lot to learn about what we want from these databases, and a more distributed,
-federated model makes more sense to me.
-
-Do people think that's a mistake? Does someone want to make the counter-argument
-that we should expand the scope to being able to define the entries in a single
-global database?
-
-Thanks.
-
-## Status - 2021-04-23
-
-Affected versions. I added more explanatory text to the discussion of the
-affected field, to make clear what is expected as far as ecosystem-specific
-encodings of ranges. I also added a new `ECOSYSTEM` range type.
-
-Non-unique database prefixes. I changed the discussion in "id, modified" to
-handle the case of databases that decide to use identifiers drawn from some
-larger space, such as a language that only issues CVE numbers, not its own
-identifiers.
-
-Multi-ecosystem vulnerabilities. There was an open issue, discussed at length in
-the previous status update, about whether to be able to capture a vulnerability
-in multiple ecosystems in a single report. As noted in the previous update,
-attempting to do that seems like it introduces unnecessary coordination problems
-while also calling into question literally every top-level field that might now
-have to be duplicated for each ecosystem. That is, even the description may need
-to be tailored for each ecosystem, meaning that the new multi-ecosystem format
-ends up being a map from ecosystem to the current format. At that point, it’s
-indistinguishable from multiple current-format records.
-
-Also, it appears that even GHSA uses distinct entries for the same CVE from
-different ecosystems. For example, CVE 2019-8331 in Bootstrap is both
-https://github.com/advisories/GHSA-fxwm-579q-49qq (nuget) and
-https://github.com/advisories/GHSA-wh77-3x4m-4q9g (npm).
-
-Similarly, the example I happened to pick for NPM above was assigned
-SNYK-JS-ELLIPTIC-1064899 but has the related entry
-SNYK-JAVA-ORGWEBJARSNPM-1069836 for that code vendored into the Java world.
-
-I’ve resolved the open issue in favor of single-ecosystem entries rather than
-multi-ecosystem entries. Following a suggestion from Robert Schultheis, I added
-a "related" list next to "aliases" to capture this kind of close relationship.
-I’ve updated the NPM example, which already listed SNYK-JS-ELLIPTIC-1064899 in
-"aliases", to list SNYK-JAVA-ORGWEBJARSNPM-1069836 in "related".
-
-Severity. Based on the discussion, removed severity as a top-level field (it is
-too ill-specified and not generally interpretable). Databases can provide it as
-a database-specific field instead.
-
-Extra. Based on the discussion and general confusion about what belonged here,
-split back into two fields: ecosystem-specific and database-specific.
-
-References. Updated the examples to use the new objects with "type" and "url".
-Based on that, added some new reference types.
-
-My plan is to rewrite the italicized paragraph at the top of the doc on Monday
-and then share the link publicly to gather more feedback from groups that have
-not yet seen it.
-
-## Status - 2021-08-24
-
-The biggest change to the schema is our decision to support multiple packages
-and ecosystems per entry and the way we specify version ranges.
-
-These changes are primarily in the interests of
-supporting better interoperability with other vulnerability schemas, such as the
-[CVE JSON schema](https://github.com/CVEProject/cve-schema), where multiple
-packages are supported in a single entry. We've also been suggesting other
-changes to the CVE schema for better alignment
-([1](https://github.com/CVEProject/cve-schema/issues/86),
- [2](https://github.com/CVEProject/cve-schema/issues/87),
- [3](https://github.com/CVEProject/cve-schema/issues/88),
- [4](https://github.com/CVEProject/cve-schema/issues/89)).
-
-Supporting multiple packages is a reversal of our decision back in April (see
-"Status - 2021-04-23" for our rationale at the time).
-
-The other major change is the way we specify ranges. Instead of specifying half
-open ranges as [introduced, fixed), ranges are encoded with with "events" in a
-"timeline" of sorts:
-
-Instead of
-
-```
-"ranges": [{
-    "type: "GIT",
-    "introduced": "058504edd02667eef8fac9be27ab3ea74332e9b4",
-    "fixed": "3533e50cbee8ff086bfa04176ac42a01ee3db37d"
-}, {
-    "type": "GIT",
-    "introduced": "058504edd02667eef8fac9be27ab3ea74332e9b4",
-    "fixed": "c5157b3e775dac31d51b11f993a06a84dc11fc8c" }
-}, {
-    "type": "SEMVER",
-    "introduced": "1.0.0",
-    "fixed": "1.0.2",
-}, {
-    "type": "SEMVER",
-    "introduced": "1.1.0",
-    "fixed": "1.1.3",
-}]
-```
-
-We now have:
-
-```
-"ranges": [{
-    "type: "GIT",
-    "events": [
-      { "introduced": "058504edd02667eef8fac9be27ab3ea74332e9b4" },
-      { "fixed": "3533e50cbee8ff086bfa04176ac42a01ee3db37d" },
-      { "fixed": "c5157b3e775dac31d51b11f993a06a84dc11fc8c" }
-    ]
-}, {
-    "type: "SEMVER",
-    "events": [
-      { "introduced": "1.0.0" },
-      { "fixed": "1.0.2" },
-      { "introduced": "1.1.0" },
-      { "fixed": "1.1.3" }
-    ]
-}]
-```
-
-This avoids repetition with the previous approach and better fits non-linear
-versioning schemes like git ranges. We also introduced a "limit" event, which
-allows git range specification to be scoped to a small num single branch. This was not
-possible before.
-
-These are breaking changes, but we hope to make migration easier by renaming the
-"affects" field to "affected" to allow existing consumers and producers of this
-data to more easily handle old and new versions of entries.
-
-## Status - 2021-09-08
-
-We've decided to promote our schema to 1.0, based on positive feedback from
-existing consumers and producers of this data. From this point on, no backwards
-incompatible changes will be made in any 1.x version.
 
 # Appendix
 
