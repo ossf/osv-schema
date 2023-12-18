@@ -290,7 +290,8 @@
             "enum": [
               "CVSS_V2",
               "CVSS_V3",
-              "CVSS_V4"
+              "CVSS_V4",
+              "EPSS_V1"
             ]
           },
           "score": {
