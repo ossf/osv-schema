@@ -278,6 +278,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>MNBSD</code></td>
+      <td><a href="https://github.com/MidnightBSD/midnightbsd-vulns/">MidnightBSD Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/MidnightBSD/midnightbsd-vulns/blob/main/README.md">https://github.com/MidnightBSD/midnightbsd-vulns/blob/main/README.md</a></li>
+          <li>Source URL: <code>TBD</code></li>
+          <li>OSV Formatted URL: <code>TBD</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>OSV</code></td>
       <td><a href="https://osv.dev/list">Advisories allocated by OSV.dev (currently only from OSS-Fuzz)</a></td>
       <td>
