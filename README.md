@@ -16,6 +16,7 @@ This is the repository for the Open Source Vulnerability schema (OSV Schema), wh
 - [RConsortium Advisory Database](https://github.com/RConsortium/r-advisory-database)
 - [Rocky Linux](https://distro-tools.rocky.page/apollo/openapi/#osv)
 - [Rust Advisory Database](https://github.com/RustSec/advisory-db)
+- [Ubuntu](https://github.com/canonical/ubuntu-security-notices/)
 - [VMWare Photon OS](https://github.com/vmware/photon/wiki/Security-Advisories) (unofficial)
 
 Together, these include vulnerabilities from:
@@ -42,6 +43,7 @@ Together, these include vulnerabilities from:
 -   R (CRAN and Bioconductor)
 -   Rocky Linux
 -   RubyGems
+-   Ubuntu
 
 These vulnerabilites are aggregated by <https://osv.dev>.
 
