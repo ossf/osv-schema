@@ -5,6 +5,6 @@ This directory contains a JSON schema to validate OSV entries.
 ## Usage
 
 ```
-$ pip install jsonschema
-$ jsonschema schema.json < osv_to_test.json
+$ pip install check-jsonschema
+$ check-jsonschema --schemafile schema.json osv_to_test.json
 ```
