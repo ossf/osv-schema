@@ -9,6 +9,7 @@ This is the repository for the Open Source Vulnerability schema (OSV Schema), wh
 - [Go Vulnerability Database](https://github.com/golang/vulndb)
 - [Haskell Security Advisories](https://github.com/haskell/security-advisories)
 - [LoopBack Advisory Database](https://github.com/loopbackio/security/tree/main/advisories)
+- [Malicious Packages Repository](https://github.com/ossf/malicious-packages)
 - [OSS-Fuzz](https://github.com/google/oss-fuzz-vulns)
 - [OSV.dev maintained converters](https://github.com/google/osv.dev#current-data-sources) (Debian, Alpine, NVD)
 - [PyPI Advisory Database](https://github.com/pypa/advisory-database)
