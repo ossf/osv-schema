@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.6.2 (Jan 16, 2024)**
+**Version 1.6.3 (Jan 29, 2024)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -750,6 +750,15 @@ Versions above `last_affected` should be considered unaffected. Unfortunately
 this opens up the possibility for false negatives, which is why `fixed` is
 overwhelmingly preferred. An [example](#last_affected-vs-fixed-example) is available to
 illustrate the difference.
+
+The `fixed` and `limit` events are closely related and involve a similar
+trade-off for `GIT` ranges. (See the [limit example](#Limit-events) for details
+about how they differ.)  `events` arrays with `fixed` events must include all
+other cherrypicked fix commits in all branches as separate `fixed` events to
+avoid *false positive* matches in other branches. Conversely, `limit` events
+restrict the set of vulnerable commits to those reachable from the `limit`,
+which may result in *false negatives*. Where possible, it's strongly
+recommended to use `fixed` over `limit`.
 
 There must be at least one `introduced` object in the `events` array. While
 not required, it's also recommended to keep the `events` array sorted according
