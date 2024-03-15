@@ -781,7 +781,7 @@ This field is required if `affected[].ranges[].type` is `GIT`.
 ### affected[].ranges[].database_specific field
 
 The `ranges` object's `database_specific` field is a JSON object holding
-additional information about the range from which the record was obtained. The
+additional information about the range as defined by the database from which the record was obtained. The
 meaning of the values within the object is entirely defined by the database and
 beyond the scope of this document.
 
