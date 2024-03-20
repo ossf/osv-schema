@@ -7,7 +7,7 @@ This Charter sets forth the responsibilities and procedures for technical contri
 
 ## 1. Mission and Scope of the Project
 
-a. The mission of the Project is to develop a common format for the sharing of vulnerability information.
+a. The mission of the Project is to develop a standard interchange format for describing vulnerabilities in open source packages
 
 b. The scope of the Project includes collaborative development under the Project License (as defined herein) supporting the mission, including documentation, testing, integration and the creation of other artifacts that aid the development, deployment, operation or adoption of the open source project.
 
