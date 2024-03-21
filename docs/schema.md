@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.6.3 (Jan 29, 2024)**
+**Version 1.6.4 (Mar 20, 2024)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -634,7 +634,7 @@ The defined ecosystems are:
 | `Hackage` | The Haskell package ecosystem. The `name` field is a Haskell package name as published on Hackage.  |
 | `Hex` | The package manager for the Erlang ecosystem; the `name` is a Hex package name.  |
 | `Linux` | The Linux kernel. The only supported `name` is `Kernel`. |
-| `Maven` | The Maven Java package ecosystem. The `name` field is a Maven package name.  |
+| `Maven` | The Maven Java package ecosystem. The `name` field is a Maven package name. The ecosystem string might optionally have a `:<REMOTE-REPO-URL>` suffix to denote the remote repository URL that best represents the source of truth for this package, without a trailing slash (e.g. `Maven:https://maven.google.com`). If this is omitted, this is assumed to be the Maven Central repository (`https://repo.maven.apache.org/maven2`).
 | `npm` | The NPM ecosystem; the `name` field is an NPM package name.  |
 | `NuGet` | The NuGet package ecosystem. The `name` field is a NuGet package name.  |
 | `OSS-Fuzz` | For reports from the OSS-Fuzz project that have no more appropriate ecosystem; the `name` field is the name assigned by the OSS-Fuzz project, as recorded in the submitted fuzzing configuration.  |
