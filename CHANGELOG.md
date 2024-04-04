@@ -29,3 +29,4 @@
   definitions of `aliases` and `related`.
 - 2023-11-29 Released version 1.6.1. Some cleanup of the schema layout.
 - 2024-01-16 Released version 1.6.2. Added CVSS_V4 and Ubuntu ecosystem.
+- 2024-04-05 Released version 1.6.3. Added Maven registry support.
