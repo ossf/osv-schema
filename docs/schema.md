@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.6.2 (Jan 16, 2024)**
+**Version 1.6.3 (April 5, 2024)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -274,6 +274,17 @@ The defined database prefixes and their "home" databases are:
           <li>How to contribute: TBD</li>
           <li>Source URL: <code>N/A</code></li>
           <li>OSV Formatted URL: <code>N/A</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>MAL</code></td>
+      <td><a href="https://github.com/ossf/malicious-packages/tree/main/osv/">Malicious Packages Repository</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/ossf/malicious-packages/blob/main/CONTRIBUTING.md">https://github.com/ossf/malicious-packages/blob/main/CONTRIBUTING.md</a></li>
+          <li>Source URL: <code>N/A</code></li>
+          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
         </ul>
       </td>
     </tr>
@@ -623,7 +634,7 @@ The defined ecosystems are:
 | `Hackage` | The Haskell package ecosystem. The `name` field is a Haskell package name as published on Hackage.  |
 | `Hex` | The package manager for the Erlang ecosystem; the `name` is a Hex package name.  |
 | `Linux` | The Linux kernel. The only supported `name` is `Kernel`. |
-| `Maven` | The Maven Java package ecosystem. The `name` field is a Maven package name.  |
+| `Maven` | The Maven Java package ecosystem. The `name` field is a Maven package name in the format `groupId:artifactId`. The ecosystem string might optionally have a `:<REMOTE-REPO-URL>` suffix to denote the remote repository URL that best represents the source of truth for this package, without a trailing slash (e.g. `Maven:https://maven.google.com`). If this is omitted, this is assumed to be the Maven Central repository (`https://repo.maven.apache.org/maven2`).
 | `npm` | The NPM ecosystem; the `name` field is an NPM package name.  |
 | `NuGet` | The NuGet package ecosystem. The `name` field is a NuGet package name.  |
 | `OSS-Fuzz` | For reports from the OSS-Fuzz project that have no more appropriate ecosystem; the `name` field is the name assigned by the OSS-Fuzz project, as recorded in the submitted fuzzing configuration.  |
@@ -740,6 +751,15 @@ this opens up the possibility for false negatives, which is why `fixed` is
 overwhelmingly preferred. An [example](#last_affected-vs-fixed-example) is available to
 illustrate the difference.
 
+The `fixed` and `limit` events are closely related and involve a similar
+trade-off for `GIT` ranges. (See the [limit example](#Limit-events) for details
+about how they differ.)  `events` arrays with `fixed` events must include all
+other cherrypicked fix commits in all branches as separate `fixed` events to
+avoid *false positive* matches in other branches. Conversely, `limit` events
+restrict the set of vulnerable commits to those reachable from the `limit`,
+which may result in *false negatives*. Where possible, it's strongly
+recommended to use `fixed` over `limit`.
+
 There must be at least one `introduced` object in the `events` array. While
 not required, it's also recommended to keep the `events` array sorted according
 to the `affected[].ranges[].type` of the range.
@@ -761,7 +781,7 @@ This field is required if `affected[].ranges[].type` is `GIT`.
 ### affected[].ranges[].database_specific field
 
 The `ranges` object's `database_specific` field is a JSON object holding
-additional information about the range from which the record was obtained. The
+additional information about the range as defined by the database from which the record was obtained. The
 meaning of the values within the object is entirely defined by the database and
 beyond the scope of this document.
 
