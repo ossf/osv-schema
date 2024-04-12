@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.6.3 (April 5, 2024)**
+**Version 1.6.4 (April 11, 2024)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -274,6 +274,17 @@ The defined database prefixes and their "home" databases are:
           <li>How to contribute: TBD</li>
           <li>Source URL: <code>N/A</code></li>
           <li>OSV Formatted URL: <code>N/A</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>MGASA</code></td>
+      <td><a href="https://advisories.mageia.org/">Mageia Security Advisories</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <code>TBD</code></li>
+          <li>Source URL: <code>https://advisories.mageia.org/&lt;ID&gt;.html</code></li>
+          <li>OSV Formatted URL: <code>https://advisories.mageia.org/&lt;ID&gt;.json</code></li>
         </ul>
       </td>
     </tr>
@@ -634,6 +645,7 @@ The defined ecosystems are:
 | `Hackage` | The Haskell package ecosystem. The `name` field is a Haskell package name as published on Hackage.  |
 | `Hex` | The package manager for the Erlang ecosystem; the `name` is a Hex package name.  |
 | `Linux` | The Linux kernel. The only supported `name` is `Kernel`. |
+| `Mageia` | The Mageia Linux package ecosystem; the `name` is the name of the source package. The ecosystem string must have a `:<RELEASE-NUMBER>` suffix to scope the package to a particular Mageia release. Eg `Mageia:9`. |
 | `Maven` | The Maven Java package ecosystem. The `name` field is a Maven package name in the format `groupId:artifactId`. The ecosystem string might optionally have a `:<REMOTE-REPO-URL>` suffix to denote the remote repository URL that best represents the source of truth for this package, without a trailing slash (e.g. `Maven:https://maven.google.com`). If this is omitted, this is assumed to be the Maven Central repository (`https://repo.maven.apache.org/maven2`).
 | `npm` | The NPM ecosystem; the `name` field is an NPM package name.  |
 | `NuGet` | The NuGet package ecosystem. The `name` field is a NuGet package name.  |
