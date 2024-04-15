@@ -48,6 +48,8 @@ Together, these include vulnerabilities from:
 
 These vulnerabilites are aggregated by <https://osv.dev>.
 
+Join the discussion in the [OpenSSF Slack](https://slack.openssf.org/) channel [#osv_schema](https://openssf.slack.com/archives/C03K6SZBH2S)
+
 Reference tooling (e.g. converters) can be found in the [tools/](tools) directory
 
 The current version of the specification is rendered [here](https://ossf.github.io/osv-schema/).
