@@ -10,6 +10,7 @@ This is the repository for the Open Source Vulnerability schema (OSV Schema), wh
 - [Haskell Security Advisories](https://github.com/haskell/security-advisories)
 - [LoopBack Advisory Database](https://github.com/loopbackio/security/tree/main/advisories)
 - [Malicious Packages Repository](https://github.com/ossf/malicious-packages)
+- [Mageia Advisories](https://advisories.mageia.org/)
 - [OSS-Fuzz](https://github.com/google/oss-fuzz-vulns)
 - [OSV.dev maintained converters](https://github.com/google/osv.dev#current-data-sources) (Debian, Alpine, NVD)
 - [PyPI Advisory Database](https://github.com/pypa/advisory-database)
@@ -32,6 +33,7 @@ Together, these include vulnerabilities from:
 -   Haskell
 -   Hex
 -   Linux kernel
+-   Mageia
 -   Maven
 -   npm
 -   NuGet
