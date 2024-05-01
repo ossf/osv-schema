@@ -678,9 +678,10 @@ The `affected` object's `versions` field is a JSON array of strings. Each string
 is a single affected version in whatever version syntax is used by the given
 package ecosystem.
 
-When there is no well-defined packaging ecosystem specified, (notably as for
-general C/C++ libraries, where there are only GIT commit ranges), this version
-format cannot be relied upon to conform to any particular syntax (e.g. they
+When there is no well-defined packaging ecosystem specified (for
+example, general C/C++ libraries), GIT commit ranges are typically the best way
+to define vulnerable version ranges. In this case, versions specified in this
+array cannot be relied upon to conform to any particular syntax (e.g. they
 could be the upstream Git version tags derived from these GIT commit ranges,
 which is what [OSV.dev](https://osv.dev/) populates this field with). In this
 situation, the GIT commit ranges in [`affected[].ranges`](#affectedranges-field)
