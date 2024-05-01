@@ -253,10 +253,10 @@ def get_affected(ghsa: Dict[str, Any]) -> List[Dict[str, Any]]:
             if ghsa_range.upper:
                 if ghsa_range.upper.operator == '<=':
                     if first_patched:
+                        # "fixed" events are prefered over "last_affected"
                         current_events.append({'fixed': first_patched})
-
-                    # OSV ranges only allow < and not <=. If there is no patch, then all
-                    # versions from beginning of time are affected.
+                    else:
+                        current_events.append({'last_affected': ghsa_range.upper.version})
                 elif ghsa_range.upper.operator == '<':
                     current_events.append({'fixed': ghsa_range.upper.version})
             elif first_patched:
