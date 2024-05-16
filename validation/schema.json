@@ -147,6 +147,7 @@
               },
               "allOf": [
                 {
+		  "title": "GIT ranges require a repo",
                   "if": {
                     "properties": {
                       "type": {
@@ -161,8 +162,8 @@
                   }
                 },
                 {
+		  "title": "last_affected and fixed events are mutually exclusive",
                   "if": {
-		    "title": "last_affected and fixed are mutually exclusive",
                     "properties": {
                       "events": {
                         "contains": {
@@ -172,7 +173,6 @@
                     }
                   },
                   "then": {
-		    "title": "last_affected and fixed are mutually exclusive",
                     "not": {
                       "properties": {
                         "events": {
