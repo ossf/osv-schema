@@ -162,6 +162,7 @@
                 },
                 {
                   "if": {
+		    "title": "last_affected and fixed are mutually exclusive",
                     "properties": {
                       "events": {
                         "contains": {
@@ -171,6 +172,7 @@
                     }
                   },
                   "then": {
+		    "title": "last_affected and fixed are mutually exclusive",
                     "not": {
                       "properties": {
                         "events": {
