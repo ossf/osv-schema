@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/ossf/osv-schema/main/validation/schema.json",
   "title": "Open Source Vulnerability",
-  "description": "A schema for describing a vulnerability in an open source package.",
+  "description": "A schema for describing a vulnerability in an open source package. See also https://ossf.github.io/osv-schema/",
   "type": "object",
   "properties": {
     "schema_version": {
@@ -21,7 +21,10 @@
       "$ref": "#/$defs/timestamp"
     },
     "aliases": {
-      "type": ["array", "null"],
+      "type": [
+        "array",
+        "null"
+      ],
       "items": {
         "type": "string"
       }
@@ -42,7 +45,10 @@
       "$ref": "#/$defs/severity"
     },
     "affected": {
-      "type": ["array", "null"],
+      "type": [
+        "array",
+        "null"
+      ],
       "items": {
         "type": "object",
         "properties": {
@@ -84,6 +90,7 @@
                   "type": "string"
                 },
                 "events": {
+                  "title": "events must contain an introduced object and may contain fixed, last_affected or limit objects",
                   "type": "array",
                   "contains": {
                     "required": [
@@ -147,6 +154,7 @@
               },
               "allOf": [
                 {
+                  "title": "GIT ranges require a repo",
                   "if": {
                     "properties": {
                       "type": {
@@ -161,11 +169,14 @@
                   }
                 },
                 {
+                  "title": "last_affected and fixed events are mutually exclusive",
                   "if": {
                     "properties": {
                       "events": {
                         "contains": {
-                          "required": ["last_affected"]
+                          "required": [
+                            "last_affected"
+                          ]
                         }
                       }
                     }
@@ -175,7 +186,9 @@
                       "properties": {
                         "events": {
                           "contains": {
-                            "required": ["fixed"]
+                            "required": [
+                              "fixed"
+                            ]
                           }
                         }
                       }
@@ -205,7 +218,10 @@
       }
     },
     "references": {
-      "type": ["array", "null"],
+      "type": [
+        "array",
+        "null"
+      ],
       "items": {
         "type": "object",
         "properties": {
@@ -263,7 +279,7 @@
               "TOOL",
               "SPONSOR",
               "OTHER"
-          ]
+            ]
           }
         },
         "required": [
@@ -281,7 +297,10 @@
   ],
   "$defs": {
     "severity": {
-      "type": ["array", "null"],
+      "type": [
+        "array",
+        "null"
+      ],
       "items": {
         "type": "object",
         "properties": {
