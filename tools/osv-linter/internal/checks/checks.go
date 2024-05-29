@@ -51,6 +51,8 @@ type Check struct {
 }
 
 // Run runs the check, returning any findings.
+// The check has no awareness of the CheckCode, 
+// this merges that with the check's findings.
 func (c *Check) Run(json *gjson.Result) (findings []CheckError) {
 	for _, finding := range c.check(json) {
 		findings = append(findings, CheckError{

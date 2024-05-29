@@ -13,7 +13,32 @@ import (
 	"github.com/ossf/osv-schema/linter/internal/checks"
 )
 
+type Content struct {
+	filename string
+	bytes    []byte
+}
+
+func lint(content *Content, checks []*checks.Check) (findings []checks.CheckError) {
+	// Parse file into JSON
+	if !gjson.ValidBytes(content.bytes) {
+		log.Printf("%q: invalid JSON", content.filename)
+	}
+
+	record := gjson.ParseBytes(content.bytes)
+
+	for _, check := range checks {
+		fmt.Printf("Running %q check on %q\n", check.Name(), content.filename)
+		checkFindings := check.Run(&record)
+		if checkFindings != nil {
+			log.Printf("%q: %q: %#v", content.filename, check.Name(), checkFindings)
+		}
+		findings = append(findings, checkFindings...)
+	}
+	return findings
+}
+
 func LintCommand(cCtx *cli.Context) error {
+	// List check collections.
 	if cCtx.String("collection") == "list" {
 		fmt.Printf("Available check collections:\n\n")
 		for _, collection := range checks.Collections() {
@@ -25,6 +50,7 @@ func LintCommand(cCtx *cli.Context) error {
 		return nil
 	}
 
+	// List all available checks.
 	if cCtx.String("check") == "list" {
 		fmt.Printf("Available checks:\n\n")
 		for _, check := range checks.All() {
@@ -33,59 +59,67 @@ func LintCommand(cCtx *cli.Context) error {
 		return nil
 	}
 
+	// Check for things to check.
 	if cCtx.NArg() == 0 {
 		return errors.New("nothing to check")
 	}
 
-	for _, fileToCheck := range cCtx.Args().Slice() {
+	var checksToBeRun []*checks.Check
 
-		// Check file exists.
-		recordBytes, err := os.ReadFile(fileToCheck)
+	// Run the all the checks in a collection.
+	if cCtx.String("collection") != "" {
+		fmt.Printf("Running %q check collection on %q\n", cCtx.String("collection"), cCtx.Args())
+		// Check the requested check collection exists.
+		if _, ok := checks.Collections()[cCtx.String("collection")]; !ok {
+			return fmt.Errorf("%q is not a valid check collection", cCtx.String("collection"))
+		}
+		collection := checks.Collections()[cCtx.String("collection")]
+		checksToBeRun = collection.Checks()
+	}
+
+	// Run just an individual check.
+	if cCtx.String("check") != "" {
+		// Check the requested check exists.
+		if _, ok := checks.All()[cCtx.String("check")]; !ok {
+			return fmt.Errorf("%q is not a valid check", cCtx.String("check"))
+		}
+		checksToBeRun = append(checksToBeRun, checks.All()[cCtx.String("check")])
+	}
+
+	perFileFindings := map[string][]checks.CheckError{}
+
+	// Run the check(s) on the files.
+	for _, thingToCheck := range cCtx.Args().Slice() {
+		file, err := os.Open(thingToCheck)
+		if err != nil {
+			log.Printf("%v, skipping", err)
+			continue
+		}
+		defer file.Close()
+
+		fileInfo, err := file.Stat()
 		if err != nil {
 			log.Printf("%v, skipping", err)
 			continue
 		}
 
-		// Parse file into JSON
-		if !gjson.ValidBytes(recordBytes) {
-			log.Printf("%q: invalid JSON", fileToCheck)
+		if fileInfo.IsDir() {
+			// Do the directory thing
+		} else {
+			// Do the file thing
+			recordBytes, err := os.ReadFile(thingToCheck)
+			if err != nil {
+				log.Printf("%v, skipping", err)
+				continue
+			}
+			findings := lint(&Content{filename: thingToCheck, bytes: recordBytes}, checksToBeRun)
+			if findings != nil {
+				perFileFindings[thingToCheck] = findings
+			}
 		}
-
-		record := gjson.ParseBytes(recordBytes)
-
-		if cCtx.String("check") != "" {
-			fmt.Printf("Running %q check on %q\n", cCtx.String("check"), fileToCheck)
-			// Check the requested check exists.
-			if _, ok := checks.All()[cCtx.String("check")]; !ok {
-				return fmt.Errorf("%q is not a valid check", cCtx.String("check"))
-			}
-			// Run just the requested check.
-			check := checks.All()[cCtx.String("check")]
-			// TODO: store in a per-file map so a per-file summary can be produced.
-			result := check.Run(&record)
-			if result != nil {
-				log.Printf("%q: %q: %#v", fileToCheck, cCtx.String("check"), result)
-			}
-			continue
-		}
-
-		if cCtx.String("collection") != "" {
-			fmt.Printf("Running %q check collection on %q\n", cCtx.String("collection"), cCtx.Args())
-			// Check the requested check collection exists.
-			if _, ok := checks.Collections()[cCtx.String("collection")]; !ok {
-				return fmt.Errorf("%q is not a valid check collection", cCtx.String("collection"))
-			}
-			// Run all checks in collection
-			collection := checks.Collections()[cCtx.String("collection")]
-			for _, check := range collection.Checks() {
-				// TODO: store in a per-file per-check map so a per-file summary can be produced.
-				result := check.Run(&record)
-				if result != nil {
-					log.Printf("%q: %q: %#v", fileToCheck, check.Name(), result)
-				}
-			}
-			continue
-		}
+	}
+	if len(perFileFindings) > 0 {
+		return errors.New("found errors")
 	}
 	return nil
 }
