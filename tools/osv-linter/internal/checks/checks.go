@@ -1,3 +1,13 @@
+// Package checks defines and implements all checks and collections of checks.
+//
+// To add additional checks:
+// 1. define a new instance of `Check`
+// 2. add it to the `checks` array
+// 3. add it to the relevent collections defined in `checkCollections`
+//
+// To add additional collections of checks:
+// 1. add to the `checkCollections` array.
+//
 package checks
 
 import (
@@ -66,25 +76,25 @@ func (c *Check) CodeString() string {
 	return string(c.code)
 }
 
-// CheckCollection is a named collection of checks.
-type CheckCollection struct {
+// Collection is a named collection of checks.
+type Collection struct {
 	name        string
 	description string
 	checks      []*Check
 }
 
 // Name returns the name of the collection.
-func (cc *CheckCollection) Name() string {
+func (cc *Collection) Name() string {
 	return cc.name
 }
 
 // Description returns the description of the collection.
-func (cc *CheckCollection) Description() string {
+func (cc *Collection) Description() string {
 	return cc.description
 }
 
 // Checks returns the checks in the collection.
-func (cc *CheckCollection) Checks() []*Check {
+func (cc *Collection) Checks() []*Check {
 	return cc.checks
 }
 
@@ -99,8 +109,8 @@ var checks = []*Check{
 	CheckIntroducedEventExists,
 }
 
-// Checks returns all defined checks as a map, keyed by the check's code.
-func Checks() (allchecks map[string]*Check) {
+// All returns all defined checks as a map, keyed by the check's code.
+func All() (allchecks map[string]*Check) {
 	allchecks = make(map[string]*Check)
 	for _, check := range checks {
 		allchecks[check.CodeString()] = check
@@ -108,7 +118,7 @@ func Checks() (allchecks map[string]*Check) {
 	return allchecks
 }
 
-var checkCollections = []CheckCollection{
+var checkCollections = []Collection{
 	{
 		name:        "osv.dev",
 		description: "the checks OSV.dev considers necessary for a high quality record",
@@ -118,9 +128,9 @@ var checkCollections = []CheckCollection{
 	},
 }
 
-// CheckCollections returns a map of defined check collections, keyed by the collection's name.
-func CheckCollections() (checkcollections map[string]CheckCollection) {
-	checkcollections = make(map[string]CheckCollection)
+// Collections returns a map of defined check collections, keyed by the collection's name.
+func Collections() (checkcollections map[string]Collection) {
+	checkcollections = make(map[string]Collection)
 	for _, checkcollection := range checkCollections {
 		checkcollections[checkcollection.Name()] = checkcollection
 	}

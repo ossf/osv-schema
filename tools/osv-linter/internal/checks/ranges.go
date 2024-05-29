@@ -6,6 +6,7 @@ import (
 	"github.com/tidwall/gjson"
 )
 
+// RangeHasIntroducedEvent checks for missing 'introduced' objects in events.
 func RangeHasIntroducedEvent(json *gjson.Result) (findings []error) {
 	result := json.Get(`affected.#.ranges.#.events`)
 
