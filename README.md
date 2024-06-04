@@ -3,6 +3,7 @@
 This is the repository for the Open Source Vulnerability schema (OSV Schema), which is currently exported by:
 - [AlmaLinux](https://github.com/AlmaLinux/osv-database)
 - [Bitnami Vulnerability Database](https://github.com/bitnami/vulndb)
+- [Chainguard](https://packages.cgr.dev/chainguard/osv/all.json)
 - [Curl](https://curl.se/docs/vuln.json)
 - [GitHub Security Advisories](https://github.com/github/advisory-database)
 - [Global Security Database](https://github.com/cloudsecurityalliance/gsd-database)
@@ -26,6 +27,7 @@ Together, these include vulnerabilities from:
 -   Alpine
 -   Android
 -   Bitnami
+-   Chainguard
 -   crates.io
 -   Debian GNU/Linux
 -   GitHub Actions
