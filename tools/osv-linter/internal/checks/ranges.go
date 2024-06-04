@@ -1,21 +1,17 @@
 package checks
 
 import (
-	"fmt"
-
 	"github.com/tidwall/gjson"
 )
 
 // RangeHasIntroducedEvent checks for missing 'introduced' objects in events.
-func RangeHasIntroducedEvent(json *gjson.Result) (findings []error) {
-	result := json.Get(`affected.#.ranges.#.events`)
+func RangeHasIntroducedEvent(json *gjson.Result) (findings []CheckError) {
+	result := json.Get(`affected.#(ranges.#(events.#(introduced)))`)
 
-	result.ForEach(func(key, value gjson.Result) bool {
-		if !value.Get("introduced").Exists() {
-			findings = append(findings, fmt.Errorf("missing 'introduced' object in event at index %s", key))
-		}
-		return true // Continue iteration.
-	})
+	if !result.Exists() {
+		findings = append(findings, CheckError{Message: "missing 'introduced' object in event"})
+		return findings
+	}
 
-	return findings
+	return nil
 }

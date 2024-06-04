@@ -7,7 +7,6 @@
 //
 // To add additional collections of checks:
 // 1. add to the `checkCollections` array.
-//
 package checks
 
 import (
@@ -19,6 +18,7 @@ import (
 // A CheckCode is a unique code for a check.
 type CheckCode string
 
+// CheckError describes when a check fails.
 type CheckError struct {
 	Code    CheckCode
 	Message string
@@ -47,11 +47,11 @@ type Check struct {
 	code        CheckCode
 	name        string
 	description string
-	check       func(*gjson.Result) []error
+	check       func(*gjson.Result) []CheckError
 }
 
 // Run runs the check, returning any findings.
-// The check has no awareness of the CheckCode, 
+// The check has no awareness of the CheckCode,
 // this merges that with the check's findings.
 func (c *Check) Run(json *gjson.Result) (findings []CheckError) {
 	for _, finding := range c.check(json) {

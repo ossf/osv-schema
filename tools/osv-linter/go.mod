@@ -3,6 +3,7 @@ module github.com/ossf/osv-schema/linter
 go 1.21.10
 
 require (
+	github.com/google/go-cmp v0.6.0
 	github.com/tidwall/gjson v1.17.1
 	github.com/urfave/cli/v2 v2.27.2
 )
