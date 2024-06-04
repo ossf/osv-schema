@@ -3,8 +3,10 @@ package internal
 import (
 	"errors"
 	"fmt"
+	"io/fs"
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/tidwall/gjson"
 
@@ -88,7 +90,8 @@ func LintCommand(cCtx *cli.Context) error {
 
 	perFileFindings := map[string][]checks.CheckError{}
 
-	// Run the check(s) on the files.
+	// Figure out what files to check.
+	var filesToCheck []string
 	for _, thingToCheck := range cCtx.Args().Slice() {
 		file, err := os.Open(thingToCheck)
 		if err != nil {
@@ -104,20 +107,38 @@ func LintCommand(cCtx *cli.Context) error {
 		}
 
 		if fileInfo.IsDir() {
-			// Do the directory thing
-		} else {
-			// Do the file thing
-			recordBytes, err := os.ReadFile(thingToCheck)
+			err := filepath.WalkDir(thingToCheck, func(f string, d fs.DirEntry, err error) error {
+				if err != nil {
+					return err
+				}
+				if !d.IsDir() && filepath.Ext(d.Name()) == ".json" {
+					filesToCheck = append(filesToCheck, f)
+				}
+				return nil
+			})
 			if err != nil {
 				log.Printf("%v, skipping", err)
 				continue
 			}
-			findings := lint(&Content{filename: thingToCheck, bytes: recordBytes}, checksToBeRun)
-			if findings != nil {
-				perFileFindings[thingToCheck] = findings
-			}
+			log.Printf("Found %d files in %q", len(filesToCheck), thingToCheck)
+		} else {
+			filesToCheck = append(filesToCheck, thingToCheck)
 		}
 	}
+
+	// Run the check(s) on the files.
+	for _, fileToCheck := range filesToCheck {
+		recordBytes, err := os.ReadFile(fileToCheck)
+		if err != nil {
+			log.Printf("%v, skipping", err)
+			continue
+		}
+		findings := lint(&Content{filename: fileToCheck, bytes: recordBytes}, checksToBeRun)
+		if findings != nil {
+			perFileFindings[fileToCheck] = findings
+		}
+	}
+
 	if len(perFileFindings) > 0 {
 		return errors.New("found errors")
 	}
