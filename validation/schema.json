@@ -9,7 +9,7 @@
       "type": "string"
     },
     "id": {
-      "type": "string"
+      "$ref": "#/$defs/prefix"
     },
     "modified": {
       "$ref": "#/$defs/timestamp"
@@ -280,34 +280,6 @@
     "modified"
   ],
   "$defs": {
-    "severity": {
-      "type": ["array", "null"],
-      "items": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": [
-              "CVSS_V2",
-              "CVSS_V3",
-              "CVSS_V4"
-            ]
-          },
-          "score": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "type",
-          "score"
-        ]
-      }
-    },
-    "timestamp": {
-      "type": "string",
-      "format": "date-time",
-      "pattern": "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?Z"
-    },
     "ecosystem": {
       "type": "string",
       "title": "Currently supported ecosystems",
@@ -341,6 +313,40 @@
         "SwiftURL",
         "Ubuntu"
       ]
+    },
+    "prefix": {
+      "type": "string",
+      "title": "Currently supported home database identifier prefixes",
+      "description": "These home databases are also documented at https://ossf.github.io/osv-schema/#id-modified-fields",
+      "pattern": "^(A|ALSA|ALBA|ALEA|BIT|CURL|CVE|DSA|DLA|DTSA|GHSA|GO|GSD|HSEC|LBSEC|MAL|OSV|PHSA|PSF|PYSEC|RLSA|RXSA|RSEC|RUSTSEC|USN)-"
+    },
+    "severity": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "CVSS_V2",
+              "CVSS_V3",
+              "CVSS_V4"
+            ]
+          },
+          "score": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "score"
+        ]
+      }
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?Z"
     }
   },
   "additionalProperties": false
