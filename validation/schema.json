@@ -290,7 +290,7 @@
       "type": "string",
       "title": "Currently supported home database identifier prefixes",
       "description": "These home databases are also documented at https://ossf.github.io/osv-schema/#id-modified-fields",
-      "pattern": "^(A|ALSA|ALBA|ALEA|BIT|CURL|CVE|DSA|DLA|DTSA|GHSA|GO|GSD|HSEC|LBSEC|MAL|OSV|PHSA|PSF|PYSEC|RLSA|RXSA|RSEC|RUSTSEC|USN)-"
+      "pattern": "^(ASB|A|ALSA|ALBA|ALEA|BIT|CURL|CVE|DSA|DLA|DTSA|GHSA|GO|GSD|HSEC|LBSEC|MAL|OSV|PHSA|PSF|PYSEC|RLSA|RXSA|RSEC|RUSTSEC|USN)-"
     },
     "severity": {
       "type": ["array", "null"],
