@@ -9,7 +9,7 @@
       "type": "string"
     },
     "id": {
-      "type": "string"
+      "$ref": "#/$defs/prefix"
     },
     "modified": {
       "$ref": "#/$defs/timestamp"
@@ -56,7 +56,7 @@
             "type": "object",
             "properties": {
               "ecosystem": {
-                "type": "string"
+                "$ref": "#/$defs/ecosystem"
               },
               "name": {
                 "type": "string"
@@ -296,6 +296,18 @@
     "modified"
   ],
   "$defs": {
+    "ecosystem": {
+      "type": "string",
+      "title": "Currently supported ecosystems",
+      "description": "These ecosystems are also documented at https://ossf.github.io/osv-schema/#affectedpackage-field",
+      "pattern": "^(AlmaLinux|Alpine|Android|Bioconductor|Bitnami|ConanCenter|CRAN|crates.io|Debian|GHC|GitHub Actions|GIT|Go|Hackage|Hex|Linux|Maven|npm|NuGet|OSS-Fuzz|Packagist|Photon OS|Pub|PyPI|Rocky Linux|RubyGems|SwiftURL|Ubuntu)(:[[:digit:]]+)?"
+    },
+    "prefix": {
+      "type": "string",
+      "title": "Currently supported home database identifier prefixes",
+      "description": "These home databases are also documented at https://ossf.github.io/osv-schema/#id-modified-fields",
+      "pattern": "^(ASB|A|ALSA|ALBA|ALEA|BIT|CURL|CVE|DSA|DLA|DTSA|GHSA|GO|GSD|HSEC|LBSEC|MAL|OSV|PHSA|PSF|PYSEC|RLSA|RXSA|RSEC|RUSTSEC|USN)-"
+    },
     "severity": {
       "type": [
         "array",
