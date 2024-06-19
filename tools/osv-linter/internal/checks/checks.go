@@ -15,12 +15,9 @@ import (
 	"github.com/tidwall/gjson"
 )
 
-// A CheckCode is a unique code for a check.
-type CheckCode string
-
 // CheckError describes when a check fails.
 type CheckError struct {
-	Code    CheckCode
+	Code    string
 	Message string
 }
 
@@ -29,112 +26,80 @@ func (ce *CheckError) Error() string {
 	return fmt.Sprintf("%s: %s", ce.Code, ce.Message)
 }
 
-// CodeString returns just the error code, as a string.
-func (ce *CheckError) CodeString() string {
-	return string(ce.Code)
+// CheckDef defines a single check.
+type CheckDef struct {
+	Code        string
+	Name        string
+	Description string
+	Check       Check
 }
 
-// Checkers are for running a discrete checking function.
-type Checker interface {
-	CodeString() string
-	Name() string
-	Description() string
-	Run(*gjson.Result) []CheckError
-}
-
-// Check defines a single check.
-type Check struct {
-	code        CheckCode
-	name        string
-	description string
-	check       func(*gjson.Result) []CheckError
-}
+// Check defines how to run the check.
+type Check func(*gjson.Result) []CheckError
 
 // Run runs the check, returning any findings.
-// The check has no awareness of the CheckCode,
+// The check has no awareness of the check's Code,
 // this merges that with the check's findings.
-func (c *Check) Run(json *gjson.Result) (findings []CheckError) {
-	for _, finding := range c.check(json) {
+func (c *CheckDef) Run(json *gjson.Result) (findings []CheckError) {
+	for _, finding := range c.Check(json) {
 		findings = append(findings, CheckError{
-			Code:    c.code,
+			Code:    c.Code,
 			Message: finding.Error(),
 		})
 	}
 	return findings
 }
 
-// Name returns the name of the check.
-func (c *Check) Name() string {
-	return c.name
+// CheckCollectionDef defines a named collection of checks.
+type CheckCollectionDef struct {
+	Name        string
+	Description string
+	Checks      []*CheckDef
 }
 
-// Description returns the description of the check.
-func (c *Check) Description() string {
-	return c.description
-}
-
-// CodeString returns the short code for the check, as a string.
-func (c *Check) CodeString() string {
-	return string(c.code)
-}
-
-// Collection is a named collection of checks.
-type Collection struct {
-	name        string
-	description string
-	checks      []*Check
-}
-
-// Name returns the name of the collection.
-func (cc *Collection) Name() string {
-	return cc.name
-}
-
-// Description returns the description of the collection.
-func (cc *Collection) Description() string {
-	return cc.description
-}
-
-// Checks returns the checks in the collection.
-func (cc *Collection) Checks() []*Check {
-	return cc.checks
-}
-
-var CheckIntroducedEventExists = &Check{
-	code:        "R0001",
-	name:        "introduced-event-exists",
-	description: "every range has an introduced event",
-	check:       RangeHasIntroducedEvent,
-}
-
-var checks = []*Check{
-	CheckIntroducedEventExists,
-}
-
-// All returns all defined checks as a map, keyed by the check's code.
-func All() (allchecks map[string]*Check) {
-	allchecks = make(map[string]*Check)
-	for _, check := range checks {
-		allchecks[check.CodeString()] = check
+// FromCode returns the check with a specific code.
+func FromCode(code string) *CheckDef {
+	for _, check := range CollectionFromName("ALL").Checks {
+		if check.Code == code {
+			return check
+		}
 	}
-	return allchecks
+	return nil
 }
 
-var checkCollections = []Collection{
+// FromName returns the check with a specific name.
+func FromName(name string) *CheckDef {
+	for _, check := range CollectionFromName("ALL").Checks {
+		if check.Name == name {
+			return check
+		}
+	}
+	return nil
+}
+
+var Collections = []CheckCollectionDef{
 	{
-		name:        "osv.dev",
-		description: "the checks OSV.dev considers necessary for a high quality record",
-		checks: []*Check{
-			CheckIntroducedEventExists,
+		Name:        "ALL",
+		Description: "all checks currently defined",
+		Checks: []*CheckDef{
+			CheckRangeHasIntroducedEvent,
+		},
+	},
+	{
+		Name:        "osv.dev",
+		Description: "the checks OSV.dev considers necessary for a high quality record",
+		Checks: []*CheckDef{
+			CheckRangeHasIntroducedEvent,
 		},
 	},
 }
 
-// Collections returns a map of defined check collections, keyed by the collection's name.
-func Collections() (checkcollections map[string]Collection) {
-	checkcollections = make(map[string]Collection)
-	for _, checkcollection := range checkCollections {
-		checkcollections[checkcollection.Name()] = checkcollection
+// CollectionFromName returns the CheckCollectionDef with the given name.
+func CollectionFromName(name string) *CheckCollectionDef {
+	for _, checkcollection := range Collections {
+		if checkcollection.Name == name {
+			return &checkcollection
+		}
 	}
-	return checkcollections
+	return nil
 }
