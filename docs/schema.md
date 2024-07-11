@@ -468,18 +468,13 @@ vulnerabilities (and no others), and vice versa.
 Aliases should be considered symmetric (if A is an alias of B, then B is an
 alias of A) and transitive (If A aliases B and B aliases C, then A aliases C).
 
-Aliases should **not** be used in records that bundle many different
-vulnerabilities in one patch of a distribution of a package. Listing multiple
-vulnerabilities as `aliases` would mean that they are all identical (due to the
-symmetry/transitivity of `aliases`), not that one release fixes multiple
-(distinct) vulnerabilities.
-
 Aliases should **not** be used to refer to vulnerabilities in packages upstream
 or downstream in a software supply chain from the given OSV record's affected
 package(s). For example, if a CVE describes a vulnerability in a language
 library, and a Linux distribution package contains that library and therefore
 publishes an advisory, the distribution's OSV record must not list the CVE ID as
-an alias. (It should use the `related` field instead.)
+an alias. Similarly, distributions often bundle multiple upstream
+vulnerabilities into a single record. `related` should be used in these cases.
 
 ## related field
 
