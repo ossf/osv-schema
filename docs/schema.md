@@ -462,9 +462,8 @@ databases.
 
 Two vulnerabilities can be described as aliases if they affect any given
 software component the same way: either both vulnerabilities affect the software
-component or neither do. And, consequently, a potential patch that addresses one
-of the vulnerabilities (and no other vulnerabilities) will also address the
-other vulnerability, and vice versa.
+component or neither do. A subsequent patch addresses both of the
+vulnerabilities (and no others), and vice versa.
 
 Aliases should be considered symmetric (if A is an alias of B, then B is an
 alias of A) and transitive (If A aliases B and B aliases C, then A aliases C).
