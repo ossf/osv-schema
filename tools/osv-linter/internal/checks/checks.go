@@ -83,6 +83,7 @@ var Collections = []CheckCollectionDef{
 		Description: "all checks currently defined",
 		Checks: []*CheckDef{
 			CheckRangeHasIntroducedEvent,
+			CheckRangeIsDistinct,
 		},
 	},
 	{
@@ -90,6 +91,7 @@ var Collections = []CheckCollectionDef{
 		Description: "the checks OSV.dev considers necessary for a high quality record",
 		Checks: []*CheckDef{
 			CheckRangeHasIntroducedEvent,
+			CheckRangeIsDistinct,
 		},
 	},
 }
