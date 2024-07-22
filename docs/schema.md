@@ -460,20 +460,21 @@ databases, in the form of the `id` field. This allows one database to claim that
 its own entry describes the same vulnerability as one or more entries in other
 databases.
 
-Two vulnerabilities can be described as aliases if a potential patch that
-addresses one of the vulnerabilities (and no other vulnerabilities) will also
-address the other vulnerability, and vice versa. Aliases may be used for
-vulnerabilities affecting different packages or ecosystems as long as they
-follow this definition.
+Two vulnerabilities can be described as aliases if they affect any given
+software component the same way: either both vulnerabilities affect the software
+component or neither do. A subsequent patch addresses both of the
+vulnerabilities (and no others), and vice versa.
 
 Aliases should be considered symmetric (if A is an alias of B, then B is an
 alias of A) and transitive (If A aliases B and B aliases C, then A aliases C).
 
-Aliases should **not** be used in records that bundle many different
-vulnerabilities in one patch of a distribution of a package. Listing multiple
-vulnerabilities as `aliases` would mean that they are all identical (due to the
-symmetry/transitivity of `aliases`), not that one release fixes multiple
-(distinct) vulnerabilities.
+Aliases should **not** be used to refer to vulnerabilities in packages upstream
+or downstream in a software supply chain from the given OSV record's affected
+package(s). For example, if a CVE describes a vulnerability in a language
+library, and a Linux distribution package contains that library and therefore
+publishes an advisory, the distribution's OSV record must not list the CVE ID as
+an alias. Similarly, distributions often bundle multiple upstream
+vulnerabilities into a single record. `related` should be used in these cases.
 
 ## related field
 
@@ -1622,4 +1623,3 @@ When a package in the `Android` ecosystem is the Linux kernel source code, its `
 - NVIDIA
 - Qualcomm
 - Unisoc
-
