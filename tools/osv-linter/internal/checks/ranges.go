@@ -33,11 +33,6 @@ var CheckRangeIsDistinct = &CheckDef{
 	Check:       RangeIsDistinct,
 }
 
-type Range struct {
-	Beginning string
-	End       string
-}
-
 // RangeIsDistinct checks that the introduced and fixed (or last_affected) values differ.
 // (on a per-repo basis for GIT ranges, and on a per-package basis otherwise)
 func RangeIsDistinct(json *gjson.Result) (findings []CheckError) {

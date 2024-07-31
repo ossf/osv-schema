@@ -84,6 +84,16 @@ var Collections = []CheckCollectionDef{
 		Checks: []*CheckDef{
 			CheckRangeHasIntroducedEvent,
 			CheckRangeIsDistinct,
+			CheckPackageExists,
+			CheckPackageVersionsExist,
+		},
+	},
+	{
+		Name:        "offline",
+		Description: "checks that do not have remote data dependencies",
+		Checks: []*CheckDef{
+			CheckRangeHasIntroducedEvent,
+			CheckRangeIsDistinct,
 		},
 	},
 	{
@@ -92,6 +102,8 @@ var Collections = []CheckCollectionDef{
 		Checks: []*CheckDef{
 			CheckRangeHasIntroducedEvent,
 			CheckRangeIsDistinct,
+			CheckPackageExists,
+			CheckPackageVersionsExist,
 		},
 	},
 }
