@@ -16,6 +16,12 @@ var CheckRangeHasIntroducedEvent = &CheckDef{
 
 // RangeHasIntroducedEvent checks for missing 'introduced' objects in events.
 func RangeHasIntroducedEvent(json *gjson.Result) (findings []CheckError) {
+	// It is valid to not have any ranges.
+	ranges := json.Get(`affected.#(ranges)`)
+	if !ranges.Exists() {
+		return nil
+	}
+
 	result := json.Get(`affected.#(ranges.#(events.#(introduced)))`)
 
 	if !result.Exists() {
