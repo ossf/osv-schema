@@ -86,6 +86,7 @@ var Collections = []CheckCollectionDef{
 			CheckRangeIsDistinct,
 			CheckPackageExists,
 			CheckPackageVersionsExist,
+			CheckPackagePurlValid,
 		},
 	},
 	{
@@ -94,6 +95,7 @@ var Collections = []CheckCollectionDef{
 		Checks: []*CheckDef{
 			CheckRangeHasIntroducedEvent,
 			CheckRangeIsDistinct,
+			CheckPackagePurlValid,
 		},
 	},
 	{
@@ -104,6 +106,7 @@ var Collections = []CheckCollectionDef{
 			CheckRangeIsDistinct,
 			CheckPackageExists,
 			CheckPackageVersionsExist,
+			CheckPackagePurlValid,
 		},
 	},
 }

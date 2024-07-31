@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/ossf/osv-schema/linter/internal/helpers"
+	"github.com/package-url/packageurl-go"
 	"github.com/tidwall/gjson"
 )
 
@@ -127,10 +128,43 @@ func PackageVersionsExist(json *gjson.Result) (findings []CheckError) {
 			versionsToCheck = append(versionsToCheck, value.String())
 			return true // keep iterating (over versions)
 		})
-		println(fmt.Sprintf("Checking for: %#v", versionsToCheck))
 		err := helpers.PackageVersionsExistInEcosystem(pkg, versionsToCheck, ecosystem)
 		if err != nil {
 			findings = append(findings, CheckError{Message: fmt.Sprintf("Failed to find some versions of %s: %#v", pkg, err)})
+		}
+
+		return true // keep iterating (over affected entries)
+	})
+	return findings
+}
+
+var CheckPackagePurlValid = &CheckDef{
+	Code:        "P0003",
+	Name:        "package-purl-valid",
+	Description: "package purl validates",
+	Check:       PackagePurlValid,
+}
+
+// PackagePurlValid checks the package purls validate.
+func PackagePurlValid(json *gjson.Result) (findings []CheckError) {
+	affectedEntries := json.Get(`affected`)
+
+	// Examine each affected entry:
+	// for ones for packages, on a per-package basis
+	affectedEntries.ForEach(func(key, value gjson.Result) bool {
+		// If it has a package field, it's for a package, otherwise confirm the range is of type GIT.
+		maybePackage := value.Get(`package`)
+		if !maybePackage.Exists() {
+			return true // keep iterating (over affected entries)
+		}
+		purl := value.Get(`package.purl`)
+		if !purl.Exists() {
+			return true // keep iterating (over affected entries)
+		}
+
+		_, err := packageurl.FromString(purl.String())
+		if err != nil {
+			findings = append(findings, CheckError{Message: fmt.Sprintf("Invalid Purl %q: %#v", purl.String(), err)})
 		}
 
 		return true // keep iterating (over affected entries)

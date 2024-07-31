@@ -143,7 +143,6 @@ func PackageVersionsExistInGo(pkg string, versions []string) error {
 	}
 	// Fetch all known versions of package.
 	versionsInGo := strings.Split(string(respBytes), "\n")
-	println(fmt.Sprintf("%#v", versionsInGo))
 
 	// Determine which referenced versions are missing.
 	versionsMissing := []string{}
