@@ -98,8 +98,14 @@ func PackageExistsInGo(pkg string) bool {
 	packageURL := "https://proxy.golang.org/{package}/@v/list"
 
 	// Of course the Go runtime exists :-)
-	if pkg == "stdlib" {
+	if pkg == "stdlib" || pkg == "toolchain" {
 		return true
+	}
+
+	// The Go Module Proxy seems to require package names to be lowercase.
+	// GitHub URLs are known to be case-insensitive.
+	if strings.HasPrefix(pkg, "github.com/") {
+		pkg = strings.ToLower(pkg)
 	}
 
 	packageInstanceURL := strings.ReplaceAll(packageURL, "{package}", pkg)
@@ -120,8 +126,14 @@ func PackageExistsInGo(pkg string) bool {
 func PackageVersionsExistInGo(pkg string, versions []string) error {
 	packageURL := "https://proxy.golang.org/{package}/@v/list"
 
-	if pkg == "stdlib" {
+	if pkg == "stdlib" || pkg == "toolchain" {
 		return GoVersionsExist(versions)
+	}
+
+	// The Go Module Proxy seems to require package names to be lowercase.
+	// GitHub URLs are known to be case-insensitive.
+	if strings.HasPrefix(pkg, "github.com/") {
+		pkg = strings.ToLower(pkg)
 	}
 
 	packageInstanceURL := strings.ReplaceAll(packageURL, "{package}", pkg)
