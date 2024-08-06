@@ -79,14 +79,14 @@ func LintCommand(cCtx *cli.Context) error {
 		checksToBeRun = collection.Checks
 	}
 
-	// Run just an individual check.
+	// Run just an individual check, overriding anything discovered from a collection.
 	if code := cCtx.String("check"); code != "" {
 		// Check the requested check exists.
 		check := checks.FromCode(code)
 		if check == nil {
 			return fmt.Errorf("%q is not a valid check", code)
 		}
-		checksToBeRun = append(checksToBeRun, check)
+		checksToBeRun = []*checks.CheckDef{check}
 	}
 
 	perFileFindings := map[string][]checks.CheckError{}

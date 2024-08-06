@@ -165,7 +165,7 @@ func PackageVersionsExistInGo(pkg string, versions []string) error {
 		versionsMissing = append(versionsMissing, versionToCheckFor)
 	}
 	if len(versionsMissing) > 0 {
-		return fmt.Errorf("failed to find %#v for %q", versionsMissing, pkg)
+		return fmt.Errorf("failed to find %+v for %q in %+v", versionsMissing, pkg, versionsInGo)
 	}
 
 	return nil
@@ -207,7 +207,7 @@ func GoVersionsExist(versions []string) error {
 		versionsMissing = append(versionsMissing, versionToCheckFor)
 	}
 	if len(versionsMissing) > 0 {
-		return fmt.Errorf("failed to find %#v for Go", versionsMissing)
+		return fmt.Errorf("failed to find %+v for Go in %+v", versionsMissing, GoVersions)
 	}
 
 	return nil
