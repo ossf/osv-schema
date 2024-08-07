@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"regexp"
 	"slices"
 	"strings"
 
@@ -122,6 +123,24 @@ func PackageExistsInGo(pkg string) bool {
 	return false
 }
 
+// isGoPseudoVersion checks if a given version string is a Go pseudo-version,
+// including those with pre-release and build metadata segments,
+// and handles cases where the pre-release identifier starts with '0.'.
+func isGoPseudoVersion(version string) bool {
+	// Seen in the wild:
+	// 1.2.0.0
+	// 0.5.0-alpha.5.0.20200423152442-f4b650b51dc4
+	// 1.0.0-beta
+	// 1.0.4-0.20180125103619-43913f2f4fbd
+	// 1.1.10-0.20180427153919-f5cbcbc5cc6f
+	// 1.16.0-0
+	// 2.2.5-rc6.0.20190621200032-0ddffe484adc+incompatible
+
+	// Regular expression to match pseudoversions.
+	pseudoVersionRegex := regexp.MustCompile(`^(0\.|[0-9]+\.[0-9]+\.)(?:0+|(?:\d+(?:[.-](?:rc)?\d+){0,2})(?:\.(?:0+|(?:\d+(?:[.-]\d+){0,2}))){1,2})([-+].+)?$`)
+	return pseudoVersionRegex.MatchString(version)
+}
+
 // Confirm that all specified versions of a package exist in Go.
 func PackageVersionsExistInGo(pkg string, versions []string) error {
 	packageURL := "https://proxy.golang.org/{package}/@v/list"
@@ -155,11 +174,28 @@ func PackageVersionsExistInGo(pkg string, versions []string) error {
 	}
 	// Fetch all known versions of package.
 	versionsInGo := strings.Split(string(respBytes), "\n")
+	// It seems that an empty version set is plausible. Unreleased?
+	// e.g. github.com/nanobox-io/golang-nanoauth
+	if len(versionsInGo[0]) == 0 {
+		versionsInGo = []string{}
+	}
+	if len(versionsInGo) == 0 {
+		// TODO: This is warning-level worthy if warnings were a thing...
+		return nil
+	}
 
 	// Determine which referenced versions are missing.
 	versionsMissing := []string{}
 	for _, versionToCheckFor := range versions {
-		if slices.Contains(versionsInGo, versionToCheckFor) {
+		// Add pseudo-version to base version mapping here.
+		// First, detect pseudo-version and skip it.
+		if isGoPseudoVersion(versionToCheckFor) {
+			// TODO: Try mapping the pseudo-version to a base version and
+			// checking for that instead of skipping.
+			continue
+		}
+		// Check for both bare versions and "v"-prefixed versions.
+		if slices.Contains(versionsInGo, versionToCheckFor) || slices.Contains(versionsInGo, "v"+versionToCheckFor) {
 			continue
 		}
 		versionsMissing = append(versionsMissing, versionToCheckFor)
@@ -201,6 +237,10 @@ func GoVersionsExist(versions []string) error {
 	// Determine which referenced versions are missing.
 	versionsMissing := []string{}
 	for _, versionToCheckFor := range versions {
+		if isGoPseudoVersion(versionToCheckFor) {
+			// TODO: Try mapping the pseudo-version to a base version instead of skipping.
+			continue
+		}
 		if slices.Contains(GoVersions, "go"+versionToCheckFor) {
 			continue
 		}
