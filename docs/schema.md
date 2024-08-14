@@ -157,12 +157,12 @@ The defined database prefixes and their "home" databases are:
   </thead>
   <tbody>
     <tr>
-      <td><code>A</code></td>
-      <td><a href="https://storage.googleapis.com/android-osv/">Android Vulnerability Database</a></td>
+      <td><code>`ASB-A`/`PUB-A`</code></td>
+      <td><a href="https://source.android.com/docs/security/bulletin">Android Security Bulletin</a></td>
       <td>
         <ul>
-          <li>How to contribute: TBD</li>
-          <li>Source URL: <code>N/A</code></li>
+          <li>How to contribute: <a href="https://bughunters.google.com/about/rules/android-friends/6171833274204160/android-and-google-devices-security-reward-program-rules">Android Vulnerability Rewards Program</a></li>
+          <li>Source URL: <a href="https://storage.googleapis.com/android-osv/index.html"><code>https://storage.googleapis.com/android-osv/&lt;ID&gt;.json</code></a></li>
           <li>OSV Formatted URL: <code>https://storage.googleapis.com/android-osv/&lt;ID&gt;.json</code></li>
         </ul>
       </td>
