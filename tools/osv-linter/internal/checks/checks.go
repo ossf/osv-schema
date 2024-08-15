@@ -50,8 +50,8 @@ func (c *CheckDef) Run(json *gjson.Result) (findings []CheckError) {
 	return findings
 }
 
-// CheckCollectionDef defines a named collection of checks.
-type CheckCollectionDef struct {
+// CheckCollection defines a named collection of checks.
+type CheckCollection struct {
 	Name        string
 	Description string
 	Checks      []*CheckDef
@@ -77,7 +77,7 @@ func FromName(name string) *CheckDef {
 	return nil
 }
 
-var Collections = []CheckCollectionDef{
+var Collections = []CheckCollection{
 	{
 		Name:        "ALL",
 		Description: "all checks currently defined",
@@ -100,8 +100,8 @@ var Collections = []CheckCollectionDef{
 	},
 }
 
-// CollectionFromName returns the CheckCollectionDef with the given name.
-func CollectionFromName(name string) *CheckCollectionDef {
+// CollectionFromName returns the CheckCollection with the given name.
+func CollectionFromName(name string) *CheckCollection {
 	for _, checkcollection := range Collections {
 		if checkcollection.Name == name {
 			return &checkcollection
