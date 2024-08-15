@@ -44,11 +44,8 @@ func PackageExistsInPyPI(pkg string) bool {
 	if err != nil {
 		return false
 	}
-	if resp.StatusCode == http.StatusOK {
-		return true
-	}
 
-	return false
+	return resp.StatusCode == http.StatusOK
 }
 
 // Confirm that all specified versions of a package exist in PyPI.
