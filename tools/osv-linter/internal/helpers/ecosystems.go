@@ -35,9 +35,7 @@ func PackageVersionsExistInEcosystem(pkg string, versions []string, ecosystem st
 
 // Validate the existence of a package in PyPI.
 func PackageExistsInPyPI(pkg string) bool {
-	packageURL := "https://pypi.org/pypi/{package}/json"
-
-	packageInstanceURL := strings.ReplaceAll(packageURL, "{package}", pkg)
+	packageInstanceURL := fmt.Sprintf("https://pypi.org/pypi/%s/json", pkg)
 
 	// This 404's for non-existent packages.
 	resp, err := Head(packageInstanceURL)
@@ -50,9 +48,7 @@ func PackageExistsInPyPI(pkg string) bool {
 
 // Confirm that all specified versions of a package exist in PyPI.
 func PackageVersionsExistInPyPI(pkg string, versions []string) error {
-	packageURL := "https://pypi.org/pypi/{package}/json"
-
-	packageInstanceURL := strings.ReplaceAll(packageURL, "{package}", pkg)
+	packageInstanceURL := fmt.Sprintf("https://pypi.org/pypi/%s/json", pkg)
 
 	// This 404's for non-existent packages.
 	resp, err := Get(packageInstanceURL)
@@ -93,8 +89,6 @@ func PackageVersionsExistInPyPI(pkg string, versions []string) error {
 
 // Validate the existence of a package in Go.
 func PackageExistsInGo(pkg string) bool {
-	packageURL := "https://proxy.golang.org/{package}/@v/list"
-
 	// Of course the Go runtime exists :-)
 	if pkg == "stdlib" || pkg == "toolchain" {
 		return true
@@ -106,18 +100,14 @@ func PackageExistsInGo(pkg string) bool {
 		pkg = strings.ToLower(pkg)
 	}
 
-	packageInstanceURL := strings.ReplaceAll(packageURL, "{package}", pkg)
+	packageInstanceURL := fmt.Sprintf("https://proxy.golang.org/%s/@v/list", pkg)
 
 	// This 404's for non-existent packages.
 	resp, err := Head(packageInstanceURL)
 	if err != nil {
 		return false
 	}
-	if resp.StatusCode == http.StatusOK {
-		return true
-	}
-
-	return false
+	return resp.StatusCode == http.StatusOK
 }
 
 // isGoPseudoVersion checks if a given version string is a Go pseudo-version,
@@ -140,8 +130,6 @@ func isGoPseudoVersion(version string) bool {
 
 // Confirm that all specified versions of a package exist in Go.
 func PackageVersionsExistInGo(pkg string, versions []string) error {
-	packageURL := "https://proxy.golang.org/{package}/@v/list"
-
 	if pkg == "stdlib" || pkg == "toolchain" {
 		return GoVersionsExist(versions)
 	}
@@ -152,7 +140,7 @@ func PackageVersionsExistInGo(pkg string, versions []string) error {
 		pkg = strings.ToLower(pkg)
 	}
 
-	packageInstanceURL := strings.ReplaceAll(packageURL, "{package}", pkg)
+	packageInstanceURL := fmt.Sprintf("https://proxy.golang.org/%s/@v/list", pkg)
 
 	// This 404's for non-existent packages.
 	resp, err := Get(packageInstanceURL)
