@@ -22,7 +22,7 @@ func main() {
 						Flags: []cli.Flag{
 							&cli.StringFlag{
 								Name: "collection",
-								Value: "osv.dev",
+								Value: "ALL",
 								Usage: "check collection to use (use 'list' to see)",
 							},
 							&cli.StringFlag{

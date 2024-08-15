@@ -98,17 +98,6 @@ var Collections = []CheckCollectionDef{
 			CheckPackagePurlValid,
 		},
 	},
-	{
-		Name:        "osv.dev",
-		Description: "the checks OSV.dev considers necessary for a high quality record",
-		Checks: []*CheckDef{
-			CheckRangeHasIntroducedEvent,
-			CheckRangeIsDistinct,
-			CheckPackageExists,
-			CheckPackageVersionsExist,
-			CheckPackagePurlValid,
-		},
-	},
 }
 
 // CollectionFromName returns the CheckCollectionDef with the given name.
