@@ -74,7 +74,7 @@ func PackageVersionsExistInPyPI(pkg string, versions []string) error {
 	}
 	// Fetch all known versions of package.
 	versionsInPyPy := []string{}
-	releases := gjson.GetBytes(respJSON, `releases.@keys`)
+	releases := gjson.GetBytes(respJSON, "releases.@keys")
 	releases.ForEach(func(key, value gjson.Result) bool {
 		versionsInPyPy = append(versionsInPyPy, value.String())
 		return true // keep iterating.
@@ -228,7 +228,7 @@ func GoVersionsExist(versions []string) error {
 	}
 	// Fetch all known versions of package.
 	GoVersions := []string{}
-	releases := gjson.GetBytes(respJSON, `#.version`)
+	releases := gjson.GetBytes(respJSON, "#.version")
 	releases.ForEach(func(key, value gjson.Result) bool {
 		GoVersions = append(GoVersions, value.String())
 		return true // keep iterating.
