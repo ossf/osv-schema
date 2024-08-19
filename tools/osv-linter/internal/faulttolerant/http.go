@@ -21,8 +21,6 @@ func Get(url string) (resp *http.Response, err error) {
 		r, err := http.DefaultClient.Do(req)
 		if err != nil {
 			return err
-		} else {
-			defer r.Body.Close()
 		}
 
 		switch r.StatusCode / 100 {
