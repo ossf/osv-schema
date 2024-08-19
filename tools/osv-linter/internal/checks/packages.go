@@ -2,7 +2,6 @@ package checks
 
 import (
 	"fmt"
-	"slices"
 	"strings"
 
 	"github.com/ossf/osv-schema/linter/internal/pkgchecker"
@@ -17,12 +16,17 @@ var CheckPackageExists = &CheckDef{
 	Check:       PackageExists,
 }
 
+type Package struct {
+	Ecosystem string
+	Name      string
+}
+
 // PackageExists checks the package exists in the registry for that ecosystem.
 func PackageExists(json *gjson.Result) (findings []CheckError) {
 	affectedEntries := json.Get("affected")
 
-	knownExistent := make(map[string][]string)
-	knownNonexistent := make(map[string][]string)
+	knownExistent := make(map[Package]bool)
+	knownNonexistent := make(map[Package]bool)
 
 	// Examine each entry:
 	// for ones for packages, on a per-package basis
@@ -38,33 +42,18 @@ func PackageExists(json *gjson.Result) (findings []CheckError) {
 		pkg := value.Get("package.name").String()
 
 		// Avoid unnecessary network traffic for repeat packages.
-		if _, ok := knownExistent[ecosystem]; ok {
-			if slices.Contains(knownExistent[ecosystem], pkg) {
-				return true // keep iterating (over affected entries)
-			}
+		if _, ok := knownExistent[Package{Ecosystem: ecosystem, Name: pkg}]; ok {
+			return true // keep iterating (over affected entries)
 		}
-		if _, ok := knownNonexistent[ecosystem]; ok {
-			if slices.Contains(knownNonexistent[ecosystem], pkg) {
-				// Don't add repeat findings for the same package.
-				return true // keep iterating (over affected entries)
-			}
+		if _, ok := knownNonexistent[Package{Ecosystem: ecosystem, Name: pkg}]; ok {
+			return true // keep iterating (over affected entries)
 		}
 		// Not cached, determine existence.
 		if !pkgchecker.ExistsInEcosystem(pkg, ecosystem) {
-			findings = append(findings, CheckError{Message: fmt.Sprintf("package %q not found", pkg)})
-			_, ok := knownNonexistent[ecosystem]
-			if ok {
-				knownNonexistent[ecosystem] = append(knownNonexistent[ecosystem], pkg)
-			} else {
-				knownNonexistent[ecosystem] = []string{pkg}
-			}
+			findings = append(findings, CheckError{Message: fmt.Sprintf("package %q not found in %q", pkg, ecosystem)})
+			knownNonexistent[Package{Ecosystem: ecosystem, Name: pkg}] = true
 		} else {
-			_, ok := knownExistent[ecosystem]
-			if ok {
-				knownExistent[ecosystem] = append(knownExistent[ecosystem], pkg)
-			} else {
-				knownExistent[ecosystem] = []string{pkg}
-			}
+			knownExistent[Package{Ecosystem: ecosystem, Name: pkg}] = true
 		}
 		return true // keep iterating (over affected entries)
 	})
