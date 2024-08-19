@@ -1,4 +1,4 @@
-package helpers
+package pkgchecker
 
 import (
 	"fmt"
@@ -8,37 +8,38 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/ossf/osv-schema/linter/internal/faulttolerant"
 	"github.com/tidwall/gjson"
 )
 
 // Dispatcher for ecosystem-specific package existence checking.
-func PackageExistsInEcosystem(pkg string, ecosystem string) bool {
+func ExistsInEcosystem(pkg string, ecosystem string) bool {
 	switch ecosystem {
 	case "PyPI":
-		return PackageExistsInPyPI(pkg)
+		return existsInPyPI(pkg)
 	case "Go":
-		return PackageExistsInGo(pkg)
+		return existsInGo(pkg)
 	}
 	return false
 }
 
 // Dispatcher for ecosystem-specific package version existence checking.
-func PackageVersionsExistInEcosystem(pkg string, versions []string, ecosystem string) error {
+func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string) error {
 	switch ecosystem {
 	case "PyPI":
-		return PackageVersionsExistInPyPI(pkg, versions)
+		return versionsExistInPyPI(pkg, versions)
 	case "Go":
-		return PackageVersionsExistInGo(pkg, versions)
+		return versionsExistInGo(pkg, versions)
 	}
 	return fmt.Errorf("unsupported ecosystem: %s", ecosystem)
 }
 
 // Validate the existence of a package in PyPI.
-func PackageExistsInPyPI(pkg string) bool {
+func existsInPyPI(pkg string) bool {
 	packageInstanceURL := fmt.Sprintf("https://pypi.org/pypi/%s/json", pkg)
 
 	// This 404's for non-existent packages.
-	resp, err := Head(packageInstanceURL)
+	resp, err := faulttolerant.Head(packageInstanceURL)
 	if err != nil {
 		return false
 	}
@@ -47,11 +48,11 @@ func PackageExistsInPyPI(pkg string) bool {
 }
 
 // Confirm that all specified versions of a package exist in PyPI.
-func PackageVersionsExistInPyPI(pkg string, versions []string) error {
+func versionsExistInPyPI(pkg string, versions []string) error {
 	packageInstanceURL := fmt.Sprintf("https://pypi.org/pypi/%s/json", pkg)
 
 	// This 404's for non-existent packages.
-	resp, err := Get(packageInstanceURL)
+	resp, err := faulttolerant.Get(packageInstanceURL)
 	if err != nil {
 		return fmt.Errorf("unable to validate package: %v", err)
 	}
@@ -88,7 +89,7 @@ func PackageVersionsExistInPyPI(pkg string, versions []string) error {
 }
 
 // Validate the existence of a package in Go.
-func PackageExistsInGo(pkg string) bool {
+func existsInGo(pkg string) bool {
 	// Of course the Go runtime exists :-)
 	if pkg == "stdlib" || pkg == "toolchain" {
 		return true
@@ -103,7 +104,7 @@ func PackageExistsInGo(pkg string) bool {
 	packageInstanceURL := fmt.Sprintf("https://proxy.golang.org/%s/@v/list", pkg)
 
 	// This 404's for non-existent packages.
-	resp, err := Head(packageInstanceURL)
+	resp, err := faulttolerant.Head(packageInstanceURL)
 	if err != nil {
 		return false
 	}
@@ -129,7 +130,7 @@ func isGoPseudoVersion(version string) bool {
 }
 
 // Confirm that all specified versions of a package exist in Go.
-func PackageVersionsExistInGo(pkg string, versions []string) error {
+func versionsExistInGo(pkg string, versions []string) error {
 	if pkg == "stdlib" || pkg == "toolchain" {
 		return GoVersionsExist(versions)
 	}
@@ -143,7 +144,7 @@ func PackageVersionsExistInGo(pkg string, versions []string) error {
 	packageInstanceURL := fmt.Sprintf("https://proxy.golang.org/%s/@v/list", pkg)
 
 	// This 404's for non-existent packages.
-	resp, err := Get(packageInstanceURL)
+	resp, err := faulttolerant.Get(packageInstanceURL)
 	if err != nil {
 		return fmt.Errorf("unable to validate package: %v", err)
 	}
@@ -196,7 +197,7 @@ func PackageVersionsExistInGo(pkg string, versions []string) error {
 func GoVersionsExist(versions []string) error {
 	URL := "https://go.dev/dl/?mode=json&include=all"
 
-	resp, err := Get(URL)
+	resp, err := faulttolerant.Get(URL)
 	if err != nil {
 		return fmt.Errorf("unable to validate Go versions: %v", err)
 	}

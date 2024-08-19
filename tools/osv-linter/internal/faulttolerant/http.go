@@ -1,4 +1,4 @@
-package helpers
+package faulttolerant
 
 import (
 	"context"
@@ -21,8 +21,9 @@ func Get(url string) (resp *http.Response, err error) {
 		r, err := http.DefaultClient.Do(req)
 		if err != nil {
 			return err
+		} else {
+			defer r.Body.Close()
 		}
-		// defer r.Body.Close()
 
 		switch r.StatusCode / 100 {
 		case 4:

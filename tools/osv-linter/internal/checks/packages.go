@@ -5,7 +5,7 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/ossf/osv-schema/linter/internal/helpers"
+	"github.com/ossf/osv-schema/linter/internal/pkgchecker"
 	"github.com/package-url/packageurl-go"
 	"github.com/tidwall/gjson"
 )
@@ -50,7 +50,7 @@ func PackageExists(json *gjson.Result) (findings []CheckError) {
 			}
 		}
 		// Not cached, determine existence.
-		if !helpers.PackageExistsInEcosystem(pkg, ecosystem) {
+		if !pkgchecker.ExistsInEcosystem(pkg, ecosystem) {
 			findings = append(findings, CheckError{Message: fmt.Sprintf("package %q not found", pkg)})
 			_, ok := knownNonexistent[ecosystem]
 			if ok {
@@ -128,7 +128,7 @@ func PackageVersionsExist(json *gjson.Result) (findings []CheckError) {
 			versionsToCheck = append(versionsToCheck, value.String())
 			return true // keep iterating (over versions)
 		})
-		err := helpers.PackageVersionsExistInEcosystem(pkg, versionsToCheck, ecosystem)
+		err := pkgchecker.VersionsExistInEcosystem(pkg, versionsToCheck, ecosystem)
 		if err != nil {
 			findings = append(findings, CheckError{Message: fmt.Sprintf("Failed to find some versions of %s: %#v", pkg, err)})
 		}
