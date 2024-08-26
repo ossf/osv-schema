@@ -344,6 +344,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>Red Hat</code></td>
+      <td><a href="https://security.access.redhat.com/data">Red Hat Security Data</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://access.redhat.com/security/team/contact/">https://access.redhat.com/security/team/contact/</a></li>
+          <li>Source URL: <code>https://access.redhat.com/security/security-updates/security-advisories</code></li>
+          <li>OSV Formatted URL: <code>https://security.access.redhat.com/data/osv/</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>RLSA</code>/<code>RXSA</code></td>
       <td><a href="https://errata.rockylinux.org">Rocky Linux Security Advisory Database</a></td>
       <td>
@@ -667,6 +678,7 @@ The defined ecosystems are:
 | `Photon OS` | The Photon OS package ecosystem; the `name` is the name of the RPM package. The ecosystem string must have a `:<RELEASE-NUMBER>` suffix to scope the package to a particular Photon OS release. Eg `Photon OS:3.0`. |
 | `Pub` | The package manager for the Dart ecosystem; the `name` field is a Dart package name. |
 | `PyPI` | the Python PyPI ecosystem; the `name` field is a [normalized](https://www.python.org/dev/peps/pep-0503/#normalized-names) PyPI package name.  |
+| `Red Hat` | The Red Hat package ecosystem; the `name` field is the name of a binary or source RPM. The ecosystem string has a `:<CPE>` suffix to scope the RPM to a specific Red Hat product stream. `<CPE>` is a translation of a Red Hat [Common Platform Enumerations](https://cpe.mitre.org/) (CPE) with the `cpe/:[oa]:(redhat):` prefix removed (for example, `Red Hat:rhel_aus:8.4::appstream` translates to `cpe:/a:redhat:rhel_aus:8.4::appstream`). Red Hat ecosystem identifiers can be used to identify vulnerable RPMs installed on a Red Hat system as explained [here](https://www.redhat.com/en/blog/how-accurately-match-oval-security-data-installed-rpms).  |
 | `Rocky Linux` | The Rocky Linux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Rocky Linux release. `<RELEASE>` is a numeric version.
 | `RubyGems` | The RubyGems ecosystem; the `name` field is a gem name.  |
 | `SwiftURL` | The Swift Package Manager ecosystem. The `name` is a Git URL to the source of the package. Versions are Git tags that comform to [SemVer 2.0](https://docs.swift.org/package-manager/PackageDescription/PackageDescription.html#version). |

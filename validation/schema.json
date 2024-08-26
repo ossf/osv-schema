@@ -300,7 +300,7 @@
       "type": "string",
       "title": "Currently supported ecosystems",
       "description": "These ecosystems are also documented at https://ossf.github.io/osv-schema/#affectedpackage-field",
-      "pattern": "^(AlmaLinux|Alpine|Android|Bioconductor|Bitnami|ConanCenter|CRAN|crates.io|Debian|GHC|GitHub Actions|GIT|Go|Hackage|Hex|Linux|Maven|npm|NuGet|OSS-Fuzz|Packagist|Photon OS|Pub|PyPI|Rocky Linux|RubyGems|SwiftURL|Ubuntu)(:[[:digit:]]+)?"
+      "pattern": "^(AlmaLinux|Alpine|Android|Bioconductor|Bitnami|ConanCenter|CRAN|crates.io|Debian|GHC|GitHub Actions|GIT|Go|Hackage|Hex|Linux|Maven|npm|NuGet|OSS-Fuzz|Packagist|Photon OS|Pub|PyPI|Red Hat|Rocky Linux|RubyGems|SwiftURL|Ubuntu)(:[[:digit:]]+)?"
     },
     "prefix": {
       "type": "string",
