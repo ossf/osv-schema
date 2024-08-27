@@ -1,4 +1,16 @@
-permissions: {}
+name: Validate OSV JSON Schema
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - edited
+      - reopened
+
+permissions:
+  pull-requests: read
 
 jobs:
   validate-osv-schema:
@@ -7,6 +19,7 @@ jobs:
       contents: read
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Check for changes to OSV Schema
         id: check-for-changed-osv-schema
         uses: tj-actions/changed-files@v41
