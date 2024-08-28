@@ -18,17 +18,17 @@ func main() {
 				Usage: "operations on OSV records",
 				Subcommands: []*cli.Command{
 					{
-						Name:    "lint",
+						Name: "lint",
 						Flags: []cli.Flag{
 							&cli.StringFlag{
-								Name: "collection",
+								Name:  "collection",
 								Value: "ALL",
 								Usage: "check collection to use (use 'list' to see)",
 							},
-							&cli.StringFlag{
-								Name: "check",
-								Value: "",
-								Usage: "explicitly run a single check (use 'list' to see)",
+							&cli.StringSliceFlag{
+								Name:  "check",
+								Value: &cli.StringSlice{},
+								Usage: "explicitly run a specific check (use 'list' to see)",
 							},
 						},
 						Aliases: []string{"check"},

@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"slices"
 
 	"github.com/tidwall/gjson"
 
@@ -53,7 +54,7 @@ func LintCommand(cCtx *cli.Context) error {
 	}
 
 	// List all available checks.
-	if cCtx.String("check") == "list" {
+	if slices.Contains(cCtx.StringSlice("check"), "list") {
 		fmt.Printf("Available checks:\n\n")
 		for _, check := range checks.CollectionFromName("ALL").Checks {
 			fmt.Printf("%s: (%s): %s\n", check.Code, check.Name, check.Description)
@@ -68,8 +69,18 @@ func LintCommand(cCtx *cli.Context) error {
 
 	var checksToBeRun []*checks.CheckDef
 
-	// Run all the checks in a collection.
-	if cCtx.String("collection") != "" {
+	// Run just individual checks.
+	for _, checkRequested := range cCtx.StringSlice("check") {
+		// Check the requested check exists.
+		check := checks.FromCode(checkRequested)
+		if check == nil {
+			return fmt.Errorf("%q is not a valid check", checkRequested)
+		}
+		checksToBeRun = append(checksToBeRun, check)
+	}
+
+	// Run all the checks in a collection, if no specific checks requested.
+	if checksToBeRun == nil && cCtx.String("collection") != "" {
 		fmt.Printf("Running %q check collection on %q\n", cCtx.String("collection"), cCtx.Args())
 		// Check the requested check collection exists.
 		collection := checks.CollectionFromName(cCtx.String("collection"))
@@ -77,16 +88,6 @@ func LintCommand(cCtx *cli.Context) error {
 			return fmt.Errorf("%q is not a valid check collection", cCtx.String("collection"))
 		}
 		checksToBeRun = collection.Checks
-	}
-
-	// Run just an individual check, overriding anything discovered from a collection.
-	if code := cCtx.String("check"); code != "" {
-		// Check the requested check exists.
-		check := checks.FromCode(code)
-		if check == nil {
-			return fmt.Errorf("%q is not a valid check", code)
-		}
-		checksToBeRun = []*checks.CheckDef{check}
 	}
 
 	perFileFindings := map[string][]checks.CheckError{}
