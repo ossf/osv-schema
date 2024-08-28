@@ -4,13 +4,18 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"regexp"
 	"slices"
 	"strings"
 
-	"github.com/ossf/osv-schema/linter/internal/faulttolerant"
-	"github.com/tidwall/gjson"
 	"golang.org/x/mod/module"
 	"golang.org/x/mod/semver"
+
+	"github.com/ossf/osv-schema/linter/internal/faulttolerant"
+
+	pep440 "github.com/aquasecurity/go-pep440-version"
+
+	"github.com/tidwall/gjson"
 )
 
 // Dispatcher for ecosystem-specific package existence checking.
@@ -150,7 +155,10 @@ func existsInPyPI(pkg string) bool {
 
 // Confirm that all specified versions of a package exist in PyPI.
 func versionsExistInPyPI(pkg string, versions []string) error {
-	packageInstanceURL := fmt.Sprintf("https://pypi.org/pypi/%s/json", strings.ToLower(pkg))
+	// https://packaging.python.org/en/latest/specifications/name-normalization/
+	pythonNormalizationRegex := regexp.MustCompile(`[-_.]+`)
+	pkgNormalized := strings.ToLower(pythonNormalizationRegex.ReplaceAllString(pkg, "-"))
+	packageInstanceURL := fmt.Sprintf("https://pypi.org/pypi/%s/json", pkgNormalized)
 
 	// This 404's for non-existent packages.
 	resp, err := faulttolerant.Get(packageInstanceURL)
@@ -177,13 +185,29 @@ func versionsExistInPyPI(pkg string, versions []string) error {
 	// Determine which referenced versions are missing.
 	versionsMissing := []string{}
 	for _, versionToCheckFor := range versions {
-		if slices.Contains(versionsInPyPy, versionToCheckFor) {
+		versionFound := false
+		vc, err := pep440.Parse(versionToCheckFor)
+		if err != nil {
+			versionsMissing = append(versionsMissing, versionToCheckFor)
+			continue
+		}
+		for _, pkgversion := range versionsInPyPy {
+			pv, err := pep440.Parse(pkgversion)
+			if err != nil {
+				continue
+			}
+			if pv.Equal(vc) {
+				versionFound = true
+				break
+			}
+		}
+		if versionFound {
 			continue
 		}
 		versionsMissing = append(versionsMissing, versionToCheckFor)
 	}
 	if len(versionsMissing) > 0 {
-		return fmt.Errorf("failed to find %#v for %q in PyPI", versionsMissing, pkg)
+		return fmt.Errorf("failed to find %#v for %q in PyPI %+v", versionsMissing, pkg, versionsInPyPy)
 	}
 
 	return nil
@@ -268,7 +292,7 @@ func versionsExistInGo(pkg string, versions []string) error {
 		versionsMissing = append(versionsMissing, versionToCheckFor)
 	}
 	if len(versionsMissing) > 0 {
-		return fmt.Errorf("failed to find %+v for %q in %+v", versionsMissing, pkg, versionsInGo)
+		return fmt.Errorf("failed to find %+v for %q in Go %+v", versionsMissing, pkg, versionsInGo)
 	}
 
 	return nil
