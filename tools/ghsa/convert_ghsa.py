@@ -17,7 +17,7 @@ import json
 import os
 import re
 import traceback
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, List
 
 import osv
 import osv.ecosystems
@@ -32,6 +32,7 @@ ECOSYSTEM_MAP = {
     'NUGET': 'NuGet',
     'COMPOSER': 'Packagist',
     'RUST': 'crates.io',
+    'ACTIONS': 'GitHub Actions',
 }
 
 NAME_NORMALIZER = {
@@ -62,7 +63,7 @@ class GhsaRange:
     exact: Optional[GhsaVersionSpec] = None
 
 
-def parse_ghsa_range(ghsa_range: str):
+def parse_ghsa_range(ghsa_range: str) -> GhsaRange:
     """Parses a GHSA version range."""
     # GHSA range format is described at:
     # https://docs.github.com/en/graphql/reference/objects#securityvulnerability
@@ -112,6 +113,7 @@ def convert_file(input_path: str, output_path: str):
 
     entry = convert(ghsa)
     vuln = osv.parse_vulnerability_from_dict(entry)
+
     osv.analyze(vuln,
                 analyze_git=False,
                 detect_cherrypicks=False,
@@ -120,7 +122,7 @@ def convert_file(input_path: str, output_path: str):
     osv.write_vulnerability(vuln, output_path)
 
 
-def convert_reference(reference: Dict[str, str]):
+def convert_reference(reference: Dict[str, str]) -> Dict[str, str]:
     """Converts a GHSA reference to an OSV reference."""
     ref_type = 'WEB'
 
@@ -136,39 +138,35 @@ def convert_reference(reference: Dict[str, str]):
     }
 
 
-def convert(ghsa: Dict[str, Any]):
+def convert(ghsa: Dict[str, Any]) -> Dict[str, Any]:
     """Converts a GHSA entry to an OSV entry."""
-    osv = {
-        'id':
-        ghsa['ghsaId'],
+    entry = {
+        'schema_version': '1.5.0',
+        'id': ghsa['ghsaId'],
         'aliases': [
             val['value'] for val in ghsa['identifiers']
             if val['value'] != ghsa['ghsaId']
         ],
-        'published':
-        ghsa['publishedAt'],
-        'modified':
-        ghsa['updatedAt'],
+        'published': ghsa['publishedAt'],
+        'modified': ghsa['updatedAt'],
     }
 
     # Split up the dict assignments to preserve order of date related fields.
     withdrawn = ghsa.get('withdrawnAt')
     if withdrawn:
-        osv['withdrawn'] = withdrawn
+        entry['withdrawn'] = withdrawn
 
-    osv.update({
-        'summary':
-        ghsa['summary'],
-        'details':
-        ghsa['description'],
+    entry.update({
+        'summary': ghsa['summary'],
+        'details': ghsa['description'],
         'references': [convert_reference(ref) for ref in ghsa['references']]
     })
 
-    osv['affected'] = get_affected(ghsa)
-    return osv
+    entry['affected'] = get_affected(ghsa)
+    return entry
 
 
-def get_affected(ghsa: Dict[str, Any]):
+def get_affected(ghsa: Dict[str, Any]) -> List[Dict[str, Any]]:
     """Converts the GHSA entry into an OSV "affected" entry."""
     package_to_vulns = {}
 
@@ -179,7 +177,6 @@ def get_affected(ghsa: Dict[str, Any]):
         package_to_vulns.setdefault((mapped_ecosystem, package['name']),
                                     []).append(vuln)
 
-    cvss = ghsa.get('cvss', {})
     cwes = ghsa.get('cwes', {}).get('nodes', [])
 
     # Convert the grouped vulnerabilities in OSV range structures.
@@ -198,9 +195,8 @@ def get_affected(ghsa: Dict[str, Any]):
             'database_specific': {
                 # Attribution.
                 'ghsa': ghsa['permalink'],
-                'cvss': cvss,
                 'cwes': cwes,
-            }
+            },
         }
         affected.append(current)
 
@@ -257,10 +253,10 @@ def get_affected(ghsa: Dict[str, Any]):
             if ghsa_range.upper:
                 if ghsa_range.upper.operator == '<=':
                     if first_patched:
+                        # "fixed" events are prefered over "last_affected"
                         current_events.append({'fixed': first_patched})
-
-                    # OSV ranges only allow < and not <=. If there is no patch, then all
-                    # versions from beginning of time are affected.
+                    else:
+                        current_events.append({'last_affected': ghsa_range.upper.version})
                 elif ghsa_range.upper.operator == '<':
                     current_events.append({'fixed': ghsa_range.upper.version})
             elif first_patched:
@@ -287,6 +283,7 @@ def main():
                         required=True)
 
     args = parser.parse_args()
+
     for input_path in args.input_files:
         try:
             convert_file(

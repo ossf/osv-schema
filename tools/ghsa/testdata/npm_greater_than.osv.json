@@ -1,4 +1,5 @@
 {
+  "schema_version": "1.5.0",
   "id": "GHSA-mhpp-875w-9cpv",
   "aliases": [
     "CVE-2016-10707"
@@ -39,10 +40,6 @@
       "versions": [],
       "database_specific": {
         "ghsa": "https://github.com/advisories/GHSA-mhpp-875w-9cpv",
-        "cvss": {
-          "score": 7.5,
-          "vectorString": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-        },
         "cwes": [
           {
             "cweId": "CWE-400",

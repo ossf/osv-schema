@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.3.1 (September 28, 2022)**
+**Version 1.6.5 (August 21, 2024)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -16,34 +16,23 @@ Original authors:
 
 # Purpose
 
-There are many problems to solve industry-wide concerning vulnerability
-detection, tracking, and response. One low-level problem is that there are many
-databases and no standard interchange format. A client that wants to aggregate
-information from multiple databases must handle each database completely
-separately. Databases that want to exchange information with each other must
-also each have their own parser for each format. Systematic tracking of
-dependencies and collaboration between vulnerability database efforts is
-hampered by not having a common interchange format. See our
-[blog post](https://security.googleblog.com/2021/06/announcing-unified-vulnerability-schema.html) for more details.
+This document defines a standard interchange format for describing
+vulnerabilities in open source packages.
 
-This document defines a draft of a standard interchange format.
-We hope to define a format that all vulnerability databases can export, to make
-it easier for users, security researchers, and any other efforts to consume all
-available databases. Use of this format would also make it easier for the
-databases themselves to share or cross-check information.
-
-This shared interchange format is not expected to be the internal format for any
-particular database. We hope only that every vulnerability database will make
-its entries available in this format to enable interoperability.
-
-The idea for this format originally arose from discussions between the [Go
-vulnerability database](https://golang.org/design/draft-vulndb) team and the
-[OSV](https://osv.dev) team.
+We hope to define a simple format that all vulnerability databases can export,
+to make it easier for users, security researchers, and any other efforts to
+consume all available databases. Use of this format would also make it easier
+for the databases themselves to share or cross-check information. Ultimately,
+this format aims to enable automated, accurate, and distributed management
+of vulnerabilities in open source dependencies.
 
 This format is stable, but further backwards compatible changes may still be made.
 Feedback from maintainers of other vulnerability databases and security response teams
 is most welcome. Please feel free to create an
 [issue in this repo](https://github.com/ossf/osv-schema/issues/new).
+
+The current list of databases exporting this format can be found
+[here](#id-modified-fields).
 
 # Format Overview
 
@@ -75,6 +64,10 @@ A JSON Schema for validation is also available
 			"name": string,
 			"purl": string
 		},
+		"severity": [ {
+			"type": string,
+			"score": string
+		} ],
 		"ranges": [ {
 			"type": string,
 			"repo": string,
@@ -96,7 +89,8 @@ A JSON Schema for validation is also available
 	} ],
 	"credits": [ {
 		"name": string,
-		"contact": [ string ]
+		"contact": [ string ],
+		"type": string
 	} ],
 	"database_specific": { see description }
 }
@@ -150,19 +144,288 @@ string of the format `<DB>-<ENTRYID>`, where `DB` names the database and
 
 The defined database prefixes and their "home" databases are:
 
-| Prefix | Description |
-| ------ | ----------- |
-| `A` | The [Android vulnerability database](TODO). Serving the shared format [here](https://storage.googleapis.com/android-osv/). |
-| `GO` | The [Go vulnerability database](https://github.com/golang/vulndb). Serving the shared format [here](https://storage.googleapis.com/go-vulndb/). |
-| `OSV` | The <https://osv.dev> vulnerability database. Serving `<ID>` in the shared format at `https://api.osv.dev/v1/vulns/<ID>` |
-| `PYSEC` | The [PyPI vulnerability database](https://github.com/pypa/advisory-db). Serving `<ID>` in the shared format at `https://api.osv.dev/v1/vulns/<ID>` |
-| `RUSTSEC` | [The Rust crates vulnerability database](https://github.com/rustsec/advisory-db). Serving `<ID>` in the shared format at  `https://github.com/RustSec/advisory-db/blob/osv/crates/<ID>.json` |
-| `GSD` | The GSD database. Serving the shared format [here](https://github.com/cloudsecurityalliance/gsd-database). |
-| `GHSA` | The GitHub Security Advisory database. Serving the shared format [here](https://github.com/github/advisory-database). |
-| `LBSEC` | The LoopBack Advisory Database. Serving the shared format [here](https://github.com/loopbackio/security/tree/main/advisories). |
-| `DSA`/`DLA`/`DTSA` | The [Debian Security Advisory](https://www.debian.org/security/) database. Serving the shared format [here](https://storage.googleapis.com/debian-osv/dsa-osv/). |
-| `ELA` | The [Debian Extended Security Advisory](https://www.freexian.com/lts/extended/). Serving the shared format [here](https://github.com/captn3m0/debian-elts-advisories)|
-| Your database here | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
+<!-- Unfortunately, markdown tables are even worse than this to read/write -->
+<!-- Please keep this list alphabetically sorted -->
+
+<table>
+  <thead>
+    <tr>
+      <th>Prefix</th>
+      <th>Database</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>`ASB-A`/`PUB-A`</code></td>
+      <td><a href="https://source.android.com/docs/security/bulletin">Android Security Bulletin</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://bughunters.google.com/about/rules/android-friends/6171833274204160/android-and-google-devices-security-reward-program-rules">Android Vulnerability Rewards Program</a></li>
+          <li>Source URL: <a href="https://storage.googleapis.com/android-osv/index.html"><code>https://storage.googleapis.com/android-osv/&lt;ID&gt;.json</code></a></li>
+          <li>OSV Formatted URL: <code>https://storage.googleapis.com/android-osv/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>ALSA</code>/<code>ALBA</code>/<code>ALEA</code></td>
+      <td><a href="https://errata.almalinux.org/">AlmaLinux Security Advisory</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>https://errata.almalinux.org/&lt;alma version&gt;/&lt;ID&gt;.html</code></li>
+          <li>OSV Formatted URL: <code>N/A</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>BIT</code></td>
+      <td><a href="https://github.com/bitnami/vulndb">Bitnami Vulnerability Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/bitnami/vulndb/blob/main/CONTRIBUTING.md">https://github.com/bitnami/vulndb/blob/main/CONTRIBUTING.md</a></li>
+          <li>Source URL: <code>https://github.com/bitnami/vulndb/blob/main/data/&lt;component&gt;/&lt;ID&gt;.json</code></li>
+          <li>OSV Formatted URL: <code>N/A</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>CURL</code></td>
+      <td><a href="https://curl.se/docs/security.html">Curl CVEs</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>https://curl.se/docs/&lt;ID&gt;.html</code></li>
+          <li>OSV Formatted URL: <code>https://curl.se/docs/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>CVE</code></td>
+      <td><a href="https://nvd.nist.gov/">National Vulnerability Database (provided by OSV.dev)</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>https://nvd.nist.gov/vuln/detail/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>DSA</code>/<code>DLA</code>/<code>DTSA</code></td>
+      <td><a href="https://www.debian.org/security/">Debian Security Advisory Database (provided by OSV.dev)</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>https://debian.org/security/&lt;YEAR&gt;/&lt;ID&gt;</code> (lowercase dsa)</li>
+          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>ELA</code></td>
+      <td><a href="https://www.freexian.com/lts/extended/">Debian Extended LTS Security Advisories (provided by Freexian)</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/captn3m0/debian-elts-advisories/#contributing">https://github.com/captn3m0/debian-elts-advisories/#contributing</a></li>
+          <li>Source URL: <code>https://salsa.debian.org/freexian-team/extended-lts/security-tracker/-/blob/master/data/ELA/list</code</li>
+          <li>OSV Formatted URL: <code>https://captnemo.in/debian-elts-advisories/advisories/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>GHSA</code></td>
+      <td><a href="https://github.com/github/advisory-database">GitHub Security Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/github/advisory-database#contributions">https://github.com/github/advisory-database#contributions</a></li>
+          <li>Source URL: <code>https://github.com/advisories/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>GO</code></td>
+      <td><a href="https://pkg.go.dev/vuln/">Go Vulnerability Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/golang/vulndb/issues/new/choose">https://github.com/golang/vulndb/issues/new/choose</a></li>
+          <li>Source URL: <code>https://pkg.go.dev/vuln/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://vuln.go.dev/ID/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>GSD</code></td>
+      <td><a href="https://github.com/cloudsecurityalliance/gsd-database">Global Security Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>https://gsd.id/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://api.gsd.id/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>HSEC</code></td>
+      <td><a href="https://github.com/haskell/security-advisories">Haskell Security Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/haskell/security-advisories/blob/main/CONTRIBUTING.md">https://github.com/haskell/security-advisories/blob/main/CONTRIBUTING.md</a></li>
+          <li>Source URL: <code>TBD</code></li>
+          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/haskell/security-advisories/main/advisories/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>LBSEC</code></td>
+      <td><a href="https://github.com/loopbackio/security/tree/main/advisories">LoopBack Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>N/A</code></li>
+          <li>OSV Formatted URL: <code>N/A</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>MGASA</code></td>
+      <td><a href="https://advisories.mageia.org/">Mageia Security Advisories</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <code>TBD</code></li>
+          <li>Source URL: <code>https://advisories.mageia.org/&lt;ID&gt;.html</code></li>
+          <li>OSV Formatted URL: <code>https://advisories.mageia.org/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>MAL</code></td>
+      <td><a href="https://github.com/ossf/malicious-packages/tree/main/osv/">Malicious Packages Repository</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/ossf/malicious-packages/blob/main/CONTRIBUTING.md">https://github.com/ossf/malicious-packages/blob/main/CONTRIBUTING.md</a></li>
+          <li>Source URL: <code>N/A</code></li>
+          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>OSV</code></td>
+      <td><a href="https://osv.dev/list">Advisories allocated by OSV.dev (currently only from OSS-Fuzz)</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/google/oss-fuzz-vulns/issues">https://github.com/google/oss-fuzz-vulns/issues</a></li>
+          <li>Source URL: <code>https://osv.dev/vulnerability/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>PHSA</code></td>
+      <td><a href="https://github.com/vmware/photon/wiki/Security-Advisories">VMWare Photon Security Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/captn3m0/photon-os-advisories#contributing">https://github.com/captn3m0/photon-os-advisories#contributing</a></li>
+          <li>Source URL: <code>https://github.com/vmware/photon/wiki/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://github.com/captn3m0/photon-os-advisories/blob/main/advisories/&lt;ID&gt;.json</code> (unofficial)</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>PSF</code></td>
+      <td><a href="https://github.com/psf/advisory-database">Python Software Foundation Vulnerability Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/psf/advisory-database/issues">https://github.com/psf/advisory-database/issues</a></li>
+          <li>Source URL: <code>TBD</code></li>
+          <li>OSV Formatted URL: <code>TBD</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>PYSEC</code></td>
+      <td><a href="https://github.com/pypa/advisory-db">PyPI Vulnerability Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/pypa/advisory-database/issues">https://github.com/pypa/advisory-database/issues</a></li>
+          <li>Source URL: <code>https://osv.dev/vulnerability/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>Red Hat</code></td>
+      <td><a href="https://security.access.redhat.com/data">Red Hat Security Data</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://access.redhat.com/security/team/contact/">https://access.redhat.com/security/team/contact/</a></li>
+          <li>Source URL: <code>https://access.redhat.com/security/security-updates/security-advisories</code></li>
+          <li>OSV Formatted URL: <code>https://security.access.redhat.com/data/osv/</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>RLSA</code>/<code>RXSA</code></td>
+      <td><a href="https://errata.rockylinux.org">Rocky Linux Security Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>https://errata.rockylinux.org/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://apollo.build.resf.org/api/v3/osv/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>RSEC</code></td>
+      <td><a href="https://github.com/RConsortium/r-advisory-database">RConsortium Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/RConsortium/r-advisory-database#readme">https://github.com/RConsortium/r-advisory-database#readme</a></li>
+          <li>Source URL: <code>https://osv.dev/vulnerability/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://github.com/RConsortium/r-advisory-database/blob/main/vulns/&lt;package&gt;/&lt;ID&gt;.yaml</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>RUSTSEC</code></td>
+      <td><a href="https://github.com/rustsec/advisory-db">RustSec Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/RustSec/advisory-db/blob/main/CONTRIBUTING.md">https://github.com/RustSec/advisory-db/blob/main/CONTRIBUTING.md</a></li>
+          <li>Source URL: <code>https://rustsec.org/advisories/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/rustsec/advisory-db/osv/crates/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>USN</code></td>
+      <td><a href="https://ubuntu.com/security/notices">Ubuntu Security Notices</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>https://ubuntu.com/security/notices/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://github.com/canonical/ubuntu-security-notices/blob/main/osv/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>CGA</code></td>
+      <td><a href="https://packages.cgr.dev/chainguard/osv/all.json">Chainguard Security Notices</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: TBD</li>
+          <li>OSV Formatted URL: <code>https://packages.cgr.dev/chainguard/osv/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Your database here</td>
+      <td colspan="2"><a href="https://github.com/ossf/osv-schema/compare">Send us a PR</a></td>
+    </tr>
+  </tbody>
+</table>
 
 In addition to those prefixes, other databases may serve information about
 non-database-specific prefixes. For example a language ecosystem might decide to
@@ -177,7 +440,8 @@ RFC3339-formatted timestamp in UTC (ending in "Z"). Given two
 different entries claiming to describe the same `id` field, the one with the
 later modification time is considered authoritative.
 
-The `id` and `modified` fields are required. All other fields are optional,
+The `id` and `modified` fields are required. For schema versions above 1.0.0,
+the `schema_version` field is also required. All other fields are optional,
 although of course an entry with no other metadata is not particularly useful.
 (It could potentially stand for a reserved ID with no other public information.)
 
@@ -216,9 +480,23 @@ the vulnerability has been withdrawn should go into the summary text.
 The `aliases` field gives a list of IDs of the same vulnerability in other
 databases, in the form of the `id` field. This allows one database to claim that
 its own entry describes the same vulnerability as one or more entries in other
-databases. Or if one database entry has been deduplicated into another in the
-same database, the duplicate entry could be written using only the `id`,
-`modified`, and `aliases` field, to point to the canonical one.
+databases.
+
+Two vulnerabilities can be described as aliases if they affect any given
+software component the same way: either both vulnerabilities affect the software
+component or neither do. A subsequent patch addresses both of the
+vulnerabilities (and no others), and vice versa.
+
+Aliases should be considered symmetric (if A is an alias of B, then B is an
+alias of A) and transitive (If A aliases B and B aliases C, then A aliases C).
+
+Aliases should **not** be used to refer to vulnerabilities in packages upstream
+or downstream in a software supply chain from the given OSV record's affected
+package(s). For example, if a CVE describes a vulnerability in a language
+library, and a Linux distribution package contains that library and therefore
+publishes an advisory, the distribution's OSV record must not list the CVE ID as
+an alias. Similarly, distributions often bundle multiple upstream
+vulnerabilities into a single record. `related` should be used in these cases.
 
 ## related field
 
@@ -229,7 +507,13 @@ same database, the duplicate entry could be written using only the `id`,
 ```
 
 The `related` field gives a list of IDs of closely related vulnerabilities, such
-as the same problem in alternate ecosystems.
+as:
+- A similar but completely different vulnerability.
+- A similar OSV entry that bundles multiple distinct vulnerabilities in the same
+entry.
+- Cases that do not satisfy the strict definition of `aliases`.
+
+Related vulnerabilities are symmetric but not transitive.
 
 ## summary, details fields
 
@@ -281,6 +565,7 @@ describes the quantitative method used to calculate the associated `score`.
 | --------- | ----------- |
 | `CVSS_V2` | A CVSS vector string representing the unique characteristics and severity of the vulnerability using a version of the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/v2/) that is == 2.0 (e.g.`"AV:L/AC:M/Au:N/C:N/I:P/A:C"`).|
 | `CVSS_V3` | A CVSS vector string representing the unique characteristics and severity of the vulnerability using a version of the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/) that is >= 3.0 and < 4.0 (e.g.`"CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:N"`).|
+| `CVSS_V4` | A CVSS vector string representing the unique characterictics and severity of the vulnerability using a version on the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/) that is >= 4.0 and < 5.0 (e.g. `"CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N"`). |
 | Your quantitative severity type here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 ### severity[].score field
@@ -298,12 +583,17 @@ on the selected `severity[].type`, as described above.
 			"name": string,
 			"purl": string
 		},
+		"severity": [ {
+			"type": string,
+			"score": string
+		} ],
 		"ranges": [ {
 			"type": string,
 			"repo": string,
 			"events": [ {
 				"introduced": string,
 				"fixed": string,
+				"last_affected": string,
 				"limit": string
 			} ]
 		} ],
@@ -369,37 +659,69 @@ versions and different potential vulnerabilities:
 {"ecosystem": "PyPI", "name": "zlib"}
 ```
 
+<!-- Please keep this list alphabetically sorted -->
 The defined ecosystems are:
 
 | Ecosystem | Description  |
 | --------- |-----------------|
-| `Go` | The Go ecosystem; the `name` field is a Go module path.  |
-| `npm` | The NPM ecosystem; the `name` field is an NPM package name.  |
-| `OSS-Fuzz` | For reports from the OSS-Fuzz project that have no more appropriate ecosystem; the `name` field is the name assigned by the OSS-Fuzz project, as recorded in the submitted fuzzing configuration.  |
-| `PyPI` | the Python PyPI ecosystem; the `name` field is a [normalized](https://www.python.org/dev/peps/pep-0503/#normalized-names) PyPI package name.  |
-| `RubyGems` | The RubyGems ecosystem; the `name` field is a gem name.  |
-| `crates.io` | The crates.io ecosystem for Rust; the `name` field is a crate name.  |
-| `Packagist` | The PHP package manager ecosystem; the `name` is a package name.  |
-| `Maven` | The Maven Java package ecosystem. The `name` field is a Maven package name.  |
-| `NuGet` | The NuGet package ecosystem. The `name` field is a NuGet package name.  |
-| `Linux` | The Linux kernel. The only supported `name` is `Kernel`. |
-| `Debian` | The Debian package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Debian release. `<RELEASE>` is a numeric version specified in the [Debian distro-info-data](https://debian.pages.debian.net/distro-info-data/debian.csv). For example, the ecosystem string "Debian:7" refers to the Debian 7 (wheezy) release.  |
+| `AlmaLinux` | AlmaLinux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular AlmaLinux release. `<RELEASE>` is a numeric version.
 | `Alpine` | The Alpine package ecosystem; the `name` is the name of the source package. The ecosystem string must have a `:v<RELEASE-NUMBER>` suffix to scope the package to a particular Alpine release branch (the `v` prefix is required). E.g. `v3.16`. |
-| `Hex` | The package manager for the Erlang ecosystem; the `name` is a Hex package name.  |
-| `Android`  | The Android ecosystem; the `name` field is the Android component name that the patch applies to, as shown in the [Android Security Bulletins](https://source.android.com/security/bulletin) such as `Framework`, `Media Framework` and `Kernel Component`. The exhaustive list of components can be found at the [Appendix](#android-ecosystem-components). |
+| `Android`  | The Android ecosystem. Android organizes code using [`repo` tool](https://gerrit.googlesource.com/git-repo/+/HEAD/README.md), which manages multiple git projects under one or more remote git servers, where each project is identified by its name in [repo configuration](https://gerrit.googlesource.com/git-repo/+/HEAD/docs/manifest-format.md#Element-project) (e.g. `platform/frameworks/base`). The `name` field should contain the name of that affected git project/submodule. One exception is when the project contains the Linux kernel source code, in which case `name` field will be `:linux_kernel:`, followed by an optional SoC vendor name e.g. `:linux_kernel:Qualcomm`. The list of recognized SoC vendors is listed in the [Appendix](#android-soc-vendors) |
+| `Bioconductor` | The biological R package ecosystem. The `name` is an R package name. |
+| `Bitnami` | Bitnami package ecosystem; the `name` is the name of the affected component. |
+| `Chainguard` | The Chainguard package ecosystem; the `name` is the name of the package. |
+| `ConanCenter` | The ConanCenter ecosystem for C and C++; the `name` field is a Conan package name.  |
+| `CRAN` | The R package ecosystem. The `name` is an R package name. |
+| `crates.io` | The crates.io ecosystem for Rust; the `name` field is a crate name.  |
+| `Debian` | The Debian package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Debian release. `<RELEASE>` is a numeric version specified in the [Debian distro-info-data](https://debian.pages.debian.net/distro-info-data/debian.csv). For example, the ecosystem string "Debian:7" refers to the Debian 7 (wheezy) release.  |
+| `GHC` | The Haskell compiler ecosystem. The `name` field is the name of a component of the GHC compiler ecosystem (e.g., compiler, GHCI, RTS).  |
 | `GitHub Actions` | The GitHub Actions ecosystem; the `name` field is the action's repository name with owner e.g. `{owner}/{repo}`. |
+| `Go` | The Go ecosystem; the `name` field is a Go module path.  |
+| `Hackage` | The Haskell package ecosystem. The `name` field is a Haskell package name as published on Hackage.  |
+| `Hex` | The package manager for the Erlang ecosystem; the `name` is a Hex package name.  |
+| `Linux` | The Linux kernel. The only supported `name` is `Kernel`. |
+| `Mageia` | The Mageia Linux package ecosystem; the `name` is the name of the source package. The ecosystem string must have a `:<RELEASE-NUMBER>` suffix to scope the package to a particular Mageia release. Eg `Mageia:9`. |
+| `Maven` | The Maven Java package ecosystem. The `name` field is a Maven package name in the format `groupId:artifactId`. The ecosystem string might optionally have a `:<REMOTE-REPO-URL>` suffix to denote the remote repository URL that best represents the source of truth for this package, without a trailing slash (e.g. `Maven:https://maven.google.com`). If this is omitted, this is assumed to be the Maven Central repository (`https://repo.maven.apache.org/maven2`).
+| `npm` | The NPM ecosystem; the `name` field is an NPM package name.  |
+| `NuGet` | The NuGet package ecosystem. The `name` field is a NuGet package name.  |
+| `OSS-Fuzz` | For reports from the OSS-Fuzz project that have no more appropriate ecosystem; the `name` field is the name assigned by the OSS-Fuzz project, as recorded in the submitted fuzzing configuration.  |
+| `Packagist` | The PHP package manager ecosystem; the `name` is a package name.  |
+| `Photon OS` | The Photon OS package ecosystem; the `name` is the name of the RPM package. The ecosystem string must have a `:<RELEASE-NUMBER>` suffix to scope the package to a particular Photon OS release. Eg `Photon OS:3.0`. |
 | `Pub` | The package manager for the Dart ecosystem; the `name` field is a Dart package name. |
+| `PyPI` | the Python PyPI ecosystem; the `name` field is a [normalized](https://www.python.org/dev/peps/pep-0503/#normalized-names) PyPI package name.  |
+| `Red Hat` | The Red Hat package ecosystem; the `name` field is the name of a binary or source RPM. The ecosystem string has a `:<CPE>` suffix to scope the RPM to a specific Red Hat product stream. `<CPE>` is a translation of a Red Hat [Common Platform Enumerations](https://cpe.mitre.org/) (CPE) with the `cpe/:[oa]:(redhat):` prefix removed (for example, `Red Hat:rhel_aus:8.4::appstream` translates to `cpe:/a:redhat:rhel_aus:8.4::appstream`). Red Hat ecosystem identifiers can be used to identify vulnerable RPMs installed on a Red Hat system as explained [here](https://www.redhat.com/en/blog/how-accurately-match-oval-security-data-installed-rpms).  |
+| `Rocky Linux` | The Rocky Linux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Rocky Linux release. `<RELEASE>` is a numeric version.
+| `RubyGems` | The RubyGems ecosystem; the `name` field is a gem name.  |
+| `SwiftURL` | The Swift Package Manager ecosystem. The `name` is a Git URL to the source of the package. Versions are Git tags that comform to [SemVer 2.0](https://docs.swift.org/package-manager/PackageDescription/PackageDescription.html#version). |
+| `Ubuntu` | The Ubuntu package ecosystem; the `name` field is the name of the source package. The ecosystem string has a `:<RELEASE>` suffix to scope the package to a particular Ubuntu release. `<RELEASE>` is a numeric ("YY.MM") version as specified in [Ubuntu Releases](https://wiki.ubuntu.com/Releases), with a mandatory `:LTS` suffix if the release is marked as LTS. The release version may also be prefixed with `:Pro:` to denote Ubuntu Pro (aka Expanded Security Maintenance (ESM)) updates. For example, the ecosystem string "Ubuntu:22.04:LTS" refers to Ubuntu 22.04 LTS (jammy), while "Ubuntu:Pro:18.04:LTS" refers to fixes that landed in Ubuntu 18.04 LTS (bionic) under Ubuntu Pro/ESM.
 | Your ecosystem here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 It is permitted for a database name (the DB prefix in the `id` field) and an
 ecosystem name to be the same, provided they have the same owner who can make
 decisions about the meaning of the `ecosystem_specific` field (see below).
 
+### affected[].severity field
+
+The `severity` field is an optional element [defined here](#severity-field).
+This `severity` field applies to a specific package, in cases where affected
+packages have differing severities for the same vulnerability. If any package
+level `severity` fields are set, the top level [`severity`](#severity-field)
+must not be set.
+
 ### affected[].versions field
 
 The `affected` object's `versions` field is a JSON array of strings. Each string
 is a single affected version in whatever version syntax is used by the given
 package ecosystem.
+
+When there is no well-defined packaging ecosystem specified (for
+example, general C/C++ libraries), GIT commit ranges are typically the best way
+to define vulnerable version ranges. In this case, versions specified in this
+array cannot be relied upon to conform to any particular syntax (e.g. they
+could be the upstream Git version tags derived from these GIT commit ranges,
+which is what [OSV.dev](https://osv.dev/) populates this field with). In this
+situation, the GIT commit ranges in [`affected[].ranges`](#affectedranges-field)
+should be used to match vulnerabilities by Git commit hashes.
 
 ### affected[].ranges[] field
 
@@ -459,29 +781,43 @@ describes a single version that either:
 These `events` objects represent a "timeline" of status changes for the affected
 package.
 
-The values of "introduced", "fixed" and "limit" are version strings as defined
-by the `affected[].ranges[].type` field.
+The values of `introduced`, `fixed`, `last_affected` and `limit` are version strings
+as defined by the `affected[].ranges[].type` field.
 
 #### Special values
 
-  - `"introduced"` allows a version of the value `"0"` to represent a version that
+  - `introduced` allows a version of the value `"0"` to represent a version that
     sorts before any other version.
-  - `"limit"` allows versions containing the string `"*"` to represent "infinity".
+  - `limit` allows versions containing the string `"*"` to represent "infinity".
     If no limit events are provided, an implicit `{ "limit": "*" }` is assumed to
-    exist. Multiple `"limit"` events are allowed in the same range.
+    exist. Multiple `limit` events are allowed in the same range.
 
 #### Requirements
 
-Only **a single type** (either `"introduced"`, `"fixed"`, `"last_affected"`,
-`"limit"`) is allowed in each event object. For instance,
+Only **a single type** (either `introduced`, `fixed`, `last_affected`,
+`limit`) is allowed in each event object. For instance,
 `{"introduced": "1.0.0", "fixed": "1.0.2"}` is **invalid**.
 
-Entries in the `events` array can contain either `"last_affected"` or `"fixed"`
-events, but not both. It's **strongly recommended** to use `"fixed"` instead of
-`"last_affected"` where possible, as it precisely identifies the version which
-contains the fix.
+Entries in the `events` array can contain either `last_affected` or `fixed`
+events, but not both. It's **strongly recommended** to use `fixed` instead of
+`last_affected` where possible, as it precisely identifies the version which
+contains the fix. `last_affected` should be thought of as the hard ceiling
+of the vulnerability _at the time of publication_ in the absence of a fixed version.
+Versions above `last_affected` should be considered unaffected. Unfortunately
+this opens up the possibility for false negatives, which is why `fixed` is
+overwhelmingly preferred. An [example](#last_affected-vs-fixed-example) is available to
+illustrate the difference.
 
-There must be at least one `"introduced"` object in the `events` array. While
+The `fixed` and `limit` events are closely related and involve a similar
+trade-off for `GIT` ranges. (See the [limit example](#Limit-events) for details
+about how they differ.)  `events` arrays with `fixed` events must include all
+other cherrypicked fix commits in all branches as separate `fixed` events to
+avoid *false positive* matches in other branches. Conversely, `limit` events
+restrict the set of vulnerable commits to those reachable from the `limit`,
+which may result in *false negatives*. Where possible, it's strongly
+recommended to use `fixed` over `limit`.
+
+There must be at least one `introduced` object in the `events` array. While
 not required, it's also recommended to keep the `events` array sorted according
 to the `affected[].ranges[].type` of the range.
 
@@ -502,7 +838,7 @@ This field is required if `affected[].ranges[].type` is `GIT`.
 ### affected[].ranges[].database_specific field
 
 The `ranges` object's `database_specific` field is a JSON object holding
-additional information about the range from which the record was obtained. The
+additional information about the range as defined by the database from which the record was obtained. The
 meaning of the values within the object is entirely defined by the database and
 beyond the scope of this document.
 
@@ -594,6 +930,7 @@ func BeforeLimits(v, range)
 ```
 
 ### Examples
+#### Unfixed vulnerability example
 The following expresses that "every possible version is affected".
 
 ```json
@@ -605,6 +942,7 @@ The following expresses that "every possible version is affected".
 } ]
 ```
 
+#### Fixed vulnerability example
 The following expresses that "everything before `1.0.2`" is affected.
 
 ```json
@@ -617,6 +955,7 @@ The following expresses that "everything before `1.0.2`" is affected.
 } ]
 ```
 
+#### Multiple range example
 The following expresses that versions in the SemVer ranges `[1.0.0,
 1.0.2)` or `[3.0.0, 3.2.5)` are affected. Everything else is unaffected.
 
@@ -632,7 +971,8 @@ The following expresses that versions in the SemVer ranges `[1.0.0,
 } ]
 ```
 
-`"limit"` events are typically not necessary for describing numbered (linear)
+#### Limit events
+`limit` events are typically not necessary for describing numbered (linear)
 version ranges and should not be used. They are more useful for git ranges,
 where it has more implications for the evaluation algorithm. Take the following
 git commit graph and git range:
@@ -667,10 +1007,49 @@ A, B, C, D, E, F`. This is the desired behaviour in most cases.
 If `limit` is set to `Y`, the list of affected commits will be `X, A, B, C`. This
 is equivalent to `git rev-list X..Y` (but including `X` and excluding `Y`).
 This may be useful if the scope of a vulnerability entry is limited to a small
-set of linear branches. Multiple `"limit"` events may be specified for each
+set of linear branches. Multiple `limit` events may be specified for each
 branch -- each expands the scope of the git commit graph to cover.
 
 Note that we did not specify a `fixed` event here as `limit` makes it redundant.
+
+#### `last_affected` vs `fixed` example
+Understanding the difference between `last_affected` and `fixed` is essential to
+identifying where false negatives may occur.
+
+The following example expresses that the vulnerability is present in all versions
+of the package, up to and including version `2.1.214`. Versions above `2.1.214` are
+assumed to be free from the vulnerability, but there is a potential for a false
+negative. The `last_affected` field is typically assigned at the time of discovery and
+assumes the vulnerability will be addressed in the following version.
+
+```json
+"ranges":[ {
+    "type":"ECOSYSTEM",
+    "events": [
+      { "introduced": "0" },
+      { "last_affected": "2.1.214" },
+    ]
+} ]
+```
+
+The following example looks similar, but there are differences in how it is interpreted.
+The vulnerability is present in all versions of the package up to version `2.1.214`. In
+this case `2.1.214` is not vulnerable. Versions `2.1.214` and above do not include the
+vulnerability and there isn't the possibility for false negatives that we see in the
+`last_affected` case.
+
+```json
+"ranges": [ {
+    "type": "SEMVER",
+    "events": [
+      { "introduced": "0" },
+      { "fixed": "2.1.214" },
+    ]
+} ]
+```
+
+Using `fixed` is preferable to `last_affected` whenever possible. The use of `fixed`
+requires fewer assumptions and eliminates the possibilities for false negatives.
 
 ## references field
 
@@ -694,11 +1073,20 @@ The known reference `type` values are:
 
 - `ADVISORY`: A published security advisory for the vulnerability.
 - `ARTICLE`: An article or blog post describing the vulnerability.
+- `DETECTION`: A tool, script, scanner, or other mechanism that allows for
+  detection of the vulnerability in production environments. e.g. YARA rules,
+  hashes, virus signature, or other scanners.
+- `DISCUSSION`: A social media discussion regarding the vulnerability, e.g.
+  a Twitter, Mastodon, Hacker News, or Reddit thread.
 - `REPORT`: A report, typically on a bug or issue tracker, of the vulnerability.
 - `FIX`: A source code browser link to the fix (e.g., a GitHub commit) Note that
   the `fix` type is meant for viewing by people using web browsers.  Programs
   interested in analyzing the exact commit range would do better to use the
   `GIT`-typed `affected[].ranges` entries (described above).
+- `INTRODUCED`: A source code browser link to the introduction of the vulnerability
+  (e.g., a GitHub commit) Note that the `introduced` type is meant for viewing by people using
+  web browsers.  Programs interested in analyzing the exact commit range would do better
+  to use the `GIT`-typed `affected[].ranges` entries (described above).
 - `PACKAGE`: A home web page for the package.
 - `EVIDENCE`: A demonstration of the validity of a vulnerability claim, e.g.
 	`app.any.run` replaying the exploitation of the vulnerability.
@@ -711,6 +1099,7 @@ The known reference `type` values are:
 	"credits": [ {
 		"name": string,
 		"contact": [ string ],
+		"type": string,
 	} ]
 }
 ```
@@ -736,9 +1125,29 @@ is required for each `credits` entry.
 Each `credits[].contact[]` entry should be a valid, fully qualified, plain-text URL
 at which the credited can be reached. Providing contacts is optional.
 
+### credits[].type field
+
+The optional `credits[].type` field should specify the type or role of the
+individual or entity being credited. It must be one of the following defined
+credit types:
+
+- `FINDER`: identified the vulnerability.
+- `REPORTER`: notified the vendor of the vulnerability to a CNA.
+- `ANALYST`: validated the vulnerability to ensure accuracy or severity.
+- `COORDINATOR`: facilitated the coordinated response process.
+- `REMEDIATION_DEVELOPER`: prepared a code change or other remediation plans.
+- `REMEDIATION_REVIEWER`: reviewed vulnerability remediation plans or code changes for effectiveness and completeness.
+- `REMEDIATION_VERIFIER`: tested and verified the vulnerability or its remediation.
+- `TOOL`: names of tools used in vulnerability discovery or identification.
+- `SPONSOR`: supported the vulnerability identification or remediation activities.
+- `OTHER`: any other type or role that does not fall under the categories described above.
+
+These values and their definitions correspond directly to the credit types defined in the
+[MITRE CVE specification](https://cveproject.github.io/cve-schema/schema/v5.0/docs/#collapseDescription_oneOf_i0_containers_cna_credits_items_type).
+
 #### Examples
 
-Including a URL and an email address in `credits[].contact[]`:
+Including a URL and an email address in `credits[].contact[]` and a credit type:
 
 ```json
 {
@@ -748,6 +1157,7 @@ Including a URL and an email address in `credits[].contact[]`:
 			"https://twitter.com/JaninaKowalska01",
 			"mailto:nina@kowalska-family.net"
 		],
+		"type": "REMEDIATION_DEVELOPER",
 	} ]
 }
 ```
@@ -1068,254 +1478,171 @@ Ruby does not use this format currently, but here is a potential translation of 
 }
 ```
 
-# Change Log
+## Haskell Hackage vulnerability
 
-- 2021-03-29 added "withdrawn" field
-- 2021-04-07 changed "details" to Markdown, change "references" to a list of
-  objects with a new "type" field in addition to the URL.
-- 2021-04-23 handful of changes, see Status - 2021-04-23 below for details. Corrected examples.
-- 2021-04-26 changed `database-specific` and `ecosystem-specific` to
-  `database_specific` and `ecosystem_specific` for easier access from languages
-  that access JSON field keys using x.field notation.
-- 2021-06-08 Added "purl" to the "package" field and some minor clarifications.
-- 2021-06-30 Fixed an incorrect/typoed specification for "affects" from an array
-  of objects to an object.
-- 2021-08-17 Support multiple packages per entry by moving `packages`,
-  `ecosystem_specific` and `database_specific` into `affected`. The `affected`
-  field is intentionally named differently to the previous `affects` field to
-  make migration easier. Also use "events" containing single versions to
-  represent affected version ranges instead.
-- 2021-09-08 Promoted schema to 1.0.
-- 2022-01-19 Released version 1.2.0. Includes various changes suggested by
-  GitHub (`schema_version`, top-level `database_specific`, `credits`,
-  `severity`, relaxation of version enumeration requirement).
-- 2022-03-24 Released version 1.3.0. Added `last_affected` event type and
-  `database_specific` to `affected[].ranges[]`.
-  Context: https://github.com/ossf/osv-schema/issues/35.
-
-## Status - 2021-04-07
-
-The unresolved open issues boil down to what the use case is for this data.
-
-The use case we had in mind was enabling computer processing of
-vulnerability databases, so that for example:
-
-A web site can display information about a vulnerability fetched from an unaffiliated database.
-A security researcher can fetch precise info about which versions are vulnerable for offline analysis.
-A vulnerability-checking tool can check a build manifest against a collection of these entries to see which are included in the build and then report a summary.
-
-The vision we had for this was that the same underlying vulnerability might be
-described by multiple databases. We wanted a way for databases to be able to
-cross-link with each other and understand what the others were publishing.  
-
-See also the "Goal: Standard Schema for Vulnerability Databases" section in
-https://security.googleblog.com/2021/02/know-prevent-fix-framework-for-shifting.html,
-which I’ll quote here:
-
-> Goal: Standard Schema for Vulnerability Databases
-
-> Infrastructure and industry standards are needed to track and maintain open
-> source vulnerabilities, understand their consequences, and manage their
-> mitigations. A standard vulnerability schema would allow common tools to work
-> across multiple vulnerability databases and simplify the task of tracking,
-> especially when vulnerabilities touch multiple languages or subsystems.
-
-It was a non-goal to unify the entries in different existing databases into a
-single entry for a particular vulnerability.
-
-The open issues that remain seem to be pushing toward a new use case, which is
-to be able to unify the entries in different existing databases into a single
-entry (for a particular vulnerability). That was a non-goal: the assumption is
-that there will always be multiple databases, because at the least each
-ecosystem will have its own database with its own custom metadata that doesn't
-really make sense to other databases.
-
-The open issue for "delete severity" illustrates this. If you are only
-collecting info from an ecosystem's database, it probably does help to be able
-to find out what that ecosystem calls the severity of the vulnerability. But
-obviously if you are trying to provide a one-true-entry, then it's not going to
-make sense to have a global idea of severity.
-
-The open issue for being able to give the affected versions across multiple
-ecosystems also illustrates this. If each ecosystem has its own database and
-suppose there is a Rust TLS library with a vulnerability and a Go wrapper of
-that library, then you'd have two entries: one in the Go database and one in the
-Rust database. There's no need to try to put the Rust and Go versions into a
-single entry. Both entries could mention the other in "aliases", and maybe
-they'd both also list the same CVE in "aliases" as well. On the other hand if
-the goal is to define a "one true entry" then obviously you do need to be able
-to make the affected versions per-ecosystem, along with potentially most of the
-other fields.
-
-For the purpose of discussion, I assert that "one true entry" is still a
-non-goal for this schema and that aggregators can easily separate out "affected
-Rust versions" and "affected Go versions" from the two entries. I'm skeptical
-about a single global database both because of the overhead of coordination (it
-bogs down as more and more ecosystems get involved) and how much harder it makes
-it to customize and experiment on a per-ecosystem basis. I think there's still a
-lot to learn about what we want from these databases, and a more distributed,
-federated model makes more sense to me.
-
-Do people think that's a mistake? Does someone want to make the counter-argument
-that we should expand the scope to being able to define the entries in a single
-global database?
-
-Thanks.
-
-## Status - 2021-04-23
-
-Affected versions. I added more explanatory text to the discussion of the
-affected field, to make clear what is expected as far as ecosystem-specific
-encodings of ranges. I also added a new `ECOSYSTEM` range type.
-
-Non-unique database prefixes. I changed the discussion in "id, modified" to
-handle the case of databases that decide to use identifiers drawn from some
-larger space, such as a language that only issues CVE numbers, not its own
-identifiers.
-
-Multi-ecosystem vulnerabilities. There was an open issue, discussed at length in
-the previous status update, about whether to be able to capture a vulnerability
-in multiple ecosystems in a single report. As noted in the previous update,
-attempting to do that seems like it introduces unnecessary coordination problems
-while also calling into question literally every top-level field that might now
-have to be duplicated for each ecosystem. That is, even the description may need
-to be tailored for each ecosystem, meaning that the new multi-ecosystem format
-ends up being a map from ecosystem to the current format. At that point, it’s
-indistinguishable from multiple current-format records.
-
-Also, it appears that even GHSA uses distinct entries for the same CVE from
-different ecosystems. For example, CVE 2019-8331 in Bootstrap is both
-https://github.com/advisories/GHSA-fxwm-579q-49qq (nuget) and
-https://github.com/advisories/GHSA-wh77-3x4m-4q9g (npm).
-
-Similarly, the example I happened to pick for NPM above was assigned
-SNYK-JS-ELLIPTIC-1064899 but has the related entry
-SNYK-JAVA-ORGWEBJARSNPM-1069836 for that code vendored into the Java world.
-
-I’ve resolved the open issue in favor of single-ecosystem entries rather than
-multi-ecosystem entries. Following a suggestion from Robert Schultheis, I added
-a "related" list next to "aliases" to capture this kind of close relationship.
-I’ve updated the NPM example, which already listed SNYK-JS-ELLIPTIC-1064899 in
-"aliases", to list SNYK-JAVA-ORGWEBJARSNPM-1069836 in "related".
-
-Severity. Based on the discussion, removed severity as a top-level field (it is
-too ill-specified and not generally interpretable). Databases can provide it as
-a database-specific field instead.
-
-Extra. Based on the discussion and general confusion about what belonged here,
-split back into two fields: ecosystem-specific and database-specific.
-
-References. Updated the examples to use the new objects with "type" and "url".
-Based on that, added some new reference types.
-
-My plan is to rewrite the italicized paragraph at the top of the doc on Monday
-and then share the link publicly to gather more feedback from groups that have
-not yet seen it.
-
-## Status - 2021-08-24
-
-The biggest change to the schema is our decision to support multiple packages
-and ecosystems per entry and the way we specify version ranges.
-
-These changes are primarily in the interests of
-supporting better interoperability with other vulnerability schemas, such as the
-[CVE JSON schema](https://github.com/CVEProject/cve-schema), where multiple
-packages are supported in a single entry. We've also been suggesting other
-changes to the CVE schema for better alignment
-([1](https://github.com/CVEProject/cve-schema/issues/86),
- [2](https://github.com/CVEProject/cve-schema/issues/87),
- [3](https://github.com/CVEProject/cve-schema/issues/88),
- [4](https://github.com/CVEProject/cve-schema/issues/89)).
-
-Supporting multiple packages is a reversal of our decision back in April (see
-"Status - 2021-04-23" for our rationale at the time).
-
-The other major change is the way we specify ranges. Instead of specifying half
-open ranges as [introduced, fixed), ranges are encoded with with "events" in a
-"timeline" of sorts:
-
-Instead of
-
-```
-"ranges": [{
-    "type: "GIT",
-    "introduced": "058504edd02667eef8fac9be27ab3ea74332e9b4",
-    "fixed": "3533e50cbee8ff086bfa04176ac42a01ee3db37d"
-}, {
-    "type": "GIT",
-    "introduced": "058504edd02667eef8fac9be27ab3ea74332e9b4",
-    "fixed": "c5157b3e775dac31d51b11f993a06a84dc11fc8c" }
-}, {
-    "type": "SEMVER",
-    "introduced": "1.0.0",
-    "fixed": "1.0.2",
-}, {
-    "type": "SEMVER",
-    "introduced": "1.1.0",
-    "fixed": "1.1.3",
-}]
+```json
+{
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Hackage",
+        "name": "x509-validation"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "1.4.0"
+            },
+            {
+              "fixed": "1.4.8"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "severity": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:U/C:H/I:H/A:N",
+          "type": "CVSS_V3"
+        }
+      ]
+    }
+  ],
+  "details": "# x509-validation does not enforce pathLenConstraint\n\n*x509-validation* prior to version 1.4.8 did not enforce the\npathLenConstraint value.  Constrained CAs could accidentally (or\ndeliberately) issue CAs below the maximum depth and\n*x509-validation* would accept certificates issued by the\nunauthorised intermediate CAs.\n",
+  "id": "HSEC-2023-0006",
+  "modified": "2023-07-26T10:34:39Z",
+  "published": "2023-07-19T13:59:54Z",
+  "references": [
+    {
+      "type": "FIX",
+      "url": "https://github.com/haskell-tls/hs-certificate/commit/06d15dbbc53739314760d8504ca764000770e46e"
+    }
+  ],
+  "schema_version": "1.5.0",
+  "summary": "x509-validation does not enforce pathLenConstraint"
+}
 ```
 
-We now have:
+## Haskell GHC vulnerability
+We don't yet have a GHC vulnerability, but it would look like the following
+one (similar to the Hackage example, but changing ecosystem to `"GHC"`):
 
+```json
+{
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "GHC",
+        "name": "RTS"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "9.2.2"
+            },
+            {
+              "fixed": "9.2.3"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "severity": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:U/C:H/I:H/A:N",
+          "type": "CVSS_V3"
+        }
+      ]
+    }
+  ],
+  "details": "# x509-validation does not enforce pathLenConstraint\n\n*x509-validation* prior to version 1.4.8 did not enforce the\npathLenConstraint value.  Constrained CAs could accidentally (or\ndeliberately) issue CAs below the maximum depth and\n*x509-validation* would accept certificates issued by the\nunauthorised intermediate CAs.\n",
+  "id": "HSEC-2023-0006",
+  "modified": "2023-07-26T10:34:39Z",
+  "published": "2023-07-19T13:59:54Z",
+  "references": [
+    {
+      "type": "FIX",
+      "url": "https://github.com/haskell-tls/hs-certificate/commit/06d15dbbc53739314760d8504ca764000770e46e"
+    }
+  ],
+  "schema_version": "1.5.0",
+  "summary": "x509-validation does not enforce pathLenConstraint"
+}
 ```
-"ranges": [{
-    "type: "GIT",
-    "events": [
-      { "introduced": "058504edd02667eef8fac9be27ab3ea74332e9b4" },
-      { "fixed": "3533e50cbee8ff086bfa04176ac42a01ee3db37d" },
-      { "fixed": "c5157b3e775dac31d51b11f993a06a84dc11fc8c" }
-    ]
-}, {
-    "type: "SEMVER",
-    "events": [
-      { "introduced": "1.0.0" },
-      { "fixed": "1.0.2" },
-      { "introduced": "1.1.0" },
-      { "fixed": "1.1.3" }
-    ]
-}]
+
+## R CRAN & Bioconductor vulnerability
+
+R currently has a [community vulnerability
+database](https://github.com/rconsortium/r-advisory-db) using this format. Here is an
+example encoding of a vulnerability entry.
+
+```json
+{
+  "id": "RSEC-2023-2",
+  "details": "The readxl R package is exposed to a vulnerability owing to its underlying use of libxls library version 1.6.2. The vulnerability originates in the xls_getWorkSheet function within xls.c in libxls. Attackers can exploit this flaw by utilizing a specially crafted XLS file, leading to a Denial of Service (DoS) attack.",
+  "affected": [
+    {
+      "package": {
+        "name": "readxl",
+        "ecosystem": "CRAN"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.4.1"
+            },
+            {
+              "fixed": "1.4.2"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.4.1"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tidyverse/readxl/issues/679"
+    },
+    {
+      "type": "WEB",
+      "url": "https://readxl.tidyverse.org/news/index.html#readxl-142"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security-tracker.debian.org/tracker/source-package/r-cran-readxl"
+    },
+    {
+      "type": "WEB",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-27836"
+    }
+  ],
+  "aliases": [
+    "CVE-2021-27836"
+  ],
+  "modified": "2023-07-13T02:46:57.600Z",
+  "published": "2023-07-13T02:46:57.600Z"
+}
 ```
-
-This avoids repetition with the previous approach and better fits non-linear
-versioning schemes like git ranges. We also introduced a "limit" event, which
-allows git range specification to be scoped to a small num single branch. This was not
-possible before.
-
-These are breaking changes, but we hope to make migration easier by renaming the
-"affects" field to "affected" to allow existing consumers and producers of this
-data to more easily handle old and new versions of entries.
-
-## Status - 2021-09-08
-
-We've decided to promote our schema to 1.0, based on positive feedback from
-existing consumers and producers of this data. From this point on, no backwards
-incompatible changes will be made in any 1.x version.
 
 # Appendix
 
-## Android Ecosystem Components
+## Android SoC Vendors
 
-A package name in the `Android` ecosystem indicates the component of Android that the advisory applies to. This matches the component names used in [Android Security Bulletins (ASB)](https://source.android.com/security/bulletin). The complete list of components used in ASB is as follows:
+When a package in the `Android` ecosystem is the Linux kernel source code, its `name` will be `:linux_kernel:`, optionally appended with one of the following SoC vendor names indicating applicability of the vulnerability to kernels of that particular vendor:
 
-- Framework
-- Library
-- Media Framework
-- System
-- Android Runtime
-- Kernel
-- Kernel LTS
-- Android TV
 - AMLogic
 - ARM
 - Broadcom
-- FPC
-- HTC
-- LG
 - MediaTek
 - Marvell
 - NVIDIA
 - Qualcomm
-- Telecommunication
 - Unisoc
-- Widevine DRM
