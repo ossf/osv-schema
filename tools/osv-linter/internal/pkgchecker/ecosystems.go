@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"regexp"
 	"slices"
 	"strings"
 
 	"github.com/ossf/osv-schema/linter/internal/faulttolerant"
 	"github.com/tidwall/gjson"
+	"golang.org/x/mod/module"
+	"golang.org/x/mod/semver"
 )
 
 // Dispatcher for ecosystem-specific package existence checking.
@@ -136,7 +137,7 @@ func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string) e
 
 // Validate the existence of a package in PyPI.
 func existsInPyPI(pkg string) bool {
-	packageInstanceURL := fmt.Sprintf("https://pypi.org/pypi/%s/json", pkg)
+	packageInstanceURL := fmt.Sprintf("https://pypi.org/pypi/%s/json", strings.ToLower(pkg))
 
 	// This 404's for non-existent packages.
 	resp, err := faulttolerant.Head(packageInstanceURL)
@@ -149,7 +150,7 @@ func existsInPyPI(pkg string) bool {
 
 // Confirm that all specified versions of a package exist in PyPI.
 func versionsExistInPyPI(pkg string, versions []string) error {
-	packageInstanceURL := fmt.Sprintf("https://pypi.org/pypi/%s/json", pkg)
+	packageInstanceURL := fmt.Sprintf("https://pypi.org/pypi/%s/json", strings.ToLower(pkg))
 
 	// This 404's for non-existent packages.
 	resp, err := faulttolerant.Get(packageInstanceURL)
@@ -211,28 +212,10 @@ func existsInGo(pkg string) bool {
 	return resp.StatusCode == http.StatusOK
 }
 
-// isGoPseudoVersion checks if a given version string is a Go pseudo-version,
-// including those with pre-release and build metadata segments,
-// and handles cases where the pre-release identifier starts with '0.'.
-func isGoPseudoVersion(version string) bool {
-	// Seen in the wild:
-	// 1.2.0.0
-	// 0.5.0-alpha.5.0.20200423152442-f4b650b51dc4
-	// 1.0.0-beta
-	// 1.0.4-0.20180125103619-43913f2f4fbd
-	// 1.1.10-0.20180427153919-f5cbcbc5cc6f
-	// 1.16.0-0
-	// 2.2.5-rc6.0.20190621200032-0ddffe484adc+incompatible
-
-	// Regular expression to match pseudoversions.
-	pseudoVersionRegex := regexp.MustCompile(`^(0\.|[0-9]+\.[0-9]+\.)(?:0+|(?:\d+(?:[.-](?:rc)?\d+){0,2})(?:\.(?:0+|(?:\d+(?:[.-]\d+){0,2}))){1,2})([-+].+)?$`)
-	return pseudoVersionRegex.MatchString(version)
-}
-
 // Confirm that all specified versions of a package exist in Go.
 func versionsExistInGo(pkg string, versions []string) error {
 	if pkg == "stdlib" || pkg == "toolchain" {
-		return GoVersionsExist(versions)
+		return goVersionsExist(versions)
 	}
 
 	// The Go Module Proxy seems to require package names to be lowercase.
@@ -273,15 +256,13 @@ func versionsExistInGo(pkg string, versions []string) error {
 	// Determine which referenced versions are missing.
 	versionsMissing := []string{}
 	for _, versionToCheckFor := range versions {
-		// Add pseudo-version to base version mapping here.
 		// First, detect pseudo-version and skip it.
-		if isGoPseudoVersion(versionToCheckFor) {
+		if module.IsPseudoVersion("v" + versionToCheckFor) {
 			// TODO: Try mapping the pseudo-version to a base version and
 			// checking for that instead of skipping.
 			continue
 		}
-		// Check for both bare versions and "v"-prefixed versions.
-		if slices.Contains(versionsInGo, versionToCheckFor) || slices.Contains(versionsInGo, "v"+versionToCheckFor) {
+		if slices.Contains(versionsInGo, semver.Canonical("v"+versionToCheckFor)) {
 			continue
 		}
 		versionsMissing = append(versionsMissing, versionToCheckFor)
@@ -294,7 +275,7 @@ func versionsExistInGo(pkg string, versions []string) error {
 }
 
 // Confirm that all specified versions of Go exist.
-func GoVersionsExist(versions []string) error {
+func goVersionsExist(versions []string) error {
 	URL := "https://go.dev/dl/?mode=json&include=all"
 
 	resp, err := faulttolerant.Get(URL)
@@ -323,12 +304,18 @@ func GoVersionsExist(versions []string) error {
 	// Determine which referenced versions are missing.
 	versionsMissing := []string{}
 	for _, versionToCheckFor := range versions {
-		if isGoPseudoVersion(versionToCheckFor) {
-			// TODO: Try mapping the pseudo-version to a base version instead of skipping.
-			continue
-		}
 		if slices.Contains(GoVersions, "go"+versionToCheckFor) {
 			continue
+		}
+		if semver.Prerelease("v"+versionToCheckFor) == "-0" {
+			// Coerce "1.16.0-0" to "1.16".
+			if slices.Contains(GoVersions, "go"+strings.TrimPrefix(semver.MajorMinor("v"+versionToCheckFor), "v")) {
+				continue
+			}
+			// Coerce "1.21.0-0" to "1.21.0".
+			if slices.Contains(GoVersions, "go"+strings.TrimPrefix(strings.TrimSuffix("v"+versionToCheckFor, semver.Prerelease("v"+versionToCheckFor)), "v")) {
+				continue
+			}
 		}
 		versionsMissing = append(versionsMissing, versionToCheckFor)
 	}
