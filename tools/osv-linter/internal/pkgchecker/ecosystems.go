@@ -15,10 +15,60 @@ import (
 // Dispatcher for ecosystem-specific package existence checking.
 func ExistsInEcosystem(pkg string, ecosystem string) bool {
 	switch ecosystem {
-	case "PyPI":
-		return existsInPyPI(pkg)
+	case "AlmaLinux":
+		return true
+	case "Android":
+		return true
+	case "Bitnami":
+		return true
+	case "ChainGuard":
+		return true
+	case "CRAN":
+		return true
+	case "crates.io":
+		return true
+	case "Debian":
+		return true
+	case "GIT":
+		return true
+	case "GitHub Actions":
+		return true
 	case "Go":
 		return existsInGo(pkg)
+	case "GSD":
+		return true
+	case "Hackage":
+		return true
+	case "Hex":
+		return true
+	case "Linux":
+		return true
+	case "Maven":
+		return true
+	case "npm":
+		return true
+	case "NuGet":
+		return true
+	case "OSS-Fuzz":
+		return true
+	case "Packagist":
+		return true
+	case "Pub":
+		return true
+	case "PyPI":
+		return existsInPyPI(pkg)
+	case "Rocky Linux":
+		return true
+	case "RubyGems":
+		return true
+	case "SwiftURL":
+		return true
+	case "Ubuntu":
+		return true
+	case "UVI":
+		return true
+	case "Wolfi":
+		return true
 	}
 	return false
 }
@@ -26,10 +76,60 @@ func ExistsInEcosystem(pkg string, ecosystem string) bool {
 // Dispatcher for ecosystem-specific package version existence checking.
 func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string) error {
 	switch ecosystem {
-	case "PyPI":
-		return versionsExistInPyPI(pkg, versions)
+	case "AlmaLinux":
+		return nil
+	case "Android":
+		return nil
+	case "Bitnami":
+		return nil
+	case "ChainGuard":
+		return nil
+	case "CRAN":
+		return nil
+	case "crates.io":
+		return nil
+	case "Debian":
+		return nil
+	case "GIT":
+		return nil
+	case "GitHub Actions":
+		return nil
 	case "Go":
 		return versionsExistInGo(pkg, versions)
+	case "GSD":
+		return nil
+	case "Hackage":
+		return nil
+	case "Hex":
+		return nil
+	case "Linux":
+		return nil
+	case "Maven":
+		return nil
+	case "npm":
+		return nil
+	case "NuGet":
+		return nil
+	case "OSS-Fuzz":
+		return nil
+	case "Packagist":
+		return nil
+	case "Pub":
+		return nil
+	case "PyPI":
+		return versionsExistInPyPI(pkg, versions)
+	case "Rocky Linux":
+		return nil
+	case "RubyGems":
+		return nil
+	case "SwiftURL":
+		return nil
+	case "Ubuntu":
+		return nil
+	case "UVI":
+		return nil
+	case "Wolfi":
+		return nil
 	}
 	return fmt.Errorf("unsupported ecosystem: %s", ecosystem)
 }
@@ -82,7 +182,7 @@ func versionsExistInPyPI(pkg string, versions []string) error {
 		versionsMissing = append(versionsMissing, versionToCheckFor)
 	}
 	if len(versionsMissing) > 0 {
-		return fmt.Errorf("failed to find %#v for %q", versionsMissing, pkg)
+		return fmt.Errorf("failed to find %#v for %q in PyPI", versionsMissing, pkg)
 	}
 
 	return nil
