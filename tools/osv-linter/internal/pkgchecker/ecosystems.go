@@ -294,33 +294,33 @@ func goVersionsExist(versions []string) error {
 		return fmt.Errorf("unable to retrieve JSON for Go: %v", err)
 	}
 	// Fetch all known versions of package.
-	GoVersions := []string{}
+	goVersions := []string{}
 	releases := gjson.GetBytes(respJSON, "#.version")
 	releases.ForEach(func(key, value gjson.Result) bool {
-		GoVersions = append(GoVersions, value.String())
+		goVersions = append(goVersions, value.String())
 		return true // keep iterating.
 	})
 
 	// Determine which referenced versions are missing.
 	versionsMissing := []string{}
 	for _, versionToCheckFor := range versions {
-		if slices.Contains(GoVersions, "go"+versionToCheckFor) {
+		if slices.Contains(goVersions, "go"+versionToCheckFor) {
 			continue
 		}
 		if semver.Prerelease("v"+versionToCheckFor) == "-0" {
 			// Coerce "1.16.0-0" to "1.16".
-			if slices.Contains(GoVersions, "go"+strings.TrimPrefix(semver.MajorMinor("v"+versionToCheckFor), "v")) {
+			if slices.Contains(goVersions, "go"+strings.TrimPrefix(semver.MajorMinor("v"+versionToCheckFor), "v")) {
 				continue
 			}
 			// Coerce "1.21.0-0" to "1.21.0".
-			if slices.Contains(GoVersions, "go"+strings.TrimPrefix(strings.TrimSuffix("v"+versionToCheckFor, semver.Prerelease("v"+versionToCheckFor)), "v")) {
+			if slices.Contains(goVersions, "go"+strings.TrimPrefix(strings.TrimSuffix("v"+versionToCheckFor, semver.Prerelease("v"+versionToCheckFor)), "v")) {
 				continue
 			}
 		}
 		versionsMissing = append(versionsMissing, versionToCheckFor)
 	}
 	if len(versionsMissing) > 0 {
-		return fmt.Errorf("failed to find %+v for Go in %+v", versionsMissing, GoVersions)
+		return fmt.Errorf("failed to find %+v for Go in %+v", versionsMissing, goVersions)
 	}
 
 	return nil
