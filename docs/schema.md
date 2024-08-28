@@ -228,7 +228,7 @@ The defined database prefixes and their "home" databases are:
       <td>
         <ul>
           <li>How to contribute: <a href="https://github.com/captn3m0/debian-elts-advisories/#contributing">https://github.com/captn3m0/debian-elts-advisories/#contributing</a></li>
-          <li>Source URL: <code>https://salsa.debian.org/freexian-team/extended-lts/security-tracker/-/blob/master/data/ELA/list</code></li>
+          <li>Source URL: <code>https://deb.freexian.com/extended-lts/tracker/&lt;ID&gt;</code></li>
           <li>OSV Formatted URL: <code>https://captnemo.in/debian-elts-advisories/advisories/&lt;ID&gt;.json</code></li>
         </ul>
       </td>
