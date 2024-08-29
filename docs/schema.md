@@ -223,6 +223,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>ELA</code></td>
+      <td><a href="https://www.freexian.com/lts/extended/">Debian Extended LTS Security Advisories (provided by Freexian)</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/captn3m0/debian-elts-advisories/#contributing">https://github.com/captn3m0/debian-elts-advisories/#contributing</a></li>
+          <li>Source URL: <code>https://deb.freexian.com/extended-lts/tracker/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://captnemo.in/debian-elts-advisories/advisories/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>GHSA</code></td>
       <td><a href="https://github.com/github/advisory-database">GitHub Security Advisory Database</a></td>
       <td>
