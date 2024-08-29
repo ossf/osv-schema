@@ -405,7 +405,7 @@ The defined database prefixes and their "home" databases are:
         <ul>
           <li>How to contribute: TBD</li>
           <li>Source URL: <code>https://ubuntu.com/security/notices/&lt;ID&gt;</code></li>
-          <li>OSV Formatted URL: <code>https://github.com/canonical/ubuntu-security-notices/blob/main/osv/&lt;ID&gt;.json</code></li>
+          <li>OSV Formatted URL: <code>https://github.com/canonical/ubuntu-security-notices/blob/main/osv/usn/&lt;ID&gt;.json</code></li>
         </ul>
       </td>
     </tr>
