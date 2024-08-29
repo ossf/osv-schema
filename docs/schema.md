@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.6.3 (April 5, 2024)**
+**Version 1.6.4 (August 29, 2024)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -157,12 +157,12 @@ The defined database prefixes and their "home" databases are:
   </thead>
   <tbody>
     <tr>
-      <td><code>A</code></td>
-      <td><a href="https://storage.googleapis.com/android-osv/">Android Vulnerability Database</a></td>
+      <td><code>`ASB-A`/`PUB-A`</code></td>
+      <td><a href="https://source.android.com/docs/security/bulletin">Android Security Bulletin</a></td>
       <td>
         <ul>
-          <li>How to contribute: TBD</li>
-          <li>Source URL: <code>N/A</code></li>
+          <li>How to contribute: <a href="https://bughunters.google.com/about/rules/android-friends/6171833274204160/android-and-google-devices-security-reward-program-rules">Android Vulnerability Rewards Program</a></li>
+          <li>Source URL: <a href="https://storage.googleapis.com/android-osv/index.html"><code>https://storage.googleapis.com/android-osv/&lt;ID&gt;.json</code></a></li>
           <li>OSV Formatted URL: <code>https://storage.googleapis.com/android-osv/&lt;ID&gt;.json</code></li>
         </ul>
       </td>
@@ -278,6 +278,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>MGASA</code></td>
+      <td><a href="https://advisories.mageia.org/">Mageia Security Advisories</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <code>TBD</code></li>
+          <li>Source URL: <code>https://advisories.mageia.org/&lt;ID&gt;.html</code></li>
+          <li>OSV Formatted URL: <code>https://advisories.mageia.org/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>MAL</code></td>
       <td><a href="https://github.com/ossf/malicious-packages/tree/main/osv/">Malicious Packages Repository</a></td>
       <td>
@@ -333,6 +344,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>Red Hat</code></td>
+      <td><a href="https://security.access.redhat.com/data">Red Hat Security Data</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://access.redhat.com/security/team/contact/">https://access.redhat.com/security/team/contact/</a></li>
+          <li>Source URL: <code>https://access.redhat.com/security/security-updates/security-advisories</code></li>
+          <li>OSV Formatted URL: <code>https://security.access.redhat.com/data/osv/</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>RLSA</code>/<code>RXSA</code></td>
       <td><a href="https://errata.rockylinux.org">Rocky Linux Security Advisory Database</a></td>
       <td>
@@ -373,6 +395,17 @@ The defined database prefixes and their "home" databases are:
           <li>How to contribute: TBD</li>
           <li>Source URL: <code>https://ubuntu.com/security/notices/&lt;ID&gt;</code></li>
           <li>OSV Formatted URL: <code>https://github.com/canonical/ubuntu-security-notices/blob/main/osv/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>CGA</code></td>
+      <td><a href="https://packages.cgr.dev/chainguard/osv/all.json">Chainguard Security Notices</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: TBD</li>
+          <li>OSV Formatted URL: <code>https://packages.cgr.dev/chainguard/osv/&lt;ID&gt;.json</code></li>
         </ul>
       </td>
     </tr>
@@ -438,20 +471,21 @@ databases, in the form of the `id` field. This allows one database to claim that
 its own entry describes the same vulnerability as one or more entries in other
 databases.
 
-Two vulnerabilities can be described as aliases if a potential patch that
-addresses one of the vulnerabilities (and no other vulnerabilities) will also
-address the other vulnerability, and vice versa. Aliases may be used for
-vulnerabilities affecting different packages or ecosystems as long as they
-follow this definition.
+Two vulnerabilities can be described as aliases if they affect any given
+software component the same way: either both vulnerabilities affect the software
+component or neither do. A subsequent patch addresses both of the
+vulnerabilities (and no others), and vice versa.
 
 Aliases should be considered symmetric (if A is an alias of B, then B is an
 alias of A) and transitive (If A aliases B and B aliases C, then A aliases C).
 
-Aliases should **not** be used in records that bundle many different
-vulnerabilities in one patch of a distribution of a package. Listing multiple
-vulnerabilities as `aliases` would mean that they are all identical (due to the
-symmetry/transitivity of `aliases`), not that one release fixes multiple
-(distinct) vulnerabilities.
+Aliases should **not** be used to refer to vulnerabilities in packages upstream
+or downstream in a software supply chain from the given OSV record's affected
+package(s). For example, if a CVE describes a vulnerability in a language
+library, and a Linux distribution package contains that library and therefore
+publishes an advisory, the distribution's OSV record must not list the CVE ID as
+an alias. Similarly, distributions often bundle multiple upstream
+vulnerabilities into a single record. `related` should be used in these cases.
 
 ## related field
 
@@ -624,6 +658,7 @@ The defined ecosystems are:
 | `Android`  | The Android ecosystem. Android organizes code using [`repo` tool](https://gerrit.googlesource.com/git-repo/+/HEAD/README.md), which manages multiple git projects under one or more remote git servers, where each project is identified by its name in [repo configuration](https://gerrit.googlesource.com/git-repo/+/HEAD/docs/manifest-format.md#Element-project) (e.g. `platform/frameworks/base`). The `name` field should contain the name of that affected git project/submodule. One exception is when the project contains the Linux kernel source code, in which case `name` field will be `:linux_kernel:`, followed by an optional SoC vendor name e.g. `:linux_kernel:Qualcomm`. The list of recognized SoC vendors is listed in the [Appendix](#android-soc-vendors) |
 | `Bioconductor` | The biological R package ecosystem. The `name` is an R package name. |
 | `Bitnami` | Bitnami package ecosystem; the `name` is the name of the affected component. |
+| `Chainguard` | The Chainguard package ecosystem; the `name` is the name of the package. |
 | `ConanCenter` | The ConanCenter ecosystem for C and C++; the `name` field is a Conan package name.  |
 | `CRAN` | The R package ecosystem. The `name` is an R package name. |
 | `crates.io` | The crates.io ecosystem for Rust; the `name` field is a crate name.  |
@@ -634,6 +669,7 @@ The defined ecosystems are:
 | `Hackage` | The Haskell package ecosystem. The `name` field is a Haskell package name as published on Hackage.  |
 | `Hex` | The package manager for the Erlang ecosystem; the `name` is a Hex package name.  |
 | `Linux` | The Linux kernel. The only supported `name` is `Kernel`. |
+| `Mageia` | The Mageia Linux package ecosystem; the `name` is the name of the source package. The ecosystem string must have a `:<RELEASE-NUMBER>` suffix to scope the package to a particular Mageia release. Eg `Mageia:9`. |
 | `Maven` | The Maven Java package ecosystem. The `name` field is a Maven package name in the format `groupId:artifactId`. The ecosystem string might optionally have a `:<REMOTE-REPO-URL>` suffix to denote the remote repository URL that best represents the source of truth for this package, without a trailing slash (e.g. `Maven:https://maven.google.com`). If this is omitted, this is assumed to be the Maven Central repository (`https://repo.maven.apache.org/maven2`).
 | `npm` | The NPM ecosystem; the `name` field is an NPM package name.  |
 | `NuGet` | The NuGet package ecosystem. The `name` field is a NuGet package name.  |
@@ -642,6 +678,7 @@ The defined ecosystems are:
 | `Photon OS` | The Photon OS package ecosystem; the `name` is the name of the RPM package. The ecosystem string must have a `:<RELEASE-NUMBER>` suffix to scope the package to a particular Photon OS release. Eg `Photon OS:3.0`. |
 | `Pub` | The package manager for the Dart ecosystem; the `name` field is a Dart package name. |
 | `PyPI` | the Python PyPI ecosystem; the `name` field is a [normalized](https://www.python.org/dev/peps/pep-0503/#normalized-names) PyPI package name.  |
+| `Red Hat` | The Red Hat package ecosystem; the `name` field is the name of a binary or source RPM. The ecosystem string has a `:<CPE>` suffix to scope the RPM to a specific Red Hat product stream. `<CPE>` is a translation of a Red Hat [Common Platform Enumerations](https://cpe.mitre.org/) (CPE) with the `cpe/:[oa]:(redhat):` prefix removed (for example, `Red Hat:rhel_aus:8.4::appstream` translates to `cpe:/a:redhat:rhel_aus:8.4::appstream`). Red Hat ecosystem identifiers can be used to identify vulnerable RPMs installed on a Red Hat system as explained [here](https://www.redhat.com/en/blog/how-accurately-match-oval-security-data-installed-rpms).  |
 | `Rocky Linux` | The Rocky Linux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Rocky Linux release. `<RELEASE>` is a numeric version.
 | `RubyGems` | The RubyGems ecosystem; the `name` field is a gem name.  |
 | `SwiftURL` | The Swift Package Manager ecosystem. The `name` is a Git URL to the source of the package. Versions are Git tags that comform to [SemVer 2.0](https://docs.swift.org/package-manager/PackageDescription/PackageDescription.html#version). |
@@ -665,6 +702,15 @@ must not be set.
 The `affected` object's `versions` field is a JSON array of strings. Each string
 is a single affected version in whatever version syntax is used by the given
 package ecosystem.
+
+When there is no well-defined packaging ecosystem specified (for
+example, general C/C++ libraries), GIT commit ranges are typically the best way
+to define vulnerable version ranges. In this case, versions specified in this
+array cannot be relied upon to conform to any particular syntax (e.g. they
+could be the upstream Git version tags derived from these GIT commit ranges,
+which is what [OSV.dev](https://osv.dev/) populates this field with). In this
+situation, the GIT commit ranges in [`affected[].ranges`](#affectedranges-field)
+should be used to match vulnerabilities by Git commit hashes.
 
 ### affected[].ranges[] field
 
@@ -1589,4 +1635,3 @@ When a package in the `Android` ecosystem is the Linux kernel source code, its `
 - NVIDIA
 - Qualcomm
 - Unisoc
-

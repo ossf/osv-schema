@@ -1,0 +1,35 @@
+name: Validate OSV JSON Schema
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - edited
+      - reopened
+
+permissions:
+  pull-requests: read
+
+jobs:
+  validate-osv-schema:
+    name: Validate OSV Schema
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check for changes to OSV Schema
+        id: check-for-changed-osv-schema
+        uses: tj-actions/changed-files@v41
+        with:
+          files: |
+            validation/schema.json
+      - name: Validate OSV Schema
+        if: steps.check-for-changed-osv-schema.outputs.any_changed == 'true'
+        uses: dsanders11/json-schema-validate-action@v1.1.2
+        with:
+          # https://github.com/marketplace/actions/json-schema-validate#validating-schema
+          schema: json-schema
+          files: validation/schema.json
