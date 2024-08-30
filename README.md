@@ -20,6 +20,7 @@ This is the repository for the Open Source Vulnerability schema (OSV Schema), wh
 - [Red Hat](https://security.access.redhat.com/data)
 - [Rocky Linux](https://distro-tools.rocky.page/apollo/openapi/#osv)
 - [Rust Advisory Database](https://github.com/RustSec/advisory-db)
+- [SUSE](https://www.suse.com/support/security/)
 - [Ubuntu](https://github.com/canonical/ubuntu-security-notices/)
 - [VMWare Photon OS](https://github.com/vmware/photon/wiki/Security-Advisories) (unofficial)
 
@@ -40,6 +41,7 @@ Together, these include vulnerabilities from:
 -   Maven
 -   npm
 -   NuGet
+-   openSUSE
 -   OSS-Fuzz
 -   Packagist
 -   Photon OS
@@ -48,6 +50,7 @@ Together, these include vulnerabilities from:
 -   Python
 -   R (CRAN and Bioconductor)
 -   Red Hat
+-   SUSE
 -   Rocky Linux
 -   RubyGems
 -   Ubuntu
