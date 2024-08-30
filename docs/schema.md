@@ -399,13 +399,24 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>UBUNTU</code></td>
+      <td><a href="https://ubuntu.com/security/cves">Ubuntu CVE Reports</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>https://ubuntu.com/security/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://github.com/canonical/ubuntu-security-notices/blob/main/osv/cve/&lt;YEAR&gt;/UBUNTU-&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>USN</code></td>
       <td><a href="https://ubuntu.com/security/notices">Ubuntu Security Notices</a></td>
       <td>
         <ul>
           <li>How to contribute: TBD</li>
           <li>Source URL: <code>https://ubuntu.com/security/notices/&lt;ID&gt;</code></li>
-          <li>OSV Formatted URL: <code>https://github.com/canonical/ubuntu-security-notices/blob/main/osv/&lt;ID&gt;.json</code></li>
+          <li>OSV Formatted URL: <code>https://github.com/canonical/ubuntu-security-notices/blob/main/osv/usn/&lt;ID&gt;.json</code></li>
         </ul>
       </td>
     </tr>
