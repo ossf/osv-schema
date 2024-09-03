@@ -62,11 +62,6 @@ func LintCommand(cCtx *cli.Context) error {
 		return nil
 	}
 
-	// Check for things to check.
-	if cCtx.NArg() == 0 {
-		return errors.New("nothing to check")
-	}
-
 	var checksToBeRun []*checks.CheckDef
 
 	// Run just individual checks.
@@ -81,7 +76,11 @@ func LintCommand(cCtx *cli.Context) error {
 
 	// Run all the checks in a collection, if no specific checks requested.
 	if checksToBeRun == nil && cCtx.String("collection") != "" {
-		fmt.Printf("Running %q check collection on %q\n", cCtx.String("collection"), cCtx.Args())
+		if cCtx.Args().Present() {
+			fmt.Printf("Running %q check collection on %q\n", cCtx.String("collection"), cCtx.Args())
+		} else {
+			fmt.Printf("Running %q check collection on stdin\n", cCtx.String("collection"))
+		}
 		// Check the requested check collection exists.
 		collection := checks.CollectionFromName(cCtx.String("collection"))
 		if collection == nil {
@@ -95,6 +94,10 @@ func LintCommand(cCtx *cli.Context) error {
 	// Figure out what files to check.
 	var filesToCheck []string
 	for _, thingToCheck := range cCtx.Args().Slice() {
+		// Treat "-" as stdin.
+		if thingToCheck == "-" {
+			thingToCheck = "/dev/stdin"
+		}
 		file, err := os.Open(thingToCheck)
 		if err != nil {
 			log.Printf("%v, skipping", err)
@@ -126,6 +129,11 @@ func LintCommand(cCtx *cli.Context) error {
 		} else {
 			filesToCheck = append(filesToCheck, thingToCheck)
 		}
+	}
+
+	// Default to stdin if no files were specified.
+	if len(filesToCheck) == 0 {
+		filesToCheck = append(filesToCheck, "/dev/stdin")
 	}
 
 	// Run the check(s) on the files.
