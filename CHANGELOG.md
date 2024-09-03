@@ -33,3 +33,5 @@
 - 2024-08-21 Released version 1.6.4. Some clarifications for existing fields
   (`aliases`, `affected[].versions[]`), ecosystems (`Android`), and addition of
   new ecosystems (Mageia, Chainguard).
+- 2024-09-03 Released version 1.6.5. Added SuSE ecosystems and ELA, UBUNTU ID
+  prefixes.
