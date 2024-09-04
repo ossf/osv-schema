@@ -20,6 +20,10 @@ func main() {
 					{
 						Name: "lint",
 						Flags: []cli.Flag{
+							&cli.BoolFlag{
+								Name: "verbose",
+								Usage: "verbose output",
+							},
 							&cli.StringFlag{
 								Name:  "collection",
 								Value: "ALL",

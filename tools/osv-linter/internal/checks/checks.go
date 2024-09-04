@@ -23,7 +23,10 @@ type CheckError struct {
 
 // Error returns the error message, including the code.
 func (ce *CheckError) Error() string {
-	return fmt.Sprintf("%s: %s", ce.Code, ce.Message)
+	if ce.Code == "" {
+		return fmt.Sprintf("%s", ce.Message)
+	}
+	return fmt.Sprintf("[%s]: %s", ce.Code, ce.Message)
 }
 
 // CheckDef defines a single check.
@@ -34,14 +37,19 @@ type CheckDef struct {
 	Check       Check
 }
 
+// CheckConfig defines the configuration for a check.
+type CheckConfig struct {
+	Verbose bool
+}
+
 // Check defines how to run the check.
-type Check func(*gjson.Result) []CheckError
+type Check func(*gjson.Result, *CheckConfig) []CheckError
 
 // Run runs the check, returning any findings.
 // The check has no awareness of the check's Code,
 // this merges that with the check's findings.
-func (c *CheckDef) Run(json *gjson.Result) (findings []CheckError) {
-	for _, finding := range c.Check(json) {
+func (c *CheckDef) Run(json *gjson.Result, config *CheckConfig) (findings []CheckError) {
+	for _, finding := range c.Check(json, config) {
 		findings = append(findings, CheckError{
 			Code:    c.Code,
 			Message: finding.Error(),

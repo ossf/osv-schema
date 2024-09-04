@@ -15,7 +15,7 @@ var CheckRangeHasIntroducedEvent = &CheckDef{
 }
 
 // RangeHasIntroducedEvent checks for missing 'introduced' objects in events.
-func RangeHasIntroducedEvent(json *gjson.Result) (findings []CheckError) {
+func RangeHasIntroducedEvent(json *gjson.Result, config *CheckConfig) (findings []CheckError) {
 	// It is valid to not have any ranges.
 	ranges := json.Get("affected.#(ranges)")
 	if !ranges.Exists() {
@@ -41,7 +41,7 @@ var CheckRangeIsDistinct = &CheckDef{
 
 // RangeIsDistinct checks that the introduced and fixed (or last_affected) values differ.
 // (on a per-repo basis for GIT ranges, and on a per-package basis otherwise)
-func RangeIsDistinct(json *gjson.Result) (findings []CheckError) {
+func RangeIsDistinct(json *gjson.Result, config *CheckConfig) (findings []CheckError) {
 	affectedEntries := json.Get("affected")
 
 	// Examine each entry:
