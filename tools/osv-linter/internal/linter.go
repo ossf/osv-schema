@@ -3,6 +3,7 @@ package internal
 import (
 	"errors"
 	"fmt"
+	"io"
 	"io/fs"
 	"log"
 	"os"
@@ -10,6 +11,8 @@ import (
 	"slices"
 
 	"github.com/tidwall/gjson"
+
+	"golang.org/x/term"
 
 	"github.com/urfave/cli/v2"
 
@@ -63,8 +66,8 @@ func LintCommand(cCtx *cli.Context) error {
 	}
 
 	// Check for things to check.
-	if cCtx.NArg() == 0 {
-		return errors.New("nothing to check")
+	if !cCtx.Args().Present() && term.IsTerminal(int(os.Stdin.Fd())) {
+		return errors.New("no files to check (use - for stdin)")
 	}
 
 	var checksToBeRun []*checks.CheckDef
@@ -81,7 +84,11 @@ func LintCommand(cCtx *cli.Context) error {
 
 	// Run all the checks in a collection, if no specific checks requested.
 	if checksToBeRun == nil && cCtx.String("collection") != "" {
-		fmt.Printf("Running %q check collection on %q\n", cCtx.String("collection"), cCtx.Args())
+		if cCtx.Args().Present() {
+			fmt.Printf("Running %q check collection on %q\n", cCtx.String("collection"), cCtx.Args())
+		} else {
+			fmt.Printf("Running %q check collection on <stdin>\n", cCtx.String("collection"))
+		}
 		// Check the requested check collection exists.
 		collection := checks.CollectionFromName(cCtx.String("collection"))
 		if collection == nil {
@@ -95,6 +102,12 @@ func LintCommand(cCtx *cli.Context) error {
 	// Figure out what files to check.
 	var filesToCheck []string
 	for _, thingToCheck := range cCtx.Args().Slice() {
+		// Special case "-" for stdin.
+		if thingToCheck == "-" {
+			filesToCheck = append(filesToCheck, "<stdin>")
+			continue
+		}
+
 		file, err := os.Open(thingToCheck)
 		if err != nil {
 			log.Printf("%v, skipping", err)
@@ -128,9 +141,21 @@ func LintCommand(cCtx *cli.Context) error {
 		}
 	}
 
+	// Default to stdin if no files were specified.
+	if len(filesToCheck) == 0 {
+		filesToCheck = append(filesToCheck, "<stdin>")
+	}
+
 	// Run the check(s) on the files.
 	for _, fileToCheck := range filesToCheck {
-		recordBytes, err := os.ReadFile(fileToCheck)
+		var recordBytes []byte
+		var err error
+		// Special case for stdin.
+		if fileToCheck == "<stdin>" {
+			recordBytes, err = io.ReadAll(os.Stdin)
+		} else {
+			recordBytes, err = os.ReadFile(fileToCheck)
+		}
 		if err != nil {
 			log.Printf("%v, skipping", err)
 			continue
