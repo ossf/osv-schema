@@ -3,6 +3,7 @@ package internal
 import (
 	"errors"
 	"fmt"
+	"io"
 	"io/fs"
 	"log"
 	"os"
@@ -10,6 +11,8 @@ import (
 	"slices"
 
 	"github.com/tidwall/gjson"
+
+	"golang.org/x/term"
 
 	"github.com/urfave/cli/v2"
 
@@ -62,6 +65,11 @@ func LintCommand(cCtx *cli.Context) error {
 		return nil
 	}
 
+	// Check for things to check.
+	if !cCtx.Args().Present() && term.IsTerminal(int(os.Stdin.Fd())) {
+		return errors.New("no files to check (use - for stdin)")
+	}
+
 	var checksToBeRun []*checks.CheckDef
 
 	// Run just individual checks.
@@ -76,11 +84,7 @@ func LintCommand(cCtx *cli.Context) error {
 
 	// Run all the checks in a collection, if no specific checks requested.
 	if checksToBeRun == nil && cCtx.String("collection") != "" {
-		if cCtx.Args().Present() {
-			fmt.Printf("Running %q check collection on %q\n", cCtx.String("collection"), cCtx.Args())
-		} else {
-			fmt.Printf("Running %q check collection on stdin\n", cCtx.String("collection"))
-		}
+		fmt.Printf("Running %q check collection on %q\n", cCtx.String("collection"), cCtx.Args())
 		// Check the requested check collection exists.
 		collection := checks.CollectionFromName(cCtx.String("collection"))
 		if collection == nil {
@@ -94,10 +98,12 @@ func LintCommand(cCtx *cli.Context) error {
 	// Figure out what files to check.
 	var filesToCheck []string
 	for _, thingToCheck := range cCtx.Args().Slice() {
-		// Treat "-" as stdin.
+		// Special case "-" for stdin.
 		if thingToCheck == "-" {
-			thingToCheck = "/dev/stdin"
+			filesToCheck = append(filesToCheck, thingToCheck)
+			continue
 		}
+
 		file, err := os.Open(thingToCheck)
 		if err != nil {
 			log.Printf("%v, skipping", err)
@@ -133,12 +139,19 @@ func LintCommand(cCtx *cli.Context) error {
 
 	// Default to stdin if no files were specified.
 	if len(filesToCheck) == 0 {
-		filesToCheck = append(filesToCheck, "/dev/stdin")
+		filesToCheck = append(filesToCheck, "-")
 	}
 
 	// Run the check(s) on the files.
 	for _, fileToCheck := range filesToCheck {
-		recordBytes, err := os.ReadFile(fileToCheck)
+		var recordBytes []byte
+		var err error
+		// Special case "-" for stdin.
+		if fileToCheck == "-" {
+			recordBytes, err = io.ReadAll(os.Stdin)
+		} else {
+			recordBytes, err = os.ReadFile(fileToCheck)
+		}
 		if err != nil {
 			log.Printf("%v, skipping", err)
 			continue
