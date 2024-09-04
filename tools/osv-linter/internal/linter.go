@@ -104,7 +104,7 @@ func LintCommand(cCtx *cli.Context) error {
 	for _, thingToCheck := range cCtx.Args().Slice() {
 		// Special case "-" for stdin.
 		if thingToCheck == "-" {
-			filesToCheck = append(filesToCheck, thingToCheck)
+			filesToCheck = append(filesToCheck, "<stdin>")
 			continue
 		}
 
@@ -143,17 +143,16 @@ func LintCommand(cCtx *cli.Context) error {
 
 	// Default to stdin if no files were specified.
 	if len(filesToCheck) == 0 {
-		filesToCheck = append(filesToCheck, "-")
+		filesToCheck = append(filesToCheck, "<stdin>")
 	}
 
 	// Run the check(s) on the files.
 	for _, fileToCheck := range filesToCheck {
 		var recordBytes []byte
 		var err error
-		// Special case "-" for stdin.
-		if fileToCheck == "-" {
+		// Special case for stdin.
+		if fileToCheck == "<stdin>" {
 			recordBytes, err = io.ReadAll(os.Stdin)
-			fileToCheck = "<stdin>"
 		} else {
 			recordBytes, err = os.ReadFile(fileToCheck)
 		}
