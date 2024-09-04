@@ -84,7 +84,11 @@ func LintCommand(cCtx *cli.Context) error {
 
 	// Run all the checks in a collection, if no specific checks requested.
 	if checksToBeRun == nil && cCtx.String("collection") != "" {
-		fmt.Printf("Running %q check collection on %q\n", cCtx.String("collection"), cCtx.Args())
+		if cCtx.Args().Present() {
+			fmt.Printf("Running %q check collection on %q\n", cCtx.String("collection"), cCtx.Args())
+		} else {
+			fmt.Printf("Running %q check collection on stdin\n", cCtx.String("collection"))
+		}
 		// Check the requested check collection exists.
 		collection := checks.CollectionFromName(cCtx.String("collection"))
 		if collection == nil {
