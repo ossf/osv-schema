@@ -410,7 +410,7 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
-      <td><code>SUSE-SU</code> and <code>openSUSE-SU</code></td>
+      <td><code>SUSE-SU</code>, <code>SUSE-RU</code>, <code>SUSE-FU</code> and <code>openSUSE-SU</code></td>
       <td><a href="https://www.suse.com/support/security/">SUSE Security Landing page</a></td>
       <td>
         <ul>
