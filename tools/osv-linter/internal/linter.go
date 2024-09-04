@@ -87,7 +87,7 @@ func LintCommand(cCtx *cli.Context) error {
 		if cCtx.Args().Present() {
 			fmt.Printf("Running %q check collection on %q\n", cCtx.String("collection"), cCtx.Args())
 		} else {
-			fmt.Printf("Running %q check collection on stdin\n", cCtx.String("collection"))
+			fmt.Printf("Running %q check collection on <stdin>\n", cCtx.String("collection"))
 		}
 		// Check the requested check collection exists.
 		collection := checks.CollectionFromName(cCtx.String("collection"))
@@ -153,6 +153,7 @@ func LintCommand(cCtx *cli.Context) error {
 		// Special case "-" for stdin.
 		if fileToCheck == "-" {
 			recordBytes, err = io.ReadAll(os.Stdin)
+			fileToCheck = "<stdin>"
 		} else {
 			recordBytes, err = os.ReadFile(fileToCheck)
 		}
