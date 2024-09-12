@@ -300,13 +300,13 @@
       "type": "string",
       "title": "Currently supported ecosystems",
       "description": "These ecosystems are also documented at https://ossf.github.io/osv-schema/#affectedpackage-field",
-      "pattern": "^(AlmaLinux|Alpine|Android|Bioconductor|Bitnami|ConanCenter|CRAN|crates.io|Debian|GHC|GitHub Actions|GIT|Go|Hackage|Hex|Linux|Maven|npm|NuGet|openSUSE|OSS-Fuzz|Packagist|Photon OS|Pub|PyPI|Red Hat|Rocky Linux|RubyGems|SUSE|SwiftURL|Ubuntu)([0-9]+)?"
+      "pattern": "^(AlmaLinux|Alpine|Android|Bioconductor|Bitnami|Chainguard|ConanCenter|CRAN|crates.io|Debian|GHC|GitHub Actions|GIT|Go|Hackage|Hex|Linux|Maven|npm|NuGet|openSUSE|OSS-Fuzz|Packagist|Photon OS|Pub|PyPI|Red Hat|Rocky Linux|RubyGems|SUSE|SwiftURL|Ubuntu)(:[[:digit:]]+)?"
     },
     "prefix": {
       "type": "string",
       "title": "Currently supported home database identifier prefixes",
       "description": "These home databases are also documented at https://ossf.github.io/osv-schema/#id-modified-fields",
-      "pattern": "^(ASB-A|PUB-A|ALSA|ALBA|ALEA|BIT|CURL|CVE|DSA|DLA|ELA|DTSA|GHSA|GO|GSD|HSEC|LBSEC|MAL|OSV|openSUSE-SU|PHSA|PSF|PYSEC|RHBA|RHEA|RHSA|RLSA|RXSA|RSEC|RUSTSEC|SUSE-[SRFO]U|UBUNTU|USN)-"
+      "pattern": "^(ASB-A|PUB-A|ALSA|ALBA|ALEA|BIT|CGA|CURL|CVE|DSA|DLA|ELA|DTSA|GHSA|GO|GSD|HSEC|LBSEC|MAL|OSV|openSUSE-SU|PHSA|PSF|PYSEC|RHBA|RHEA|RHSA|RLSA|RXSA|RSEC|RUSTSEC|SUSE-[SRFO]U|UBUNTU|USN)-"
     },
     "severity": {
       "type": [

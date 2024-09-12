@@ -1,0 +1,570 @@
+{
+  "document": {
+    "aggregate_severity": {
+      "namespace": "https://access.redhat.com/security/updates/classification/",
+      "text": "Important"
+    },
+    "category": "csaf_vex",
+    "csaf_version": "2.0",
+    "distribution": {
+      "text": "Copyright © Red Hat, Inc. All rights reserved.",
+      "tlp": {
+        "label": "WHITE",
+        "url": "https://www.first.org/tlp/"
+      }
+    },
+    "lang": "en",
+    "notes": [
+      {
+        "category": "summary",
+        "text": "An update for git-lfs is now available for Red Hat Enterprise Linux 8.6 Advanced Mission Critical Update Support, Red Hat Enterprise Linux 8.6 Update Services for SAP Solutions, and Red Hat Enterprise Linux 8.6 Telecommunications Update Service.\n\nRed Hat Product Security has rated this update as having a security impact of Important. A Common Vulnerability Scoring System (CVSS) base score, which gives a detailed severity rating, is available for each vulnerability from the CVE link(s) in the References section.",
+        "title": "Topic"
+      },
+      {
+        "category": "general",
+        "text": "Git Large File Storage (LFS) replaces large files such as audio samples, videos, datasets, and graphics with text pointers inside Git, while storing the file contents on a remote server.\n\nSecurity Fix(es):\n\n* golang: net/http, x/net/http2: unlimited number of CONTINUATION frames causes DoS (CVE-2023-45288,VU#421644.3)\n\nFor more details about the security issue(s), including the impact, a CVSS score, acknowledgments, and other related information, refer to the CVE page(s) listed in the References section.",
+        "title": "Details"
+      },
+      {
+        "category": "legal_disclaimer",
+        "text": "This content is licensed under the Creative Commons Attribution 4.0 International License (https://creativecommons.org/licenses/by/4.0/). If you distribute this content, or a modified version of it, you must provide attribution to Red Hat Inc. and provide a link to the original.",
+        "title": "Terms of Use"
+      }
+    ],
+    "publisher": {
+      "category": "vendor",
+      "contact_details": "https://access.redhat.com/security/team/contact/",
+      "issuing_authority": "Red Hat Product Security is responsible for vulnerability handling across all Red Hat offerings.",
+      "name": "Red Hat Product Security",
+      "namespace": "https://www.redhat.com"
+    },
+    "references": [
+      {
+        "category": "self",
+        "summary": "https://access.redhat.com/errata/RHSA-2024:4546",
+        "url": "https://access.redhat.com/errata/RHSA-2024:4546"
+      },
+      {
+        "category": "external",
+        "summary": "https://access.redhat.com/security/updates/classification/#important",
+        "url": "https://access.redhat.com/security/updates/classification/#important"
+      },
+      {
+        "category": "external",
+        "summary": "2268273",
+        "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2268273"
+      },
+      {
+        "category": "self",
+        "summary": "Canonical URL",
+        "url": "https://access.redhat.com/security/data/csaf/v2/advisories/2024/rhsa-2024_4546.json"
+      }
+    ],
+    "title": "Red Hat Security Advisory: git-lfs security update",
+    "tracking": {
+      "current_release_date": "2024-07-16T13:38:03+00:00",
+      "generator": {
+        "date": "2024-07-16T13:38:03+00:00",
+        "engine": {
+          "name": "Red Hat SDEngine",
+          "version": "3.30.3"
+        }
+      },
+      "id": "RHSA-2024:4546",
+      "initial_release_date": "2024-07-15T16:12:25+00:00",
+      "revision_history": [
+        {
+          "date": "2024-07-15T16:12:25+00:00",
+          "number": "1",
+          "summary": "Initial version"
+        },
+        {
+          "date": "2024-07-15T16:12:25+00:00",
+          "number": "2",
+          "summary": "Last updated version"
+        },
+        {
+          "date": "2024-07-16T13:38:03+00:00",
+          "number": "3",
+          "summary": "Last generated version"
+        }
+      ],
+      "status": "final",
+      "version": "3"
+    }
+  },
+  "product_tree": {
+    "branches": [
+      {
+        "branches": [
+          {
+            "branches": [
+              {
+                "category": "product_name",
+                "name": "Red Hat Enterprise Linux AppStream AUS (v.8.6)",
+                "product": {
+                  "name": "Red Hat Enterprise Linux AppStream AUS (v.8.6)",
+                  "product_id": "AppStream-8.6.0.Z.AUS",
+                  "product_identification_helper": {
+                    "cpe": "cpe:/a:redhat:rhel_aus:8.6::appstream"
+                  }
+                }
+              },
+              {
+                "category": "product_name",
+                "name": "Red Hat Enterprise Linux AppStream E4S (v.8.6)",
+                "product": {
+                  "name": "Red Hat Enterprise Linux AppStream E4S (v.8.6)",
+                  "product_id": "AppStream-8.6.0.Z.E4S",
+                  "product_identification_helper": {
+                    "cpe": "cpe:/a:redhat:rhel_e4s:8.6::appstream"
+                  }
+                }
+              },
+              {
+                "category": "product_name",
+                "name": "Red Hat Enterprise Linux AppStream TUS (v.8.6)",
+                "product": {
+                  "name": "Red Hat Enterprise Linux AppStream TUS (v.8.6)",
+                  "product_id": "AppStream-8.6.0.Z.TUS",
+                  "product_identification_helper": {
+                    "cpe": "cpe:/a:redhat:rhel_tus:8.6::appstream"
+                  }
+                }
+              }
+            ],
+            "category": "product_family",
+            "name": "Red Hat Enterprise Linux"
+          },
+          {
+            "branches": [
+              {
+                "category": "product_version",
+                "name": "git-lfs-0:2.13.3-3.el8_6.1.src",
+                "product": {
+                  "name": "git-lfs-0:2.13.3-3.el8_6.1.src",
+                  "product_id": "git-lfs-0:2.13.3-3.el8_6.1.src",
+                  "product_identification_helper": {
+                    "purl": "pkg:rpm/redhat/git-lfs@2.13.3-3.el8_6.1?arch=src"
+                  }
+                }
+              }
+            ],
+            "category": "architecture",
+            "name": "src"
+          },
+          {
+            "branches": [
+              {
+                "category": "product_version",
+                "name": "git-lfs-0:2.13.3-3.el8_6.1.x86_64",
+                "product": {
+                  "name": "git-lfs-0:2.13.3-3.el8_6.1.x86_64",
+                  "product_id": "git-lfs-0:2.13.3-3.el8_6.1.x86_64",
+                  "product_identification_helper": {
+                    "purl": "pkg:rpm/redhat/git-lfs@2.13.3-3.el8_6.1?arch=x86_64"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64",
+                "product": {
+                  "name": "git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64",
+                  "product_id": "git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64",
+                  "product_identification_helper": {
+                    "purl": "pkg:rpm/redhat/git-lfs-debugsource@2.13.3-3.el8_6.1?arch=x86_64"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64",
+                "product": {
+                  "name": "git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64",
+                  "product_id": "git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64",
+                  "product_identification_helper": {
+                    "purl": "pkg:rpm/redhat/git-lfs-debuginfo@2.13.3-3.el8_6.1?arch=x86_64"
+                  }
+                }
+              }
+            ],
+            "category": "architecture",
+            "name": "x86_64"
+          },
+          {
+            "branches": [
+              {
+                "category": "product_version",
+                "name": "git-lfs-0:2.13.3-3.el8_6.1.ppc64le",
+                "product": {
+                  "name": "git-lfs-0:2.13.3-3.el8_6.1.ppc64le",
+                  "product_id": "git-lfs-0:2.13.3-3.el8_6.1.ppc64le",
+                  "product_identification_helper": {
+                    "purl": "pkg:rpm/redhat/git-lfs@2.13.3-3.el8_6.1?arch=ppc64le"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "git-lfs-debugsource-0:2.13.3-3.el8_6.1.ppc64le",
+                "product": {
+                  "name": "git-lfs-debugsource-0:2.13.3-3.el8_6.1.ppc64le",
+                  "product_id": "git-lfs-debugsource-0:2.13.3-3.el8_6.1.ppc64le",
+                  "product_identification_helper": {
+                    "purl": "pkg:rpm/redhat/git-lfs-debugsource@2.13.3-3.el8_6.1?arch=ppc64le"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "git-lfs-debuginfo-0:2.13.3-3.el8_6.1.ppc64le",
+                "product": {
+                  "name": "git-lfs-debuginfo-0:2.13.3-3.el8_6.1.ppc64le",
+                  "product_id": "git-lfs-debuginfo-0:2.13.3-3.el8_6.1.ppc64le",
+                  "product_identification_helper": {
+                    "purl": "pkg:rpm/redhat/git-lfs-debuginfo@2.13.3-3.el8_6.1?arch=ppc64le"
+                  }
+                }
+              }
+            ],
+            "category": "architecture",
+            "name": "ppc64le"
+          }
+        ],
+        "category": "vendor",
+        "name": "Red Hat"
+      }
+    ],
+    "relationships": [
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "git-lfs-0:2.13.3-3.el8_6.1.src as a component of Red Hat Enterprise Linux AppStream AUS (v.8.6)",
+          "product_id": "AppStream-8.6.0.Z.AUS:git-lfs-0:2.13.3-3.el8_6.1.src"
+        },
+        "product_reference": "git-lfs-0:2.13.3-3.el8_6.1.src",
+        "relates_to_product_reference": "AppStream-8.6.0.Z.AUS"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "git-lfs-0:2.13.3-3.el8_6.1.x86_64 as a component of Red Hat Enterprise Linux AppStream AUS (v.8.6)",
+          "product_id": "AppStream-8.6.0.Z.AUS:git-lfs-0:2.13.3-3.el8_6.1.x86_64"
+        },
+        "product_reference": "git-lfs-0:2.13.3-3.el8_6.1.x86_64",
+        "relates_to_product_reference": "AppStream-8.6.0.Z.AUS"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64 as a component of Red Hat Enterprise Linux AppStream AUS (v.8.6)",
+          "product_id": "AppStream-8.6.0.Z.AUS:git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64"
+        },
+        "product_reference": "git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64",
+        "relates_to_product_reference": "AppStream-8.6.0.Z.AUS"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64 as a component of Red Hat Enterprise Linux AppStream AUS (v.8.6)",
+          "product_id": "AppStream-8.6.0.Z.AUS:git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64"
+        },
+        "product_reference": "git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64",
+        "relates_to_product_reference": "AppStream-8.6.0.Z.AUS"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "git-lfs-0:2.13.3-3.el8_6.1.ppc64le as a component of Red Hat Enterprise Linux AppStream E4S (v.8.6)",
+          "product_id": "AppStream-8.6.0.Z.E4S:git-lfs-0:2.13.3-3.el8_6.1.ppc64le"
+        },
+        "product_reference": "git-lfs-0:2.13.3-3.el8_6.1.ppc64le",
+        "relates_to_product_reference": "AppStream-8.6.0.Z.E4S"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "git-lfs-0:2.13.3-3.el8_6.1.src as a component of Red Hat Enterprise Linux AppStream E4S (v.8.6)",
+          "product_id": "AppStream-8.6.0.Z.E4S:git-lfs-0:2.13.3-3.el8_6.1.src"
+        },
+        "product_reference": "git-lfs-0:2.13.3-3.el8_6.1.src",
+        "relates_to_product_reference": "AppStream-8.6.0.Z.E4S"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "git-lfs-0:2.13.3-3.el8_6.1.x86_64 as a component of Red Hat Enterprise Linux AppStream E4S (v.8.6)",
+          "product_id": "AppStream-8.6.0.Z.E4S:git-lfs-0:2.13.3-3.el8_6.1.x86_64"
+        },
+        "product_reference": "git-lfs-0:2.13.3-3.el8_6.1.x86_64",
+        "relates_to_product_reference": "AppStream-8.6.0.Z.E4S"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "git-lfs-debuginfo-0:2.13.3-3.el8_6.1.ppc64le as a component of Red Hat Enterprise Linux AppStream E4S (v.8.6)",
+          "product_id": "AppStream-8.6.0.Z.E4S:git-lfs-debuginfo-0:2.13.3-3.el8_6.1.ppc64le"
+        },
+        "product_reference": "git-lfs-debuginfo-0:2.13.3-3.el8_6.1.ppc64le",
+        "relates_to_product_reference": "AppStream-8.6.0.Z.E4S"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64 as a component of Red Hat Enterprise Linux AppStream E4S (v.8.6)",
+          "product_id": "AppStream-8.6.0.Z.E4S:git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64"
+        },
+        "product_reference": "git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64",
+        "relates_to_product_reference": "AppStream-8.6.0.Z.E4S"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "git-lfs-debugsource-0:2.13.3-3.el8_6.1.ppc64le as a component of Red Hat Enterprise Linux AppStream E4S (v.8.6)",
+          "product_id": "AppStream-8.6.0.Z.E4S:git-lfs-debugsource-0:2.13.3-3.el8_6.1.ppc64le"
+        },
+        "product_reference": "git-lfs-debugsource-0:2.13.3-3.el8_6.1.ppc64le",
+        "relates_to_product_reference": "AppStream-8.6.0.Z.E4S"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64 as a component of Red Hat Enterprise Linux AppStream E4S (v.8.6)",
+          "product_id": "AppStream-8.6.0.Z.E4S:git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64"
+        },
+        "product_reference": "git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64",
+        "relates_to_product_reference": "AppStream-8.6.0.Z.E4S"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "git-lfs-0:2.13.3-3.el8_6.1.src as a component of Red Hat Enterprise Linux AppStream TUS (v.8.6)",
+          "product_id": "AppStream-8.6.0.Z.TUS:git-lfs-0:2.13.3-3.el8_6.1.src"
+        },
+        "product_reference": "git-lfs-0:2.13.3-3.el8_6.1.src",
+        "relates_to_product_reference": "AppStream-8.6.0.Z.TUS"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "git-lfs-0:2.13.3-3.el8_6.1.x86_64 as a component of Red Hat Enterprise Linux AppStream TUS (v.8.6)",
+          "product_id": "AppStream-8.6.0.Z.TUS:git-lfs-0:2.13.3-3.el8_6.1.x86_64"
+        },
+        "product_reference": "git-lfs-0:2.13.3-3.el8_6.1.x86_64",
+        "relates_to_product_reference": "AppStream-8.6.0.Z.TUS"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64 as a component of Red Hat Enterprise Linux AppStream TUS (v.8.6)",
+          "product_id": "AppStream-8.6.0.Z.TUS:git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64"
+        },
+        "product_reference": "git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64",
+        "relates_to_product_reference": "AppStream-8.6.0.Z.TUS"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64 as a component of Red Hat Enterprise Linux AppStream TUS (v.8.6)",
+          "product_id": "AppStream-8.6.0.Z.TUS:git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64"
+        },
+        "product_reference": "git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64",
+        "relates_to_product_reference": "AppStream-8.6.0.Z.TUS"
+      }
+    ]
+  },
+  "vulnerabilities": [
+    {
+      "acknowledgments": [
+        {
+          "names": [
+            "Bartek Nowotarski"
+          ],
+          "organization": "nowotarski.info"
+        }
+      ],
+      "cve": "CVE-2023-45288",
+      "cwe": {
+        "id": "CWE-400",
+        "name": "Uncontrolled Resource Consumption"
+      },
+      "discovery_date": "2024-03-06T00:00:00+00:00",
+      "ids": [
+        {
+          "system_name": "Red Hat Bugzilla ID",
+          "text": "2268273"
+        }
+      ],
+      "notes": [
+        {
+          "category": "description",
+          "text": "A vulnerability was discovered with the implementation of the HTTP/2 protocol in the Go programming language. There were insufficient limitations on the amount of CONTINUATION frames sent within a single stream. An attacker could potentially exploit this to cause a Denial of Service (DoS) attack.",
+          "title": "Vulnerability description"
+        },
+        {
+          "category": "summary",
+          "text": "golang: net/http, x/net/http2: unlimited number of CONTINUATION frames causes DoS",
+          "title": "Vulnerability summary"
+        },
+        {
+          "category": "other",
+          "text": "Red Hat rates the security impact of this vulnerability as Important due to the worst case scenario resulting in a denial of service. It is simple to exploit, could significantly impact availability, and there is not a suitable mitigation for all use cases. Once an attack has ended, the system should return to normal operations on its own.\n\nThis vulnerability only impacts servers which have HTTP/2 enabled. It stems from an imperfect definition of the protocol. As the Go programming language is widely utilized across nearly every major Red Hat offering, a full listing of impacted packages will not be provided. Therefore, the “Affected Packages and Issued Red Hat Security Errata” section contains a simplified list of what offerings need to remediate this vulnerability. Every impacted offering has at least one representative component listed, but potentially not all of them. Rest assured that Red Hat is committed to remediating this vulnerability across our entire portfolio.\n\nWithin the Red Hat OpenShift Container Platform, the majority of vulnerable components are not externally accessible. This means an attacker must already have access to a container within your environment to exploit this vulnerability. However, the ose-hyperkube (openshift-enterprise-hyperkube) container is externally accessible, so there are less barriers to exploitation. Fixes for this specific container are already available.\n\nWithin Red Hat Ansible Automation Platform, the impacted component is Receptor. The impact has been reduced to Low as the vulnerable code is present, but not utilized. There are three potential exposures within this component:\n* Receptor utilizes QUIC a UDP based protocol which does not run over HTTP/2\n* Receptor utilizes the x/net/ipv4 and ipv6 packages, both of which are not affected",
+          "title": "Statement"
+        },
+        {
+          "category": "general",
+          "text": "The CVSS score(s) listed for this vulnerability do not reflect the associated product's status, and are included for informational purposes to better understand the severity of this vulnerability.",
+          "title": "CVSS score applicability"
+        }
+      ],
+      "product_status": {
+        "fixed": [
+          "AppStream-8.6.0.Z.AUS:git-lfs-0:2.13.3-3.el8_6.1.src",
+          "AppStream-8.6.0.Z.AUS:git-lfs-0:2.13.3-3.el8_6.1.x86_64",
+          "AppStream-8.6.0.Z.AUS:git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64",
+          "AppStream-8.6.0.Z.AUS:git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64",
+          "AppStream-8.6.0.Z.E4S:git-lfs-0:2.13.3-3.el8_6.1.ppc64le",
+          "AppStream-8.6.0.Z.E4S:git-lfs-0:2.13.3-3.el8_6.1.src",
+          "AppStream-8.6.0.Z.E4S:git-lfs-0:2.13.3-3.el8_6.1.x86_64",
+          "AppStream-8.6.0.Z.E4S:git-lfs-debuginfo-0:2.13.3-3.el8_6.1.ppc64le",
+          "AppStream-8.6.0.Z.E4S:git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64",
+          "AppStream-8.6.0.Z.E4S:git-lfs-debugsource-0:2.13.3-3.el8_6.1.ppc64le",
+          "AppStream-8.6.0.Z.E4S:git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64",
+          "AppStream-8.6.0.Z.TUS:git-lfs-0:2.13.3-3.el8_6.1.src",
+          "AppStream-8.6.0.Z.TUS:git-lfs-0:2.13.3-3.el8_6.1.x86_64",
+          "AppStream-8.6.0.Z.TUS:git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64",
+          "AppStream-8.6.0.Z.TUS:git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64"
+        ]
+      },
+      "references": [
+        {
+          "category": "self",
+          "summary": "Canonical URL",
+          "url": "https://access.redhat.com/security/cve/CVE-2023-45288"
+        },
+        {
+          "category": "external",
+          "summary": "RHBZ#2268273",
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2268273"
+        },
+        {
+          "category": "external",
+          "summary": "https://www.cve.org/CVERecord?id=CVE-2023-45288",
+          "url": "https://www.cve.org/CVERecord?id=CVE-2023-45288"
+        },
+        {
+          "category": "external",
+          "summary": "https://nvd.nist.gov/vuln/detail/CVE-2023-45288",
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-45288"
+        },
+        {
+          "category": "external",
+          "summary": "https://nowotarski.info/http2-continuation-flood/",
+          "url": "https://nowotarski.info/http2-continuation-flood/"
+        },
+        {
+          "category": "external",
+          "summary": "https://pkg.go.dev/vuln/GO-2024-2687",
+          "url": "https://pkg.go.dev/vuln/GO-2024-2687"
+        },
+        {
+          "category": "external",
+          "summary": "https://www.kb.cert.org/vuls/id/421644",
+          "url": "https://www.kb.cert.org/vuls/id/421644"
+        }
+      ],
+      "release_date": "2024-04-03T00:00:00+00:00",
+      "remediations": [
+        {
+          "category": "vendor_fix",
+          "details": "For details on how to apply this update, which includes the changes described in this advisory, refer to:\n\nhttps://access.redhat.com/articles/11258",
+          "product_ids": [
+            "AppStream-8.6.0.Z.AUS:git-lfs-0:2.13.3-3.el8_6.1.src",
+            "AppStream-8.6.0.Z.AUS:git-lfs-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.AUS:git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.AUS:git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.E4S:git-lfs-0:2.13.3-3.el8_6.1.ppc64le",
+            "AppStream-8.6.0.Z.E4S:git-lfs-0:2.13.3-3.el8_6.1.src",
+            "AppStream-8.6.0.Z.E4S:git-lfs-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.E4S:git-lfs-debuginfo-0:2.13.3-3.el8_6.1.ppc64le",
+            "AppStream-8.6.0.Z.E4S:git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.E4S:git-lfs-debugsource-0:2.13.3-3.el8_6.1.ppc64le",
+            "AppStream-8.6.0.Z.E4S:git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.TUS:git-lfs-0:2.13.3-3.el8_6.1.src",
+            "AppStream-8.6.0.Z.TUS:git-lfs-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.TUS:git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.TUS:git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64"
+          ],
+          "restart_required": {
+            "category": "none"
+          },
+          "url": "https://access.redhat.com/errata/RHSA-2024:4546"
+        },
+        {
+          "category": "workaround",
+          "details": "In some environments where http/2 support is not required, it may be possible to disable this feature to reduce risk.",
+          "product_ids": [
+            "AppStream-8.6.0.Z.AUS:git-lfs-0:2.13.3-3.el8_6.1.src",
+            "AppStream-8.6.0.Z.AUS:git-lfs-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.AUS:git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.AUS:git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.E4S:git-lfs-0:2.13.3-3.el8_6.1.ppc64le",
+            "AppStream-8.6.0.Z.E4S:git-lfs-0:2.13.3-3.el8_6.1.src",
+            "AppStream-8.6.0.Z.E4S:git-lfs-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.E4S:git-lfs-debuginfo-0:2.13.3-3.el8_6.1.ppc64le",
+            "AppStream-8.6.0.Z.E4S:git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.E4S:git-lfs-debugsource-0:2.13.3-3.el8_6.1.ppc64le",
+            "AppStream-8.6.0.Z.E4S:git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.TUS:git-lfs-0:2.13.3-3.el8_6.1.src",
+            "AppStream-8.6.0.Z.TUS:git-lfs-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.TUS:git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.TUS:git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64"
+          ]
+        }
+      ],
+      "scores": [
+        {
+          "cvss_v3": {
+            "attackComplexity": "LOW",
+            "attackVector": "NETWORK",
+            "availabilityImpact": "HIGH",
+            "baseScore": 7.5,
+            "baseSeverity": "HIGH",
+            "confidentialityImpact": "NONE",
+            "integrityImpact": "NONE",
+            "privilegesRequired": "NONE",
+            "scope": "UNCHANGED",
+            "userInteraction": "NONE",
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "version": "3.1"
+          },
+          "products": [
+            "AppStream-8.6.0.Z.AUS:git-lfs-0:2.13.3-3.el8_6.1.src",
+            "AppStream-8.6.0.Z.AUS:git-lfs-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.AUS:git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.AUS:git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.E4S:git-lfs-0:2.13.3-3.el8_6.1.ppc64le",
+            "AppStream-8.6.0.Z.E4S:git-lfs-0:2.13.3-3.el8_6.1.src",
+            "AppStream-8.6.0.Z.E4S:git-lfs-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.E4S:git-lfs-debuginfo-0:2.13.3-3.el8_6.1.ppc64le",
+            "AppStream-8.6.0.Z.E4S:git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.E4S:git-lfs-debugsource-0:2.13.3-3.el8_6.1.ppc64le",
+            "AppStream-8.6.0.Z.E4S:git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.TUS:git-lfs-0:2.13.3-3.el8_6.1.src",
+            "AppStream-8.6.0.Z.TUS:git-lfs-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.TUS:git-lfs-debuginfo-0:2.13.3-3.el8_6.1.x86_64",
+            "AppStream-8.6.0.Z.TUS:git-lfs-debugsource-0:2.13.3-3.el8_6.1.x86_64"
+          ]
+        }
+      ],
+      "threats": [
+        {
+          "category": "impact",
+          "details": "Important"
+        }
+      ],
+      "title": "golang: net/http, x/net/http2: unlimited number of CONTINUATION frames causes DoS"
+    }
+  ]
+}
