@@ -366,7 +366,7 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
-      <td><code>Red Hat</code></td>
+      <td><code>RHSA</code>/<code>RHBA</code>/<code>RHEA</code></td>
       <td><a href="https://security.access.redhat.com/data">Red Hat Security Data</a></td>
       <td>
         <ul>
