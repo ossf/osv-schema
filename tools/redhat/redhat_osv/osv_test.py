@@ -1,8 +1,8 @@
 """Test Intermediate OSV object creation"""
 import unittest
 
-from csaf import CSAF
-from osv import OSV, Event
+from redhat_osv.csaf import CSAF
+from redhat_osv.osv import OSV, Event
 
 
 class ScoreTest(unittest.TestCase):
