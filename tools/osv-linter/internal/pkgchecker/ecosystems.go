@@ -29,7 +29,7 @@ func ExistsInEcosystem(pkg string, ecosystem string) bool {
 		return true
 	case "Bitnami":
 		return true
-	case "ChainGuard":
+	case "Chainguard":
 		return true
 	case "CRAN":
 		return true
@@ -92,7 +92,7 @@ func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string) e
 		return nil
 	case "Bitnami":
 		return nil
-	case "ChainGuard":
+	case "Chainguard":
 		return nil
 	case "CRAN":
 		return nil
