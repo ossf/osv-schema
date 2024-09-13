@@ -22,7 +22,7 @@ type Package struct {
 }
 
 // PackageExists checks the package exists in the registry for that ecosystem.
-func PackageExists(json *gjson.Result) (findings []CheckError) {
+func PackageExists(json *gjson.Result, config *Config) (findings []CheckError) {
 	affectedEntries := json.Get("affected")
 
 	knownExistent := make(map[Package]bool)
@@ -68,7 +68,7 @@ var CheckPackageVersionsExist = &CheckDef{
 }
 
 // PackageVersionsExist checks the package versions exist in the registry for that ecosystem.
-func PackageVersionsExist(json *gjson.Result) (findings []CheckError) {
+func PackageVersionsExist(json *gjson.Result, config *Config) (findings []CheckError) {
 	affectedEntries := json.Get("affected")
 
 	// Examine each affected entry:
@@ -135,7 +135,7 @@ var CheckPackagePurlValid = &CheckDef{
 }
 
 // PackagePurlValid checks the package purls validate.
-func PackagePurlValid(json *gjson.Result) (findings []CheckError) {
+func PackagePurlValid(json *gjson.Result, config *Config) (findings []CheckError) {
 	affectedEntries := json.Get("affected")
 
 	// Examine each affected entry:

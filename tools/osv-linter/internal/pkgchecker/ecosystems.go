@@ -21,6 +21,8 @@ import (
 // Dispatcher for ecosystem-specific package existence checking.
 func ExistsInEcosystem(pkg string, ecosystem string) bool {
 	switch ecosystem {
+	case "Alpine":
+		return true
 	case "AlmaLinux":
 		return true
 	case "Android":
@@ -82,6 +84,8 @@ func ExistsInEcosystem(pkg string, ecosystem string) bool {
 // Dispatcher for ecosystem-specific package version existence checking.
 func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string) error {
 	switch ecosystem {
+	case "Alpine":
+		return nil
 	case "AlmaLinux":
 		return nil
 	case "Android":

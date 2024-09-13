@@ -24,7 +24,11 @@ type Content struct {
 	bytes    []byte
 }
 
-func lint(content *Content, checks []*checks.CheckDef) (findings []checks.CheckError) {
+type LintConfig struct {
+	verbose bool
+}
+
+func lint(content *Content, checksDefined []*checks.CheckDef, config *LintConfig) (findings []checks.CheckError) {
 	// Parse file into JSON
 	if !gjson.ValidBytes(content.bytes) {
 		log.Printf("%q: invalid JSON", content.filename)
@@ -32,10 +36,13 @@ func lint(content *Content, checks []*checks.CheckDef) (findings []checks.CheckE
 
 	record := gjson.ParseBytes(content.bytes)
 
-	for _, check := range checks {
-		fmt.Printf("Running %q check on %q\n", check.Name, content.filename)
-		checkFindings := check.Run(&record)
-		if checkFindings != nil {
+	for _, check := range checksDefined {
+		if config.verbose {
+			fmt.Printf("Running %q check on %q\n", check.Name, content.filename)
+		}
+		checkConfig := checks.Config{Verbose: config.verbose}
+		checkFindings := check.Run(&record, &checkConfig)
+		if checkFindings != nil && config.verbose {
 			log.Printf("%q: %q: %#v", content.filename, check.Name, checkFindings)
 		}
 		findings = append(findings, checkFindings...)
@@ -84,10 +91,12 @@ func LintCommand(cCtx *cli.Context) error {
 
 	// Run all the checks in a collection, if no specific checks requested.
 	if checksToBeRun == nil && cCtx.String("collection") != "" {
-		if cCtx.Args().Present() {
-			fmt.Printf("Running %q check collection on %q\n", cCtx.String("collection"), cCtx.Args())
-		} else {
-			fmt.Printf("Running %q check collection on <stdin>\n", cCtx.String("collection"))
+		if cCtx.Bool("verbose") {
+			if cCtx.Args().Present() {
+				fmt.Printf("Running %q check collection on %q\n", cCtx.String("collection"), cCtx.Args())
+			} else {
+				fmt.Printf("Running %q check collection on <stdin>\n", cCtx.String("collection"))
+			}
 		}
 		// Check the requested check collection exists.
 		collection := checks.CollectionFromName(cCtx.String("collection"))
@@ -135,7 +144,9 @@ func LintCommand(cCtx *cli.Context) error {
 				log.Printf("%v, skipping", err)
 				continue
 			}
-			log.Printf("Found %d files in %q", len(filesToCheck), thingToCheck)
+			if cCtx.Bool("verbose") {
+				log.Printf("Found %d files in %q", len(filesToCheck), thingToCheck)
+			}
 		} else {
 			filesToCheck = append(filesToCheck, thingToCheck)
 		}
@@ -160,13 +171,19 @@ func LintCommand(cCtx *cli.Context) error {
 			log.Printf("%v, skipping", err)
 			continue
 		}
-		findings := lint(&Content{filename: fileToCheck, bytes: recordBytes}, checksToBeRun)
+		findings := lint(&Content{filename: fileToCheck, bytes: recordBytes}, checksToBeRun, &LintConfig{verbose: cCtx.Bool("verbose")})
 		if findings != nil {
 			perFileFindings[fileToCheck] = findings
 		}
 	}
 
 	if len(perFileFindings) > 0 {
+		for filename, findings := range perFileFindings {
+			fmt.Printf("%s:\n", filename)
+			for _, finding := range findings {
+				fmt.Printf("\t * %s\n", finding.Error())
+			}
+		}
 		return errors.New("found errors")
 	}
 	return nil
