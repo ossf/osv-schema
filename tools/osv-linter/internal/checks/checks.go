@@ -37,18 +37,18 @@ type CheckDef struct {
 	Check       Check
 }
 
-// CheckConfig defines the configuration for a check.
-type CheckConfig struct {
+// Config defines the configuration for a check.
+type Config struct {
 	Verbose bool
 }
 
 // Check defines how to run the check.
-type Check func(*gjson.Result, *CheckConfig) []CheckError
+type Check func(*gjson.Result, *Config) []CheckError
 
 // Run runs the check, returning any findings.
 // The check has no awareness of the check's Code,
 // this merges that with the check's findings.
-func (c *CheckDef) Run(json *gjson.Result, config *CheckConfig) (findings []CheckError) {
+func (c *CheckDef) Run(json *gjson.Result, config *Config) (findings []CheckError) {
 	for _, finding := range c.Check(json, config) {
 		findings = append(findings, CheckError{
 			Code:    c.Code,

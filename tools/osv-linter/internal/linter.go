@@ -40,7 +40,7 @@ func lint(content *Content, checksDefined []*checks.CheckDef, config *LintConfig
 		if config.verbose {
 			fmt.Printf("Running %q check on %q\n", check.Name, content.filename)
 		}
-		checkConfig := checks.CheckConfig{Verbose: config.verbose}
+		checkConfig := checks.Config{Verbose: config.verbose}
 		checkFindings := check.Run(&record, &checkConfig)
 		if checkFindings != nil && config.verbose {
 			log.Printf("%q: %q: %#v", content.filename, check.Name, checkFindings)
