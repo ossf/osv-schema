@@ -1,7 +1,7 @@
 """Test parsing CSAF v2 advisories"""
 import unittest
 
-from csaf import Remediation
+from redhat_osv.csaf import Remediation
 
 
 class CSAFTest(unittest.TestCase):

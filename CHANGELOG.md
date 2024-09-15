@@ -35,3 +35,4 @@
   new ecosystems (Mageia, Chainguard).
 - 2024-09-03 Released version 1.6.5. Added SuSE ecosystems and ELA, UBUNTU ID
   prefixes.
+- 2024-09-12 Released version 1.6.6. Add RHBA, RHEA, SUSE-OU prefixes.

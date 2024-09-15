@@ -3,10 +3,11 @@ url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
-[packages]
-jsonschema = "*"
-requests = "*"
-
 [dev-packages]
+setuptools = "*"
 pylint = "*"
 yapf = "*"
+redhat_osv = {path = "."}
+
+[packages]
+redhat_osv = {editable = true, path = "."}

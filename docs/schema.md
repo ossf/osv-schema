@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.6.5 (Sep 3, 2024)**
+**Version 1.6.6 (Sep 12, 2024)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -157,7 +157,7 @@ The defined database prefixes and their "home" databases are:
   </thead>
   <tbody>
     <tr>
-      <td><code>`ASB-A`/`PUB-A`</code></td>
+      <td><code>ASB-A</code>/<code>PUB-A</code></td>
       <td><a href="https://source.android.com/docs/security/bulletin">Android Security Bulletin</a></td>
       <td>
         <ul>
@@ -410,7 +410,7 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
-      <td><code>SUSE-SU</code>, <code>SUSE-RU</code>, <code>SUSE-FU</code>, <code>SUSE-OU</code> and <code>openSUSE-SU</code></td>
+      <td><code>SUSE-SU</code>/<code>SUSE-RU</code>/<code>SUSE-FU</code>/<code>SUSE-OU</code>/<code>openSUSE-SU</code></td>
       <td><a href="https://www.suse.com/support/security/">SUSE Security Landing page</a></td>
       <td>
         <ul>

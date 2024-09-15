@@ -9,45 +9,7 @@ from datetime import datetime
 
 import requests
 from jsonschema import validate
-from csaf import CSAF
-from osv import DATE_FORMAT, OSV, OSVEncoder, SCHEMA_VERSION
-
-
-class RedHatConverter:
-    """
-    Class which converts and validates a CSAF string to an OSV string
-    """
-    SCHEMA = (
-        f"https://raw.githubusercontent.com/ossf/osv-schema/v{SCHEMA_VERSION}"
-        "/validation/schema.json")
-    REQUEST_TIMEOUT = 60
-
-    def __init__(self):
-        schema_content = requests.get(self.SCHEMA, timeout=self.REQUEST_TIMEOUT)
-        self.osv_schema = schema_content.json()
-
-    def convert(self,
-                csaf_content: str,
-                modified: str,
-                published: str = "") -> tuple[str, str]:
-        """
-        Converts csaf_content json string into an OSV json string
-        returns an OSV ID and the json string content of the OSV file
-        the json string content will be empty if no content is applicable
-        throws a validation error in the schema doesn't validate correctly.
-        The modified value for osv is passed in so it matches what's in all.json
-        Raises ValueError is CSAF file can't be parsed
-        """
-        csaf = CSAF(csaf_content)
-        osv = OSV(csaf, modified, published)
-
-        # We convert from an OSV object to a JSON string here in order to use the OSVEncoder
-        # Once we OSV json string data we validate it using the OSV schema
-        osv_content = json.dumps(osv, cls=OSVEncoder, indent=2)
-        osv_data = json.loads(osv_content)
-        validate(osv_data, schema=self.osv_schema)
-
-        return osv.id, osv_content
+from redhat_osv.osv import DATE_FORMAT, RedHatConverter
 
 
 def main():

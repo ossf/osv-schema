@@ -2,8 +2,7 @@
 import unittest
 from datetime import datetime
 import json
-from convert_redhat import RedHatConverter
-from osv import DATE_FORMAT
+from redhat_osv.osv import DATE_FORMAT, RedHatConverter
 
 
 class TestRedHatConverter(unittest.TestCase):

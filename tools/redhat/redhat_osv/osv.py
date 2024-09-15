@@ -1,10 +1,11 @@
 """Module for parsing converting CSAF to OSV data"""
 import re
 from dataclasses import field, dataclass, InitVar
-from json import JSONEncoder
+import json
 from typing import Literal
-
-from csaf import Remediation, CSAF
+import requests
+from jsonschema import validate
+from redhat_osv.csaf import Remediation, CSAF
 
 # Update this if verified against a later version
 SCHEMA_VERSION = "1.6.5"
@@ -23,7 +24,7 @@ ADVISORY_URL_PREFIXES = (
 )
 
 
-class OSVEncoder(JSONEncoder):
+class OSVEncoder(json.JSONEncoder):
     """Encodes OSV objects into JSON format"""
 
     def default(self, o):
@@ -175,19 +176,22 @@ class OSV:
                         REDHAT_ADVISORY_URL)
                 references[reference["url"]] = "ADVISORY"
             else:
-                references[reference["url"]] = self._get_reference_type_and_add_go_related(
-                    reference)
+                references[reference[
+                    "url"]] = self._get_reference_type_and_add_go_related(
+                        reference)
         for vulnerability in csaf.vulnerabilities:
             for reference in vulnerability.references:
                 # This captures the CVE specific information
                 if reference["category"] == "self":
                     references[reference["url"]] = "REPORT"
                 else:
-                    references[reference["url"]] = self._get_reference_type_and_add_go_related(
-                        reference)
+                    references[reference[
+                        "url"]] = self._get_reference_type_and_add_go_related(
+                            reference)
         return [{"type": t, "url": u} for u, t in references.items()]
 
-    def _get_reference_type_and_add_go_related(self, reference: dict[str, str]) -> str:
+    def _get_reference_type_and_add_go_related(
+            self, reference: dict[str, str]) -> str:
         """
         Convert references from CSAF into typed referenced in OSV
         Also make sure to add a related entry for any GO advisory references found
@@ -201,3 +205,39 @@ class OSV:
             return "REPORT"
         return "ARTICLE"
 
+
+class RedHatConverter:
+    """
+    Class which converts and validates a CSAF string to an OSV string
+    """
+    SCHEMA = (
+        f"https://raw.githubusercontent.com/ossf/osv-schema/v{SCHEMA_VERSION}"
+        "/validation/schema.json")
+    REQUEST_TIMEOUT = 60
+
+    def __init__(self):
+        schema_content = requests.get(self.SCHEMA, timeout=self.REQUEST_TIMEOUT)
+        self.osv_schema = schema_content.json()
+
+    def convert(self,
+                csaf_content: str,
+                modified: str,
+                published: str = "") -> tuple[str, str]:
+        """
+        Converts csaf_content json string into an OSV json string
+        returns an OSV ID and the json string content of the OSV file
+        the json string content will be empty if no content is applicable
+        throws a validation error in the schema doesn't validate correctly.
+        The modified value for osv is passed in so it matches what's in all.json
+        Raises ValueError is CSAF file can't be parsed
+        """
+        csaf = CSAF(csaf_content)
+        osv = OSV(csaf, modified, published)
+
+        # We convert from an OSV object to a JSON string here in order to use the OSVEncoder
+        # Once we OSV json string data we validate it using the OSV schema
+        osv_content = json.dumps(osv, cls=OSVEncoder, indent=2)
+        osv_data = json.loads(osv_content)
+        validate(osv_data, schema=self.osv_schema)
+
+        return osv.id, osv_content
