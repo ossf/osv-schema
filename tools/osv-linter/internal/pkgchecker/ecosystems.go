@@ -18,6 +18,12 @@ import (
 	"github.com/tidwall/gjson"
 )
 
+// Ecosystem support is a work in progress.
+var SupportedEcosystems = []string{
+	"Go",
+	"PyPI",
+}
+
 // Dispatcher for ecosystem-specific package existence checking.
 func ExistsInEcosystem(pkg string, ecosystem string) bool {
 	switch ecosystem {
@@ -79,6 +85,18 @@ func ExistsInEcosystem(pkg string, ecosystem string) bool {
 		return true
 	}
 	return false
+}
+
+// Missing VersionsError describes when specific versions of a package could not be found.
+type MissingVersionsError struct {
+	Package   string
+	Ecosystem string
+	Missing   []string
+	Known     []string
+}
+
+func (e *MissingVersionsError) Error() string {
+	return fmt.Sprintf("Failed to find %+q of %q in %q (have: %+q)", e.Missing, e.Package, e.Ecosystem, e.Known)
 }
 
 // Dispatcher for ecosystem-specific package version existence checking.
@@ -211,7 +229,7 @@ func versionsExistInPyPI(pkg string, versions []string) error {
 		versionsMissing = append(versionsMissing, versionToCheckFor)
 	}
 	if len(versionsMissing) > 0 {
-		return fmt.Errorf("failed to find %#v for %q in PyPI %+v", versionsMissing, pkg, versionsInPyPy)
+		return &MissingVersionsError{Package: pkg, Ecosystem: "PyPI", Missing: versionsMissing, Known: versionsInPyPy}
 	}
 
 	return nil
@@ -270,7 +288,7 @@ func versionsExistInGo(pkg string, versions []string) error {
 		return fmt.Errorf("unable to retrieve versions for for %q: %v", pkg, err)
 	}
 	// Fetch all known versions of package.
-	versionsInGo := strings.Split(string(respBytes), "\n")
+	versionsInGo := strings.Split(strings.TrimSpace(string(respBytes)), "\n")
 	// It seems that an empty version set is plausible. Unreleased?
 	// e.g. github.com/nanobox-io/golang-nanoauth
 	if len(versionsInGo[0]) == 0 {
@@ -296,7 +314,7 @@ func versionsExistInGo(pkg string, versions []string) error {
 		versionsMissing = append(versionsMissing, versionToCheckFor)
 	}
 	if len(versionsMissing) > 0 {
-		return fmt.Errorf("failed to find %+v for %q in Go %+v", versionsMissing, pkg, versionsInGo)
+		return &MissingVersionsError{Package: pkg, Ecosystem: "Go", Missing: versionsMissing, Known: versionsInGo}
 	}
 
 	return nil

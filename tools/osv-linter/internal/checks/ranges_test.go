@@ -45,7 +45,7 @@ func TestRangeHasIntroducedEvent(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotFindings := RangeHasIntroducedEvent(tt.args.json)
+			gotFindings := RangeHasIntroducedEvent(tt.args.json, &Config{Verbose: true})
 			if diff := cmp.Diff(tt.wantFindings, gotFindings, cmpopts.EquateErrors()); diff != "" {
 				t.Errorf("RangeHasIntroducedEvent() mismatch (-want +got):\n%s", diff)
 			}

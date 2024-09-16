@@ -2,6 +2,7 @@ package checks
 
 import (
 	"fmt"
+	"slices"
 	"strings"
 
 	"github.com/ossf/osv-schema/linter/internal/pkgchecker"
@@ -39,6 +40,9 @@ func PackageExists(json *gjson.Result, config *Config) (findings []CheckError) {
 		// Normalize ecosystems with a colon to their base.
 		// e.g. "Alpine:v3.5" -> "Alpine"
 		ecosystem := strings.Split(value.Get("package.ecosystem").String(), ":")[0]
+		if config.Ecosystems != nil && !slices.Contains(config.Ecosystems, ecosystem) {
+			return true // keep iterating (over affected entries)
+		}
 		pkg := value.Get("package.name").String()
 
 		// Avoid unnecessary network traffic for repeat packages.
@@ -82,6 +86,9 @@ func PackageVersionsExist(json *gjson.Result, config *Config) (findings []CheckE
 		// Normalize ecosystems with a colon to their base.
 		// e.g. "Alpine:v3.5" -> "Alpine"
 		ecosystem := strings.Split(value.Get("package.ecosystem").String(), ":")[0]
+		if config.Ecosystems != nil && !slices.Contains(config.Ecosystems, ecosystem) {
+			return true // keep iterating (over affected entries)
+		}
 		pkg := value.Get("package.name").String()
 		versionsToCheck := []string{}
 		// Examine versions in ranges.
@@ -119,7 +126,7 @@ func PackageVersionsExist(json *gjson.Result, config *Config) (findings []CheckE
 		})
 		err := pkgchecker.VersionsExistInEcosystem(pkg, versionsToCheck, ecosystem)
 		if err != nil {
-			findings = append(findings, CheckError{Message: fmt.Sprintf("Failed to find some versions of %s: %#v", pkg, err)})
+			findings = append(findings, CheckError{Message: err.Error()})
 		}
 
 		return true // keep iterating (over affected entries)
