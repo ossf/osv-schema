@@ -40,6 +40,7 @@ func PackageExists(json *gjson.Result, config *Config) (findings []CheckError) {
 		// Normalize ecosystems with a colon to their base.
 		// e.g. "Alpine:v3.5" -> "Alpine"
 		ecosystem := strings.Split(value.Get("package.ecosystem").String(), ":")[0]
+		// Use config.Ecosystems as an allowlist, if it is set.
 		if config.Ecosystems != nil && !slices.Contains(config.Ecosystems, ecosystem) {
 			return true // keep iterating (over affected entries)
 		}
@@ -86,6 +87,7 @@ func PackageVersionsExist(json *gjson.Result, config *Config) (findings []CheckE
 		// Normalize ecosystems with a colon to their base.
 		// e.g. "Alpine:v3.5" -> "Alpine"
 		ecosystem := strings.Split(value.Get("package.ecosystem").String(), ":")[0]
+		// Use config.Ecosystems as an allowlist, if it is set.
 		if config.Ecosystems != nil && !slices.Contains(config.Ecosystems, ecosystem) {
 			return true // keep iterating (over affected entries)
 		}
