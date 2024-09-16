@@ -25,10 +25,11 @@ type Content struct {
 	bytes    []byte
 }
 
+// Config defines the arguments for lint().
 type Config struct {
-	checks     []*checks.CheckDef
-	ecosystems []string
-	verbose    bool
+	checks     []*checks.CheckDef // which checks to run.
+	ecosystems []string           // which ecosystems to limit package checks to.
+	verbose    bool               // whether to emit verbose output.
 }
 
 func lint(content *Content, config *Config) (findings []checks.CheckError) {
