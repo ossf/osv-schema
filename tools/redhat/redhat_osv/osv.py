@@ -8,7 +8,7 @@ from jsonschema import validate
 from redhat_osv.csaf import Remediation, CSAF
 
 # Update this if verified against a later version
-SCHEMA_VERSION = "1.6.5"
+SCHEMA_VERSION = "1.6.7"
 # This assumes the datetime being formatted is in UTC
 DATE_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 # Go package advisory reference prefix
