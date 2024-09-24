@@ -1,0 +1,676 @@
+{
+  "document": {
+    "aggregate_severity": {
+      "namespace": "https://access.redhat.com/security/updates/classification/",
+      "text": "Low"
+    },
+    "category": "csaf_vex",
+    "csaf_version": "2.0",
+    "distribution": {
+      "text": "Copyright © Red Hat, Inc. All rights reserved.",
+      "tlp": {
+        "label": "WHITE",
+        "url": "https://www.first.org/tlp/"
+      }
+    },
+    "lang": "en",
+    "notes": [
+      {
+        "category": "summary",
+        "text": "Updated Quagga packages that close a locally-exploitable denial of service\nvulnerability are now available.",
+        "title": "Topic"
+      },
+      {
+        "category": "general",
+        "text": "Quagga is an open source implementation of TCP/IP routing software. \n \nHerbert Xu reported that Quagga can accept spoofed messages sent on the\nkernel netlink interface by other users on the local machine.  This could\nlead to a local denial of service attack.  The Common Vulnerabilities and\nExposures project (cve.mitre.org) has assigned the name CAN-2003-0858 to\nthis issue. \n \nUsers of Quagga should upgrade to these erratum packages, which contain a\npatch that checks that netlink messages actually came from the kernel. \nThis erratum also includes quagga-devel and quagga-contrib packages which\nwere not originally shipped with Red Hat Enterprise Linux 3.",
+        "title": "Details"
+      },
+      {
+        "category": "legal_disclaimer",
+        "text": "This content is licensed under the Creative Commons Attribution 4.0 International License (https://creativecommons.org/licenses/by/4.0/). If you distribute this content, or a modified version of it, you must provide attribution to Red Hat Inc. and provide a link to the original.",
+        "title": "Terms of Use"
+      }
+    ],
+    "publisher": {
+      "category": "vendor",
+      "contact_details": "https://access.redhat.com/security/team/contact/",
+      "issuing_authority": "Red Hat Product Security is responsible for vulnerability handling across all Red Hat offerings.",
+      "name": "Red Hat Product Security",
+      "namespace": "https://www.redhat.com"
+    },
+    "references": [
+      {
+        "category": "self",
+        "summary": "https://access.redhat.com/errata/RHSA-2003:315",
+        "url": "https://access.redhat.com/errata/RHSA-2003:315"
+      },
+      {
+        "category": "external",
+        "summary": "https://access.redhat.com/security/updates/classification/#low",
+        "url": "https://access.redhat.com/security/updates/classification/#low"
+      },
+      {
+        "category": "external",
+        "summary": "108575",
+        "url": "https://bugzilla.redhat.com/show_bug.cgi?id=108575"
+      },
+      {
+        "category": "self",
+        "summary": "Canonical URL",
+        "url": "https://access.redhat.com/security/data/csaf/v2/advisories/2003/rhsa-2003_315.json"
+      }
+    ],
+    "title": "Red Hat Security Advisory: quagga security update",
+    "tracking": {
+      "current_release_date": "2024-09-12T22:06:44+00:00",
+      "generator": {
+        "date": "2024-09-12T22:06:44+00:00",
+        "engine": {
+          "name": "Red Hat SDEngine",
+          "version": "3.33.3"
+        }
+      },
+      "id": "RHSA-2003:315",
+      "initial_release_date": "2003-11-12T14:16:00+00:00",
+      "revision_history": [
+        {
+          "date": "2003-11-12T14:16:00+00:00",
+          "number": "1",
+          "summary": "Initial version"
+        },
+        {
+          "date": "2003-11-12T00:00:00+00:00",
+          "number": "2",
+          "summary": "Last updated version"
+        },
+        {
+          "date": "2024-09-12T22:06:44+00:00",
+          "number": "3",
+          "summary": "Last generated version"
+        }
+      ],
+      "status": "final",
+      "version": "3"
+    }
+  },
+  "product_tree": {
+    "branches": [
+      {
+        "branches": [
+          {
+            "branches": [
+              {
+                "category": "product_name",
+                "name": "Red Hat Enterprise Linux AS version 3",
+                "product": {
+                  "name": "Red Hat Enterprise Linux AS version 3",
+                  "product_id": "3AS",
+                  "product_identification_helper": {
+                    "cpe": "cpe:/o:redhat:enterprise_linux:3::as"
+                  }
+                }
+              },
+              {
+                "category": "product_name",
+                "name": "Red Hat Enterprise Linux ES version 3",
+                "product": {
+                  "name": "Red Hat Enterprise Linux ES version 3",
+                  "product_id": "3ES",
+                  "product_identification_helper": {
+                    "cpe": "cpe:/o:redhat:enterprise_linux:3::es"
+                  }
+                }
+              }
+            ],
+            "category": "product_family",
+            "name": "Red Hat Enterprise Linux"
+          },
+          {
+            "branches": [
+              {
+                "category": "product_version",
+                "name": "quagga-debuginfo-0:0.96.2-8.3E.ia64",
+                "product": {
+                  "name": "quagga-debuginfo-0:0.96.2-8.3E.ia64",
+                  "product_id": "quagga-debuginfo-0:0.96.2-8.3E.ia64",
+                  "product_identification_helper": {
+                    "purl": "pkg:rpm/redhat/quagga-debuginfo@0.96.2-8.3E?arch=ia64"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "quagga-0:0.96.2-8.3E.ia64",
+                "product": {
+                  "name": "quagga-0:0.96.2-8.3E.ia64",
+                  "product_id": "quagga-0:0.96.2-8.3E.ia64",
+                  "product_identification_helper": {
+                    "purl": "pkg:rpm/redhat/quagga@0.96.2-8.3E?arch=ia64"
+                  }
+                }
+              }
+            ],
+            "category": "architecture",
+            "name": "ia64"
+          },
+          {
+            "branches": [
+              {
+                "category": "product_version",
+                "name": "quagga-debuginfo-0:0.96.2-8.3E.x86_64",
+                "product": {
+                  "name": "quagga-debuginfo-0:0.96.2-8.3E.x86_64",
+                  "product_id": "quagga-debuginfo-0:0.96.2-8.3E.x86_64",
+                  "product_identification_helper": {
+                    "purl": "pkg:rpm/redhat/quagga-debuginfo@0.96.2-8.3E?arch=x86_64"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "quagga-0:0.96.2-8.3E.x86_64",
+                "product": {
+                  "name": "quagga-0:0.96.2-8.3E.x86_64",
+                  "product_id": "quagga-0:0.96.2-8.3E.x86_64",
+                  "product_identification_helper": {
+                    "purl": "pkg:rpm/redhat/quagga@0.96.2-8.3E?arch=x86_64"
+                  }
+                }
+              }
+            ],
+            "category": "architecture",
+            "name": "x86_64"
+          },
+          {
+            "branches": [
+              {
+                "category": "product_version",
+                "name": "quagga-debuginfo-0:0.96.2-8.3E.i386",
+                "product": {
+                  "name": "quagga-debuginfo-0:0.96.2-8.3E.i386",
+                  "product_id": "quagga-debuginfo-0:0.96.2-8.3E.i386",
+                  "product_identification_helper": {
+                    "purl": "pkg:rpm/redhat/quagga-debuginfo@0.96.2-8.3E?arch=i386"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "quagga-0:0.96.2-8.3E.i386",
+                "product": {
+                  "name": "quagga-0:0.96.2-8.3E.i386",
+                  "product_id": "quagga-0:0.96.2-8.3E.i386",
+                  "product_identification_helper": {
+                    "purl": "pkg:rpm/redhat/quagga@0.96.2-8.3E?arch=i386"
+                  }
+                }
+              }
+            ],
+            "category": "architecture",
+            "name": "i386"
+          },
+          {
+            "branches": [
+              {
+                "category": "product_version",
+                "name": "quagga-0:0.96.2-8.3E.src",
+                "product": {
+                  "name": "quagga-0:0.96.2-8.3E.src",
+                  "product_id": "quagga-0:0.96.2-8.3E.src",
+                  "product_identification_helper": {
+                    "purl": "pkg:rpm/redhat/quagga@0.96.2-8.3E?arch=src"
+                  }
+                }
+              }
+            ],
+            "category": "architecture",
+            "name": "src"
+          },
+          {
+            "branches": [
+              {
+                "category": "product_version",
+                "name": "quagga-debuginfo-0:0.96.2-8.3E.ppc",
+                "product": {
+                  "name": "quagga-debuginfo-0:0.96.2-8.3E.ppc",
+                  "product_id": "quagga-debuginfo-0:0.96.2-8.3E.ppc",
+                  "product_identification_helper": {
+                    "purl": "pkg:rpm/redhat/quagga-debuginfo@0.96.2-8.3E?arch=ppc"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "quagga-0:0.96.2-8.3E.ppc",
+                "product": {
+                  "name": "quagga-0:0.96.2-8.3E.ppc",
+                  "product_id": "quagga-0:0.96.2-8.3E.ppc",
+                  "product_identification_helper": {
+                    "purl": "pkg:rpm/redhat/quagga@0.96.2-8.3E?arch=ppc"
+                  }
+                }
+              }
+            ],
+            "category": "architecture",
+            "name": "ppc"
+          },
+          {
+            "branches": [
+              {
+                "category": "product_version",
+                "name": "quagga-debuginfo-0:0.96.2-8.3E.s390x",
+                "product": {
+                  "name": "quagga-debuginfo-0:0.96.2-8.3E.s390x",
+                  "product_id": "quagga-debuginfo-0:0.96.2-8.3E.s390x",
+                  "product_identification_helper": {
+                    "purl": "pkg:rpm/redhat/quagga-debuginfo@0.96.2-8.3E?arch=s390x"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "quagga-0:0.96.2-8.3E.s390x",
+                "product": {
+                  "name": "quagga-0:0.96.2-8.3E.s390x",
+                  "product_id": "quagga-0:0.96.2-8.3E.s390x",
+                  "product_identification_helper": {
+                    "purl": "pkg:rpm/redhat/quagga@0.96.2-8.3E?arch=s390x"
+                  }
+                }
+              }
+            ],
+            "category": "architecture",
+            "name": "s390x"
+          },
+          {
+            "branches": [
+              {
+                "category": "product_version",
+                "name": "quagga-debuginfo-0:0.96.2-8.3E.s390",
+                "product": {
+                  "name": "quagga-debuginfo-0:0.96.2-8.3E.s390",
+                  "product_id": "quagga-debuginfo-0:0.96.2-8.3E.s390",
+                  "product_identification_helper": {
+                    "purl": "pkg:rpm/redhat/quagga-debuginfo@0.96.2-8.3E?arch=s390"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "quagga-0:0.96.2-8.3E.s390",
+                "product": {
+                  "name": "quagga-0:0.96.2-8.3E.s390",
+                  "product_id": "quagga-0:0.96.2-8.3E.s390",
+                  "product_identification_helper": {
+                    "purl": "pkg:rpm/redhat/quagga@0.96.2-8.3E?arch=s390"
+                  }
+                }
+              }
+            ],
+            "category": "architecture",
+            "name": "s390"
+          }
+        ],
+        "category": "vendor",
+        "name": "Red Hat"
+      }
+    ],
+    "relationships": [
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-0:0.96.2-8.3E.i386 as a component of Red Hat Enterprise Linux AS version 3",
+          "product_id": "3AS:quagga-0:0.96.2-8.3E.i386"
+        },
+        "product_reference": "quagga-0:0.96.2-8.3E.i386",
+        "relates_to_product_reference": "3AS"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-0:0.96.2-8.3E.ia64 as a component of Red Hat Enterprise Linux AS version 3",
+          "product_id": "3AS:quagga-0:0.96.2-8.3E.ia64"
+        },
+        "product_reference": "quagga-0:0.96.2-8.3E.ia64",
+        "relates_to_product_reference": "3AS"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-0:0.96.2-8.3E.ppc as a component of Red Hat Enterprise Linux AS version 3",
+          "product_id": "3AS:quagga-0:0.96.2-8.3E.ppc"
+        },
+        "product_reference": "quagga-0:0.96.2-8.3E.ppc",
+        "relates_to_product_reference": "3AS"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-0:0.96.2-8.3E.s390 as a component of Red Hat Enterprise Linux AS version 3",
+          "product_id": "3AS:quagga-0:0.96.2-8.3E.s390"
+        },
+        "product_reference": "quagga-0:0.96.2-8.3E.s390",
+        "relates_to_product_reference": "3AS"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-0:0.96.2-8.3E.s390x as a component of Red Hat Enterprise Linux AS version 3",
+          "product_id": "3AS:quagga-0:0.96.2-8.3E.s390x"
+        },
+        "product_reference": "quagga-0:0.96.2-8.3E.s390x",
+        "relates_to_product_reference": "3AS"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-0:0.96.2-8.3E.src as a component of Red Hat Enterprise Linux AS version 3",
+          "product_id": "3AS:quagga-0:0.96.2-8.3E.src"
+        },
+        "product_reference": "quagga-0:0.96.2-8.3E.src",
+        "relates_to_product_reference": "3AS"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-0:0.96.2-8.3E.x86_64 as a component of Red Hat Enterprise Linux AS version 3",
+          "product_id": "3AS:quagga-0:0.96.2-8.3E.x86_64"
+        },
+        "product_reference": "quagga-0:0.96.2-8.3E.x86_64",
+        "relates_to_product_reference": "3AS"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-debuginfo-0:0.96.2-8.3E.i386 as a component of Red Hat Enterprise Linux AS version 3",
+          "product_id": "3AS:quagga-debuginfo-0:0.96.2-8.3E.i386"
+        },
+        "product_reference": "quagga-debuginfo-0:0.96.2-8.3E.i386",
+        "relates_to_product_reference": "3AS"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-debuginfo-0:0.96.2-8.3E.ia64 as a component of Red Hat Enterprise Linux AS version 3",
+          "product_id": "3AS:quagga-debuginfo-0:0.96.2-8.3E.ia64"
+        },
+        "product_reference": "quagga-debuginfo-0:0.96.2-8.3E.ia64",
+        "relates_to_product_reference": "3AS"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-debuginfo-0:0.96.2-8.3E.ppc as a component of Red Hat Enterprise Linux AS version 3",
+          "product_id": "3AS:quagga-debuginfo-0:0.96.2-8.3E.ppc"
+        },
+        "product_reference": "quagga-debuginfo-0:0.96.2-8.3E.ppc",
+        "relates_to_product_reference": "3AS"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-debuginfo-0:0.96.2-8.3E.s390 as a component of Red Hat Enterprise Linux AS version 3",
+          "product_id": "3AS:quagga-debuginfo-0:0.96.2-8.3E.s390"
+        },
+        "product_reference": "quagga-debuginfo-0:0.96.2-8.3E.s390",
+        "relates_to_product_reference": "3AS"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-debuginfo-0:0.96.2-8.3E.s390x as a component of Red Hat Enterprise Linux AS version 3",
+          "product_id": "3AS:quagga-debuginfo-0:0.96.2-8.3E.s390x"
+        },
+        "product_reference": "quagga-debuginfo-0:0.96.2-8.3E.s390x",
+        "relates_to_product_reference": "3AS"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-debuginfo-0:0.96.2-8.3E.x86_64 as a component of Red Hat Enterprise Linux AS version 3",
+          "product_id": "3AS:quagga-debuginfo-0:0.96.2-8.3E.x86_64"
+        },
+        "product_reference": "quagga-debuginfo-0:0.96.2-8.3E.x86_64",
+        "relates_to_product_reference": "3AS"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-0:0.96.2-8.3E.i386 as a component of Red Hat Enterprise Linux ES version 3",
+          "product_id": "3ES:quagga-0:0.96.2-8.3E.i386"
+        },
+        "product_reference": "quagga-0:0.96.2-8.3E.i386",
+        "relates_to_product_reference": "3ES"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-0:0.96.2-8.3E.ia64 as a component of Red Hat Enterprise Linux ES version 3",
+          "product_id": "3ES:quagga-0:0.96.2-8.3E.ia64"
+        },
+        "product_reference": "quagga-0:0.96.2-8.3E.ia64",
+        "relates_to_product_reference": "3ES"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-0:0.96.2-8.3E.ppc as a component of Red Hat Enterprise Linux ES version 3",
+          "product_id": "3ES:quagga-0:0.96.2-8.3E.ppc"
+        },
+        "product_reference": "quagga-0:0.96.2-8.3E.ppc",
+        "relates_to_product_reference": "3ES"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-0:0.96.2-8.3E.s390 as a component of Red Hat Enterprise Linux ES version 3",
+          "product_id": "3ES:quagga-0:0.96.2-8.3E.s390"
+        },
+        "product_reference": "quagga-0:0.96.2-8.3E.s390",
+        "relates_to_product_reference": "3ES"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-0:0.96.2-8.3E.s390x as a component of Red Hat Enterprise Linux ES version 3",
+          "product_id": "3ES:quagga-0:0.96.2-8.3E.s390x"
+        },
+        "product_reference": "quagga-0:0.96.2-8.3E.s390x",
+        "relates_to_product_reference": "3ES"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-0:0.96.2-8.3E.src as a component of Red Hat Enterprise Linux ES version 3",
+          "product_id": "3ES:quagga-0:0.96.2-8.3E.src"
+        },
+        "product_reference": "quagga-0:0.96.2-8.3E.src",
+        "relates_to_product_reference": "3ES"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-0:0.96.2-8.3E.x86_64 as a component of Red Hat Enterprise Linux ES version 3",
+          "product_id": "3ES:quagga-0:0.96.2-8.3E.x86_64"
+        },
+        "product_reference": "quagga-0:0.96.2-8.3E.x86_64",
+        "relates_to_product_reference": "3ES"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-debuginfo-0:0.96.2-8.3E.i386 as a component of Red Hat Enterprise Linux ES version 3",
+          "product_id": "3ES:quagga-debuginfo-0:0.96.2-8.3E.i386"
+        },
+        "product_reference": "quagga-debuginfo-0:0.96.2-8.3E.i386",
+        "relates_to_product_reference": "3ES"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-debuginfo-0:0.96.2-8.3E.ia64 as a component of Red Hat Enterprise Linux ES version 3",
+          "product_id": "3ES:quagga-debuginfo-0:0.96.2-8.3E.ia64"
+        },
+        "product_reference": "quagga-debuginfo-0:0.96.2-8.3E.ia64",
+        "relates_to_product_reference": "3ES"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-debuginfo-0:0.96.2-8.3E.ppc as a component of Red Hat Enterprise Linux ES version 3",
+          "product_id": "3ES:quagga-debuginfo-0:0.96.2-8.3E.ppc"
+        },
+        "product_reference": "quagga-debuginfo-0:0.96.2-8.3E.ppc",
+        "relates_to_product_reference": "3ES"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-debuginfo-0:0.96.2-8.3E.s390 as a component of Red Hat Enterprise Linux ES version 3",
+          "product_id": "3ES:quagga-debuginfo-0:0.96.2-8.3E.s390"
+        },
+        "product_reference": "quagga-debuginfo-0:0.96.2-8.3E.s390",
+        "relates_to_product_reference": "3ES"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-debuginfo-0:0.96.2-8.3E.s390x as a component of Red Hat Enterprise Linux ES version 3",
+          "product_id": "3ES:quagga-debuginfo-0:0.96.2-8.3E.s390x"
+        },
+        "product_reference": "quagga-debuginfo-0:0.96.2-8.3E.s390x",
+        "relates_to_product_reference": "3ES"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "quagga-debuginfo-0:0.96.2-8.3E.x86_64 as a component of Red Hat Enterprise Linux ES version 3",
+          "product_id": "3ES:quagga-debuginfo-0:0.96.2-8.3E.x86_64"
+        },
+        "product_reference": "quagga-debuginfo-0:0.96.2-8.3E.x86_64",
+        "relates_to_product_reference": "3ES"
+      }
+    ]
+  },
+  "vulnerabilities": [
+    {
+      "cve": "CVE-2003-0858",
+      "ids": [
+        {
+          "system_name": "Red Hat Bugzilla ID",
+          "text": "1617096"
+        }
+      ],
+      "notes": [
+        {
+          "category": "description",
+          "text": "Zebra 0.93b and earlier, and quagga before 0.95, allows local users to cause a denial of service by sending spoofed messages as other users to the kernel netlink interface.",
+          "title": "Vulnerability description"
+        },
+        {
+          "category": "summary",
+          "text": "security flaw",
+          "title": "Vulnerability summary"
+        }
+      ],
+      "product_status": {
+        "fixed": [
+          "3AS:quagga-0:0.96.2-8.3E.i386",
+          "3AS:quagga-0:0.96.2-8.3E.ia64",
+          "3AS:quagga-0:0.96.2-8.3E.ppc",
+          "3AS:quagga-0:0.96.2-8.3E.s390",
+          "3AS:quagga-0:0.96.2-8.3E.s390x",
+          "3AS:quagga-0:0.96.2-8.3E.src",
+          "3AS:quagga-0:0.96.2-8.3E.x86_64",
+          "3AS:quagga-debuginfo-0:0.96.2-8.3E.i386",
+          "3AS:quagga-debuginfo-0:0.96.2-8.3E.ia64",
+          "3AS:quagga-debuginfo-0:0.96.2-8.3E.ppc",
+          "3AS:quagga-debuginfo-0:0.96.2-8.3E.s390",
+          "3AS:quagga-debuginfo-0:0.96.2-8.3E.s390x",
+          "3AS:quagga-debuginfo-0:0.96.2-8.3E.x86_64",
+          "3ES:quagga-0:0.96.2-8.3E.i386",
+          "3ES:quagga-0:0.96.2-8.3E.ia64",
+          "3ES:quagga-0:0.96.2-8.3E.ppc",
+          "3ES:quagga-0:0.96.2-8.3E.s390",
+          "3ES:quagga-0:0.96.2-8.3E.s390x",
+          "3ES:quagga-0:0.96.2-8.3E.src",
+          "3ES:quagga-0:0.96.2-8.3E.x86_64",
+          "3ES:quagga-debuginfo-0:0.96.2-8.3E.i386",
+          "3ES:quagga-debuginfo-0:0.96.2-8.3E.ia64",
+          "3ES:quagga-debuginfo-0:0.96.2-8.3E.ppc",
+          "3ES:quagga-debuginfo-0:0.96.2-8.3E.s390",
+          "3ES:quagga-debuginfo-0:0.96.2-8.3E.s390x",
+          "3ES:quagga-debuginfo-0:0.96.2-8.3E.x86_64"
+        ]
+      },
+      "references": [
+        {
+          "category": "self",
+          "summary": "Canonical URL",
+          "url": "https://access.redhat.com/security/cve/CVE-2003-0858"
+        },
+        {
+          "category": "external",
+          "summary": "RHBZ#1617096",
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1617096"
+        },
+        {
+          "category": "external",
+          "summary": "https://www.cve.org/CVERecord?id=CVE-2003-0858",
+          "url": "https://www.cve.org/CVERecord?id=CVE-2003-0858"
+        },
+        {
+          "category": "external",
+          "summary": "https://nvd.nist.gov/vuln/detail/CVE-2003-0858",
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2003-0858"
+        }
+      ],
+      "release_date": "2003-11-12T00:00:00+00:00",
+      "remediations": [
+        {
+          "category": "vendor_fix",
+          "details": "Before applying this update, make sure all previously released errata\nrelevant to your system have been applied.\n\nTo update all RPMs for your particular architecture, run:\n\nrpm -Fvh [filenames]\n\nwhere [filenames] is a list of the RPMs you wish to upgrade.  Only those\nRPMs which are currently installed will be updated.  Those RPMs which are\nnot installed but included in the list will not be updated.  Note that you\ncan also use wildcards (*.rpm) if your current directory *only* contains the\ndesired RPMs.\n\nPlease note that this update is also available via Red Hat Network.  Many\npeople find this an easier way to apply updates.  To use Red Hat Network,\nlaunch the Red Hat Update Agent with the following command:\n\nup2date\n\nThis will start an interactive process that will result in the appropriate\nRPMs being upgraded on your system.\n\nIf up2date fails to connect to Red Hat Network due to SSL\nCertificate Errors, you need to install a version of the\nup2date client with an updated certificate.  The latest version of\nup2date is available from the Red Hat FTP site and may also be\ndownloaded directly from the RHN website:\n\nhttps://rhn.redhat.com/help/latest-up2date.pxt",
+          "product_ids": [
+            "3AS:quagga-0:0.96.2-8.3E.i386",
+            "3AS:quagga-0:0.96.2-8.3E.ia64",
+            "3AS:quagga-0:0.96.2-8.3E.ppc",
+            "3AS:quagga-0:0.96.2-8.3E.s390",
+            "3AS:quagga-0:0.96.2-8.3E.s390x",
+            "3AS:quagga-0:0.96.2-8.3E.src",
+            "3AS:quagga-0:0.96.2-8.3E.x86_64",
+            "3AS:quagga-debuginfo-0:0.96.2-8.3E.i386",
+            "3AS:quagga-debuginfo-0:0.96.2-8.3E.ia64",
+            "3AS:quagga-debuginfo-0:0.96.2-8.3E.ppc",
+            "3AS:quagga-debuginfo-0:0.96.2-8.3E.s390",
+            "3AS:quagga-debuginfo-0:0.96.2-8.3E.s390x",
+            "3AS:quagga-debuginfo-0:0.96.2-8.3E.x86_64",
+            "3ES:quagga-0:0.96.2-8.3E.i386",
+            "3ES:quagga-0:0.96.2-8.3E.ia64",
+            "3ES:quagga-0:0.96.2-8.3E.ppc",
+            "3ES:quagga-0:0.96.2-8.3E.s390",
+            "3ES:quagga-0:0.96.2-8.3E.s390x",
+            "3ES:quagga-0:0.96.2-8.3E.src",
+            "3ES:quagga-0:0.96.2-8.3E.x86_64",
+            "3ES:quagga-debuginfo-0:0.96.2-8.3E.i386",
+            "3ES:quagga-debuginfo-0:0.96.2-8.3E.ia64",
+            "3ES:quagga-debuginfo-0:0.96.2-8.3E.ppc",
+            "3ES:quagga-debuginfo-0:0.96.2-8.3E.s390",
+            "3ES:quagga-debuginfo-0:0.96.2-8.3E.s390x",
+            "3ES:quagga-debuginfo-0:0.96.2-8.3E.x86_64"
+          ],
+          "restart_required": {
+            "category": "none"
+          },
+          "url": "https://access.redhat.com/errata/RHSA-2003:315"
+        }
+      ],
+      "threats": [
+        {
+          "category": "impact",
+          "details": "Low"
+        }
+      ],
+      "title": "security flaw"
+    }
+  ]
+}

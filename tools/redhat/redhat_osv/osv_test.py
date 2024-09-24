@@ -8,18 +8,24 @@ from redhat_osv.osv import OSV, Event
 class ScoreTest(unittest.TestCase):
     """Tests OSV vulnerability scores"""
 
+    test_csaf_files = [
+        "rhsa-2003_315.json", "rhsa-2015_0008.json"
+    ]
+
     def test_missing_cvss_v3(self):
         """Test parsing a CSAF file with missing CVSSv3 score"""
-        csaf_file = "testdata/rhsa-2015_0008.json"
-        with open(csaf_file, "r", encoding="utf-8") as fp:
-            csaf_data = fp.read()
-        csaf = CSAF(csaf_data)
-        assert csaf
-        assert len(csaf.vulnerabilities) == 1
-        assert not csaf.vulnerabilities[0].cvss_v3_base_score
+        for test_csaf_file in self.test_csaf_files:
+            csaf_file = f"testdata/{test_csaf_file}"
+            with open(csaf_file, "r", encoding="utf-8") as fp:
+                csaf_data = fp.read()
+            csaf = CSAF(csaf_data)
+            with self.subTest(csaf_file):
+                assert csaf
+                assert len(csaf.vulnerabilities) == 1
+                assert not csaf.vulnerabilities[0].cvss_v3_base_score
 
-        osv = OSV(csaf, "test_date")
-        assert not hasattr(osv, "severity")
+                osv = OSV(csaf, "test_date")
+                assert not hasattr(osv, "severity")
 
 
 class EventTest(unittest.TestCase):

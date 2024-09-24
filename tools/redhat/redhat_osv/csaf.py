@@ -83,6 +83,9 @@ class Vulnerability:
     def __post_init__(self, csaf_vuln: dict[str, Any], cpes: dict[str, str],
                       purls: dict[str, str]):
         self.cve_id = csaf_vuln["cve"]
+        if not hasattr(csaf_vuln, "scores"):
+            self.cvss_v3_vector = ""
+            self.cvss_v3_base_score = ""
         for score in csaf_vuln.get("scores", []):
             if "cvss_v3" in score:
                 self.cvss_v3_vector = score["cvss_v3"]["vectorString"]
