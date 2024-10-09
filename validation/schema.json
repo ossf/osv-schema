@@ -56,7 +56,7 @@
             "type": "object",
             "properties": {
               "ecosystem": {
-                "$ref": "#/$defs/ecosystem"
+                "$ref": "#/$defs/ecosystemWithSuffix"
               },
               "name": {
                 "type": "string"
@@ -296,11 +296,55 @@
     "modified"
   ],
   "$defs": {
-    "ecosystem": {
+    "ecosystemName": {
       "type": "string",
       "title": "Currently supported ecosystems",
       "description": "These ecosystems are also documented at https://ossf.github.io/osv-schema/#affectedpackage-field",
-      "pattern": "^(AlmaLinux|Alpine|Android|Bioconductor|Bitnami|Chainguard|ConanCenter|CRAN|crates.io|Debian|GHC|GitHub Actions|GIT|Go|Hackage|Hex|Linux|Maven|npm|NuGet|openSUSE|OSS-Fuzz|Packagist|Photon OS|Pub|PyPI|Red Hat|Rocky Linux|RubyGems|SUSE|SwiftURL|Ubuntu|Wolfi)(:[0-9]+)?"
+      "enum": [
+        "AlmaLinux",
+        "Alpine",
+        "Android",
+        "Bioconductor",
+        "Bitnami",
+        "Chainguard",
+        "ConanCenter",
+        "CRAN",
+        "crates.io",
+        "Debian",
+        "GHC",
+        "GitHub Actions",
+        "Go",
+        "Hackage",
+        "Hex",
+        "Linux",
+        "Mageia",
+        "Maven",
+        "npm",
+        "NuGet",
+        "OSS-Fuzz",
+        "openSUSE",
+        "Packagist",
+        "Photon OS",
+        "Pub",
+        "PyPI",
+        "Red Hat",
+        "Rocky Linux",
+        "RubyGems",
+        "SUSE",
+        "SwiftURL",
+        "Ubuntu",
+        "Wolfi"
+      ]
+    },
+    "ecosystemSuffix": {
+      "type": "string",
+      "pattern": ":.+"
+    },
+    "ecosystemWithSuffix": {
+      "type": "string",
+      "title": "Currently supported ecosystems",
+      "description": "These ecosystems are also documented at https://ossf.github.io/osv-schema/#affectedpackage-field",
+      "pattern": "^(AlmaLinux|Alpine|Android|Bioconductor|Bitnami|Chainguard|ConanCenter|CRAN|crates\\.io|Debian|GHC|GitHub Actions|Go|Hackage|Hex|Linux|Mageia|Maven|npm|NuGet|OSS-Fuzz|openSUSE|Packagist|Photon OS|Pub|PyPI|Red Hat|Rocky Linux|RubyGems|SUSE|SwiftURL|Ubuntu|Wolfi|GIT)(:.+)?$"
     },
     "prefix": {
       "type": "string",
