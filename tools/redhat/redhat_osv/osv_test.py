@@ -23,9 +23,14 @@ class ScoreTest(unittest.TestCase):
                 assert csaf
                 assert len(csaf.vulnerabilities) == 1
                 assert not csaf.vulnerabilities[0].cvss_v3_base_score
+                for vuln in csaf.vulnerabilities:
+                    for remediation in vuln.remediations:
+                        assert "@" in remediation.purl
 
                 osv = OSV(csaf, "test_date")
                 assert not hasattr(osv, "severity")
+                for affected in osv.affected:
+                    assert "@" not in affected.package.purl
 
 
 class EventTest(unittest.TestCase):
