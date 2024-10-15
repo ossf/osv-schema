@@ -85,7 +85,8 @@ class Package:
     Class to hold package data for an Affect.
     Expects an ecosystem string that starts with CPE_PATTERN.
     Replaces the CPE prefix 'redhat' part with 'Red Hat'
-    to match more closely with other ecosystem identifiers in the OSV database
+    to match more closely with other ecosystem identifiers in the OSV database.
+    Also removes version and qualifiers from the CSAF remediation PURL
     """
 
     cpe_pattern: re.Pattern = field(init=False,
@@ -98,6 +99,10 @@ class Package:
         if not self.cpe_pattern.match(self.ecosystem):
             raise ValueError(f"Got unsupported ecosystem: {self.ecosystem}")
         self.ecosystem = f"Red Hat{self.cpe_pattern.split(self.ecosystem, maxsplit=1)[-1]}"
+        if "@" in self.purl:
+            version_index = self.purl.index("@")
+            self.purl = self.purl[:version_index]
+
 
 
 @dataclass
