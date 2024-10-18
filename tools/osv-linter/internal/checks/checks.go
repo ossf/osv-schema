@@ -39,7 +39,7 @@ type CheckDef struct {
 
 // Config defines the configuration for a check.
 type Config struct {
-	Verbose bool
+	Verbose    bool
 	Ecosystems []string
 }
 
@@ -91,6 +91,7 @@ var Collections = []CheckCollection{
 		Name:        "ALL",
 		Description: "all checks currently defined",
 		Checks: []*CheckDef{
+			CheckAffectedFieldValid,
 			CheckRangeHasIntroducedEvent,
 			CheckRangeIsDistinct,
 			CheckPackageExists,
@@ -102,6 +103,7 @@ var Collections = []CheckCollection{
 		Name:        "offline",
 		Description: "checks that do not have remote data dependencies",
 		Checks: []*CheckDef{
+			CheckAffectedFieldValid,
 			CheckRangeHasIntroducedEvent,
 			CheckRangeIsDistinct,
 			CheckPackagePurlValid,

@@ -1,0 +1,1472 @@
+{
+    "affected": [],
+    "aliases": [],
+    "details": "This feature update for venv-salt-minion provides the following changes:\n\n- Introduce `venv-salt-minion`.\n- Track already fixed issues.\n  ",
+    "id": "SUSE-FU-2022:0444-1",
+    "modified": "2022-02-16T15:20:54Z",
+    "published": "2022-02-16T15:20:54Z",
+    "references": [
+        {
+            "type": "ADVISORY",
+            "url": "https://www.suse.com/support/update/announcement/-2022-444/suse-fu-20220444-1/"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1000080"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1000117"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1000194"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1000742"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1002895"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1003091"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1005246"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1010874"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1010966"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1011936"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1015549"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1027610"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1027705"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1029902"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1030038"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1032118"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1032119"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1035604"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1039469"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1040164"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1040256"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1041090"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1042670"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1049186"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1049304"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1050653"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1050665"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1055478"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1055542"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1056951"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1057496"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1062237"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1066873"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1068790"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1070737"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1070738"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1070853"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1071941"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1073310"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1073845"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1073879"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1074247"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1076519"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1077096"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1077230"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1078329"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1079761"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1080301"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1081005"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1081750"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1081751"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1082155"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1082163"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1082318"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1083826"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1084117"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1084157"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1085276"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1085529"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1085661"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1087104"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1088573"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1090427"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1090953"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1093518"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1093917"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1094788"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1094814"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1094883"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1095267"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1096738"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1096937"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1097531"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1098535"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1099308"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1099569"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1102868"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1108508"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1109882"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1109998"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1110435"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1110869"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1110871"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1111493"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1111622"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1111657"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1112357"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1115769"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1118611"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1119376"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1119416"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1119792"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1121717"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1121852"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1122191"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1123064"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1123185"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1123186"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1123558"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1124885"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1125815"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1126283"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1126318"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1127173"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1128146"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1128323"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1128355"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1129071"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1129566"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1130840"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1132174"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1132323"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1132455"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1132663"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1132900"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1135009"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1136444"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1138666"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1138715"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1138746"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1139915"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1140255"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1141168"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1142899"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1143033"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1143454"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1143893"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1144506"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1149686"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1149792"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1150190"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1150895"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1153830"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1155815"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1156677"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1156694"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1156908"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1157104"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1157354"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1159235"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1159538"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1161557"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1161770"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1162224"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1162367"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1162743"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1163978"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1164310"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1165439"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1165578"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1165730"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1165823"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1165960"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1166139"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1166758"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1167008"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1167501"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1167732"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1167746"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1168480"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1168973"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1169489"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1170175"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1170863"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1171368"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1171561"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1172226"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1172908"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1172928"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1173226"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1173356"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1174009"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1174091"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1174514"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1175729"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1176116"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1176129"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1176134"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1176232"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1176256"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1176257"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1176258"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1176259"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1176262"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1176389"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1176785"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1176977"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1177120"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1177127"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1177559"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1178168"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1178341"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1178670"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1179562"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1179630"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1179805"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1180125"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1180781"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1181126"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1181324"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1181944"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1182066"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1182211"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1182244"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1182264"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1182379"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1182963"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1183059"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1183374"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1183858"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1184505"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1185588"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1185706"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1185748"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1186738"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1187045"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1190781"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/1193357"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/428177"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/431945"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/637176"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/657698"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/658604"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/673071"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/715423"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/743787"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/747125"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/750618"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/751718"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/754447"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/754677"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/761500"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/784670"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/787526"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/799119"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/809831"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/811890"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/825221"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/828513"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/831629"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/834601"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/835687"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/839107"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/84331"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/855666"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/858239"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/867887"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/871152"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/885662"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/885882"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/889363"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/892480"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/898917"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/907584"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/912460"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/913229"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/915479"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/917607"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/917759"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/917815"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/922448"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/929736"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/930189"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/931978"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/935856"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/937912"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/939456"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/940608"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/942385"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/942751"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/944204"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/945455"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/946648"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/947357"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/947679"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/948198"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/954486"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/954690"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/961334"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/962291"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/963974"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/964204"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/964472"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/964474"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/965830"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/967128"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/968270"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/968601"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/975875"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/981848"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/988086"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/992988"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/992989"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/992992"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/993130"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/993825"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/993968"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/994910"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/996255"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.suse.com/997614"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2011-3389"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2011-4944"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2012-0845"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2012-1150"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2013-1752"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2013-4238"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2013-4314"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2014-0012"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2014-1829"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2014-1830"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2014-2667"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2014-4650"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2014-7202"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2014-7203"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2014-9721"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2015-2296"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2016-10745"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2016-9015"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2017-18342"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2018-18074"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2018-20060"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2018-7750"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2019-10906"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2019-11236"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2019-11324"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2019-13132"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2019-20907"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2019-20916"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2019-5010"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2019-6250"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2019-8341"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2019-9740"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2019-9947"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2020-14343"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2020-15166"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2020-15523"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2020-15801"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2020-1747"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2020-25659"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2020-26137"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2020-27783"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2020-28493"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2020-29651"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2020-36242"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2020-8492"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2021-23336"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2021-28957"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2021-29921"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2021-3177"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2021-33503"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2021-3426"
+        }
+    ],
+    "related": [
+        "CVE-2011-3389",
+        "CVE-2011-4944",
+        "CVE-2012-0845",
+        "CVE-2012-1150",
+        "CVE-2013-1752",
+        "CVE-2013-4238",
+        "CVE-2013-4314",
+        "CVE-2014-0012",
+        "CVE-2014-1829",
+        "CVE-2014-1830",
+        "CVE-2014-2667",
+        "CVE-2014-4650",
+        "CVE-2014-7202",
+        "CVE-2014-7203",
+        "CVE-2014-9721",
+        "CVE-2015-2296",
+        "CVE-2016-10745",
+        "CVE-2016-9015",
+        "CVE-2017-18342",
+        "CVE-2018-18074",
+        "CVE-2018-20060",
+        "CVE-2018-7750",
+        "CVE-2019-10906",
+        "CVE-2019-11236",
+        "CVE-2019-11324",
+        "CVE-2019-13132",
+        "CVE-2019-20907",
+        "CVE-2019-20916",
+        "CVE-2019-5010",
+        "CVE-2019-6250",
+        "CVE-2019-8341",
+        "CVE-2019-9740",
+        "CVE-2019-9947",
+        "CVE-2020-14343",
+        "CVE-2020-15166",
+        "CVE-2020-15523",
+        "CVE-2020-15801",
+        "CVE-2020-1747",
+        "CVE-2020-25659",
+        "CVE-2020-26137",
+        "CVE-2020-27783",
+        "CVE-2020-28493",
+        "CVE-2020-29651",
+        "CVE-2020-36242",
+        "CVE-2020-8492",
+        "CVE-2021-23336",
+        "CVE-2021-28957",
+        "CVE-2021-29921",
+        "CVE-2021-3177",
+        "CVE-2021-33503",
+        "CVE-2021-3426"
+    ],
+    "summary": "Feature update for venv-salt-minion"
+}
