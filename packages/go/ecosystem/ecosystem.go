@@ -3,7 +3,7 @@ package ecosystem
 import (
 	"strings"
 
-	"github.com/ossf/osv-schema/constants"
+	"github.com/ossf/osv-schema/packages/go/constants"
 )
 
 type Parsed struct {
