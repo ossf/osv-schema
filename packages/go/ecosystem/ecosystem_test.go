@@ -1,6 +1,7 @@
 package ecosystem_test
 
 import (
+	"encoding/json"
 	"reflect"
 	"testing"
 
@@ -155,6 +156,47 @@ func buildCases() []testCase {
 				Suffix:    "Pro:18.04:LTS",
 			},
 		},
+	}
+}
+
+func TestParsed_UnmarshalJSON(t *testing.T) {
+	t.Parallel()
+
+	tests := buildCases()
+	for _, tt := range tests {
+		t.Run(tt.string, func(t *testing.T) {
+			var got ecosystem.Parsed
+
+			if err := json.Unmarshal([]byte(`"`+tt.string+`"`), &got); err != nil {
+				t.Fatalf("Unmarshal() = %v; want no error", err)
+			}
+
+			// ensure that the string is unmarshalled into a struct
+			if !reflect.DeepEqual(got, tt.parsed) {
+				t.Errorf("Unmarshal() = %v; want %v", got, tt.parsed)
+			}
+		})
+	}
+}
+
+func TestParsed_MarshalJSON(t *testing.T) {
+	t.Parallel()
+
+	tests := buildCases()
+	for _, tt := range tests {
+		t.Run(tt.string, func(t *testing.T) {
+			got, err := json.Marshal(tt.parsed)
+
+			if err != nil {
+				t.Fatalf("Marshal() = %v; want no error", err)
+			}
+
+			// ensure that the struct is marshaled as a string
+			want := `"` + tt.string + `"`
+			if string(got) != want {
+				t.Errorf("Marshal() = %v; want %v", string(got), want)
+			}
+		})
 	}
 }
 
