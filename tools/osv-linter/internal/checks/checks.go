@@ -91,7 +91,7 @@ var Collections = []CheckCollection{
 		Name:        "ALL",
 		Description: "all checks currently defined",
 		Checks: []*CheckDef{
-			CheckAffectedFieldValid,
+			CheckRecordHasAffected,
 			CheckRangeHasIntroducedEvent,
 			CheckRangeIsDistinct,
 			CheckPackageExists,
@@ -103,7 +103,7 @@ var Collections = []CheckCollection{
 		Name:        "offline",
 		Description: "checks that do not have remote data dependencies",
 		Checks: []*CheckDef{
-			CheckAffectedFieldValid,
+			CheckRecordHasAffected,
 			CheckRangeHasIntroducedEvent,
 			CheckRangeIsDistinct,
 			CheckPackagePurlValid,

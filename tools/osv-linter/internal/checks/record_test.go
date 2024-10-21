@@ -42,9 +42,9 @@ func TestAffectedField(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotFindings := AffectedFieldValid(tt.args.json, &Config{Verbose: true})
+			gotFindings := RecordHasAffected(tt.args.json, &Config{Verbose: true})
 			if diff := cmp.Diff(tt.wantFindings, gotFindings, cmpopts.EquateErrors()); diff != "" {
-				t.Errorf("AffectedFieldValid() mismatch (-want +got):\n%s", diff)
+				t.Errorf("RecordHasAffected() mismatch (-want +got):\n%s", diff)
 			}
 		})
 	}
