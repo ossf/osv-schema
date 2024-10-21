@@ -154,10 +154,12 @@ class OSV:
             }]
 
         self.affected: list[Affected] = []
+
+        # Deduplicate arch specific remediations
+        unique_packages: dict[str: tuple[str: str]] = {}
+
         for vulnerability in csaf_data.vulnerabilities:
             self.related.append(vulnerability.cve_id)
-            # Deduplicate arch specific remediations
-            unique_packages: dict[str: tuple[str: str]] = {}
             for remediation in vulnerability.remediations:
                 # Safety check for when we start processing non-rpm content
                 if not remediation.purl.startswith("pkg:rpm/"):
@@ -173,14 +175,15 @@ class OSV:
                     unique_packages[remediation.cpe + "&" + remediation.component] = (
                         version_arch_split[0], remediation.purl,
                     )
-            # Add all the RPM packages without arch suffixes
-            for package_key, version_purl in unique_packages.items():
-                package_key_parts = package_key.split("&", 1)
-                cpe = package_key_parts[0]
-                component = package_key_parts[1]
-                package = Package(component, cpe, version_purl[1])
-                ranges = [Range(version_purl[0])]
-                self.affected.append(Affected(package, ranges))
+
+        # Add all the RPM packages without arch suffixes
+        for package_key, version_purl in unique_packages.items():
+            package_key_parts = package_key.split("&", 1)
+            cpe = package_key_parts[0]
+            component = package_key_parts[1]
+            package = Package(component, cpe, version_purl[1])
+            ranges = [Range(version_purl[0])]
+            self.affected.append(Affected(package, ranges))
 
         self.references = self._convert_references(csaf_data)
 
