@@ -183,6 +183,42 @@ func TestParsed_UnmarshalJSON(t *testing.T) {
 	}
 }
 
+func TestParsed_UnmarshalJSON_Errors(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		input string
+		err   string
+	}{
+		{"1", "json: cannot unmarshal number into Go value of type string"},
+		{"{}", "json: cannot unmarshal object into Go value of type string"},
+		{"{\"ecosystem\": \"npm\"}", "json: cannot unmarshal object into Go value of type string"},
+		{"{\"ecosystem\": \"npm\", \"suffix\": \"\"}", "json: cannot unmarshal object into Go value of type string"},
+		{"{\"Ecosystem\": \"npm\", \"Suffix\": \"\"}", "json: cannot unmarshal object into Go value of type string"},
+		{"[]", "json: cannot unmarshal array into Go value of type string"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.input, func(t *testing.T) {
+			t.Parallel()
+
+			var got ecosystem.Parsed
+			err := json.Unmarshal([]byte(tt.input), &got)
+
+			if err == nil {
+				t.Fatalf("Unmarshal() = %v; want an error", err)
+			}
+
+			if err.Error() != tt.err {
+				t.Fatalf("Unmarshal() = %v; want %v", err.Error(), tt.err)
+			}
+
+			if got != (ecosystem.Parsed{}) {
+				t.Fatalf("Unmarshal() = %v; want %v", got, ecosystem.Parsed{})
+			}
+		})
+	}
+}
+
 func TestParsed_MarshalJSON(t *testing.T) {
 	t.Parallel()
 
