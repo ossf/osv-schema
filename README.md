@@ -55,7 +55,7 @@ Together, these include vulnerabilities from:
 -   RubyGems
 -   Ubuntu
 
-These vulnerabilites are aggregated by <https://osv.dev>.
+These vulnerabilities are aggregated by <https://osv.dev>.
 
 Join the discussion in the [OpenSSF Slack](https://slack.openssf.org/) channel [#osv_schema](https://openssf.slack.com/archives/C03K6SZBH2S)
 

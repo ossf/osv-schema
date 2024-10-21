@@ -3,7 +3,7 @@
 // To add additional checks:
 // 1. define a new instance of `Check`
 // 2. add it to the `checks` array
-// 3. add it to the relevent collections defined in `checkCollections`
+// 3. add it to the relevant collections defined in `checkCollections`
 //
 // To add additional collections of checks:
 // 1. add to the `checkCollections` array.
