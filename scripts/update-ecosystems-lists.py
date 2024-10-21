@@ -5,7 +5,16 @@ import json
 MARKDOWN_TABLE_MARKER_START = '<!-- begin auto-generated ecosystems list -->'
 MARKDOWN_TABLE_MARKER_END = '<!-- end auto-generated ecosystems list -->'
 
-ecosystems: dict[str, str] = json.loads(open('ecosystems.json').read())
+# ensure that the ecosystems are sorted alphabetically and don't have extra whitespace
+ecosystems: dict[str, str] = {
+  k: v.strip() for k, v in sorted(
+    json.loads(open('ecosystems.json').read()).items(),
+    key=lambda item: item[0].casefold()
+  )
+}
+
+# write back to the json file in case there were any changes
+open('ecosystems.json', 'w').write(json.dumps(ecosystems, indent=2) + '\n')
 
 
 def update_json_schema():
