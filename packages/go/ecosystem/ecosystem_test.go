@@ -14,7 +14,9 @@ type testCase struct {
 	parsed ecosystem.Parsed
 }
 
-func buildCases() []testCase {
+func buildCases(t *testing.T) []testCase {
+	t.Helper()
+
 	return []testCase{
 		{
 			string: "crates.io",
@@ -162,7 +164,7 @@ func buildCases() []testCase {
 func TestParsed_UnmarshalJSON(t *testing.T) {
 	t.Parallel()
 
-	tests := buildCases()
+	tests := buildCases(t)
 	for _, tt := range tests {
 		t.Run(tt.string, func(t *testing.T) {
 			var got ecosystem.Parsed
@@ -182,7 +184,7 @@ func TestParsed_UnmarshalJSON(t *testing.T) {
 func TestParsed_MarshalJSON(t *testing.T) {
 	t.Parallel()
 
-	tests := buildCases()
+	tests := buildCases(t)
 	for _, tt := range tests {
 		t.Run(tt.string, func(t *testing.T) {
 			got, err := json.Marshal(tt.parsed)
@@ -203,7 +205,7 @@ func TestParsed_MarshalJSON(t *testing.T) {
 func TestParsed_String(t *testing.T) {
 	t.Parallel()
 
-	tests := buildCases()
+	tests := buildCases(t)
 	for _, tt := range tests {
 		t.Run(tt.string, func(t *testing.T) {
 			if got := tt.parsed.String(); got != tt.string {
@@ -216,7 +218,7 @@ func TestParsed_String(t *testing.T) {
 func TestParse(t *testing.T) {
 	t.Parallel()
 
-	tests := buildCases()
+	tests := buildCases(t)
 	for _, tt := range tests {
 		t.Run(tt.string, func(t *testing.T) {
 			if got := ecosystem.Parse(tt.string); !reflect.DeepEqual(got, tt.parsed) {
