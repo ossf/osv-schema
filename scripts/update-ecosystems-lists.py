@@ -71,5 +71,65 @@ def update_schema_md():
   open('docs/schema.md', 'w').write(md)
 
 
+def convert_to_go_constant_name(name: str) -> str:
+  """
+  Converts the "human" name of an ecosystem to a Go constant name, mostly
+  by removing spaces and dashes and converting to PascalCase.
+
+  Some ecosystems have special cases, like "crates.io" which is converted to "CratesIO".
+
+  :param name:
+  :return:
+  """
+  if name == 'crates.io':
+    return 'EcosystemCratesIO'
+
+  if name == 'npm':
+    return 'EcosystemNPM'
+
+  name = name[0].upper() + name[1:]
+  name = name.replace('-', '').replace(' ', '')
+
+  return f'Ecosystem{name}'
+
+
+def generate_ecosystems_go_constants() -> str:
+  """
+  Generates a list of Go constants, with a constant per ecosystem
+  :return:
+  """
+
+  constants = list(map(lambda x: (convert_to_go_constant_name(x), x), ecosystems.keys()))
+  longest = max(map(lambda x: len(x[0]), constants))
+
+  code = 'const (\n'
+  for constant, name in constants:
+    code += f'\t{constant.ljust(longest)} Ecosystem = "{name}"\n'
+  code += ')\n'
+
+  return code
+
+
+def update_go_constants():
+  """
+  Updates the Go constants with the list of ecosystems
+  :return:
+  """
+  go = open('bindings/go/osvschema/constants.go').read()
+
+  ecosystem_constants_start = go.index('type Ecosystem string\n\nconst (\n')
+  ecosystems_constants_end = go.index(')', ecosystem_constants_start)
+
+  go = '{0}{1}\n\n{2}{3}'.format(
+    go[:ecosystem_constants_start],
+    'type Ecosystem string',
+    generate_ecosystems_go_constants(),
+    go[ecosystems_constants_end + 2:]
+  )
+
+  open('bindings/go/osvschema/constants.go', 'w').write(go)
+
+
+update_go_constants()
 update_json_schema()
 update_schema_md()
