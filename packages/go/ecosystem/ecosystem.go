@@ -6,6 +6,12 @@ import (
 	"github.com/ossf/osv-schema/packages/go/constants"
 )
 
+// Parsed represents an ecosystem-with-suffix string as defined by the spec, parsed into
+// a structured format.
+//
+// The suffix is optional and is separated from the ecosystem by a colon.
+//
+// For example, "npm:abc" would be parsed into Parsed{Ecosystem: constants.EcosystemNPM, Suffix: "abc"}
 type Parsed struct {
 	Ecosystem constants.Ecosystem
 	Suffix    string
