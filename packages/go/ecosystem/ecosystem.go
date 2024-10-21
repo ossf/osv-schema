@@ -1,6 +1,7 @@
 package ecosystem
 
 import (
+	"encoding/json"
 	"strings"
 
 	"github.com/ossf/osv-schema/packages/go/constants"
@@ -23,7 +24,14 @@ type Parsed struct {
 //
 //goland:noinspection GoMixedReceiverTypes
 func (p *Parsed) UnmarshalJSON(data []byte) error {
-	*p = Parse(strings.Trim(string(data), "\""))
+	var str string
+	err := json.Unmarshal(data, &str)
+
+	if err != nil {
+		return err
+	}
+
+	*p = Parse(str)
 
 	return nil
 }
