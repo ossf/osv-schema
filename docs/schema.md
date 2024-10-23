@@ -681,6 +681,8 @@ versions and different potential vulnerabilities:
 {"ecosystem": "PyPI", "name": "zlib"}
 ```
 
+#### Defined ecosystems
+
 <!-- Please keep this list alphabetically sorted -->
 The defined ecosystems are:
 
