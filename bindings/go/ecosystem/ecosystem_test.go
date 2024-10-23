@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/ossf/osv-schema/bindings/go/constants"
 	"github.com/ossf/osv-schema/bindings/go/ecosystem"
+	"github.com/ossf/osv-schema/bindings/go/osvschema"
 )
 
 type testCase struct {
@@ -21,140 +21,140 @@ func buildCases(t *testing.T) []testCase {
 		{
 			string: "crates.io",
 			parsed: ecosystem.Parsed{
-				Ecosystem: constants.EcosystemCratesIO,
+				Ecosystem: osvschema.EcosystemCratesIO,
 				Suffix:    "",
 			},
 		},
 		{
 			string: "crates.io: ",
 			parsed: ecosystem.Parsed{
-				Ecosystem: constants.EcosystemCratesIO,
+				Ecosystem: osvschema.EcosystemCratesIO,
 				Suffix:    " ",
 			},
 		},
 		{
 			string: "crates.io::",
 			parsed: ecosystem.Parsed{
-				Ecosystem: constants.EcosystemCratesIO,
+				Ecosystem: osvschema.EcosystemCratesIO,
 				Suffix:    ":",
 			},
 		},
 		{
 			string: "npm",
 			parsed: ecosystem.Parsed{
-				Ecosystem: constants.EcosystemNPM,
+				Ecosystem: osvschema.EcosystemNPM,
 				Suffix:    "",
 			},
 		},
 		{
 			string: "npm:abc",
 			parsed: ecosystem.Parsed{
-				Ecosystem: constants.EcosystemNPM,
+				Ecosystem: osvschema.EcosystemNPM,
 				Suffix:    "abc",
 			},
 		},
 		{
 			string: "Alpine",
 			parsed: ecosystem.Parsed{
-				Ecosystem: constants.EcosystemAlpine,
+				Ecosystem: osvschema.EcosystemAlpine,
 				Suffix:    "",
 			},
 		},
 		{
 			string: "Alpine:v",
 			parsed: ecosystem.Parsed{
-				Ecosystem: constants.EcosystemAlpine,
+				Ecosystem: osvschema.EcosystemAlpine,
 				Suffix:    "v",
 			},
 		},
 		{
 			string: "Alpine:v3.16",
 			parsed: ecosystem.Parsed{
-				Ecosystem: constants.EcosystemAlpine,
+				Ecosystem: osvschema.EcosystemAlpine,
 				Suffix:    "v3.16",
 			},
 		},
 		{
 			string: "Alpine:3.16",
 			parsed: ecosystem.Parsed{
-				Ecosystem: constants.EcosystemAlpine,
+				Ecosystem: osvschema.EcosystemAlpine,
 				Suffix:    "3.16",
 			},
 		},
 		{
 			string: "Maven",
 			parsed: ecosystem.Parsed{
-				Ecosystem: constants.EcosystemMaven,
+				Ecosystem: osvschema.EcosystemMaven,
 				Suffix:    "",
 			},
 		},
 		{
 			string: "Maven:https://maven.google.com",
 			parsed: ecosystem.Parsed{
-				Ecosystem: constants.EcosystemMaven,
+				Ecosystem: osvschema.EcosystemMaven,
 				Suffix:    "https://maven.google.com",
 			},
 		},
 		{
 			string: "Photon OS",
 			parsed: ecosystem.Parsed{
-				Ecosystem: constants.EcosystemPhotonOS,
+				Ecosystem: osvschema.EcosystemPhotonOS,
 				Suffix:    "",
 			},
 		},
 		{
 			string: "Photon OS:abc",
 			parsed: ecosystem.Parsed{
-				Ecosystem: constants.EcosystemPhotonOS,
+				Ecosystem: osvschema.EcosystemPhotonOS,
 				Suffix:    "abc",
 			},
 		},
 		{
 			string: "Photon OS:3.0",
 			parsed: ecosystem.Parsed{
-				Ecosystem: constants.EcosystemPhotonOS,
+				Ecosystem: osvschema.EcosystemPhotonOS,
 				Suffix:    "3.0",
 			},
 		},
 		{
 			string: "Red Hat",
 			parsed: ecosystem.Parsed{
-				Ecosystem: constants.EcosystemRedHat,
+				Ecosystem: osvschema.EcosystemRedHat,
 				Suffix:    "",
 			},
 		},
 		{
 			string: "Red Hat:abc",
 			parsed: ecosystem.Parsed{
-				Ecosystem: constants.EcosystemRedHat,
+				Ecosystem: osvschema.EcosystemRedHat,
 				Suffix:    "abc",
 			},
 		},
 		{
 			string: "Red Hat:rhel_aus:8.4::appstream",
 			parsed: ecosystem.Parsed{
-				Ecosystem: constants.EcosystemRedHat,
+				Ecosystem: osvschema.EcosystemRedHat,
 				Suffix:    "rhel_aus:8.4::appstream",
 			},
 		},
 		{
 			string: "Ubuntu",
 			parsed: ecosystem.Parsed{
-				Ecosystem: constants.EcosystemUbuntu,
+				Ecosystem: osvschema.EcosystemUbuntu,
 				Suffix:    "",
 			},
 		},
 		{
 			string: "Ubuntu:Pro",
 			parsed: ecosystem.Parsed{
-				Ecosystem: constants.EcosystemUbuntu,
+				Ecosystem: osvschema.EcosystemUbuntu,
 				Suffix:    "Pro",
 			},
 		},
 		{
 			string: "Ubuntu:Pro:18.04:LTS",
 			parsed: ecosystem.Parsed{
-				Ecosystem: constants.EcosystemUbuntu,
+				Ecosystem: osvschema.EcosystemUbuntu,
 				Suffix:    "Pro:18.04:LTS",
 			},
 		},
