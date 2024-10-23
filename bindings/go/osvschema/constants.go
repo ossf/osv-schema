@@ -1,4 +1,4 @@
-package constants
+package osvschema
 
 type Ecosystem string
 

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"strings"
 
-	"github.com/ossf/osv-schema/bindings/go/constants"
+	"github.com/ossf/osv-schema/bindings/go/osvschema"
 )
 
 // Parsed represents an ecosystem-with-suffix string as defined by the [spec], parsed into
@@ -12,11 +12,11 @@ import (
 //
 // The suffix is optional and is separated from the ecosystem by a colon.
 //
-// For example, "Debian:7" would be parsed into Parsed{Ecosystem: constants.EcosystemDebian, Suffix: "7"}
+// For example, "Debian:7" would be parsed into Parsed{Ecosystem: osvschema.EcosystemDebian, Suffix: "7"}
 //
 // [spec]: https://ossf.github.io/osv-schema/
 type Parsed struct {
-	Ecosystem constants.Ecosystem
+	Ecosystem osvschema.Ecosystem
 	Suffix    string
 }
 
@@ -58,9 +58,9 @@ func (p *Parsed) String() string {
 	return str
 }
 
-// Parse parses a string into a constants.Ecosystem and an optional suffix specified with a ":"
+// Parse parses a string into an osvschema.Ecosystem and an optional suffix specified with a ":"
 func Parse(str string) Parsed {
 	ecosystem, suffix, _ := strings.Cut(str, ":")
 
-	return Parsed{constants.Ecosystem(ecosystem), suffix}
+	return Parsed{osvschema.Ecosystem(ecosystem), suffix}
 }
