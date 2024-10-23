@@ -20,11 +20,11 @@ jobs:
   tests_osv-go:
     permissions:
       contents: read # to fetch code (actions/checkout)
-    name: Run `packages/go` unit tests
+    name: Run `bindings/go` unit tests
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./packages/go
+        working-directory: ./bindings/go
     steps:
       - name: Check out code
         uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
