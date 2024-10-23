@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"strings"
 
-	"github.com/ossf/osv-schema/packages/go/constants"
+	"github.com/ossf/osv-schema/bindings/go/constants"
 )
 
 // Parsed represents an ecosystem-with-suffix string as defined by the [spec], parsed into

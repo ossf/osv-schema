@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/ossf/osv-schema/packages/go/constants"
-	"github.com/ossf/osv-schema/packages/go/ecosystem"
+	"github.com/ossf/osv-schema/bindings/go/constants"
+	"github.com/ossf/osv-schema/bindings/go/ecosystem"
 )
 
 type testCase struct {
