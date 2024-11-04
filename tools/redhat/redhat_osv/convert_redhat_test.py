@@ -15,8 +15,8 @@ class TestRedHatConverter(unittest.TestCase):
             """ Test a single demo CSAF file """
             modified_time = datetime.strptime("2024-09-02T14:30:00",
                                               "%Y-%m-%dT%H:%M:%S")
-            csaf_file = f"testdata/rhsa-{test_advisory}.json"
-            expected_file = f"testdata/RHSA-{test_advisory}.json"
+            csaf_file = f"testdata/CSAF/rhsa-{test_advisory}.json"
+            expected_file = f"testdata/OSV/RHSA-{test_advisory}.json"
 
             with open(csaf_file, "r", encoding="utf-8") as fp:
                 csaf_data = fp.read()
