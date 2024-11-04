@@ -668,7 +668,7 @@ within its ecosystem. The two fields must both be present, because the
 The `purl` field is a string following the
  [Package URL specification](https://github.com/package-url/purl-spec) that
 identifies the package, without the `@version` component.
-This field is optional but recommended. 
+This field is optional but recommended.
 
 Different ecosystems can define the same names; they identify different
 packages. For example, these denote different libraries with different sets of
@@ -686,6 +686,7 @@ versions and different potential vulnerabilities:
 
 The defined ecosystems are:
 
+<!-- (re)generate this list using scripts/update-ecosystems.list.py after changing ecosystems.json -->
 <!-- begin auto-generated ecosystems list -->
 
 | Ecosystem | Description |
