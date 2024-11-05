@@ -15,7 +15,7 @@ class ScoreTest(unittest.TestCase):
     def test_missing_cvss_v3(self):
         """Test parsing a CSAF file with missing CVSSv3 score"""
         for test_csaf_file in self.test_csaf_files:
-            csaf_file = f"testdata/{test_csaf_file}"
+            csaf_file = f"testdata/CSAF/{test_csaf_file}"
             with open(csaf_file, "r", encoding="utf-8") as fp:
                 csaf_data = fp.read()
             csaf = CSAF(csaf_data)
@@ -27,6 +27,7 @@ class ScoreTest(unittest.TestCase):
                     for remediation in vuln.remediations:
                         assert "@" in remediation.purl
 
+                # See https://github.com/ossf/osv-schema/pull/308#issuecomment-2456061864
                 osv = OSV(csaf, "test_date")
                 assert not hasattr(osv, "severity")
                 for affected in osv.affected:
