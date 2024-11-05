@@ -1,0 +1,4616 @@
+{
+  "schema_version": "1.6.7",
+  "id": "RHSA-2024:6220",
+  "related": [
+    "CVE-2024-6345"
+  ],
+  "published": "2024-09-02T14:30:00Z",
+  "modified": "2024-09-02T14:30:00Z",
+  "summary": "Red Hat Security Advisory: python39:3.9 security update",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "name": "PyYAML",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/PyYAML"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.4.1-1.module+el8.5.0+10613+59a13ec4"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "PyYAML-debugsource",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/PyYAML-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.4.1-1.module+el8.5.0+10613+59a13ec4"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "mod_wsgi",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/mod_wsgi"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:4.7.1-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "numpy",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/numpy"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.19.4-3.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "numpy-debugsource",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/numpy-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.19.4-3.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-PyMySQL",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-PyMySQL"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:0.10.1-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-cffi",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-cffi"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.14.3-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-cffi-debugsource",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-cffi-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.14.3-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-chardet",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-chardet"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.0.4-19.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-cryptography",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-cryptography"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.3.1-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-cryptography-debugsource",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-cryptography-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.3.1-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-idna",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-idna"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.10-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-lxml",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-lxml"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:4.6.5-1.module+el8.6.0+13933+9cf0c87c"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-lxml-debugsource",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-lxml-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:4.6.5-1.module+el8.6.0+13933+9cf0c87c"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-ply",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-ply"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.11-10.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-psutil",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-psutil"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.8.0-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-psutil-debugsource",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-psutil-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.8.0-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-psycopg2",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-psycopg2"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.8.6-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-psycopg2-debugsource",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-psycopg2-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.8.6-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-pycparser",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-pycparser"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.20-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-pysocks",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-pysocks"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.7.1-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-requests",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-requests"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.25.0-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-toml",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-toml"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:0.10.1-5.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-urllib3",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-urllib3"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.25.10-4.module+el8.5.0+11712+ea2d2be1"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-wheel",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-wheel"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1:0.35.1-4.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-PyMySQL",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-PyMySQL"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:0.10.1-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-cffi",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-cffi"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.14.3-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-cffi-debuginfo",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-cffi-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.14.3-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-chardet",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-chardet"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.0.4-19.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-cryptography",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-cryptography"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.3.1-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-cryptography-debuginfo",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-cryptography-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.3.1-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-debuginfo",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-debugsource",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-devel",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-devel"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-idle",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-idle"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-idna",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-idna"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.10-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-libs",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-libs"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-lxml",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-lxml"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:4.6.5-1.module+el8.6.0+13933+9cf0c87c"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-lxml-debuginfo",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-lxml-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:4.6.5-1.module+el8.6.0+13933+9cf0c87c"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-mod_wsgi",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-mod_wsgi"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:4.7.1-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-numpy",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-numpy"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.19.4-3.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-numpy-debuginfo",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-numpy-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.19.4-3.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-numpy-doc",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-numpy-doc"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.19.4-3.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-numpy-f2py",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-numpy-f2py"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.19.4-3.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-pip",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-pip"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:20.2.4-7.module+el8.6.0+13003+6bb2c488"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-pip-wheel",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-pip-wheel"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:20.2.4-7.module+el8.6.0+13003+6bb2c488"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-ply",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-ply"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.11-10.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-psutil",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-psutil"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.8.0-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-psutil-debuginfo",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-psutil-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.8.0-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-psycopg2",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-psycopg2"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.8.6-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-psycopg2-debuginfo",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-psycopg2-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.8.6-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-psycopg2-doc",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-psycopg2-doc"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.8.6-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-psycopg2-tests",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-psycopg2-tests"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.8.6-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-pycparser",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-pycparser"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.20-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-pysocks",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-pysocks"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.7.1-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-pyyaml",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-pyyaml"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.4.1-1.module+el8.5.0+10613+59a13ec4"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-pyyaml-debuginfo",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-pyyaml-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.4.1-1.module+el8.5.0+10613+59a13ec4"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-requests",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-requests"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.25.0-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-rpm-macros",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-rpm-macros"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-scipy",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-scipy"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.5.4-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-scipy-debuginfo",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-scipy-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.5.4-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-setuptools",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-setuptools"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:50.3.2-6.module+el8.6.0+22162+859a69ec"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-setuptools-wheel",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-setuptools-wheel"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:50.3.2-6.module+el8.6.0+22162+859a69ec"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-six",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-six"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.15.0-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-test",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-test"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-tkinter",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-tkinter"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-toml",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-toml"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:0.10.1-5.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-urllib3",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-urllib3"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.25.10-4.module+el8.5.0+11712+ea2d2be1"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-wheel",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-wheel"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1:0.35.1-4.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-wheel-wheel",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-wheel-wheel"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1:0.35.1-4.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python3x-pip",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python3x-pip"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:20.2.4-7.module+el8.6.0+13003+6bb2c488"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python3x-setuptools",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python3x-setuptools"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:50.3.2-6.module+el8.6.0+22162+859a69ec"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python3x-six",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python3x-six"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.15.0-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "scipy",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/scipy"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.5.4-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "scipy-debugsource",
+        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/scipy-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.5.4-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "PyYAML",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/PyYAML"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.4.1-1.module+el8.5.0+10613+59a13ec4"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "PyYAML-debugsource",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/PyYAML-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.4.1-1.module+el8.5.0+10613+59a13ec4"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "mod_wsgi",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/mod_wsgi"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:4.7.1-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "numpy",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/numpy"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.19.4-3.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "numpy-debugsource",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/numpy-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.19.4-3.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-PyMySQL",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-PyMySQL"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:0.10.1-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-cffi",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-cffi"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.14.3-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-cffi-debugsource",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-cffi-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.14.3-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-chardet",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-chardet"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.0.4-19.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-cryptography",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-cryptography"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.3.1-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-cryptography-debugsource",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-cryptography-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.3.1-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-idna",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-idna"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.10-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-lxml",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-lxml"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:4.6.5-1.module+el8.6.0+13933+9cf0c87c"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-lxml-debugsource",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-lxml-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:4.6.5-1.module+el8.6.0+13933+9cf0c87c"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-ply",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-ply"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.11-10.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-psutil",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-psutil"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.8.0-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-psutil-debugsource",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-psutil-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.8.0-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-psycopg2",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-psycopg2"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.8.6-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-psycopg2-debugsource",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-psycopg2-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.8.6-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-pycparser",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-pycparser"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.20-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-pysocks",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-pysocks"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.7.1-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-requests",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-requests"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.25.0-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-toml",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-toml"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:0.10.1-5.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-urllib3",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-urllib3"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.25.10-4.module+el8.5.0+11712+ea2d2be1"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-wheel",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-wheel"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1:0.35.1-4.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-PyMySQL",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-PyMySQL"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:0.10.1-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-cffi",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-cffi"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.14.3-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-cffi-debuginfo",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-cffi-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.14.3-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-chardet",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-chardet"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.0.4-19.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-cryptography",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-cryptography"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.3.1-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-cryptography-debuginfo",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-cryptography-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.3.1-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-debuginfo",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-debugsource",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-devel",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-devel"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-idle",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-idle"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-idna",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-idna"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.10-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-libs",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-libs"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-lxml",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-lxml"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:4.6.5-1.module+el8.6.0+13933+9cf0c87c"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-lxml-debuginfo",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-lxml-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:4.6.5-1.module+el8.6.0+13933+9cf0c87c"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-mod_wsgi",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-mod_wsgi"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:4.7.1-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-numpy",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-numpy"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.19.4-3.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-numpy-debuginfo",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-numpy-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.19.4-3.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-numpy-doc",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-numpy-doc"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.19.4-3.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-numpy-f2py",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-numpy-f2py"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.19.4-3.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-pip",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-pip"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:20.2.4-7.module+el8.6.0+13003+6bb2c488"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-pip-wheel",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-pip-wheel"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:20.2.4-7.module+el8.6.0+13003+6bb2c488"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-ply",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-ply"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.11-10.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-psutil",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-psutil"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.8.0-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-psutil-debuginfo",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-psutil-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.8.0-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-psycopg2",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-psycopg2"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.8.6-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-psycopg2-debuginfo",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-psycopg2-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.8.6-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-psycopg2-doc",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-psycopg2-doc"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.8.6-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-psycopg2-tests",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-psycopg2-tests"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.8.6-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-pycparser",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-pycparser"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.20-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-pysocks",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-pysocks"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.7.1-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-pyyaml",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-pyyaml"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.4.1-1.module+el8.5.0+10613+59a13ec4"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-pyyaml-debuginfo",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-pyyaml-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.4.1-1.module+el8.5.0+10613+59a13ec4"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-requests",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-requests"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.25.0-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-rpm-macros",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-rpm-macros"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-scipy",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-scipy"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.5.4-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-scipy-debuginfo",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-scipy-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.5.4-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-setuptools",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-setuptools"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:50.3.2-6.module+el8.6.0+22162+859a69ec"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-setuptools-wheel",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-setuptools-wheel"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:50.3.2-6.module+el8.6.0+22162+859a69ec"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-six",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-six"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.15.0-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-test",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-test"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-tkinter",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-tkinter"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-toml",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-toml"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:0.10.1-5.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-urllib3",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-urllib3"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.25.10-4.module+el8.5.0+11712+ea2d2be1"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-wheel",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-wheel"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1:0.35.1-4.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-wheel-wheel",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-wheel-wheel"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1:0.35.1-4.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python3x-pip",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python3x-pip"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:20.2.4-7.module+el8.6.0+13003+6bb2c488"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python3x-setuptools",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python3x-setuptools"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:50.3.2-6.module+el8.6.0+22162+859a69ec"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python3x-six",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python3x-six"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.15.0-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "scipy",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/scipy"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.5.4-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "scipy-debugsource",
+        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
+        "purl": "pkg:rpm/redhat/scipy-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.5.4-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "PyYAML",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/PyYAML"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.4.1-1.module+el8.5.0+10613+59a13ec4"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "PyYAML-debugsource",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/PyYAML-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.4.1-1.module+el8.5.0+10613+59a13ec4"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "mod_wsgi",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/mod_wsgi"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:4.7.1-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "numpy",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/numpy"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.19.4-3.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "numpy-debugsource",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/numpy-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.19.4-3.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-PyMySQL",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-PyMySQL"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:0.10.1-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-cffi",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-cffi"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.14.3-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-cffi-debugsource",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-cffi-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.14.3-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-chardet",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-chardet"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.0.4-19.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-cryptography",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-cryptography"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.3.1-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-cryptography-debugsource",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-cryptography-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.3.1-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-idna",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-idna"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.10-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-lxml",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-lxml"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:4.6.5-1.module+el8.6.0+13933+9cf0c87c"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-lxml-debugsource",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-lxml-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:4.6.5-1.module+el8.6.0+13933+9cf0c87c"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-ply",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-ply"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.11-10.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-psutil",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-psutil"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.8.0-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-psutil-debugsource",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-psutil-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.8.0-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-psycopg2",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-psycopg2"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.8.6-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-psycopg2-debugsource",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-psycopg2-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.8.6-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-pycparser",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-pycparser"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.20-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-pysocks",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-pysocks"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.7.1-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-requests",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-requests"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.25.0-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-toml",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-toml"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:0.10.1-5.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-urllib3",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-urllib3"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.25.10-4.module+el8.5.0+11712+ea2d2be1"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python-wheel",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python-wheel"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1:0.35.1-4.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-PyMySQL",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-PyMySQL"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:0.10.1-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-cffi",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-cffi"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.14.3-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-cffi-debuginfo",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-cffi-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.14.3-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-chardet",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-chardet"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.0.4-19.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-cryptography",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-cryptography"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.3.1-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-cryptography-debuginfo",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-cryptography-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.3.1-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-debuginfo",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-debugsource",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-devel",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-devel"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-idle",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-idle"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-idna",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-idna"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.10-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-libs",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-libs"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-lxml",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-lxml"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:4.6.5-1.module+el8.6.0+13933+9cf0c87c"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-lxml-debuginfo",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-lxml-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:4.6.5-1.module+el8.6.0+13933+9cf0c87c"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-mod_wsgi",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-mod_wsgi"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:4.7.1-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-numpy",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-numpy"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.19.4-3.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-numpy-debuginfo",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-numpy-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.19.4-3.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-numpy-doc",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-numpy-doc"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.19.4-3.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-numpy-f2py",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-numpy-f2py"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.19.4-3.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-pip",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-pip"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:20.2.4-7.module+el8.6.0+13003+6bb2c488"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-pip-wheel",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-pip-wheel"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:20.2.4-7.module+el8.6.0+13003+6bb2c488"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-ply",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-ply"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.11-10.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-psutil",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-psutil"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.8.0-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-psutil-debuginfo",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-psutil-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.8.0-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-psycopg2",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-psycopg2"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.8.6-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-psycopg2-debuginfo",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-psycopg2-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.8.6-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-psycopg2-doc",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-psycopg2-doc"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.8.6-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-psycopg2-tests",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-psycopg2-tests"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.8.6-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-pycparser",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-pycparser"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.20-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-pysocks",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-pysocks"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.7.1-4.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-pyyaml",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-pyyaml"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.4.1-1.module+el8.5.0+10613+59a13ec4"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-pyyaml-debuginfo",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-pyyaml-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:5.4.1-1.module+el8.5.0+10613+59a13ec4"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-requests",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-requests"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:2.25.0-2.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-rpm-macros",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-rpm-macros"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-scipy",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-scipy"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.5.4-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-scipy-debuginfo",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-scipy-debuginfo"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.5.4-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-setuptools",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-setuptools"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:50.3.2-6.module+el8.6.0+22162+859a69ec"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-setuptools-wheel",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-setuptools-wheel"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:50.3.2-6.module+el8.6.0+22162+859a69ec"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-six",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-six"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.15.0-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-test",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-test"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-tkinter",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-tkinter"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:3.9.7-2.module+el8.6.0+20026+579726f4.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-toml",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-toml"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:0.10.1-5.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-urllib3",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-urllib3"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.25.10-4.module+el8.5.0+11712+ea2d2be1"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-wheel",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-wheel"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1:0.35.1-4.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python39-wheel-wheel",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python39-wheel-wheel"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1:0.35.1-4.module+el8.5.0+12204+54860423"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python3x-pip",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python3x-pip"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:20.2.4-7.module+el8.6.0+13003+6bb2c488"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python3x-setuptools",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python3x-setuptools"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:50.3.2-6.module+el8.6.0+22162+859a69ec"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "python3x-six",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/python3x-six"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.15.0-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "scipy",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/scipy"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.5.4-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "scipy-debugsource",
+        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
+        "purl": "pkg:rpm/redhat/scipy-debugsource"
+      },
+      "ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0:1.5.4-3.module+el8.4.0+9822+20bf1249"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://access.redhat.com/errata/RHSA-2024:6220"
+    },
+    {
+      "type": "ARTICLE",
+      "url": "https://access.redhat.com/security/updates/classification/#important"
+    },
+    {
+      "type": "REPORT",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2297771"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://security.access.redhat.com/data/csaf/v2/advisories/2024/rhsa-2024_6220.json"
+    },
+    {
+      "type": "REPORT",
+      "url": "https://access.redhat.com/security/cve/CVE-2024-6345"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://www.cve.org/CVERecord?id=CVE-2024-6345"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-6345"
+    },
+    {
+      "type": "ARTICLE",
+      "url": "https://github.com/pypa/setuptools/commit/88807c7062788254f654ea8c03427adc859321f0"
+    },
+    {
+      "type": "ARTICLE",
+      "url": "https://huntr.com/bounties/d6362117-ad57-4e83-951f-b8141c6e7ca5"
+    }
+  ]
+}

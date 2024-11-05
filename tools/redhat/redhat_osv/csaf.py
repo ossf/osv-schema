@@ -3,6 +3,8 @@ import json
 from dataclasses import dataclass, InitVar, field
 from typing import Any, Iterable
 
+class RemediationParseError(ValueError):
+    pass
 
 @dataclass
 class Remediation:
@@ -32,7 +34,7 @@ class Remediation:
         # We split the name from the rest of the 'version' data (EVRA). We store name as component.
         split_component_version = self.product_version.rsplit("-", maxsplit=2)
         if len(split_component_version) < 3:
-            raise ValueError(
+            raise RemediationParseError(
                 f"Could not convert component into NEVRA: {self.product_version}"
             )
         # RHEL Modules have 4 colons in the name part of the NEVRA. If we detect a modular RPM
@@ -96,7 +98,12 @@ class Vulnerability:
         self.references = csaf_vuln["references"]
         self.remediations = []
         for product_id in csaf_vuln["product_status"]["fixed"]:
-            self.remediations.append(Remediation(product_id, cpes, purls))
+            try:
+                self.remediations.append(Remediation(product_id, cpes, purls))
+            except RemediationParseError:
+                continue
+        if not self.remediations:
+            raise ValueError(f"Did not find any remediations for {self.cve_id}")
 
 
 def gen_dict_extract(key, var: Iterable):
