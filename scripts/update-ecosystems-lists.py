@@ -25,14 +25,14 @@ def update_json_schema():
   schema = json.loads(open('validation/schema.json').read())
 
   names = ecosystems.keys()
-  pattern = ""
+  pattern = ''
 
   for name in names:
-    pattern += name.replace(".", "\\.")
-    pattern += "|"
+    pattern += name.replace('.', '\\.')
+    pattern += '|'
 
   # this is a special "ecosystem" name
-  pattern += "GIT"
+  pattern += 'GIT'
 
   schema['$defs']['ecosystemName']['enum'] = list(names)
   schema['$defs']['ecosystemWithSuffix']['pattern'] = f'^({pattern})(:.+)?$'
@@ -64,7 +64,7 @@ def update_schema_md():
   table_start_index = md.index(MARKDOWN_TABLE_MARKER_START)
   table_end_index = md.index(MARKDOWN_TABLE_MARKER_END)
 
-  assert table_start_index < table_end_index, "Table start index must be before table end index"
+  assert table_start_index < table_end_index, 'Table start index must be before table end index'
 
   table = generate_ecosystems_markdown_table()
   table += '| Your ecosystem here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |\n'
