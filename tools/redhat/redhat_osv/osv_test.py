@@ -27,6 +27,7 @@ class ScoreTest(unittest.TestCase):
                     for remediation in vuln.remediations:
                         assert "@" in remediation.purl
 
+                # See https://github.com/ossf/osv-schema/pull/308#issuecomment-2456061864
                 osv = OSV(csaf, "test_date")
                 assert not hasattr(osv, "severity")
                 for affected in osv.affected:
