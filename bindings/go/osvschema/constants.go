@@ -64,6 +64,7 @@ const (
 	ReferenceReport     ReferenceType = "REPORT"
 	ReferenceFix        ReferenceType = "FIX"
 	ReferenceIntroduced ReferenceType = "INTRODUCED"
+	ReferenceGit        ReferenceType = "GIT"
 	ReferencePackage    ReferenceType = "PACKAGE"
 	ReferenceEvidence   ReferenceType = "EVIDENCE"
 	ReferenceWeb        ReferenceType = "WEB"
