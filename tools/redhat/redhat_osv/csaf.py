@@ -163,9 +163,9 @@ class CSAF:
         }
 
         # Only support csaf_vex 2.0
-        if self.csaf != {"type": "csaf_vex", "csaf_version": "2.0"}:
+        if self.csaf != {"type": "csaf_security_advisory", "csaf_version": "2.0"}:
             raise ValueError(
-                f"Can only handle csaf_vex 2.0 documents. Got: {self.csaf}")
+                f"Can only handle csaf_security_advisory 2.0 documents. Got: {self.csaf}")
 
         self.cpes, self.purls = build_product_maps(csaf_data["product_tree"])
 
