@@ -538,7 +538,7 @@ vulnerabilities.
 
 `upstream` should be considered transitive but not symmetric. For example, if B is
 an upstream vulnerability for A, and C is an upstream vulnerability for B, then
-C is also an upstream vulnerability for A.
+C is also an upstream vulnerability for A. At the same time, if B is an upstream vulnerability for A, then A cannot be an upstream vulnerability for B.
 
 ## related field
 
