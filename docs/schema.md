@@ -519,7 +519,8 @@ package(s). For example, if a CVE describes a vulnerability in a language
 library, and a Linux distribution package contains that library and therefore
 publishes an advisory, the distribution's OSV record must not list the CVE ID as
 an alias. Similarly, distributions often bundle multiple upstream
-vulnerabilities into a single record. `upstream` should be used in these cases.
+vulnerabilities into a single record. To refer to these upstream
+vulnerabilities, `upstream` should be used.
 
 ## upstream field
 
