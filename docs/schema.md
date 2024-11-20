@@ -530,7 +530,7 @@ vulnerabilities into a single record. `upstream` should be used in these cases.
 ```
 
 The `upstream` field gives a list of IDs of upstream vulnerabilities that are
-bundled by the vulnerability entry.
+referred to by the vulnerability entry.
 
 For example, a downstream package ecosystem (such as a Linux distribution) may
 issue its own advisories that include (possibly multiple) upstream
