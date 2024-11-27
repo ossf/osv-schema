@@ -27,9 +27,9 @@ var SupportedEcosystems = []string{
 // Dispatcher for ecosystem-specific package existence checking.
 func ExistsInEcosystem(pkg string, ecosystem string) bool {
 	switch ecosystem {
-	case "Alpine":
-		return true
 	case "AlmaLinux":
+		return true
+	case "Alpine":
 		return true
 	case "Android":
 		return true
@@ -63,6 +63,8 @@ func ExistsInEcosystem(pkg string, ecosystem string) bool {
 		return true
 	case "NuGet":
 		return true
+	case "openSUSE":
+		return true
 	case "OSS-Fuzz":
 		return true
 	case "Packagist":
@@ -71,9 +73,13 @@ func ExistsInEcosystem(pkg string, ecosystem string) bool {
 		return true
 	case "PyPI":
 		return existsInPyPI(pkg)
+	case "Red Hat":
+		return true
 	case "Rocky Linux":
 		return true
 	case "RubyGems":
+		return true
+	case "SUSE":
 		return true
 	case "SwiftURL":
 		return true
@@ -102,9 +108,9 @@ func (e *MissingVersionsError) Error() string {
 // Dispatcher for ecosystem-specific package version existence checking.
 func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string) error {
 	switch ecosystem {
-	case "Alpine":
-		return nil
 	case "AlmaLinux":
+		return nil
+	case "Alpine":
 		return nil
 	case "Android":
 		return nil
@@ -138,6 +144,8 @@ func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string) e
 		return nil
 	case "NuGet":
 		return nil
+	case "openSUSE":
+		return nil
 	case "OSS-Fuzz":
 		return nil
 	case "Packagist":
@@ -146,9 +154,13 @@ func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string) e
 		return nil
 	case "PyPI":
 		return versionsExistInPyPI(pkg, versions)
+	case "Red Hat":
+		return nil
 	case "Rocky Linux":
 		return nil
 	case "RubyGems":
+		return nil
+	case "SUSE":
 		return nil
 	case "SwiftURL":
 		return nil
