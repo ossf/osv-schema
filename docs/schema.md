@@ -668,7 +668,8 @@ within its ecosystem. The two fields must both be present, because the
 The `purl` field is a string following the
  [Package URL specification](https://github.com/package-url/purl-spec) that
 identifies the package, without the `@version` component.
-This field is optional but recommended.
+This field is optional but recommended. It *must not* contain a `version`
+component.
 
 Different ecosystems can define the same names; they identify different
 packages. For example, these denote different libraries with different sets of
