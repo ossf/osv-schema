@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.6.7 (Sep 16, 2024)**
+**Version 1.6.8 (Dec 4, 2024)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -285,6 +285,17 @@ The defined database prefixes and their "home" databases are:
           <li>How to contribute: <a href="https://github.com/haskell/security-advisories/blob/main/CONTRIBUTING.md">https://github.com/haskell/security-advisories/blob/main/CONTRIBUTING.md</a></li>
           <li>Source URL: <code>TBD</code></li>
           <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/haskell/security-advisories/main/advisories/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>KUBE</code></td>
+      <td><a href="https://github.com/kubernetes-sigs/cve-feed-osv">Kubernetes Official CVE Feed</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/kubernetes-sigs/cve-feed-osv/blob/main/CONTRIBUTING.md">https://github.com/kubernetes-sigs/cve-feed-osv/blob/main/CONTRIBUTING.md</a></li>
+          <li>Source URL: <code>https://kubernetes.io/docs/reference/issues-security/official-cve-feed/index.json</code></li>
+          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/kubernetes-sigs/cve-feed-osv/blob/main/vulns/&lt;ID&gt;.json</code></li>
         </ul>
       </td>
     </tr>
@@ -706,6 +717,7 @@ The defined ecosystems are:
 | `Go` | The Go ecosystem; the `name` field is a Go module path. |
 | `Hackage` | The Haskell package ecosystem. The `name` field is a Haskell package name as published on Hackage. |
 | `Hex` | The package manager for the Erlang ecosystem; the `name` is a Hex package name. |
+| `Kubernetes` | The Kubernetes ecosystem; the `name` field is a Kubernetes component name. |
 | `Linux` | The Linux kernel. The only supported `name` is `Kernel`. |
 | `Mageia` | The Mageia Linux package ecosystem; the `name` is the name of the source package. The ecosystem string must have a `:<RELEASE-NUMBER>` suffix to scope the package to a particular Mageia release. Eg `Mageia:9`. |
 | `Maven` | The Maven Java package ecosystem. The `name` field is a Maven package name in the format `groupId:artifactId`. The ecosystem string might optionally have a `:<REMOTE-REPO-URL>` suffix to denote the remote repository URL that best represents the source of truth for this package, without a trailing slash (e.g. `Maven:https://maven.google.com`). If this is omitted, this is assumed to be the Maven Central repository (`https://repo.maven.apache.org/maven2`). |
