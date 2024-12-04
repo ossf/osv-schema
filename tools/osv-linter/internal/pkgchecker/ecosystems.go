@@ -55,6 +55,8 @@ func ExistsInEcosystem(pkg string, ecosystem string) bool {
 		return true
 	case "Hex":
 		return true
+	case "Kubernetes":
+		return true
 	case "Linux":
 		return true
 	case "Maven":
