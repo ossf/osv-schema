@@ -51,6 +51,7 @@ A JSON Schema for validation is also available
 	"published": string,
 	"withdrawn": string,
 	"aliases": [ string ],
+	"upstream": [ string ],
 	"related": [ string ],
 	"summary": string,
 	"details": string,
@@ -518,7 +519,27 @@ package(s). For example, if a CVE describes a vulnerability in a language
 library, and a Linux distribution package contains that library and therefore
 publishes an advisory, the distribution's OSV record must not list the CVE ID as
 an alias. Similarly, distributions often bundle multiple upstream
-vulnerabilities into a single record. `related` should be used in these cases.
+vulnerabilities into a single record. To refer to these upstream
+vulnerabilities, `upstream` should be used.
+
+## upstream field
+
+```
+{
+  "upstream": [ string ]
+}
+```
+
+The `upstream` field gives a list of IDs of upstream vulnerabilities that are
+referred to by the vulnerability entry.
+
+For example, a downstream package ecosystem (such as a Linux distribution) may
+issue its own advisories that include (possibly multiple) upstream
+vulnerabilities.
+
+`upstream` should be considered transitive but not symmetric. For example, if B is
+an upstream vulnerability for A, and C is an upstream vulnerability for B, then
+C is also an upstream vulnerability for A. At the same time, if B is an upstream vulnerability for A, then A cannot be an upstream vulnerability for B.
 
 ## related field
 
@@ -531,9 +552,7 @@ vulnerabilities into a single record. `related` should be used in these cases.
 The `related` field gives a list of IDs of closely related vulnerabilities, such
 as:
 - A similar but completely different vulnerability.
-- A similar OSV entry that bundles multiple distinct vulnerabilities in the same
-entry.
-- Cases that do not satisfy the strict definition of `aliases`.
+- Cases that do not satisfy the strict definition of `aliases` or `upstream`.
 
 Related vulnerabilities are symmetric but not transitive.
 
