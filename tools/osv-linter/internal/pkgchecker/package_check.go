@@ -62,8 +62,26 @@ func existsInHackage(pkg string) bool {
 	return checkPackageExists(packageInstanceURL)
 }
 
+// Validate the existence of a package in Maven.
+func existsInMaven(pkg string) bool {
+	if !strings.Contains(pkg, ":") {
+		return false
+	}
+	group_id := strings.Split(pkg, ":")[0]
+	artifact_id := strings.Split(pkg, ":")[1]
+	packageInstanceURL := fmt.Sprintf("%s/?q=g:%s%%20AND%%20a:%s", EcosystemBaseURLs["Maven"], group_id, artifact_id)
+	fmt.Println(packageInstanceURL)
+
+	// Needs to use GET instead of HEAD for Maven
+	resp, err := faulttolerant.Get(packageInstanceURL)
+	if err != nil {
+		return false
+	}
+
+	return resp.StatusCode == http.StatusOK
+}
+
 // Validate the existence of a package in PyPI.
-// Note: for malicious packages, if the package has been removed, the verify will be fail
 func existsInPyPI(pkg string) bool {
 	packageInstanceURL := fmt.Sprintf("%s/%s/json", EcosystemBaseURLs["PyPI"], strings.ToLower(pkg))
 

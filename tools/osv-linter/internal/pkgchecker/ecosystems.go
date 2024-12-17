@@ -66,7 +66,7 @@ func ExistsInEcosystem(pkg string, ecosystem string) bool {
 	case "Linux":
 		return true
 	case "Maven":
-		return true
+		return existsInMaven(pkg)
 	case "npm":
 		return existsInNpm(pkg)
 	case "NuGet":

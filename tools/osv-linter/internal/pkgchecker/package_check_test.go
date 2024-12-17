@@ -196,6 +196,32 @@ func Test_existsInHackage(t *testing.T) {
 	}
 }
 
+func Test_existsInMaven(t *testing.T) {
+	tests := []struct {
+		name string
+		pkg  string
+		want bool
+	}{
+		{
+			name: "existing package",
+			pkg:  "de.gematik.refv.commons:commons",
+			want: true,
+		},
+		{
+			name: "non-existing package",
+			pkg:  "non-existing-package",
+			want: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := existsInMaven(tt.pkg); got != tt.want {
+				t.Errorf("existsInMaven() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func Test_existsInPyPI(t *testing.T) {
 	tests := []struct {
 		name string
