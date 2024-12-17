@@ -70,7 +70,6 @@ func existsInMaven(pkg string) bool {
 	group_id := strings.Split(pkg, ":")[0]
 	artifact_id := strings.Split(pkg, ":")[1]
 	packageInstanceURL := fmt.Sprintf("%s/?q=g:%s%%20AND%%20a:%s", EcosystemBaseURLs["Maven"], group_id, artifact_id)
-	fmt.Println(packageInstanceURL)
 
 	// Needs to use GET instead of HEAD for Maven
 	resp, err := faulttolerant.Get(packageInstanceURL)
