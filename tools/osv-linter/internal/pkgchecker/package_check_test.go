@@ -74,7 +74,7 @@ func Test_existsInNuget(t *testing.T) {
 	}{
 		{
 			name: "existing package",
-			pkg:  "Newtonsoft.Json",
+			pkg:  "System.Formats.Nrbf",
 			want: true,
 		},
 		{

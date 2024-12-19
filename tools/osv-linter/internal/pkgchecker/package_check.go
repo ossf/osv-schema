@@ -15,21 +15,59 @@ func existsInCrates(pkg string) bool {
 		return true
 	}
 
-	packageInstanceURL := fmt.Sprintf("%s/%s", EcosystemBaseURLs["crates.io"], pkg)
+	ecosystem := "crates.io"
+	packageInstanceURL := fmt.Sprintf("%s/%s", EcosystemBaseURLs[ecosystem], pkg)
+
+	if isPackageInDepsDev(ecosystem, pkg) {
+		return true
+	}
+
+	return checkPackageExists(packageInstanceURL)
+}
+
+// Validate the existence of a package in Go.
+func existsInGo(pkg string) bool {
+	// Of course the Go runtime exists :-)
+	if pkg == "stdlib" || pkg == "toolchain" {
+		return true
+	}
+
+	// The Go Module Proxy seems to require package names to be lowercase.
+	// GitHub URLs are known to be case-insensitive.
+	if strings.HasPrefix(pkg, "github.com/") {
+		pkg = strings.ToLower(pkg)
+	}
+
+	ecosystem := "Go"
+	packageInstanceURL := fmt.Sprintf("%s/%s/@v/list", EcosystemBaseURLs[ecosystem], pkg)
+
+	if isPackageInDepsDev(ecosystem, pkg) {
+		return true
+	}
 
 	return checkPackageExists(packageInstanceURL)
 }
 
 // Validate the existence of a package in npm.
 func existsInNpm(pkg string) bool {
-	packageInstanceURL := fmt.Sprintf("%s/%s", EcosystemBaseURLs["npm"], pkg)
+	ecosystem := "npm"
+	packageInstanceURL := fmt.Sprintf("%s/%s", EcosystemBaseURLs[ecosystem], pkg)
+
+	if isPackageInDepsDev(ecosystem, pkg) {
+		return true
+	}
 
 	return checkPackageExists(packageInstanceURL)
 }
 
 // Validate the existence of a package in NuGet.
 func existsInNuget(pkg string) bool {
-	packageInstanceURL := fmt.Sprintf("%s/%s/index.json", EcosystemBaseURLs["NuGet"], pkg)
+	ecosystem := "NuGet"
+	packageInstanceURL := fmt.Sprintf("%s/%s/index.json", EcosystemBaseURLs[ecosystem], pkg)
+
+	if isPackageInDepsDev(ecosystem, pkg) {
+		return true
+	}
 
 	return checkPackageExists(packageInstanceURL)
 }
@@ -44,6 +82,18 @@ func existsInRubyGems(pkg string) bool {
 // Validate the existence of a package in Packagist.
 func existsInPackagist(pkg string) bool {
 	packageInstanceURL := fmt.Sprintf("%s/%s.json", EcosystemBaseURLs["Packagist"], pkg)
+
+	return checkPackageExists(packageInstanceURL)
+}
+
+// Validate the existence of a package in PyPI.
+func existsInPyPI(pkg string) bool {
+	ecosystem := "PyPI"
+	packageInstanceURL := fmt.Sprintf("%s/%s/json", EcosystemBaseURLs[ecosystem], strings.ToLower(pkg))
+
+	if isPackageInDepsDev(ecosystem, pkg) {
+		return true
+	}
 
 	return checkPackageExists(packageInstanceURL)
 }
@@ -69,7 +119,13 @@ func existsInMaven(pkg string) bool {
 	}
 	group_id := strings.Split(pkg, ":")[0]
 	artifact_id := strings.Split(pkg, ":")[1]
-	packageInstanceURL := fmt.Sprintf("%s/?q=g:%s%%20AND%%20a:%s", EcosystemBaseURLs["Maven"], group_id, artifact_id)
+
+	ecosystem := "Maven"
+	packageInstanceURL := fmt.Sprintf("%s/?q=g:%s%%20AND%%20a:%s", EcosystemBaseURLs[ecosystem], group_id, artifact_id)
+
+	if isPackageInDepsDev(ecosystem, pkg) {
+		return true
+	}
 
 	// Needs to use GET instead of HEAD for Maven
 	resp, err := faulttolerant.Get(packageInstanceURL)
@@ -78,31 +134,6 @@ func existsInMaven(pkg string) bool {
 	}
 
 	return resp.StatusCode == http.StatusOK
-}
-
-// Validate the existence of a package in PyPI.
-func existsInPyPI(pkg string) bool {
-	packageInstanceURL := fmt.Sprintf("%s/%s/json", EcosystemBaseURLs["PyPI"], strings.ToLower(pkg))
-
-	return checkPackageExists(packageInstanceURL)
-}
-
-// Validate the existence of a package in Go.
-func existsInGo(pkg string) bool {
-	// Of course the Go runtime exists :-)
-	if pkg == "stdlib" || pkg == "toolchain" {
-		return true
-	}
-
-	// The Go Module Proxy seems to require package names to be lowercase.
-	// GitHub URLs are known to be case-insensitive.
-	if strings.HasPrefix(pkg, "github.com/") {
-		pkg = strings.ToLower(pkg)
-	}
-
-	packageInstanceURL := fmt.Sprintf("%s/%s/@v/list", EcosystemBaseURLs["Go"], pkg)
-
-	return checkPackageExists(packageInstanceURL)
 }
 
 // Makes an HTTP GET request to check package existance, with fault tolerance.
@@ -114,4 +145,9 @@ func checkPackageExists(packageInstanceURL string) bool {
 	}
 
 	return resp.StatusCode == http.StatusOK
+}
+
+func isPackageInDepsDev(ecosystem string, pkg string) bool {
+	url := fmt.Sprintf("https://api.deps.dev/v3/systems/%s/packages/%s", ecosystem, pkg)
+	return checkPackageExists(url)
 }
