@@ -604,9 +604,9 @@ describes the quantitative method used to calculate the associated `score`.
 
 | Severity Type | Score Description |
 | --------- | ----------- |
-| `CVSS_V2` | A CVSS vector string representing the unique characteristics and severity of the vulnerability using a version of the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/v2/) that is == 2.0 (e.g.`"AV:L/AC:M/Au:N/C:N/I:P/A:C"`).|
-| `CVSS_V3` | A CVSS vector string representing the unique characteristics and severity of the vulnerability using a version of the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/) that is >= 3.0 and < 4.0 (e.g.`"CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:N"`).|
-| `CVSS_V4` | A CVSS vector string representing the unique characteristics and severity of the vulnerability using a version on the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/) that is >= 4.0 and < 5.0 (e.g. `"CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N"`). |
+| `CVSS_V2` | A CVSS vector string representing the unique characteristics and severity of the vulnerability using a version of the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/v2/guide#Metric-Groups) that is == 2.0 (e.g.`"AV:L/AC:M/Au:N/C:N/I:P/A:C"`).|
+| `CVSS_V3` | A CVSS vector string representing the unique characteristics and severity of the vulnerability using a version of the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/v3.0/specification-document#Vector-String) that is >= 3.0 and < 4.0 (e.g.`"CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:N"`).|
+| `CVSS_V4` | A CVSS vector string representing the unique characteristics and severity of the vulnerability using a version on the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/v4.0/specification-document#Vector-String) that is >= 4.0 and < 5.0 (e.g. `"CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N"`). |
 | Your quantitative severity type here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 ### severity[].score field
