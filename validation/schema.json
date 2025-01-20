@@ -295,6 +295,28 @@
     "id",
     "modified"
   ],
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "severity"
+        ]
+      },
+      "then": {
+        "properties": {
+          "affected": {
+            "items": {
+              "properties": {
+                "severity": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
   "$defs": {
     "ecosystemName": {
       "type": "string",
