@@ -298,7 +298,9 @@
   "allOf": [
     {
       "if": {
-        "required": ["severity"]
+        "required": [
+          "severity"
+        ]
       },
       "then": {
         "properties": {
