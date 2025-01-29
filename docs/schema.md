@@ -717,7 +717,7 @@ The defined ecosystems are:
 | `Go` | The Go ecosystem; the `name` field is a Go module path. |
 | `Hackage` | The Haskell package ecosystem. The `name` field is a Haskell package name as published on Hackage. |
 | `Hex` | The package manager for the Erlang ecosystem; the `name` is a Hex package name. |
-| `Kubernetes` | The Kubernetes ecosystem; If the component is a Go module, then the `name` filed is the Go module name. |
+| `Kubernetes` | The Kubernetes ecosystem; `name` is the Go module name associated with the relevant Kubernetes component (e.g. `k8s.io/apiserver`) |
 | `Linux` | The Linux kernel. The only supported `name` is `Kernel`. |
 | `Mageia` | The Mageia Linux package ecosystem; the `name` is the name of the source package. The ecosystem string must have a `:<RELEASE-NUMBER>` suffix to scope the package to a particular Mageia release. Eg `Mageia:9`. |
 | `Maven` | The Maven Java package ecosystem. The `name` field is a Maven package name in the format `groupId:artifactId`. The ecosystem string might optionally have a `:<REMOTE-REPO-URL>` suffix to denote the remote repository URL that best represents the source of truth for this package, without a trailing slash (e.g. `Maven:https://maven.google.com`). If this is omitted, this is assumed to be the Maven Central repository (`https://repo.maven.apache.org/maven2`). |
