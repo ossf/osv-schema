@@ -35,6 +35,12 @@
         "type": "string"
       }
     },
+    "upstream": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
     "summary": {
       "type": "string"
     },
