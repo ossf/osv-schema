@@ -80,9 +80,9 @@ const (
 	CreditReporter             CreditType = "REPORTER"
 	CreditAnalyst              CreditType = "ANALYST"
 	CreditCoordinator          CreditType = "COORDINATOR"
-	CreditRemediationDeveloper CreditType = "REMEDIATION_DEVELOPER" //nolint:gosec
-	CreditRemediationReviewer  CreditType = "REMEDIATION_REVIEWER"  //nolint:gosec
-	CreditRemediationVerifier  CreditType = "REMEDIATION_VERIFIER"  //nolint:gosec
+	CreditRemediationDeveloper CreditType = "REMEDIATION_DEVELOPER"
+	CreditRemediationReviewer  CreditType = "REMEDIATION_REVIEWER"
+	CreditRemediationVerifier  CreditType = "REMEDIATION_VERIFIER"
 	CreditTool                 CreditType = "TOOL"
 	CreditSponsor              CreditType = "SPONSOR"
 	CreditOther                CreditType = "OTHER"
