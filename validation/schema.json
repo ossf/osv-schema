@@ -394,7 +394,8 @@
             "enum": [
               "CVSS_V2",
               "CVSS_V3",
-              "CVSS_V4"
+              "CVSS_V4",
+              "Ubuntu"
             ]
           },
           "score": {
@@ -446,6 +447,28 @@
               "properties": {
                 "score": {
                   "pattern": "^CVSS:4[.]0/AV:[NALP]/AC:[LH]/AT:[NP]/PR:[NLH]/UI:[NPA]/VC:[HLN]/VI:[HLN]/VA:[HLN]/SC:[HLN]/SI:[HLN]/SA:[HLN](/E:[XAPU])?(/CR:[XHML])?(/IR:[XHML])?(/AR:[XHML])?(/MAV:[XNALP])?(/MAC:[XLH])?(/MAT:[XNP])?(/MPR:[XNLH])?(/MUI:[XNPA])?(/MVC:[XNLH])?(/MVI:[XNLH])?(/MVA:[XNLH])?(/MSC:[XNLH])?(/MSI:[XNLHS])?(/MSA:[XNLHS])?(/S:[XNP])?(/AU:[XNY])?(/R:[XAUI])?(/V:[XDC])?(/RE:[XLMH])?(/U:(X|Clear|Green|Amber|Red))?$"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "Ubuntu"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "score": {
+                  "enum": [
+                    "negligible",
+                    "low",
+                    "medium",
+                    "high",
+                    "critical"
+                  ]
                 }
               }
             }
