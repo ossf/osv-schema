@@ -459,9 +459,9 @@ The defined database prefixes and their "home" databases are:
       <td><a href="https://chromium.googlesource.com/chromium/src/+/refs/heads/main/docs/security/updates.md">V8/Chromium Time-Based Policy</a></td>
       <td>
         <ul>
-          <li>How to contribute: TBD</li>
-          <li>Source URL: TBD</li>
-          <li>OSV Formatted URL: <code>N/A</code></li>
+          <li>How to contribute: <a href="https://github.com/google/chromium-policy-vulnfeed/tree/main?tab=readme-ov-file#chromium-policy-vulnfeed">https://github.com/google/chromium-policy-vulnfeed/tree/main?tab=readme-ov-file#chromium-policy-vulnfeed</a></li>
+          <li>Source URL: <code>https://github.com/google/chromium-policy-vulnfeed/blob/main/advisories/V8-advisory.json</code></li>
+          <li>OSV Formatted URL: <code>https://github.com/google/chromium-policy-vulnfeed/blob/main/advisories/V8-advisory.json</code></li>
         </ul>
       </td>
     </tr>
