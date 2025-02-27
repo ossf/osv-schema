@@ -15,7 +15,7 @@ var CheckRecordHasAffected = &CheckDef{
 func RecordHasAffected(json *gjson.Result, config *Config) (findings []CheckError) {
 	affectedEntries := json.Get("affected")
 	if !affectedEntries.Exists() || affectedEntries.String() == "[]" {
-		findings = append(findings, CheckError{Message: "Invalid Affected: affected filed cannot be null or empty"})
+		findings = append(findings, CheckError{Message: "Invalid Affected: affected field cannot be null or empty"})
 	}
 	return findings
 }
