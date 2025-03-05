@@ -38,4 +38,4 @@
 - 2024-09-12 Released version 1.6.6. Add RHBA, RHEA, SUSE-OU prefixes.
 - 2024-09-16 Released version 1.6.7. JSON schema and minor text formatting changes.
 - 2025-03-05 Released version 1.7.0. Add `upstream` field, `V8-` ID prefix,
-  Kubernetes ecosystem.
+  Kubernetes ecosystem, `Ubuntu` severity type.
