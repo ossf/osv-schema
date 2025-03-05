@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.6.8 (Dec 4, 2024)**
+**Version 1.7.0 (March 5, 2025)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
