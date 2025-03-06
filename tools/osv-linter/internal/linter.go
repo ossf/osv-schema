@@ -17,6 +17,7 @@ import (
 	"github.com/urfave/cli/v2"
 
 	"github.com/ossf/osv-schema/linter/internal/checks"
+	"github.com/ossf/osv-schema/linter/internal/pkgchecker"
 )
 
 type Content struct {
@@ -24,11 +25,14 @@ type Content struct {
 	bytes    []byte
 }
 
-type LintConfig struct {
-	verbose bool
+// Config defines the arguments for lint().
+type Config struct {
+	checks     []*checks.CheckDef // which checks to run.
+	ecosystems []string           // which ecosystems to limit package checks to.
+	verbose    bool               // whether to emit verbose output.
 }
 
-func lint(content *Content, checksDefined []*checks.CheckDef, config *LintConfig) (findings []checks.CheckError) {
+func lint(content *Content, config *Config) (findings []checks.CheckError) {
 	// Parse file into JSON
 	if !gjson.ValidBytes(content.bytes) {
 		log.Printf("%q: invalid JSON", content.filename)
@@ -36,11 +40,11 @@ func lint(content *Content, checksDefined []*checks.CheckDef, config *LintConfig
 
 	record := gjson.ParseBytes(content.bytes)
 
-	for _, check := range checksDefined {
+	for _, check := range config.checks {
 		if config.verbose {
 			fmt.Printf("Running %q check on %q\n", check.Name, content.filename)
 		}
-		checkConfig := checks.Config{Verbose: config.verbose}
+		checkConfig := checks.Config{Verbose: config.verbose, Ecosystems: config.ecosystems}
 		checkFindings := check.Run(&record, &checkConfig)
 		if checkFindings != nil && config.verbose {
 			log.Printf("%q: %q: %#v", content.filename, check.Name, checkFindings)
@@ -64,10 +68,19 @@ func LintCommand(cCtx *cli.Context) error {
 	}
 
 	// List all available checks.
-	if slices.Contains(cCtx.StringSlice("check"), "list") {
+	if slices.Contains(cCtx.StringSlice("checks"), "list") {
 		fmt.Printf("Available checks:\n\n")
 		for _, check := range checks.CollectionFromName("ALL").Checks {
 			fmt.Printf("%s: (%s): %s\n", check.Code, check.Name, check.Description)
+		}
+		return nil
+	}
+
+	// List all supported ecosystems.
+	if slices.Contains(cCtx.StringSlice("ecosystems"), "list") {
+		fmt.Printf("Supported ecosystems:\n\n")
+		for _, ecosystem := range pkgchecker.SupportedEcosystems {
+			fmt.Printf("%s\n", ecosystem)
 		}
 		return nil
 	}
@@ -80,11 +93,11 @@ func LintCommand(cCtx *cli.Context) error {
 	var checksToBeRun []*checks.CheckDef
 
 	// Run just individual checks.
-	for _, checkRequested := range cCtx.StringSlice("check") {
+	for _, checkRequested := range cCtx.StringSlice("checks") {
 		// Check the requested check exists.
 		check := checks.FromCode(checkRequested)
 		if check == nil {
-			return fmt.Errorf("%q is not a valid check", checkRequested)
+			return fmt.Errorf("%q is not a valid check (use \"list\" to see all available checks)", checkRequested)
 		}
 		checksToBeRun = append(checksToBeRun, check)
 	}
@@ -93,7 +106,7 @@ func LintCommand(cCtx *cli.Context) error {
 	if checksToBeRun == nil && cCtx.String("collection") != "" {
 		if cCtx.Bool("verbose") {
 			if cCtx.Args().Present() {
-				fmt.Printf("Running %q check collection on %q\n", cCtx.String("collection"), cCtx.Args())
+				fmt.Printf("Running %q check collection on %q\n", cCtx.String("collection"), cCtx.Args().Slice())
 			} else {
 				fmt.Printf("Running %q check collection on <stdin>\n", cCtx.String("collection"))
 			}
@@ -171,7 +184,7 @@ func LintCommand(cCtx *cli.Context) error {
 			log.Printf("%v, skipping", err)
 			continue
 		}
-		findings := lint(&Content{filename: fileToCheck, bytes: recordBytes}, checksToBeRun, &LintConfig{verbose: cCtx.Bool("verbose")})
+		findings := lint(&Content{filename: fileToCheck, bytes: recordBytes}, &Config{verbose: cCtx.Bool("verbose"), checks: checksToBeRun, ecosystems: cCtx.StringSlice("ecosystems")})
 		if findings != nil {
 			perFileFindings[fileToCheck] = findings
 		}

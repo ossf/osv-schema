@@ -10,7 +10,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 )
 
-func loadTestData(filename string) *gjson.Result {
+func LoadTestData(filename string) *gjson.Result {
 	content, err := os.ReadFile(filename)
 	if err != nil {
 		panic(err)
@@ -31,21 +31,21 @@ func TestRangeHasIntroducedEvent(t *testing.T) {
 		{
 			name: "A compliant file",
 			args: args{
-				json: loadTestData("../../test_data/CVE-2023-41045.json"),
+				json: LoadTestData("../../test_data/CVE-2023-41045.json"),
 			},
 			wantFindings: nil,
 		},
 		{
 			name: "A file without an introduced event",
 			args: args{
-				json: loadTestData("../../test_data/nointroduced-CVE-2023-41045.json"),
+				json: LoadTestData("../../test_data/nointroduced-CVE-2023-41045.json"),
 			},
 			wantFindings: []CheckError{{Message: "missing 'introduced' object in event"}},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotFindings := RangeHasIntroducedEvent(tt.args.json)
+			gotFindings := RangeHasIntroducedEvent(tt.args.json, &Config{Verbose: true})
 			if diff := cmp.Diff(tt.wantFindings, gotFindings, cmpopts.EquateErrors()); diff != "" {
 				t.Errorf("RangeHasIntroducedEvent() mismatch (-want +got):\n%s", diff)
 			}

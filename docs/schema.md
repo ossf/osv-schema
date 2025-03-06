@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.6.7 (Sep 16, 2024)**
+**Version 1.7.0 (March 5, 2025)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -51,6 +51,7 @@ A JSON Schema for validation is also available
 	"published": string,
 	"withdrawn": string,
 	"aliases": [ string ],
+	"upstream": [ string ],
 	"related": [ string ],
 	"summary": string,
 	"details": string,
@@ -289,6 +290,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>KUBE</code></td>
+      <td><a href="https://github.com/kubernetes-sigs/cve-feed-osv">Kubernetes Official CVE Feed</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/kubernetes-sigs/cve-feed-osv/blob/main/CONTRIBUTING.md">https://github.com/kubernetes-sigs/cve-feed-osv/blob/main/CONTRIBUTING.md</a></li>
+          <li>Source URL: <code>https://kubernetes.io/docs/reference/issues-security/official-cve-feed/index.json</code></li>
+          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/kubernetes-sigs/cve-feed-osv/blob/main/vulns/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>LBSEC</code></td>
       <td><a href="https://github.com/loopbackio/security/tree/main/advisories">LoopBack Advisory Database</a></td>
       <td>
@@ -443,6 +455,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>V8</code></td>
+      <td><a href="https://chromium.googlesource.com/chromium/src/+/refs/heads/main/docs/security/updates.md">V8/Chromium Time-Based Policy</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/google/chromium-policy-vulnfeed/tree/main?tab=readme-ov-file#chromium-policy-vulnfeed">https://github.com/google/chromium-policy-vulnfeed/tree/main?tab=readme-ov-file#chromium-policy-vulnfeed</a></li>
+          <li>Source URL: <code>https://github.com/google/chromium-policy-vulnfeed/blob/main/advisories/V8-advisory.json</code></li>
+          <li>OSV Formatted URL: <code>https://github.com/google/chromium-policy-vulnfeed/blob/main/advisories/V8-advisory.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td>Your database here</td>
       <td colspan="2"><a href="https://github.com/ossf/osv-schema/compare">Send us a PR</a></td>
     </tr>
@@ -518,7 +541,27 @@ package(s). For example, if a CVE describes a vulnerability in a language
 library, and a Linux distribution package contains that library and therefore
 publishes an advisory, the distribution's OSV record must not list the CVE ID as
 an alias. Similarly, distributions often bundle multiple upstream
-vulnerabilities into a single record. `related` should be used in these cases.
+vulnerabilities into a single record. To refer to these upstream
+vulnerabilities, `upstream` should be used.
+
+## upstream field
+
+```
+{
+  "upstream": [ string ]
+}
+```
+
+The `upstream` field gives a list of IDs of upstream vulnerabilities that are
+referred to by the vulnerability entry.
+
+For example, a downstream package ecosystem (such as a Linux distribution) may
+issue its own advisories that include (possibly multiple) upstream
+vulnerabilities.
+
+`upstream` should be considered transitive but not symmetric. For example, if B is
+an upstream vulnerability for A, and C is an upstream vulnerability for B, then
+C is also an upstream vulnerability for A. At the same time, if B is an upstream vulnerability for A, then A cannot be an upstream vulnerability for B.
 
 ## related field
 
@@ -531,9 +574,7 @@ vulnerabilities into a single record. `related` should be used in these cases.
 The `related` field gives a list of IDs of closely related vulnerabilities, such
 as:
 - A similar but completely different vulnerability.
-- A similar OSV entry that bundles multiple distinct vulnerabilities in the same
-entry.
-- Cases that do not satisfy the strict definition of `aliases`.
+- Cases that do not satisfy the strict definition of `aliases` or `upstream`.
 
 Related vulnerabilities are symmetric but not transitive.
 
@@ -585,9 +626,10 @@ describes the quantitative method used to calculate the associated `score`.
 
 | Severity Type | Score Description |
 | --------- | ----------- |
-| `CVSS_V2` | A CVSS vector string representing the unique characteristics and severity of the vulnerability using a version of the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/v2/) that is == 2.0 (e.g.`"AV:L/AC:M/Au:N/C:N/I:P/A:C"`).|
-| `CVSS_V3` | A CVSS vector string representing the unique characteristics and severity of the vulnerability using a version of the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/) that is >= 3.0 and < 4.0 (e.g.`"CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:N"`).|
-| `CVSS_V4` | A CVSS vector string representing the unique characterictics and severity of the vulnerability using a version on the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/) that is >= 4.0 and < 5.0 (e.g. `"CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N"`). |
+| `CVSS_V2` | A CVSS vector string representing the unique characteristics and severity of the vulnerability using a version of the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/v2/guide#Metric-Groups) that is == 2.0 (e.g.`"AV:L/AC:M/Au:N/C:N/I:P/A:C"`).|
+| `CVSS_V3` | A CVSS vector string representing the unique characteristics and severity of the vulnerability using a version of the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/v3.0/specification-document#Vector-String) that is >= 3.0 and < 4.0 (e.g.`"CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:N"`).|
+| `CVSS_V4` | A CVSS vector string representing the unique characteristics and severity of the vulnerability using a version on the [Common Vulnerability Scoring System notation](https://www.first.org/cvss/v4.0/specification-document#Vector-String) that is >= 4.0 and < 5.0 (e.g. `"CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N"`). |
+| `Ubuntu`  | A lowercased string representing the [Ubuntu priority](https://ubuntu.com/security/cves/about#priority). This is based on many factors including severity, importance, risk, estimated number of affected users, software configuration, active exploitation, and other factors.
 | Your quantitative severity type here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 ### severity[].score field
@@ -667,7 +709,8 @@ within its ecosystem. The two fields must both be present, because the
 
 The `purl` field is a string following the
  [Package URL specification](https://github.com/package-url/purl-spec) that
-identifies the package. This field is optional but recommended.
+identifies the package, without the `@version` component.
+This field is optional but recommended.
 
 Different ecosystems can define the same names; they identify different
 packages. For example, these denote different libraries with different sets of
@@ -681,44 +724,52 @@ versions and different potential vulnerabilities:
 {"ecosystem": "PyPI", "name": "zlib"}
 ```
 
-<!-- Please keep this list alphabetically sorted -->
+#### Defined ecosystems
+
 The defined ecosystems are:
 
-| Ecosystem | Description  |
-| --------- |-----------------|
-| `AlmaLinux` | AlmaLinux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular AlmaLinux release. `<RELEASE>` is a numeric version.
+<!-- (re)generate this list using scripts/update-ecosystems.list.py after changing ecosystems.json -->
+<!-- begin auto-generated ecosystems list -->
+
+| Ecosystem | Description |
+|-----------|-------------|
+| `AlmaLinux` | AlmaLinux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular AlmaLinux release. `<RELEASE>` is a numeric version. |
 | `Alpine` | The Alpine package ecosystem; the `name` is the name of the source package. The ecosystem string must have a `:v<RELEASE-NUMBER>` suffix to scope the package to a particular Alpine release branch (the `v` prefix is required). E.g. `v3.16`. |
-| `Android`  | The Android ecosystem. Android organizes code using [`repo` tool](https://gerrit.googlesource.com/git-repo/+/HEAD/README.md), which manages multiple git projects under one or more remote git servers, where each project is identified by its name in [repo configuration](https://gerrit.googlesource.com/git-repo/+/HEAD/docs/manifest-format.md#Element-project) (e.g. `platform/frameworks/base`). The `name` field should contain the name of that affected git project/submodule. One exception is when the project contains the Linux kernel source code, in which case `name` field will be `:linux_kernel:`, followed by an optional SoC vendor name e.g. `:linux_kernel:Qualcomm`. The list of recognized SoC vendors is listed in the [Appendix](#android-soc-vendors) |
+| `Android` | The Android ecosystem. Android organizes code using [`repo` tool](https://gerrit.googlesource.com/git-repo/+/HEAD/README.md), which manages multiple git projects under one or more remote git servers, where each project is identified by its name in [repo configuration](https://gerrit.googlesource.com/git-repo/+/HEAD/docs/manifest-format.md#Element-project) (e.g. `platform/frameworks/base`). The `name` field should contain the name of that affected git project/submodule. One exception is when the project contains the Linux kernel source code, in which case `name` field will be `:linux_kernel:`, followed by an optional SoC vendor name e.g. `:linux_kernel:Qualcomm`. The list of recognized SoC vendors is listed in the [Appendix](#android-soc-vendors) |
 | `Bioconductor` | The biological R package ecosystem. The `name` is an R package name. |
 | `Bitnami` | Bitnami package ecosystem; the `name` is the name of the affected component. |
 | `Chainguard` | The Chainguard package ecosystem; the `name` is the name of the package. |
-| `ConanCenter` | The ConanCenter ecosystem for C and C++; the `name` field is a Conan package name.  |
+| `ConanCenter` | The ConanCenter ecosystem for C and C++; the `name` field is a Conan package name. |
 | `CRAN` | The R package ecosystem. The `name` is an R package name. |
-| `crates.io` | The crates.io ecosystem for Rust; the `name` field is a crate name.  |
-| `Debian` | The Debian package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Debian release. `<RELEASE>` is a numeric version specified in the [Debian distro-info-data](https://debian.pages.debian.net/distro-info-data/debian.csv). For example, the ecosystem string "Debian:7" refers to the Debian 7 (wheezy) release.  |
-| `GHC` | The Haskell compiler ecosystem. The `name` field is the name of a component of the GHC compiler ecosystem (e.g., compiler, GHCI, RTS).  |
+| `crates.io` | The crates.io ecosystem for Rust; the `name` field is a crate name. |
+| `Debian` | The Debian package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Debian release. `<RELEASE>` is a numeric version specified in the [Debian distro-info-data](https://debian.pages.debian.net/distro-info-data/debian.csv). For example, the ecosystem string "Debian:7" refers to the Debian 7 (wheezy) release. |
+| `GHC` | The Haskell compiler ecosystem. The `name` field is the name of a component of the GHC compiler ecosystem (e.g., compiler, GHCI, RTS). |
 | `GitHub Actions` | The GitHub Actions ecosystem; the `name` field is the action's repository name with owner e.g. `{owner}/{repo}`. |
-| `Go` | The Go ecosystem; the `name` field is a Go module path.  |
-| `Hackage` | The Haskell package ecosystem. The `name` field is a Haskell package name as published on Hackage.  |
-| `Hex` | The package manager for the Erlang ecosystem; the `name` is a Hex package name.  |
+| `Go` | The Go ecosystem; the `name` field is a Go module path. |
+| `Hackage` | The Haskell package ecosystem. The `name` field is a Haskell package name as published on Hackage. |
+| `Hex` | The package manager for the Erlang ecosystem; the `name` is a Hex package name. |
+| `Kubernetes` | The Kubernetes ecosystem; `name` is the Go module name associated with the relevant Kubernetes component (e.g. `k8s.io/apiserver`) |
 | `Linux` | The Linux kernel. The only supported `name` is `Kernel`. |
 | `Mageia` | The Mageia Linux package ecosystem; the `name` is the name of the source package. The ecosystem string must have a `:<RELEASE-NUMBER>` suffix to scope the package to a particular Mageia release. Eg `Mageia:9`. |
-| `Maven` | The Maven Java package ecosystem. The `name` field is a Maven package name in the format `groupId:artifactId`. The ecosystem string might optionally have a `:<REMOTE-REPO-URL>` suffix to denote the remote repository URL that best represents the source of truth for this package, without a trailing slash (e.g. `Maven:https://maven.google.com`). If this is omitted, this is assumed to be the Maven Central repository (`https://repo.maven.apache.org/maven2`).
-| `npm` | The NPM ecosystem; the `name` field is an NPM package name.  |
-| `NuGet` | The NuGet package ecosystem. The `name` field is a NuGet package name.  |
-| `OSS-Fuzz` | For reports from the OSS-Fuzz project that have no more appropriate ecosystem; the `name` field is the name assigned by the OSS-Fuzz project, as recorded in the submitted fuzzing configuration.  |
-| `openSUSE` | The openSUSE ecosystem; The ecosystem string has a `:<RELEASE>` suffix presenting the marketing name of the openSUSE distribution. `<RELEASE>` matches the value in the `/etc/os-release` `PRETTY_NAME` field. The `name` field is the name of the source RPM and accompanied by a purl. There is an `ecosystem_specific` specific array `binaries` of the associated RPM binary packages in this specific openSUSE distribution. The ECOSYSTEM version ordering is the RPM versioncompare ordering, and the database uses the `introduced` and `fixed` boundaries.|
-| `Packagist` | The PHP package manager ecosystem; the `name` is a package name.  |
+| `Maven` | The Maven Java package ecosystem. The `name` field is a Maven package name in the format `groupId:artifactId`. The ecosystem string might optionally have a `:<REMOTE-REPO-URL>` suffix to denote the remote repository URL that best represents the source of truth for this package, without a trailing slash (e.g. `Maven:https://maven.google.com`). If this is omitted, this is assumed to be the Maven Central repository (`https://repo.maven.apache.org/maven2`). |
+| `npm` | The NPM ecosystem; the `name` field is an NPM package name. |
+| `NuGet` | The NuGet package ecosystem. The `name` field is a NuGet package name. |
+| `openSUSE` | The openSUSE ecosystem; The ecosystem string has a `:<RELEASE>` suffix presenting the marketing name of the openSUSE distribution. `<RELEASE>` matches the value in the `/etc/os-release` `PRETTY_NAME` field. The `name` field is the name of the source RPM and accompanied by a purl. There is an `ecosystem_specific` specific array `binaries` of the associated RPM binary packages in this specific openSUSE distribution. The ECOSYSTEM version ordering is the RPM versioncompare ordering, and the database uses the `introduced` and `fixed` boundaries. |
+| `OSS-Fuzz` | For reports from the OSS-Fuzz project that have no more appropriate ecosystem; the `name` field is the name assigned by the OSS-Fuzz project, as recorded in the submitted fuzzing configuration. |
+| `Packagist` | The PHP package manager ecosystem; the `name` is a package name. |
 | `Photon OS` | The Photon OS package ecosystem; the `name` is the name of the RPM package. The ecosystem string must have a `:<RELEASE-NUMBER>` suffix to scope the package to a particular Photon OS release. Eg `Photon OS:3.0`. |
 | `Pub` | The package manager for the Dart ecosystem; the `name` field is a Dart package name. |
-| `PyPI` | the Python PyPI ecosystem; the `name` field is a [normalized](https://www.python.org/dev/peps/pep-0503/#normalized-names) PyPI package name.  |
-| `Red Hat` | The Red Hat package ecosystem; the `name` field is the name of a binary or source RPM. The ecosystem string has a `:<CPE>` suffix to scope the RPM to a specific Red Hat product stream. `<CPE>` is a translation of a Red Hat [Common Platform Enumerations](https://cpe.mitre.org/) (CPE) with the `cpe/:[oa]:(redhat):` prefix removed (for example, `Red Hat:rhel_aus:8.4::appstream` translates to `cpe:/a:redhat:rhel_aus:8.4::appstream`). Red Hat ecosystem identifiers can be used to identify vulnerable RPMs installed on a Red Hat system as explained [here](https://www.redhat.com/en/blog/how-accurately-match-oval-security-data-installed-rpms).  |
-| `Rocky Linux` | The Rocky Linux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Rocky Linux release. `<RELEASE>` is a numeric version.
-| `RubyGems` | The RubyGems ecosystem; the `name` field is a gem name.  |
-| `SUSE` | The SUSE ecosystem; The ecosystem string has a `:<RELEASE>` suffix representing the marketing name of the SUSE product. `<RELEASE>` matches the value in the /etc/os-release `PRETTY_NAME` field. The `name` field is the name of the source RPM and accompanied by a purl. There is a `ecosystem_specific` specific array `binaries` of the associated RPM binary packages in this specific SUSE product. The ECOSYSTEM version ordering is the RPM versioncompare ordering, and the database uses the `introduced` and `fixed` boundaries.|
+| `PyPI` | the Python PyPI ecosystem; the `name` field is a [normalized](https://www.python.org/dev/peps/pep-0503/#normalized-names) PyPI package name. |
+| `Red Hat` | The Red Hat package ecosystem; the `name` field is the name of a binary or source RPM. The ecosystem string has a `:<CPE>` suffix to scope the RPM to a specific Red Hat product stream. `<CPE>` is a translation of a Red Hat [Common Platform Enumerations](https://cpe.mitre.org/) (CPE) with the `cpe/:[oa]:(redhat):` prefix removed (for example, `Red Hat:rhel_aus:8.4::appstream` translates to `cpe:/a:redhat:rhel_aus:8.4::appstream`). Red Hat ecosystem identifiers can be used to identify vulnerable RPMs installed on a Red Hat system as explained [here](https://www.redhat.com/en/blog/how-accurately-match-oval-security-data-installed-rpms). |
+| `Rocky Linux` | The Rocky Linux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Rocky Linux release. `<RELEASE>` is a numeric version. |
+| `RubyGems` | The RubyGems ecosystem; the `name` field is a gem name. |
+| `SUSE` | The SUSE ecosystem; The ecosystem string has a `:<RELEASE>` suffix representing the marketing name of the SUSE product. `<RELEASE>` matches the value in the /etc/os-release `PRETTY_NAME` field. The `name` field is the name of the source RPM and accompanied by a purl. There is a `ecosystem_specific` specific array `binaries` of the associated RPM binary packages in this specific SUSE product. The ECOSYSTEM version ordering is the RPM versioncompare ordering, and the database uses the `introduced` and `fixed` boundaries. |
 | `SwiftURL` | The Swift Package Manager ecosystem. The `name` is a Git URL to the source of the package. Versions are Git tags that comform to [SemVer 2.0](https://docs.swift.org/package-manager/PackageDescription/PackageDescription.html#version). |
-| `Ubuntu` | The Ubuntu package ecosystem; the `name` field is the name of the source package. The ecosystem string has a `:<RELEASE>` suffix to scope the package to a particular Ubuntu release. `<RELEASE>` is a numeric ("YY.MM") version as specified in [Ubuntu Releases](https://wiki.ubuntu.com/Releases), with a mandatory `:LTS` suffix if the release is marked as LTS. The release version may also be prefixed with `:Pro:` to denote Ubuntu Pro (aka Expanded Security Maintenance (ESM)) updates. For example, the ecosystem string "Ubuntu:22.04:LTS" refers to Ubuntu 22.04 LTS (jammy), while "Ubuntu:Pro:18.04:LTS" refers to fixes that landed in Ubuntu 18.04 LTS (bionic) under Ubuntu Pro/ESM.
+| `Ubuntu` | The Ubuntu package ecosystem; the `name` field is the name of the source package. The ecosystem string has a `:<RELEASE>` suffix to scope the package to a particular Ubuntu release. `<RELEASE>` is a numeric ("YY.MM") version as specified in [Ubuntu Releases](https://wiki.ubuntu.com/Releases), with a mandatory `:LTS` suffix if the release is marked as LTS. The release version may also be prefixed with `:Pro:` to denote Ubuntu Pro (aka Expanded Security Maintenance (ESM)) updates. For example, the ecosystem string "Ubuntu:22.04:LTS" refers to Ubuntu 22.04 LTS (jammy), while "Ubuntu:Pro:18.04:LTS" refers to fixes that landed in Ubuntu 18.04 LTS (bionic) under Ubuntu Pro/ESM. |
+| `Wolfi` | The Wolfi package ecosystem; the `name` is the name of the package. |
 | Your ecosystem here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
+
+<!-- end auto-generated ecosystems list -->
 
 It is permitted for a database name (the DB prefix in the `id` field) and an
 ecosystem name to be the same, provided they have the same owner who can make

@@ -1,0 +1,128 @@
+{
+    "id": "RHSA-2022:0216",
+    "summary": "Red Hat Security Advisory: Red Hat JBoss Enterprise Application Platform 7.4 security update",
+    "modified": "2024-09-01T17:42:35Z",
+    "published": "2024-09-01T17:42:35Z",
+    "related": [
+        "CVE-2021-44832",
+        "CVE-2021-45046",
+        "CVE-2021-45105"
+    ],
+    "references": [
+        {
+            "type": "ADVISORY",
+            "url": "https://access.redhat.com/errata/RHSA-2022:0216"
+        },
+        {
+            "type": "ARTICLE",
+            "url": "https://access.redhat.com/security/updates/classification/#low"
+        },
+        {
+            "type": "ARTICLE",
+            "url": "https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?downloadType=securityPatches&product=appplatform&version=7.4"
+        },
+        {
+            "type": "ARTICLE",
+            "url": "https://access.redhat.com/security/vulnerabilities/RHSB-2021-009"
+        },
+        {
+            "type": "ARTICLE",
+            "url": "https://access.redhat.com/solutions/6577421"
+        },
+        {
+            "type": "ARTICLE",
+            "url": "https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/7.4/"
+        },
+        {
+            "type": "ARTICLE",
+            "url": "https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/7.4/html-single/installation_guide/"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2032580"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2034067"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2035951"
+        },
+        {
+            "type": "ADVISORY",
+            "url": "https://access.redhat.com/security/data/csaf/v2/advisories/2022/rhsa-2022_0216.json"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://access.redhat.com/security/cve/CVE-2021-44832"
+        },
+        {
+            "type": "ADVISORY",
+            "url": "https://www.cve.org/CVERecord?id=CVE-2021-44832"
+        },
+        {
+            "type": "ADVISORY",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-44832"
+        },
+        {
+            "type": "ARTICLE",
+            "url": "https://issues.apache.org/jira/browse/LOG4J2-3293"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://access.redhat.com/security/cve/CVE-2021-45046"
+        },
+        {
+            "type": "ADVISORY",
+            "url": "https://www.cve.org/CVERecord?id=CVE-2021-45046"
+        },
+        {
+            "type": "ADVISORY",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-45046"
+        },
+        {
+            "type": "ARTICLE",
+            "url": "https://access.redhat.com/security/cve/CVE-2021-44228"
+        },
+        {
+            "type": "ARTICLE",
+            "url": "https://logging.apache.org/log4j/2.x/security.html"
+        },
+        {
+            "type": "ARTICLE",
+            "url": "https://www.openwall.com/lists/oss-security/2021/12/14/4"
+        },
+        {
+            "type": "ARTICLE",
+            "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+        },
+        {
+            "type": "REPORT",
+            "url": "https://access.redhat.com/security/cve/CVE-2021-45105"
+        },
+        {
+            "type": "ADVISORY",
+            "url": "https://www.cve.org/CVERecord?id=CVE-2021-45105"
+        },
+        {
+            "type": "ADVISORY",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-45105"
+        },
+        {
+            "type": "ARTICLE",
+            "url": "https://issues.apache.org/jira/browse/LOG4J2-3230"
+        },
+        {
+            "type": "ARTICLE",
+            "url": "https://www.openwall.com/lists/oss-security/2021/12/19/1"
+        }
+    ],
+    "schema_version": "1.6.0",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        }
+    ]
+}

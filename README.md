@@ -1,6 +1,8 @@
 # Open Source Vulnerability Schema
 
-This is the repository for the Open Source Vulnerability schema (OSV Schema), which is currently exported by:
+The Open Source Vulnerability (OSV) schema provides a human and machine readable data format to describe vulnerabilities in a way that precisely maps to open source package versions or commit hashes. 
+
+This format is currently exported by:
 - [AlmaLinux](https://github.com/AlmaLinux/osv-database)
 - [Bitnami Vulnerability Database](https://github.com/bitnami/vulndb)
 - [Chainguard](https://packages.cgr.dev/chainguard/osv/all.json)
@@ -55,7 +57,7 @@ Together, these include vulnerabilities from:
 -   RubyGems
 -   Ubuntu
 
-These vulnerabilites are aggregated by <https://osv.dev>.
+These vulnerabilities are aggregated by <https://osv.dev>.
 
 Join the discussion in the [OpenSSF Slack](https://slack.openssf.org/) channel [#osv_schema](https://openssf.slack.com/archives/C03K6SZBH2S)
 

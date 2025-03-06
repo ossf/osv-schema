@@ -35,6 +35,12 @@
         "type": "string"
       }
     },
+    "upstream": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
     "summary": {
       "type": "string"
     },
@@ -56,7 +62,7 @@
             "type": "object",
             "properties": {
               "ecosystem": {
-                "$ref": "#/$defs/ecosystem"
+                "$ref": "#/$defs/ecosystemWithSuffix"
               },
               "name": {
                 "type": "string"
@@ -295,18 +301,85 @@
     "id",
     "modified"
   ],
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "severity"
+        ]
+      },
+      "then": {
+        "properties": {
+          "affected": {
+            "items": {
+              "properties": {
+                "severity": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
   "$defs": {
-    "ecosystem": {
+    "ecosystemName": {
       "type": "string",
       "title": "Currently supported ecosystems",
       "description": "These ecosystems are also documented at https://ossf.github.io/osv-schema/#affectedpackage-field",
-      "pattern": "^(AlmaLinux|Alpine|Android|Bioconductor|Bitnami|Chainguard|ConanCenter|CRAN|crates.io|Debian|GHC|GitHub Actions|GIT|Go|Hackage|Hex|Linux|Maven|npm|NuGet|openSUSE|OSS-Fuzz|Packagist|Photon OS|Pub|PyPI|Red Hat|Rocky Linux|RubyGems|SUSE|SwiftURL|Ubuntu|wolfi)(:[0-9]+)?"
+      "enum": [
+        "AlmaLinux",
+        "Alpine",
+        "Android",
+        "Bioconductor",
+        "Bitnami",
+        "Chainguard",
+        "ConanCenter",
+        "CRAN",
+        "crates.io",
+        "Debian",
+        "GHC",
+        "GitHub Actions",
+        "Go",
+        "Hackage",
+        "Hex",
+        "Kubernetes",
+        "Linux",
+        "Mageia",
+        "Maven",
+        "npm",
+        "NuGet",
+        "openSUSE",
+        "OSS-Fuzz",
+        "Packagist",
+        "Photon OS",
+        "Pub",
+        "PyPI",
+        "Red Hat",
+        "Rocky Linux",
+        "RubyGems",
+        "SUSE",
+        "SwiftURL",
+        "Ubuntu",
+        "Wolfi"
+      ]
+    },
+    "ecosystemSuffix": {
+      "type": "string",
+      "pattern": ":.+"
+    },
+    "ecosystemWithSuffix": {
+      "type": "string",
+      "title": "Currently supported ecosystems",
+      "description": "These ecosystems are also documented at https://ossf.github.io/osv-schema/#affectedpackage-field",
+      "pattern": "^(AlmaLinux|Alpine|Android|Bioconductor|Bitnami|Chainguard|ConanCenter|CRAN|crates\\.io|Debian|GHC|GitHub Actions|Go|Hackage|Hex|Kubernetes|Linux|Mageia|Maven|npm|NuGet|openSUSE|OSS-Fuzz|Packagist|Photon OS|Pub|PyPI|Red Hat|Rocky Linux|RubyGems|SUSE|SwiftURL|Ubuntu|Wolfi|GIT)(:.+)?$"
     },
     "prefix": {
       "type": "string",
       "title": "Currently supported home database identifier prefixes",
       "description": "These home databases are also documented at https://ossf.github.io/osv-schema/#id-modified-fields",
-      "pattern": "^(ASB-A|PUB-A|ALSA|ALBA|ALEA|BIT|CGA|CURL|CVE|DSA|DLA|ELA|DTSA|GHSA|GO|GSD|HSEC|LBSEC|MAL|OSV|openSUSE-SU|PHSA|PSF|PYSEC|RHBA|RHEA|RHSA|RLSA|RXSA|RSEC|RUSTSEC|SUSE-[SRFO]U|UBUNTU|USN)-"
+      "pattern": "^(ASB-A|PUB-A|ALSA|ALBA|ALEA|BIT|CGA|CURL|CVE|DSA|DLA|ELA|DTSA|GHSA|GO|GSD|HSEC|KUBE|LBSEC|MAL|MGASA|OSV|openSUSE-SU|PHSA|PSF|PYSEC|RHBA|RHEA|RHSA|RLSA|RXSA|RSEC|RUSTSEC|SUSE-[SRFO]U|UBUNTU|USN|V8)-"
     },
     "severity": {
       "type": [
@@ -321,7 +394,8 @@
             "enum": [
               "CVSS_V2",
               "CVSS_V3",
-              "CVSS_V4"
+              "CVSS_V4",
+              "Ubuntu"
             ]
           },
           "score": {
@@ -329,48 +403,76 @@
           }
         },
         "allOf": [
-            {
-              "if": {
-                "properties": {
-                  "type": { "const": "CVSS_V2" }
-                }
-              },
-              "then": {
-                "properties": {
-                  "score": {
-                    "pattern": "^((AV:[NAL]|AC:[LMH]|Au:[MSN]|[CIA]:[NPC]|E:(U|POC|F|H|ND)|RL:(OF|TF|W|U|ND)|RC:(UC|UR|C|ND)|CDP:(N|L|LM|MH|H|ND)|TD:(N|L|M|H|ND)|[CIA]R:(L|M|H|ND))\/)*(AV:[NAL]|AC:[LMH]|Au:[MSN]|[CIA]:[NPC]|E:(U|POC|F|H|ND)|RL:(OF|TF|W|U|ND)|RC:(UC|UR|C|ND)|CDP:(N|L|LM|MH|H|ND)|TD:(N|L|M|H|ND)|[CIA]R:(L|M|H|ND))$"
-                  }
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "CVSS_V2"
                 }
               }
             },
-            {
-              "if": {
-                "properties": {
-                  "type": { "const": "CVSS_V3" }
-                }
-              },
-              "then": {
-                "properties": {
-                  "score": {
-                    "pattern": "^CVSS:3[.][01]\/((AV:[NALP]|AC:[LH]|PR:[NLH]|UI:[NR]|S:[UC]|[CIA]:[NLH]|E:[XUPFH]|RL:[XOTWU]|RC:[XURC]|[CIA]R:[XLMH]|MAV:[XNALP]|MAC:[XLH]|MPR:[XNLH]|MUI:[XNR]|MS:[XUC]|M[CIA]:[XNLH])\/)*(AV:[NALP]|AC:[LH]|PR:[NLH]|UI:[NR]|S:[UC]|[CIA]:[NLH]|E:[XUPFH]|RL:[XOTWU]|RC:[XURC]|[CIA]R:[XLMH]|MAV:[XNALP]|MAC:[XLH]|MPR:[XNLH]|MUI:[XNR]|MS:[XUC]|M[CIA]:[XNLH])$"
-                  }
-                }
-              }
-            },
-            {
-              "if": {
-                "properties": {
-                  "type": { "const": "CVSS_V4" }
-                }
-              },
-              "then": {
-                "properties": {
-                  "score": {
-                    "pattern": "^CVSS:4[.]0\/AV:[NALP]\/AC:[LH]\/AT:[NP]\/PR:[NLH]\/UI:[NPA]\/VC:[HLN]\/VI:[HLN]\/VA:[HLN]\/SC:[HLN]\/SI:[HLN]\/SA:[HLN](\/E:[XAPU])?(\/CR:[XHML])?(\/IR:[XHML])?(\/AR:[XHML])?(\/MAV:[XNALP])?(\/MAC:[XLH])?(\/MAT:[XNP])?(\/MPR:[XNLH])?(\/MUI:[XNPA])?(\/MVC:[XNLH])?(\/MVI:[XNLH])?(\/MVA:[XNLH])?(\/MSC:[XNLH])?(\/MSI:[XNLHS])?(\/MSA:[XNLHS])?(\/S:[XNP])?(\/AU:[XNY])?(\/R:[XAUI])?(\/V:[XDC])?(\/RE:[XLMH])?(\/U:(X|Clear|Green|Amber|Red))?$"
-                  }
+            "then": {
+              "properties": {
+                "score": {
+                  "pattern": "^((AV:[NAL]|AC:[LMH]|Au:[MSN]|[CIA]:[NPC]|E:(U|POC|F|H|ND)|RL:(OF|TF|W|U|ND)|RC:(UC|UR|C|ND)|CDP:(N|L|LM|MH|H|ND)|TD:(N|L|M|H|ND)|[CIA]R:(L|M|H|ND))/)*(AV:[NAL]|AC:[LMH]|Au:[MSN]|[CIA]:[NPC]|E:(U|POC|F|H|ND)|RL:(OF|TF|W|U|ND)|RC:(UC|UR|C|ND)|CDP:(N|L|LM|MH|H|ND)|TD:(N|L|M|H|ND)|[CIA]R:(L|M|H|ND))$"
                 }
               }
             }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "CVSS_V3"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "score": {
+                  "pattern": "^CVSS:3[.][01]/((AV:[NALP]|AC:[LH]|PR:[NLH]|UI:[NR]|S:[UC]|[CIA]:[NLH]|E:[XUPFH]|RL:[XOTWU]|RC:[XURC]|[CIA]R:[XLMH]|MAV:[XNALP]|MAC:[XLH]|MPR:[XNLH]|MUI:[XNR]|MS:[XUC]|M[CIA]:[XNLH])/)*(AV:[NALP]|AC:[LH]|PR:[NLH]|UI:[NR]|S:[UC]|[CIA]:[NLH]|E:[XUPFH]|RL:[XOTWU]|RC:[XURC]|[CIA]R:[XLMH]|MAV:[XNALP]|MAC:[XLH]|MPR:[XNLH]|MUI:[XNR]|MS:[XUC]|M[CIA]:[XNLH])$"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "CVSS_V4"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "score": {
+                  "pattern": "^CVSS:4[.]0/AV:[NALP]/AC:[LH]/AT:[NP]/PR:[NLH]/UI:[NPA]/VC:[HLN]/VI:[HLN]/VA:[HLN]/SC:[HLN]/SI:[HLN]/SA:[HLN](/E:[XAPU])?(/CR:[XHML])?(/IR:[XHML])?(/AR:[XHML])?(/MAV:[XNALP])?(/MAC:[XLH])?(/MAT:[XNP])?(/MPR:[XNLH])?(/MUI:[XNPA])?(/MVC:[XNLH])?(/MVI:[XNLH])?(/MVA:[XNLH])?(/MSC:[XNLH])?(/MSI:[XNLHS])?(/MSA:[XNLHS])?(/S:[XNP])?(/AU:[XNY])?(/R:[XAUI])?(/V:[XDC])?(/RE:[XLMH])?(/U:(X|Clear|Green|Amber|Red))?$"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "Ubuntu"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "score": {
+                  "enum": [
+                    "negligible",
+                    "low",
+                    "medium",
+                    "high",
+                    "critical"
+                  ]
+                }
+              }
+            }
+          }
         ],
         "required": [
           "type",

@@ -3,6 +3,8 @@ import json
 from dataclasses import dataclass, InitVar, field
 from typing import Any, Iterable
 
+class RemediationParseError(ValueError):
+    pass
 
 @dataclass
 class Remediation:
@@ -32,7 +34,7 @@ class Remediation:
         # We split the name from the rest of the 'version' data (EVRA). We store name as component.
         split_component_version = self.product_version.rsplit("-", maxsplit=2)
         if len(split_component_version) < 3:
-            raise ValueError(
+            raise RemediationParseError(
                 f"Could not convert component into NEVRA: {self.product_version}"
             )
         # RHEL Modules have 4 colons in the name part of the NEVRA. If we detect a modular RPM
@@ -83,6 +85,9 @@ class Vulnerability:
     def __post_init__(self, csaf_vuln: dict[str, Any], cpes: dict[str, str],
                       purls: dict[str, str]):
         self.cve_id = csaf_vuln["cve"]
+        if not hasattr(csaf_vuln, "scores"):
+            self.cvss_v3_vector = ""
+            self.cvss_v3_base_score = ""
         for score in csaf_vuln.get("scores", []):
             if "cvss_v3" in score:
                 self.cvss_v3_vector = score["cvss_v3"]["vectorString"]
@@ -93,7 +98,12 @@ class Vulnerability:
         self.references = csaf_vuln["references"]
         self.remediations = []
         for product_id in csaf_vuln["product_status"]["fixed"]:
-            self.remediations.append(Remediation(product_id, cpes, purls))
+            try:
+                self.remediations.append(Remediation(product_id, cpes, purls))
+            except RemediationParseError:
+                continue
+        if not self.remediations:
+            raise ValueError(f"Did not find any remediations for {self.cve_id}")
 
 
 def gen_dict_extract(key, var: Iterable):
@@ -153,9 +163,9 @@ class CSAF:
         }
 
         # Only support csaf_vex 2.0
-        if self.csaf != {"type": "csaf_vex", "csaf_version": "2.0"}:
+        if self.csaf != {"type": "csaf_security_advisory", "csaf_version": "2.0"}:
             raise ValueError(
-                f"Can only handle csaf_vex 2.0 documents. Got: {self.csaf}")
+                f"Can only handle csaf_security_advisory 2.0 documents. Got: {self.csaf}")
 
         self.cpes, self.purls = build_product_maps(csaf_data["product_tree"])
 

@@ -253,7 +253,7 @@ def get_affected(ghsa: Dict[str, Any]) -> List[Dict[str, Any]]:
             if ghsa_range.upper:
                 if ghsa_range.upper.operator == '<=':
                     if first_patched:
-                        # "fixed" events are prefered over "last_affected"
+                        # "fixed" events are preferred over "last_affected"
                         current_events.append({'fixed': first_patched})
                     else:
                         current_events.append({'last_affected': ghsa_range.upper.version})

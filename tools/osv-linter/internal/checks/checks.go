@@ -3,7 +3,7 @@
 // To add additional checks:
 // 1. define a new instance of `Check`
 // 2. add it to the `checks` array
-// 3. add it to the relevent collections defined in `checkCollections`
+// 3. add it to the relevant collections defined in `checkCollections`
 //
 // To add additional collections of checks:
 // 1. add to the `checkCollections` array.
@@ -39,7 +39,8 @@ type CheckDef struct {
 
 // Config defines the configuration for a check.
 type Config struct {
-	Verbose bool
+	Verbose    bool
+	Ecosystems []string
 }
 
 // Check defines how to run the check.
@@ -90,6 +91,7 @@ var Collections = []CheckCollection{
 		Name:        "ALL",
 		Description: "all checks currently defined",
 		Checks: []*CheckDef{
+			CheckRecordHasAffected,
 			CheckRangeHasIntroducedEvent,
 			CheckRangeIsDistinct,
 			CheckPackageExists,
@@ -101,6 +103,7 @@ var Collections = []CheckCollection{
 		Name:        "offline",
 		Description: "checks that do not have remote data dependencies",
 		Checks: []*CheckDef{
+			CheckRecordHasAffected,
 			CheckRangeHasIntroducedEvent,
 			CheckRangeIsDistinct,
 			CheckPackagePurlValid,

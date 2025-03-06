@@ -8,7 +8,7 @@ from jsonschema import validate
 from redhat_osv.csaf import Remediation, CSAF
 
 # Update this if verified against a later version
-SCHEMA_VERSION = "1.6.5"
+SCHEMA_VERSION = "1.6.7"
 # This assumes the datetime being formatted is in UTC
 DATE_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 # Go package advisory reference prefix
@@ -85,7 +85,8 @@ class Package:
     Class to hold package data for an Affect.
     Expects an ecosystem string that starts with CPE_PATTERN.
     Replaces the CPE prefix 'redhat' part with 'Red Hat'
-    to match more closely with other ecosystem identifiers in the OSV database
+    to match more closely with other ecosystem identifiers in the OSV database.
+    Also removes version and qualifiers from the CSAF remediation PURL
     """
 
     cpe_pattern: re.Pattern = field(init=False,
@@ -98,6 +99,10 @@ class Package:
         if not self.cpe_pattern.match(self.ecosystem):
             raise ValueError(f"Got unsupported ecosystem: {self.ecosystem}")
         self.ecosystem = f"Red Hat{self.cpe_pattern.split(self.ecosystem, maxsplit=1)[-1]}"
+        if "@" in self.purl:
+            version_index = self.purl.index("@")
+            self.purl = self.purl[:version_index]
+
 
 
 @dataclass
@@ -106,14 +111,8 @@ class Affected:
     Class to hold affected data for a Vulnerability
     """
 
-    remediation: InitVar[Remediation]
-    package: Package = field(init=False)
-    ranges: list[Range] = field(init=False)
-
-    def __post_init__(self, remediation: Remediation):
-        self.package = Package(remediation.component, remediation.cpe,
-                               remediation.purl)
-        self.ranges = [Range(remediation.fixed_version)]
+    package: Package
+    ranges: list[Range]
 
 
 # pylint: disable=too-many-instance-attributes
@@ -155,10 +154,36 @@ class OSV:
             }]
 
         self.affected: list[Affected] = []
+
+        # Deduplicate arch specific remediations
+        unique_packages: dict[str: tuple[str: str]] = {}
+
         for vulnerability in csaf_data.vulnerabilities:
             self.related.append(vulnerability.cve_id)
             for remediation in vulnerability.remediations:
-                self.affected.append(Affected(remediation))
+                # Safety check for when we start processing non-rpm content
+                if not remediation.purl.startswith("pkg:rpm/"):
+                    package = Package(remediation.component, remediation.cpe, remediation.purl)
+                    ranges = [Range(remediation.fixed_version)]
+                    self.affected.append(Affected(package, ranges))
+                else:
+                    # Each RPM version in RHEL has a trailing '.<arch>', remove those to avoid
+                    # problems comparing the same package from different archs
+                    version_arch_split = remediation.fixed_version.rsplit(".", 1)
+                    # CPE's are URI percent encoded and '&' is a reserved character so it should
+                    # never appear in a CPE without being percent encoded.
+                    unique_packages[remediation.cpe + "&" + remediation.component] = (
+                        version_arch_split[0], remediation.purl,
+                    )
+
+        # Add all the RPM packages without arch suffixes
+        for package_key, version_purl in unique_packages.items():
+            package_key_parts = package_key.split("&", 1)
+            cpe = package_key_parts[0]
+            component = package_key_parts[1]
+            package = Package(component, cpe, version_purl[1])
+            ranges = [Range(version_purl[0])]
+            self.affected.append(Affected(package, ranges))
 
         self.references = self._convert_references(csaf_data)
 

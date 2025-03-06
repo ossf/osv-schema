@@ -30,9 +30,14 @@ func main() {
 								Usage: "check collection to use (use 'list' to see)",
 							},
 							&cli.StringSliceFlag{
-								Name:  "check",
+								Name:  "checks",
 								Value: &cli.StringSlice{},
 								Usage: "explicitly run a specific check (use 'list' to see)",
+							},
+							&cli.StringSliceFlag{
+								Name:  "ecosystems",
+								Value: &cli.StringSlice{},
+								Usage: "the ecosystems to constrain package checks to (use 'list' to see)",
 							},
 						},
 						Aliases: []string{"check"},

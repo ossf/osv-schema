@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.6.5",
+  "schema_version": "1.6.7",
   "id": "RHSA-2024:4546",
   "related": [
     "CVE-2023-45288",
@@ -19,7 +19,7 @@
       "package": {
         "name": "git-lfs",
         "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
-        "purl": "pkg:rpm/redhat/git-lfs@2.13.3-3.el8_6.1?arch=src"
+        "purl": "pkg:rpm/redhat/git-lfs"
       },
       "ranges": [
         {
@@ -29,27 +29,7 @@
               "introduced": "0"
             },
             {
-              "fixed": "0:2.13.3-3.el8_6.1.src"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "package": {
-        "name": "git-lfs",
-        "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
-        "purl": "pkg:rpm/redhat/git-lfs@2.13.3-3.el8_6.1?arch=x86_64"
-      },
-      "ranges": [
-        {
-          "type": "ECOSYSTEM",
-          "events": [
-            {
-              "introduced": "0"
-            },
-            {
-              "fixed": "0:2.13.3-3.el8_6.1.x86_64"
+              "fixed": "0:2.13.3-3.el8_6.1"
             }
           ]
         }
@@ -59,7 +39,7 @@
       "package": {
         "name": "git-lfs-debuginfo",
         "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
-        "purl": "pkg:rpm/redhat/git-lfs-debuginfo@2.13.3-3.el8_6.1?arch=x86_64"
+        "purl": "pkg:rpm/redhat/git-lfs-debuginfo"
       },
       "ranges": [
         {
@@ -69,7 +49,7 @@
               "introduced": "0"
             },
             {
-              "fixed": "0:2.13.3-3.el8_6.1.x86_64"
+              "fixed": "0:2.13.3-3.el8_6.1"
             }
           ]
         }
@@ -79,7 +59,7 @@
       "package": {
         "name": "git-lfs-debugsource",
         "ecosystem": "Red Hat:rhel_aus:8.6::appstream",
-        "purl": "pkg:rpm/redhat/git-lfs-debugsource@2.13.3-3.el8_6.1?arch=x86_64"
+        "purl": "pkg:rpm/redhat/git-lfs-debugsource"
       },
       "ranges": [
         {
@@ -89,7 +69,7 @@
               "introduced": "0"
             },
             {
-              "fixed": "0:2.13.3-3.el8_6.1.x86_64"
+              "fixed": "0:2.13.3-3.el8_6.1"
             }
           ]
         }
@@ -99,7 +79,7 @@
       "package": {
         "name": "git-lfs",
         "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
-        "purl": "pkg:rpm/redhat/git-lfs@2.13.3-3.el8_6.1?arch=ppc64le"
+        "purl": "pkg:rpm/redhat/git-lfs"
       },
       "ranges": [
         {
@@ -109,47 +89,7 @@
               "introduced": "0"
             },
             {
-              "fixed": "0:2.13.3-3.el8_6.1.ppc64le"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "package": {
-        "name": "git-lfs",
-        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
-        "purl": "pkg:rpm/redhat/git-lfs@2.13.3-3.el8_6.1?arch=src"
-      },
-      "ranges": [
-        {
-          "type": "ECOSYSTEM",
-          "events": [
-            {
-              "introduced": "0"
-            },
-            {
-              "fixed": "0:2.13.3-3.el8_6.1.src"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "package": {
-        "name": "git-lfs",
-        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
-        "purl": "pkg:rpm/redhat/git-lfs@2.13.3-3.el8_6.1?arch=x86_64"
-      },
-      "ranges": [
-        {
-          "type": "ECOSYSTEM",
-          "events": [
-            {
-              "introduced": "0"
-            },
-            {
-              "fixed": "0:2.13.3-3.el8_6.1.x86_64"
+              "fixed": "0:2.13.3-3.el8_6.1"
             }
           ]
         }
@@ -159,7 +99,7 @@
       "package": {
         "name": "git-lfs-debuginfo",
         "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
-        "purl": "pkg:rpm/redhat/git-lfs-debuginfo@2.13.3-3.el8_6.1?arch=ppc64le"
+        "purl": "pkg:rpm/redhat/git-lfs-debuginfo"
       },
       "ranges": [
         {
@@ -169,27 +109,7 @@
               "introduced": "0"
             },
             {
-              "fixed": "0:2.13.3-3.el8_6.1.ppc64le"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "package": {
-        "name": "git-lfs-debuginfo",
-        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
-        "purl": "pkg:rpm/redhat/git-lfs-debuginfo@2.13.3-3.el8_6.1?arch=x86_64"
-      },
-      "ranges": [
-        {
-          "type": "ECOSYSTEM",
-          "events": [
-            {
-              "introduced": "0"
-            },
-            {
-              "fixed": "0:2.13.3-3.el8_6.1.x86_64"
+              "fixed": "0:2.13.3-3.el8_6.1"
             }
           ]
         }
@@ -199,7 +119,7 @@
       "package": {
         "name": "git-lfs-debugsource",
         "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
-        "purl": "pkg:rpm/redhat/git-lfs-debugsource@2.13.3-3.el8_6.1?arch=ppc64le"
+        "purl": "pkg:rpm/redhat/git-lfs-debugsource"
       },
       "ranges": [
         {
@@ -209,27 +129,7 @@
               "introduced": "0"
             },
             {
-              "fixed": "0:2.13.3-3.el8_6.1.ppc64le"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "package": {
-        "name": "git-lfs-debugsource",
-        "ecosystem": "Red Hat:rhel_e4s:8.6::appstream",
-        "purl": "pkg:rpm/redhat/git-lfs-debugsource@2.13.3-3.el8_6.1?arch=x86_64"
-      },
-      "ranges": [
-        {
-          "type": "ECOSYSTEM",
-          "events": [
-            {
-              "introduced": "0"
-            },
-            {
-              "fixed": "0:2.13.3-3.el8_6.1.x86_64"
+              "fixed": "0:2.13.3-3.el8_6.1"
             }
           ]
         }
@@ -239,7 +139,7 @@
       "package": {
         "name": "git-lfs",
         "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
-        "purl": "pkg:rpm/redhat/git-lfs@2.13.3-3.el8_6.1?arch=src"
+        "purl": "pkg:rpm/redhat/git-lfs"
       },
       "ranges": [
         {
@@ -249,27 +149,7 @@
               "introduced": "0"
             },
             {
-              "fixed": "0:2.13.3-3.el8_6.1.src"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "package": {
-        "name": "git-lfs",
-        "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
-        "purl": "pkg:rpm/redhat/git-lfs@2.13.3-3.el8_6.1?arch=x86_64"
-      },
-      "ranges": [
-        {
-          "type": "ECOSYSTEM",
-          "events": [
-            {
-              "introduced": "0"
-            },
-            {
-              "fixed": "0:2.13.3-3.el8_6.1.x86_64"
+              "fixed": "0:2.13.3-3.el8_6.1"
             }
           ]
         }
@@ -279,7 +159,7 @@
       "package": {
         "name": "git-lfs-debuginfo",
         "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
-        "purl": "pkg:rpm/redhat/git-lfs-debuginfo@2.13.3-3.el8_6.1?arch=x86_64"
+        "purl": "pkg:rpm/redhat/git-lfs-debuginfo"
       },
       "ranges": [
         {
@@ -289,7 +169,7 @@
               "introduced": "0"
             },
             {
-              "fixed": "0:2.13.3-3.el8_6.1.x86_64"
+              "fixed": "0:2.13.3-3.el8_6.1"
             }
           ]
         }
@@ -299,7 +179,7 @@
       "package": {
         "name": "git-lfs-debugsource",
         "ecosystem": "Red Hat:rhel_tus:8.6::appstream",
-        "purl": "pkg:rpm/redhat/git-lfs-debugsource@2.13.3-3.el8_6.1?arch=x86_64"
+        "purl": "pkg:rpm/redhat/git-lfs-debugsource"
       },
       "ranges": [
         {
@@ -309,7 +189,7 @@
               "introduced": "0"
             },
             {
-              "fixed": "0:2.13.3-3.el8_6.1.x86_64"
+              "fixed": "0:2.13.3-3.el8_6.1"
             }
           ]
         }
