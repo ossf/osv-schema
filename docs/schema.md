@@ -312,6 +312,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>LSN</code></td>
+      <td><a href="https://ubuntu.com/security/livepatch">Livepatch Security Notices</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>https://ubuntu.com/security/notices/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://github.com/canonical/ubuntu-security-notices/blob/main/osv/lsn/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>MGASA</code></td>
       <td><a href="https://advisories.mageia.org/">Mageia Security Advisories</a></td>
       <td>
