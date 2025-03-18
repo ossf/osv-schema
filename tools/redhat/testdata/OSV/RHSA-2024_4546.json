@@ -1,9 +1,11 @@
 {
-  "schema_version": "1.6.7",
+  "schema_version": "1.7.0",
   "id": "RHSA-2024:4546",
   "related": [
-    "CVE-2023-45288",
     "GO-2024-2687"
+  ],
+  "upstream": [
+    "CVE-2023-45288"
   ],
   "published": "2024-09-02T14:30:00Z",
   "modified": "2024-09-02T14:30:00Z",

@@ -8,7 +8,7 @@ from jsonschema import validate
 from redhat_osv.csaf import Remediation, CSAF
 
 # Update this if verified against a later version
-SCHEMA_VERSION = "1.6.7"
+SCHEMA_VERSION = "1.7.0"
 # This assumes the datetime being formatted is in UTC
 DATE_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 # Go package advisory reference prefix
@@ -130,6 +130,7 @@ class OSV:
         # This attribute is declared after id to make the resulting JSON human-readable. It can only
         # be populated after reading the csaf vulnerabilities and references sections.
         self.related: list[str] = []
+        self.upstream: list[str] = []
 
         if published:
             self.published = published
@@ -159,7 +160,7 @@ class OSV:
         unique_packages: dict[str: tuple[str: str]] = {}
 
         for vulnerability in csaf_data.vulnerabilities:
-            self.related.append(vulnerability.cve_id)
+            self.upstream.append(vulnerability.cve_id)
             for remediation in vulnerability.remediations:
                 # Safety check for when we start processing non-rpm content
                 if not remediation.purl.startswith("pkg:rpm/"):
