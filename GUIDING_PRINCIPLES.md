@@ -9,7 +9,7 @@ The primary goal driving the OSV schema's design is to **enable software
 developers to accurately identify and remediate all known vulnerabilities
 within their applications' open source dependencies**.
 
-To achieve this, the schema specifically supports two key use cases:
+To achieve this, the schema specifically supports two core use cases:
 1. For Vulnerability **Databases**: Make it easy for any vulnerability database
    to adopt and export the format, so that we have comprehensive coverage.
 2. For Vulnerability **Scanners**: Create a format that vulnerability scanners
@@ -18,22 +18,30 @@ To achieve this, the schema specifically supports two key use cases:
 
 This focus means that there may be some use cases of vulnerability data that
 are out of scope, such as:
-- Historical analysis of vulnerability trends.
+- Detailed historical analysis of vulnerability trends.
 - Tracking metadata about vulnerabilities that may be interesting but otherwise
   not useful for automatic vulnerability matching and remediation (e.g.
   individual timelines of vulnerabilities, or detailed relationship graphs
   between vulnerabilities).
 
+While these aren't the primary focus, the OSV schema might still be useful for
+these secondary purposes if the required data fields overlap with those needed
+for its core use cases.
+
 ## 2. Simplicity
 
-A well-defined use case allows the schema to remain concise and minimal. This
-simplicity makes the schema easier for consumers (like scanners) to understand
-and easier for producers (like databases) to adopt.
+A well-defined set of use cases allows the schema to remain concise and
+minimal. This simplicity makes the schema easier for consumers (like scanners)
+to understand and easier for producers (like databases) to adopt.
 
-Each field must serve a distinct purpose directly linked to the core use cases.
-There must also be a practical way for vulnerability data producers to supply the
-data for each field. Aspirational fields, which vulnerability databases cannot
-realistically populate, should be avoided.
+Each field should serve a distinct purpose directly linked to the core use cases.
+There must also be a practical way for vulnerability data producers to supply
+the data for each field. Aspirational fields, which cannot be realistically
+populated by vulnerability databases or realistically used by consumers, must
+be avoided.
+
+Where possible, there should be a data-driven justification with clear evidence
+of demand (from both producers/consumers) when adding a new field.
 
 ## 3. Correctness and Consistency
 
@@ -46,6 +54,9 @@ Where the schema refers to specific software ecosystems (e.g., package
 managers), its rules must align precisely with that ecosystem's specifications.
 For instance, package names and version ordering for the "PyPI" ecosystem must
 adhere strictly to PyPI's official rules.
+
+Where possible these rules should should be enforceable via the OSV JSON Schema
+and linter.
 
 ## 4. Prioritizing Open Source
 
@@ -71,8 +82,11 @@ database.
 
 ## 6. Backwards Compatibility
 
-The OSV schema is considered stable. Future versions must maintain backwards
-compatibility, ensuring that:
+The OSV schema is considered stable with no breaking changes expected. OSV
+records target a specific
+[`schema_version`](https://ossf.github.io/osv-schema/#schema_version-field),
+with the expectation that future versions of the schema will maintain backwards
+compatibility:
 
 - Existing clients supporting an older version of the schema don’t have to update
   their behaviour to consume records targeting newer versions.
