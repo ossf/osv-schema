@@ -76,8 +76,9 @@ compatibility, ensuring that:
 
 - Existing clients supporting an older version of the schema don’t have to update
   their behaviour to consume records targeting newer versions.
-- Clients that support a newer version of the schema don’t have to account for
-  older versions of the schema.
+- Clients that support a newer version of the schema don’t need special
+  behaviour to account for older versions of the schema. They can treat each
+  record as if it was targeting the latest version of the schema.
 
 In practice, this means:
 
