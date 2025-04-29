@@ -43,12 +43,12 @@ func Test_existsInNpm(t *testing.T) {
 	}{
 		{
 			name: "existing package",
-			pkg:  "proxyapi-docs",
+			pkg:  "ip",
 			want: true,
 		},
 		{
 			name: "existing package with a special name",
-			pkg:  "@saferpay/components",
+			pkg:  "@posthog/plugin-server",
 			want: true,
 		},
 		{
