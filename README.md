@@ -4,6 +4,7 @@ The Open Source Vulnerability (OSV) schema provides a human and machine readable
 
 This format is currently exported by:
 - [AlmaLinux](https://github.com/AlmaLinux/osv-database)
+- [BellSoft Security Advisory](https://github.com/bell-sw/osv-database)
 - [Bitnami Vulnerability Database](https://github.com/bitnami/vulndb)
 - [Chainguard](https://packages.cgr.dev/chainguard/osv/all.json)
 - [Curl](https://curl.se/docs/vuln.json)
@@ -29,6 +30,7 @@ This format is currently exported by:
 Together, these include vulnerabilities from:
 -   AlmaLinux
 -   Alpine
+-   BellSoft
 -   Android
 -   Bitnami
 -   Chainguard
