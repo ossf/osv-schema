@@ -314,7 +314,10 @@ def main():
             entries.append(entry)
 
     if output is None:
-        print(json.dumps(entries, indent=4))
+        if len(entries) == 1:
+            print(json.dumps(entries[0], indent=4))
+        else:
+            print(json.dumps(entries, indent=4))
 
     return ret
 
