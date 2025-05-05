@@ -24,6 +24,7 @@ const (
 	EcosystemLinux         Ecosystem = "Linux"
 	EcosystemMageia        Ecosystem = "Mageia"
 	EcosystemMaven         Ecosystem = "Maven"
+	EcosystemMinimOS       Ecosystem = "MinimOS"
 	EcosystemNPM           Ecosystem = "npm"
 	EcosystemNuGet         Ecosystem = "NuGet"
 	EcosystemOpenSUSE      Ecosystem = "openSUSE"
