@@ -8,7 +8,7 @@ import (
 )
 
 var CheckRangeHasIntroducedEvent = &CheckDef{
-	Code:        "R0001",
+	Code:        "RNG:001",
 	Name:        "introduced-event-exists",
 	Description: "every range has an introduced event",
 	Check:       RangeHasIntroducedEvent,
@@ -33,7 +33,7 @@ func RangeHasIntroducedEvent(json *gjson.Result, config *Config) (findings []Che
 }
 
 var CheckRangeIsDistinct = &CheckDef{
-	Code:        "R0002",
+	Code:        "RNG:002",
 	Name:        "range-is-distinct",
 	Description: "range spans multiple versions/commits",
 	Check:       RangeIsDistinct,

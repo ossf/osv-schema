@@ -21,7 +21,7 @@ func main() {
 						Name: "lint",
 						Flags: []cli.Flag{
 							&cli.BoolFlag{
-								Name: "verbose",
+								Name:  "verbose",
 								Usage: "verbose output",
 							},
 							&cli.StringFlag{
@@ -38,6 +38,10 @@ func main() {
 								Name:  "ecosystems",
 								Value: &cli.StringSlice{},
 								Usage: "the ecosystems to constrain package checks to (use 'list' to see)",
+							},
+							&cli.BoolFlag{
+								Name:  "json",
+								Usage: "output results as JSON",
 							},
 						},
 						Aliases: []string{"check"},

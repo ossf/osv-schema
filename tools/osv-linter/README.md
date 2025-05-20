@@ -38,9 +38,9 @@ OPTIONS:
 ```text
 $ go run ./cmd/osv record lint test_data
 test_data/nointroduced-CVE-2023-41045.json:
-         * [R0001]: missing 'introduced' object in event
+         * [RNG:001]: missing 'introduced' object in event
 test_data/nondistinct-CVE-2018-5407.json:
-         * [R0002]: overlapping event: "e818b74be2170fbe957a07b0da4401c2b694b3b8"
+         * [RNG:002]: overlapping event: "e818b74be2170fbe957a07b0da4401c2b694b3b8"
 2024/10/22 00:04:23 found errors
 exit status 1
 ```
@@ -49,12 +49,15 @@ exit status 1
 $ go run ./cmd/osv/ record lint --checks list
 Available checks:
 
-A0001: (affected-data-exists): every record has affected data
-R0001: (introduced-event-exists): every range has an introduced event
-R0002: (range-is-distinct): range spans multiple versions/commits
-P0001: (package-exists): package exists in ecosystem's registry
-P0002: (package-versions-exist): package versions exist in ecosystem's registry
-P0003: (package-purl-valid): package purl validates
+REC:001: (affected-data-exists): every record has affected data
+REC:002: (valid-aliases): aliases field validates
+REC:003: (valid-upstream): upstream field validates
+REC:004: (valid-related): related field validates
+RNG:001: (introduced-event-exists): every range has an introduced event
+RNG:002: (range-is-distinct): range spans multiple versions/commits
+PKG:001: (package-exists): package exists in ecosystem's registry
+PKG:002: (package-versions-exist): package versions exist in ecosystem's registry
+PKG:003: (package-purl-valid): package purl validates
 ```
 
 ```text
@@ -62,17 +65,28 @@ $ go run ./cmd/osv/ record lint --collection list
 Available check collections:
 
 ALL: all checks currently defined
-        A0001: (affected-data-exists): every record has affected data
-        R0001: (introduced-event-exists): every range has an introduced event
-        R0002: (range-is-distinct): range spans multiple versions/commits
-        P0001: (package-exists): package exists in ecosystem's registry
-        P0002: (package-versions-exist): package versions exist in ecosystem's registry
-        P0003: (package-purl-valid): package purl validates
-offline: checks that do not have remote data dependencies
-        A0001: (affected-data-exists): every record has affected data
-        R0001: (introduced-event-exists): every range has an introduced event
-        R0002: (range-is-distinct): range spans multiple versions/commits
-        P0003: (package-purl-valid): package purl validates
+        REC:001: (affected-data-exists): every record has affected data
+        REC:002: (valid-aliases): aliases field validates
+        REC:003: (valid-upstream): upstream field validates
+        REC:004: (valid-related): related field validates
+        RNG:001: (introduced-event-exists): every range has an introduced event
+        RNG:002: (range-is-distinct): range spans multiple versions/commits
+        PKG:001: (package-exists): package exists in ecosystem's registry
+        PKG:002: (package-versions-exist): package versions exist in ecosystem's registry
+        PKG:003: (package-purl-valid): package purl validates
+offline: Checks that do not have remote data dependencies. These can be run without network access.
+        REC:001: (affected-data-exists): every record has affected data
+        REC:002: (valid-aliases): aliases field validates
+        REC:003: (valid-upstream): upstream field validates
+        REC:004: (valid-related): related field validates
+        RNG:001: (introduced-event-exists): every range has an introduced event
+        RNG:002: (range-is-distinct): range spans multiple versions/commits
+        PKG:003: (package-purl-valid): package purl validates
+fatal: Checks considered critical. Failures indicate fundamental issues with the OSV record.
+        REC:001: (affected-data-exists): every record has affected data
+        REC:002: (valid-aliases): aliases field validates
+        REC:003: (valid-upstream): upstream field validates
+        RNG:002: (range-is-distinct): range spans multiple versions/commits
 ```
 
 ## Contributing
