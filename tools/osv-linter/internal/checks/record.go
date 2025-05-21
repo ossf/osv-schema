@@ -58,39 +58,23 @@ func UpstreamCheck(json *gjson.Result, config *Config) (findings []CheckError) {
 	}
 
 	aliases := json.Get("aliases")
-	if !aliases.Exists() {
-		return
-	}
-
-	hasAliases := false
-	if aliases.IsArray() {
+	if aliases.Exists() && aliases.IsArray() {
 		for _, bug := range aliases.Array() {
 			if _, exists := unique[bug.String()]; exists {
-				hasAliases = true
+				findings = append(findings, CheckError{Message: "Invalid Upstream: upstream should not contain aliases"})
+				break
 			}
 		}
-	}
-
-	if hasAliases {
-		findings = append(findings, CheckError{Message: "Invalid Upstream: upstream should not contain aliases"})
 	}
 
 	related := json.Get("related")
-	if !related.Exists() {
-		return
-	}
-
-	hasRelated := false
-	if related.IsArray() {
+	if related.Exists() && related.IsArray() {
 		for _, bug := range related.Array() {
 			if _, exists := unique[bug.String()]; exists {
-				hasRelated = true
+				findings = append(findings, CheckError{Message: "Invalid Upstream: upstream should not contain related IDs"})
+				break
 			}
 		}
-	}
-
-	if hasRelated {
-		findings = append(findings, CheckError{Message: "Invalid Upstream: upstream should not contain related IDs"})
 	}
 
 	return findings
@@ -134,7 +118,7 @@ func RelatedCheck(json *gjson.Result, config *Config) (findings []CheckError) {
 	return findings
 }
 
-func hasDuplicate(json gjson.Result) (bool, map[string]bool) {
+func hasDuplicate(json gjson.Result) (bool, map[string]struct{}) {
 	var bugIDs []string
 	if json.IsArray() { // Check if it's actually a JSON array
 		for _, bugResult := range json.Array() {
@@ -144,9 +128,9 @@ func hasDuplicate(json gjson.Result) (bool, map[string]bool) {
 		return false, nil
 	}
 
-	seen := make(map[string]bool)
+	seen := make(map[string]struct{})
 	for _, bugID := range bugIDs {
-		seen[bugID] = true
+		seen[bugID] = struct{}{}
 	}
 
 	return len(seen) != len(bugIDs), seen
