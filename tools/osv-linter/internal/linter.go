@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -30,6 +31,7 @@ type Config struct {
 	checks     []*checks.CheckDef // which checks to run.
 	ecosystems []string           // which ecosystems to limit package checks to.
 	verbose    bool               // whether to emit verbose output.
+	json       bool               // whether to output results as JSON.
 }
 
 func lint(content *Content, config *Config) (findings []checks.CheckError) {
@@ -41,7 +43,7 @@ func lint(content *Content, config *Config) (findings []checks.CheckError) {
 	record := gjson.ParseBytes(content.bytes)
 
 	for _, check := range config.checks {
-		if config.verbose {
+		if config.verbose && !config.json {
 			fmt.Printf("Running %q check on %q\n", check.Name, content.filename)
 		}
 		checkConfig := checks.Config{Verbose: config.verbose, Ecosystems: config.ecosystems}
@@ -104,7 +106,7 @@ func LintCommand(cCtx *cli.Context) error {
 
 	// Run all the checks in a collection, if no specific checks requested.
 	if checksToBeRun == nil && cCtx.String("collection") != "" {
-		if cCtx.Bool("verbose") {
+		if cCtx.Bool("verbose") && !cCtx.Bool("json") { // Don't print this to stdout if JSON output is enabled
 			if cCtx.Args().Present() {
 				fmt.Printf("Running %q check collection on %q\n", cCtx.String("collection"), cCtx.Args().Slice())
 			} else {
@@ -184,19 +186,40 @@ func LintCommand(cCtx *cli.Context) error {
 			log.Printf("%v, skipping", err)
 			continue
 		}
-		findings := lint(&Content{filename: fileToCheck, bytes: recordBytes}, &Config{verbose: cCtx.Bool("verbose"), checks: checksToBeRun, ecosystems: cCtx.StringSlice("ecosystems")})
+		findings := lint(&Content{filename: fileToCheck, bytes: recordBytes}, &Config{
+			verbose:    cCtx.Bool("verbose"),
+			checks:     checksToBeRun,
+			ecosystems: cCtx.StringSlice("ecosystems"),
+			json:       cCtx.Bool("json"), // Pass the JSON output mode
+		})
 		if findings != nil {
 			perFileFindings[fileToCheck] = findings
 		}
 	}
 
-	if len(perFileFindings) > 0 {
-		for filename, findings := range perFileFindings {
-			fmt.Printf("%s:\n", filename)
-			for _, finding := range findings {
-				fmt.Printf("\t * %s\n", finding.Error())
+	if cCtx.Bool("json") {
+		outputMap := perFileFindings
+		if outputMap == nil {
+			outputMap = make(map[string][]checks.CheckError) // Ensure a non-nil map for JSON, results in {}
+		}
+		jsonData, err := json.MarshalIndent(outputMap, "", "  ")
+		if err != nil {
+			log.Printf("Error marshalling findings to JSON: %v", err)
+			return fmt.Errorf("internal error: could not format results as JSON: %w", err)
+		}
+		fmt.Println(string(jsonData))
+	} else {
+		if len(perFileFindings) > 0 {
+			for filename, findings := range perFileFindings {
+				fmt.Printf("%s:\n", filename)
+				for _, finding := range findings {
+					fmt.Printf("\t * %s\n", finding.Error())
+				}
 			}
 		}
+	}
+
+	if len(perFileFindings) > 0 {
 		return errors.New("found errors")
 	}
 	return nil

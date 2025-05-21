@@ -11,7 +11,7 @@ import (
 )
 
 var CheckPackageExists = &CheckDef{
-	Code:        "P0001",
+	Code:        "PKG:001",
 	Name:        "package-exists",
 	Description: "package exists in ecosystem's registry",
 	Check:       PackageExists,
@@ -66,7 +66,7 @@ func PackageExists(json *gjson.Result, config *Config) (findings []CheckError) {
 }
 
 var CheckPackageVersionsExist = &CheckDef{
-	Code:        "P0002",
+	Code:        "PKG:002",
 	Name:        "package-versions-exist",
 	Description: "package versions exist in ecosystem's registry",
 	Check:       PackageVersionsExist,
@@ -137,7 +137,7 @@ func PackageVersionsExist(json *gjson.Result, config *Config) (findings []CheckE
 }
 
 var CheckPackagePurlValid = &CheckDef{
-	Code:        "P0003",
+	Code:        "PKG:003",
 	Name:        "package-purl-valid",
 	Description: "package purl validates",
 	Check:       PackagePurlValid,

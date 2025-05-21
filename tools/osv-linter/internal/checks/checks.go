@@ -41,6 +41,7 @@ type CheckDef struct {
 type Config struct {
 	Verbose    bool
 	Ecosystems []string
+	JSON       bool
 }
 
 // Check defines how to run the check.
@@ -91,22 +92,42 @@ var Collections = []CheckCollection{
 		Name:        "ALL",
 		Description: "all checks currently defined",
 		Checks: []*CheckDef{
+			// Record checks
 			CheckRecordHasAffected,
+			CheckRecordHasValidAliases,
+			CheckRecordHasValidUpstream,
+			CheckRecordHasValidRelated,
+			// Range checks
 			CheckRangeHasIntroducedEvent,
 			CheckRangeIsDistinct,
+			// Package checks
 			CheckPackageExists,
 			CheckPackageVersionsExist,
 			CheckPackagePurlValid,
 		},
 	},
 	{
-		Name:        "offline",
-		Description: "checks that do not have remote data dependencies",
+		Name: "offline",
+		Description: "Checks that do not have remote data dependencies. " +
+			"These can be run without network access.",
 		Checks: []*CheckDef{
 			CheckRecordHasAffected,
+			CheckRecordHasValidAliases,
+			CheckRecordHasValidUpstream,
+			CheckRecordHasValidRelated,
 			CheckRangeHasIntroducedEvent,
 			CheckRangeIsDistinct,
 			CheckPackagePurlValid,
+		},
+	},
+	{
+		Name:        "fatal",
+		Description: "Checks considered critical. Failures indicate fundamental issues with the OSV record.",
+		Checks: []*CheckDef{
+			CheckRecordHasAffected,
+			CheckRecordHasValidAliases,
+			CheckRecordHasValidUpstream,
+			CheckRangeIsDistinct,
 		},
 	},
 }
