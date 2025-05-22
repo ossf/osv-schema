@@ -71,12 +71,9 @@ func RangeIsDistinct(json *gjson.Result, config *Config) (findings []CheckError)
 				if result.Exists() {
 					startEvents = append(startEvents, result.String())
 				}
-				// Collect all the fixed/last_affected values.
+				// Collect all the fixed
+				// last_affected can be the same version as introduced
 				result = value.Get("fixed")
-				if result.Exists() {
-					endEvents = append(endEvents, result.String())
-				}
-				result = value.Get("last_affected")
 				if result.Exists() {
 					endEvents = append(endEvents, result.String())
 				}

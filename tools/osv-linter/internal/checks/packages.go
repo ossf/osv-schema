@@ -162,7 +162,12 @@ func PackagePurlValid(json *gjson.Result, config *Config) (findings []CheckError
 
 		_, err := packageurl.FromString(purl.String())
 		if err != nil {
-			findings = append(findings, CheckError{Message: fmt.Sprintf("Invalid Purl %q: %#v", purl.String(), err)})
+			// Add a version placeholder, as some ecosystem requires one.
+			purlWithVersion := purl.String() + "@version"
+			_, err = packageurl.FromString(purlWithVersion)
+			if err != nil {
+				findings = append(findings, CheckError{Message: fmt.Sprintf("Invalid Purl %q: %#v", purl.String(), err)})
+			}
 		}
 
 		return true // keep iterating (over affected entries)
