@@ -34,6 +34,12 @@ var CheckRecordHasValidRelated = &CheckDef{
 
 // RecordHasAffected checks if the 'affected' field exists in the JSON and is not an empty array.
 func RecordHasAffected(json *gjson.Result, config *Config) (findings []CheckError) {
+	// Withdrawn records are fine to not contain affected field
+	isWithdrawn := json.Get("withdrawn")
+	if isWithdrawn.Exists() {
+		return
+	}
+
 	affectedEntries := json.Get("affected")
 	if !affectedEntries.Exists() || affectedEntries.String() == "[]" {
 		findings = append(findings, CheckError{Message: "Invalid Affected: affected field cannot be null or empty"})
