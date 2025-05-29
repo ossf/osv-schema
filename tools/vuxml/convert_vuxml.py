@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# SPDX-License-Identifier: BSD-2-Clause
 #
 # Copyright (C) 1994-2024 The FreeBSD Project.
 #
