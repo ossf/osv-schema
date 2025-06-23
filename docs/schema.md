@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.7.2 (June 10, 2025)**
+**Version 1.7.2 (June 23, 2025)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -175,6 +175,17 @@ The defined database prefixes and their "home" databases are:
         <ul>
           <li>How to contribute: TBD</li>
           <li>Source URL: <code>https://errata.almalinux.org/&lt;alma version&gt;/&lt;ID&gt;.html</code></li>
+          <li>OSV Formatted URL: <code>N/A</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>BELL-SA</code></td>
+      <td><a href="https://docs.bell-sw.com/security/search/">BellSoft Security Advisory</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>https://bell-sw.com/vulnerability-report/</code></li>
           <li>OSV Formatted URL: <code>N/A</code></li>
         </ul>
       </td>
@@ -768,8 +779,10 @@ The defined ecosystems are:
 | Ecosystem | Description |
 |-----------|-------------|
 | `AlmaLinux` | AlmaLinux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular AlmaLinux release. `<RELEASE>` is a numeric version. |
+| `Alpaquita` | BellSoft Alpaquita Linux package ecosystem; the `name` is the name of the source package. The ecosystem string has a `:<RELEASE>` suffix to scope the package to a particular Alpaquita Linux release. `<RELEASE>` is the id of the particular Alpaquita Linux release. Examples: `Alpaquita:23`, `Alpaquita:stream`. |
 | `Alpine` | The Alpine package ecosystem; the `name` is the name of the source package. The ecosystem string must have a `:v<RELEASE-NUMBER>` suffix to scope the package to a particular Alpine release branch (the `v` prefix is required). E.g. `v3.16`. |
 | `Android` | The Android ecosystem. Android organizes code using [`repo` tool](https://gerrit.googlesource.com/git-repo/+/HEAD/README.md), which manages multiple git projects under one or more remote git servers, where each project is identified by its name in [repo configuration](https://gerrit.googlesource.com/git-repo/+/HEAD/docs/manifest-format.md#Element-project) (e.g. `platform/frameworks/base`). The `name` field should contain the name of that affected git project/submodule. One exception is when the project contains the Linux kernel source code, in which case `name` field will be `:linux_kernel:`, followed by an optional SoC vendor name e.g. `:linux_kernel:Qualcomm`. The list of recognized SoC vendors is listed in the [Appendix](#android-soc-vendors) |
+| `BellSoft Hardened Containers` | BellSoft Hardened Containers package ecosystem; the `name` is the name of the source package. The ecosystem string has a `:<RELEASE>` suffix to scope the package to a particular Hardened Containers release. `<RELEASE>` is the id of the particular Hardened Containers release. Examples: `Hardened Containers:23`, `Hardened Containers:stream`. |
 | `Bioconductor` | The biological R package ecosystem. The `name` is an R package name. |
 | `Bitnami` | Bitnami package ecosystem; the `name` is the name of the affected component. |
 | `Chainguard` | The Chainguard package ecosystem; the `name` is the name of the package. |

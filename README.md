@@ -1,9 +1,10 @@
 # Open Source Vulnerability Schema
 
-The Open Source Vulnerability (OSV) schema provides a human and machine readable data format to describe vulnerabilities in a way that precisely maps to open source package versions or commit hashes. 
+The Open Source Vulnerability (OSV) schema provides a human and machine readable data format to describe vulnerabilities in a way that precisely maps to open source package versions or commit hashes.
 
 This format is currently exported by:
 - [AlmaLinux](https://github.com/AlmaLinux/osv-database)
+- [BellSoft Security Advisory](https://github.com/bell-sw/osv-database)
 - [Bitnami Vulnerability Database](https://github.com/bitnami/vulndb)
 - [Chainguard](https://packages.cgr.dev/chainguard/osv/all.json)
 - [Curl](https://curl.se/docs/vuln.json)
@@ -31,7 +32,9 @@ This format is currently exported by:
 Together, these include vulnerabilities from:
 -   AlmaLinux
 -   Alpine
+-   Alpaquita Linux
 -   Android
+-   BellSoft Hardened Containers
 -   Bitnami
 -   Chainguard
 -   crates.io
