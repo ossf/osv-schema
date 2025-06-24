@@ -933,7 +933,7 @@ overwhelmingly preferred. An [example](#last_affected-vs-fixed-example) is avail
 illustrate the difference.
 
 The `fixed` and `limit` events are closely related and involve a similar
-trade-off for `GIT` ranges. (See the [limit example](#Limit-events) for details
+trade-off for `GIT` ranges. (See the [limit example](#limit-events) for details
 about how they differ.)  `events` arrays with `fixed` events must include all
 other cherrypicked fix commits in all branches as separate `fixed` events to
 avoid *false positive* matches in other branches. Conversely, `limit` events
