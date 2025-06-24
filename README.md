@@ -16,6 +16,7 @@ This format is currently exported by:
 - [Malicious Packages Repository](https://github.com/ossf/malicious-packages)
 - [Mageia Advisories](https://advisories.mageia.org/)
 - [MinimOS](https://packages.mini.dev/advisories/osv/all.json)
+- [openEuler](https://repo.openeuler.org/security/data)
 - [OSS-Fuzz](https://github.com/google/oss-fuzz-vulns)
 - [OSV.dev maintained converters](https://github.com/google/osv.dev#current-data-sources) (Debian, Alpine, NVD)
 - [PyPI Advisory Database](https://github.com/pypa/advisory-database)
@@ -48,6 +49,7 @@ Together, these include vulnerabilities from:
 -   MinimOS
 -   npm
 -   NuGet
+-   openEuler
 -   openSUSE
 -   OSS-Fuzz
 -   Packagist

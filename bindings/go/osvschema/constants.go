@@ -29,6 +29,7 @@ const (
 	EcosystemMinimOS                    Ecosystem = "MinimOS"
 	EcosystemNPM                        Ecosystem = "npm"
 	EcosystemNuGet                      Ecosystem = "NuGet"
+	EcosystemOpenEuler                  Ecosystem = "openEuler"
 	EcosystemOpenSUSE                   Ecosystem = "openSUSE"
 	EcosystemOSSFuzz                    Ecosystem = "OSS-Fuzz"
 	EcosystemPackagist                  Ecosystem = "Packagist"

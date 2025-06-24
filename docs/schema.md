@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.7.2 (May 29, 2025)**
+**Version 1.7.2 (June 23, 2025)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -364,6 +364,17 @@ The defined database prefixes and their "home" databases are:
           <li>How to contribute: <code>TBD</code></li>
           <li>Source URL: <code>TBD</code></li>
           <li>OSV Formatted URL: <code>https://packages.mini.dev/advisories/osv/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>OESA</code></td>
+      <td><a href="https://www.openeuler.org/en/security/security-bulletins">openEuler Security Advisories</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://www.openeuler.org/en/security/vulnerability-reporting">https://www.openeuler.org/en/security/vulnerability-reporting</a></li>
+          <li>Source URL: <code>https://www.openeuler.org/en/security/security-bulletins/detail/?id=openEuler-SA-&lt;ENTRYID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://repo.openeuler.org/security/data/osv/&lt;ID&gt;.json</code></li>
         </ul>
       </td>
     </tr>
@@ -791,6 +802,7 @@ The defined ecosystems are:
 | `MinimOS` | The MinimOS package ecosystem; the `name` is the name of the package. |
 | `npm` | The NPM ecosystem; the `name` field is an NPM package name. |
 | `NuGet` | The NuGet package ecosystem. The `name` field is a NuGet package name. |
+| `openEuler` | The openEuler ecosystem; The `name` field is the name of the source RPM. The ecosystem string has a `<RELEASE>` suffix, specifying a particular openEuler LTS Release.`<RELEASE>` is numeric (YY.MM) version maintained in our [archive list](https://www.openeuler.org/en/download/?archive=true). Here, `LTS` stands for long term support and `SP` stands for service pack which offers extensions and enhancements of the major LTS version. Note innovation versions (those without `LTS`) are out of our security advisories' scope. The `ecosystem_specific` field contains all updated packages, including src rpm and binaries of different architectures. For more information, please refer to our [vulnerability disclosure policy](https://gitee.com/openeuler/security-committee/blob/master/docs/en/vulnerability-management-process/security-disclosure-en.md) and this [example](https://www.openeuler.org/en/security/security-bulletins/detail/?id=openEuler-SA-2025-1612) of a source security advisory. |
 | `openSUSE` | The openSUSE ecosystem; The ecosystem string has a `:<RELEASE>` suffix presenting the marketing name of the openSUSE distribution. `<RELEASE>` matches the value in the `/etc/os-release` `PRETTY_NAME` field. The `name` field is the name of the source RPM and accompanied by a purl. There is an `ecosystem_specific` specific array `binaries` of the associated RPM binary packages in this specific openSUSE distribution. The ECOSYSTEM version ordering is the RPM versioncompare ordering, and the database uses the `introduced` and `fixed` boundaries. |
 | `OSS-Fuzz` | For reports from the OSS-Fuzz project that have no more appropriate ecosystem; the `name` field is the name assigned by the OSS-Fuzz project, as recorded in the submitted fuzzing configuration. |
 | `Packagist` | The PHP package manager ecosystem; the `name` is a package name. |
