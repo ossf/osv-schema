@@ -40,6 +40,10 @@ func lint(content *Content, config *Config) (findings []checks.CheckError) {
 		log.Printf("%q: invalid JSON", content.filename)
 	}
 
+	if !checks.ValidateJSON(string(content.bytes), content.filename, config.verbose) {
+		findings = append(findings, checks.CheckError{Code: checks.CheckInvalidSchema.Code, Message: "Invalid JSON"})
+	}
+
 	record := gjson.ParseBytes(content.bytes)
 
 	for _, check := range config.checks {

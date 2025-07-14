@@ -51,6 +51,10 @@ type Check func(*gjson.Result, *Config) []CheckError
 // The check has no awareness of the check's Code,
 // this merges that with the check's findings.
 func (c *CheckDef) Run(json *gjson.Result, config *Config) (findings []CheckError) {
+	if c.Check == nil {
+		return findings
+	}
+
 	for _, finding := range c.Check(json, config) {
 		findings = append(findings, CheckError{
 			Code:    c.Code,
@@ -92,6 +96,8 @@ var Collections = []CheckCollection{
 		Name:        "ALL",
 		Description: "all checks currently defined",
 		Checks: []*CheckDef{
+			// Schema checks
+			CheckInvalidSchema,
 			// Record checks
 			CheckRecordHasAffected,
 			CheckRecordHasValidAliases,
@@ -111,6 +117,7 @@ var Collections = []CheckCollection{
 		Description: "Checks that do not have remote data dependencies. " +
 			"These can be run without network access.",
 		Checks: []*CheckDef{
+			CheckInvalidSchema,
 			CheckRecordHasAffected,
 			CheckRecordHasValidAliases,
 			CheckRecordHasValidUpstream,
@@ -124,6 +131,7 @@ var Collections = []CheckCollection{
 		Name:        "fatal",
 		Description: "Checks considered critical. Failures indicate fundamental issues with the OSV record.",
 		Checks: []*CheckDef{
+			CheckInvalidSchema,
 			CheckRecordHasAffected,
 			CheckRecordHasValidAliases,
 			CheckRecordHasValidUpstream,
