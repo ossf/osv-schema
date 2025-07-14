@@ -9,7 +9,7 @@ This is a project of the [Open Source Security Foundation](https://github.com/os
 
 ## Accepted Contributions
 
-This repository is primarily for the OSV Schema definition((human-readable)[docs/schema.md] and [JSON Schema](validation/schema.json)), and related tooling.
+This repository is primarily for the OSV Schema definition([human-readable](docs/schema.md) and [JSON Schema](validation/schema.json)), and related tooling.
 
 See the [guiding principles](GUIDING_PRINCIPLES.md) for background thinking behind the schema's design, and what is more and less likely to be acceptable in the way of changes.
 
