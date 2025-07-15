@@ -3,14 +3,12 @@ package checks
 import (
 	_ "embed"
 	"log"
+	"os"
 
 	"github.com/xeipuuv/gojsonschema"
 )
 
-// The path is relative to this Go source file.
-//
-//go:embed schema.json
-var embeddedSchema []byte
+const schemaFilePath = "./internal/checks/schema.json"
 
 var CheckInvalidSchema = &CheckDef{
 	Code:        "SCH:001",
@@ -19,7 +17,12 @@ var CheckInvalidSchema = &CheckDef{
 }
 
 func ValidateJSON(jsonData string, fileName string, verbose bool) bool {
-	schemaLoader := gojsonschema.NewBytesLoader(embeddedSchema)
+	if _, err := os.Stat(schemaFilePath); os.IsNotExist(err) {
+		log.Fatalf("schema file not found at %s %e\n", schemaFilePath, err)
+		return true
+	}
+
+	schemaLoader := gojsonschema.NewReferenceLoader("file://" + schemaFilePath)
 
 	// Load the JSON data to be validated
 	documentLoader := gojsonschema.NewStringLoader(jsonData)
@@ -27,15 +30,14 @@ func ValidateJSON(jsonData string, fileName string, verbose bool) bool {
 	// Perform the validation
 	result, err := gojsonschema.Validate(schemaLoader, documentLoader)
 	if err != nil {
-		log.Fatalf("Error during validation: %s", err)
+		log.Fatalf("error during validation: %s", err)
 	}
 
 	// Check the result
 	if !result.Valid() {
 		if verbose {
-			log.Printf("Schema validation failed for %q:", fileName)
+			log.Printf("schema validation failed for %q:", fileName)
 			for _, desc := range result.Errors() {
-				// desc.Description() provides a user-friendly error message
 				log.Printf("\n\t- %s", desc)
 			}
 		}
