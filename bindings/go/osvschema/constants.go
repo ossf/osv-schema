@@ -1,6 +1,6 @@
 package osvschema
 
-const SchemaVersion = "1.6.8"
+const SchemaVersion = "1.7.0"
 
 type Ecosystem string
 
@@ -51,14 +51,15 @@ const (
 	SeverityCVSSV2 SeverityType = "CVSS_V2"
 	SeverityCVSSV3 SeverityType = "CVSS_V3"
 	SeverityCVSSV4 SeverityType = "CVSS_V4"
+	SeverityUbuntu SeverityType = "Ubuntu"
 )
 
 type RangeType string
 
 const (
+	RangeGit       RangeType = "GIT"
 	RangeSemVer    RangeType = "SEMVER"
 	RangeEcosystem RangeType = "ECOSYSTEM"
-	RangeGit       RangeType = "GIT"
 )
 
 type ReferenceType string
