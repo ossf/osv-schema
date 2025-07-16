@@ -2,47 +2,48 @@ package checks
 
 import (
 	_ "embed"
-	"log"
-	"os"
+	"fmt"
+	"strings"
 
+	"github.com/tidwall/gjson"
 	"github.com/xeipuuv/gojsonschema"
 )
 
-const schemaFilePath = "./internal/checks/schema.json"
+//go:generate cp ../../../../validation/schema.json schema.json
+
+//go:embed schema.json
+var embeddedSchema []byte // please `go generate ./...` first to copy the schema.json
 
 var CheckInvalidSchema = &CheckDef{
 	Code:        "SCH:001",
 	Name:        "conforms-to-schema",
 	Description: "the record must conform to the OSV JSON schema",
+	Check:       SchemaCheck,
 }
 
-func ValidateJSON(jsonData string, fileName string, verbose bool) bool {
-	if _, err := os.Stat(schemaFilePath); os.IsNotExist(err) {
-		log.Fatalf("schema file not found at %s %e\n", schemaFilePath, err)
-		return true
-	}
+func SchemaCheck(json *gjson.Result, _ *Config) []CheckError {
+	schemaLoader := gojsonschema.NewBytesLoader(embeddedSchema)
+	documentLoader := gojsonschema.NewStringLoader(json.Raw)
 
-	schemaLoader := gojsonschema.NewReferenceLoader("file://" + schemaFilePath)
-
-	// Load the JSON data to be validated
-	documentLoader := gojsonschema.NewStringLoader(jsonData)
-
-	// Perform the validation
 	result, err := gojsonschema.Validate(schemaLoader, documentLoader)
 	if err != nil {
-		log.Fatalf("error during validation: %s", err)
+		// This should not happen with a valid embedded schema.
+		// It indicates a problem with the linter itself.
+		panic(fmt.Sprintf("schema validation failed: %v", err))
 	}
 
-	// Check the result
-	if !result.Valid() {
-		if verbose {
-			log.Printf("schema validation failed for %q:", fileName)
-			for _, desc := range result.Errors() {
-				log.Printf("\n\t- %s", desc)
-			}
-		}
-		return false
+	if result.Valid() {
+		return nil
 	}
 
-	return true
+	var errors []string
+	for _, desc := range result.Errors() {
+		errors = append(errors, fmt.Sprintf("- %s", desc))
+	}
+
+	return []CheckError{
+		{
+			Message: fmt.Sprintf("Record does not conform to schema:\n %s", strings.Join(errors, "\n")),
+		},
+	}
 }
