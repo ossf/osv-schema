@@ -12,7 +12,7 @@ import (
 //go:generate cp ../../../../validation/schema.json schema.json
 
 //go:embed schema.json
-var embeddedSchema []byte // please `go generate ./...` first to copy the schema.json
+var embeddedSchema []byte // Please run 'go generate ./...' to sync schema.json.
 
 var CheckInvalidSchema = &CheckDef{
 	Code:        "SCH:001",
