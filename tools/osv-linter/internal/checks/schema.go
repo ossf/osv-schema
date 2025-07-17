@@ -9,9 +9,9 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
-//go:generate cp ../../../../validation/schema.json schema.json
+//go:generate cp ../../../../validation/schema.json schema_generated.json
 
-//go:embed schema.json
+//go:embed schema_generated.json
 var embeddedSchema []byte // Please run 'go generate ./...' to sync schema.json.
 
 var CheckInvalidSchema = &CheckDef{
