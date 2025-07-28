@@ -246,6 +246,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>DRUPAL</code></td>
+      <td><a href="https://github.com/ackama/drupal-advisory-database">Drupal Advisory Database (provided by Ackama)</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <code>TBD</code></li>
+          <li>Source URL: <code>TBD</code></li>
+          <li>OSV Formatted URL: <code>TBD</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>ELA</code></td>
       <td><a href="https://www.freexian.com/lts/extended/">Debian Extended LTS Security Advisories (provided by Freexian)</a></td>
       <td>
