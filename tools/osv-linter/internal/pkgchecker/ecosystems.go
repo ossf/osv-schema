@@ -140,6 +140,7 @@ func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string) e
 		return nil
 	case "Drupal":
 		return nil
+	case "Drupal": return nil
 	case "GIT":
 		return nil
 	case "GitHub Actions":
