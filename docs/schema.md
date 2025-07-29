@@ -250,9 +250,9 @@ The defined database prefixes and their "home" databases are:
       <td><a href="https://github.com/ackama/drupal-advisory-database">Drupal Advisory Database (provided by Ackama)</a></td>
       <td>
         <ul>
-          <li>How to contribute: <code>TBD</code></li>
-          <li>Source URL: <code>TBD</code></li>
-          <li>OSV Formatted URL: <code>TBD</code></li>
+          <li>How to contribute: <a href="https://www.drupal.org/docs/develop/issues/issue-procedures-and-etiquette/reporting-a-security-issue">https://www.drupal.org/docs/develop/issues/issue-procedures-and-etiquette/reporting-a-security-issue</a></li>
+          <li>Source URL: <code>https://www.drupal.org/security/</code></li>
+          <li>OSV Formatted URL: <code>https://github.com/ackama/drupal-advisory-database/blob/main/advisories/&gt;module&lt;/&gt;ID&lt;.json</code></li>
         </ul>
       </td>
     </tr>
