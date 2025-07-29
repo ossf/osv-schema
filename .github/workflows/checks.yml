@@ -37,6 +37,7 @@ jobs:
           check-latest: true
 
       - run: go test ./...
+      - run: gofmt -s -d */**.go
   tests_osv-linter:
     permissions:
       contents: read # to fetch code (actions/checkout)
@@ -57,6 +58,7 @@ jobs:
           check-latest: true
 
       - run: go test ./...
+      - run: gofmt -s -d */**.go
 
   ecosystem_lists:
     permissions:
