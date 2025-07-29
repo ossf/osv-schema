@@ -13,6 +13,7 @@ var SupportedEcosystems = []string{
 	"NuGet",
 	"RubyGems",
 	"Packagist",
+	"Drupal",
 	"Pub",
 	"Hackage",
 	"Maven",
@@ -27,6 +28,7 @@ var EcosystemBaseURLs = map[string]string{
 	"NuGet":     "https://api.nuget.org/v3-flatcontainer",
 	"RubyGems":  "https://rubygems.org/api/v1/gems",
 	"Packagist": "https://repo.packagist.org/p2",
+	"Drupal":    "https://packages.drupal.org/files/packages/8/p2",
 	"Pub":       "https://pub.dev/api/packages",
 	"Hackage":   "https://hackage.haskell.org/package",
 	"Maven":     "https://search.maven.org/solrsearch/select",
@@ -52,6 +54,8 @@ func ExistsInEcosystem(pkg string, ecosystem string) bool {
 	case "Debian":
 		return true
 	case "Drupal":
+		return existsInDrupal(pkg)
+	case "Drupal:7":
 		return true
 	case "GIT":
 		return true
@@ -140,7 +144,6 @@ func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string) e
 		return nil
 	case "Drupal":
 		return nil
-	case "Drupal": return nil
 	case "GIT":
 		return nil
 	case "GitHub Actions":

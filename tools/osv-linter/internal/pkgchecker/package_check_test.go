@@ -144,6 +144,33 @@ func Test_existsInPackagist(t *testing.T) {
 	}
 }
 
+func Test_existsInDrupal(t *testing.T) {
+	tests := []struct {
+		name string
+		pkg  string
+		want bool
+		ver  string
+	}{
+		{
+			name: "existing package",
+			pkg:  "drupal/tfa",
+			want: true,
+		},
+		{
+			name: "non-existing package",
+			pkg:  "non-existing-package",
+			want: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := existsInDrupal(tt.pkg); got != tt.want {
+				t.Errorf("existsInDrupal() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func Test_existsInPub(t *testing.T) {
 	tests := []struct {
 		name string
