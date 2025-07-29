@@ -17,12 +17,12 @@ ecosystems: dict[str, str] = {
 open('ecosystems.json', 'w').write(json.dumps(ecosystems, indent=2) + '\n')
 
 
-def update_json_schema():
+def update_json_schema(filename: str):
   """
   Updates references to ecosystems defined in the OSV JSON schema
   :return:
   """
-  schema = json.loads(open('validation/schema.json').read())
+  schema = json.loads(open(filename).read())
 
   names = ecosystems.keys()
   pattern = ''
@@ -37,7 +37,7 @@ def update_json_schema():
   schema['$defs']['ecosystemName']['enum'] = list(names)
   schema['$defs']['ecosystemWithSuffix']['pattern'] = f'^({pattern})(:.+)?$'
 
-  open('validation/schema.json', 'w').write(json.dumps(schema, indent=2) + '\n')
+  open(filename, 'w').write(json.dumps(schema, indent=2) + '\n')
 
 
 def generate_ecosystems_markdown_table() -> str:
@@ -140,5 +140,6 @@ def update_go_constants():
 
 
 update_go_constants()
-update_json_schema()
+update_json_schema('validation/schema.json')
+update_json_schema('tools/osv-linter/internal/checks/schema_generated.json')
 update_schema_md()
