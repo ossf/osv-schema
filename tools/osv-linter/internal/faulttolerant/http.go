@@ -18,6 +18,8 @@ func Get(url string) (resp *http.Response, err error) {
 			return err
 		}
 
+		req.Header.Set("User-Agent", "osv-linter")
+
 		r, err := http.DefaultClient.Do(req)
 		if err != nil {
 			return err
@@ -46,6 +48,8 @@ func Head(url string) (resp *http.Response, err error) {
 		if err != nil {
 			return err
 		}
+
+		req.Header.Set("User-Agent", "osv-linter")
 
 		r, err := http.DefaultClient.Do(req)
 		if err != nil {
