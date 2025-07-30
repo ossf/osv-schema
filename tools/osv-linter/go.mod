@@ -1,6 +1,6 @@
 module github.com/ossf/osv-schema/linter
 
-go 1.22.6
+go 1.24.4
 
 require (
 	github.com/aquasecurity/go-pep440-version v0.0.0-20210121094942-22b2f8951d46
