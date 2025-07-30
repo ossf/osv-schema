@@ -8,7 +8,7 @@ import (
 	"slices"
 	"strings"
 
-	pep440 "github.com/aquasecurity/go-pep440-version"
+	"github.com/google/osv-scalibr/semantic"
 	"github.com/ossf/osv-schema/linter/internal/faulttolerant"
 	"github.com/tidwall/gjson"
 	"golang.org/x/mod/module"
@@ -48,17 +48,13 @@ func versionsExistInPyPI(pkg string, versions []string) error {
 	versionsMissing := []string{}
 	for _, versionToCheckFor := range versions {
 		versionFound := false
-		vc, err := pep440.Parse(versionToCheckFor)
+		vc, err := semantic.Parse(versionToCheckFor, "PyPI")
 		if err != nil {
 			versionsMissing = append(versionsMissing, versionToCheckFor)
 			continue
 		}
 		for _, pkgversion := range versionsInPyPy {
-			pv, err := pep440.Parse(pkgversion)
-			if err != nil {
-				continue
-			}
-			if pv.Equal(vc) {
+			if r, err := vc.CompareStr(pkgversion); r == 0 && err == nil {
 				versionFound = true
 				break
 			}
