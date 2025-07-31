@@ -86,6 +86,13 @@ func existsInPackagist(pkg string) bool {
 	return checkPackageExists(packageInstanceURL)
 }
 
+// Validate the existence of a package in Packagist.
+func existsInDrupal(pkg string) bool {
+	packageInstanceURL := fmt.Sprintf("%s/%s.json", EcosystemBaseURLs["Drupal"], pkg)
+
+	return checkPackageExists(packageInstanceURL)
+}
+
 // Validate the existence of a package in PyPI.
 func existsInPyPI(pkg string) bool {
 	ecosystem := "PyPI"

@@ -37,9 +37,14 @@ func PackageExists(json *gjson.Result, config *Config) (findings []CheckError) {
 		if !maybePackage.Exists() {
 			return true // keep iterating (over affected entries)
 		}
-		// Normalize ecosystems with a colon to their base.
+		ecosystem := value.Get("package.ecosystem").String()
+
+		// Normalize ecosystems with a colon to their base, except for the Drupal ecosystem
+		// as different repositories are used depending on the suffix
 		// e.g. "Alpine:v3.5" -> "Alpine"
-		ecosystem := strings.Split(value.Get("package.ecosystem").String(), ":")[0]
+		if !strings.HasPrefix(ecosystem, "Drupal") {
+			ecosystem = strings.Split(ecosystem, ":")[0]
+		}
 		// Use config.Ecosystems as an allowlist, if it is set.
 		if len(config.Ecosystems) > 0 && !slices.Contains(config.Ecosystems, ecosystem) {
 			return true // keep iterating (over affected entries)
