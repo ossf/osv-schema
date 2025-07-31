@@ -25,7 +25,7 @@ var EcosystemBaseURLs = map[string]string{
 	"crates.io": "https://crates.io/api/v1/crates",
 	"npm":       "https://registry.npmjs.org",
 	"NuGet":     "https://api.nuget.org/v3-flatcontainer",
-	"RubyGems":  "https://rubygems.org/api/v1/gems",
+	"RubyGems":  "https://rubygems.org/api/v1",
 	"Packagist": "https://repo.packagist.org/p2",
 	"Pub":       "https://pub.dev/api/packages",
 	"Hackage":   "https://hackage.haskell.org/package",
@@ -173,7 +173,7 @@ func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string) e
 	case "Rocky Linux":
 		return nil
 	case "RubyGems":
-		return nil
+		return versionsExistInRubyGems(pkg, versions)
 	case "SUSE":
 		return nil
 	case "SwiftURL":
