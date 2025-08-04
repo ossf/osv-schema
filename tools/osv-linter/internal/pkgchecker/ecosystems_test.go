@@ -2,6 +2,70 @@ package pkgchecker
 
 import "testing"
 
+func Test_versionsExistInCrates(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		pkg      string
+		versions []string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "multiple_versions_which_all_exist",
+			args: args{
+				pkg:      "defmt",
+				versions: []string{"0.0.0", "0.3.0", "0.3.100-rc.1", "1.0.0-rc.1", "1.0.1"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "multiple_versions_with_one_that_does_not_exist",
+			args: args{
+				pkg:      "defmt",
+				versions: []string{"1.1", "0.3.6-beta", "1.1.2"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "an_invalid_version",
+			args: args{
+				pkg:      "defmt",
+				versions: []string{"!"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "an_invalid_package",
+			args: args{
+				pkg:      "!",
+				versions: []string{"1.0.0"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "a_package_that_does_not_exit",
+			args: args{
+				pkg:      "not-a-real-package-hopefully",
+				versions: []string{"1.0.0"},
+			},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			if err := versionsExistInCrates(tt.args.pkg, tt.args.versions); (err != nil) != tt.wantErr {
+				t.Errorf("versionsExistInCrates() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
 func Test_versionsExistInGo(t *testing.T) {
 	type args struct {
 		pkg      string
