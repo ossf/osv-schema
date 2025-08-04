@@ -17,7 +17,7 @@ func Test_versionsExistInPyPI(t *testing.T) {
 		{
 			name: "multiple_versions_which_all_exist",
 			args: args{
-				pkg:      "Django",
+				pkg:      "django",
 				versions: []string{"1.1.1", "3.1.5", "5.1rc1"},
 			},
 			wantErr: false,
@@ -25,7 +25,7 @@ func Test_versionsExistInPyPI(t *testing.T) {
 		{
 			name: "multiple_versions_with_one_that_does_not_exist",
 			args: args{
-				pkg:      "Django",
+				pkg:      "django",
 				versions: []string{"1.1.1", "2.3rc9", "3.1.5", "5.1rc1"},
 			},
 			wantErr: true,
@@ -35,6 +35,14 @@ func Test_versionsExistInPyPI(t *testing.T) {
 			args: args{
 				pkg:      "django",
 				versions: []string{"!"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "a_package_that_does_not_exit",
+			args: args{
+				pkg:      "not-a-real-package",
+				versions: []string{},
 			},
 			wantErr: true,
 		},
