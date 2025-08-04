@@ -88,7 +88,7 @@ func PackageVersionsExist(json *gjson.Result, config *Config) (findings []CheckE
 		// e.g. "Alpine:v3.5" -> "Alpine"
 		ecosystem := strings.Split(value.Get("package.ecosystem").String(), ":")[0]
 		// Use config.Ecosystems as an allowlist, if it is set.
-		if config.Ecosystems != nil && !slices.Contains(config.Ecosystems, ecosystem) {
+		if len(config.Ecosystems) != 0 && !slices.Contains(config.Ecosystems, ecosystem) {
 			return true // keep iterating (over affected entries)
 		}
 		pkg := value.Get("package.name").String()
