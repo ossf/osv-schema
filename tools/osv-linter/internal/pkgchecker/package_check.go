@@ -74,7 +74,7 @@ func existsInNuget(pkg string) bool {
 
 // Validate the existence of a package in RubyGems.
 func existsInRubyGems(pkg string) bool {
-	packageInstanceURL := fmt.Sprintf("%s/%s.json", EcosystemBaseURLs["RubyGems"], pkg)
+	packageInstanceURL := fmt.Sprintf("%s/gems/%s.json", EcosystemBaseURLs["RubyGems"], pkg)
 
 	return checkPackageExists(packageInstanceURL)
 }
