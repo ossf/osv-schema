@@ -133,7 +133,7 @@ func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string) e
 	case "CRAN":
 		return nil
 	case "crates.io":
-		return nil
+		return versionsExistInCrates(pkg, versions)
 	case "Debian":
 		return nil
 	case "GIT":
@@ -145,7 +145,7 @@ func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string) e
 	case "GSD":
 		return nil
 	case "Hackage":
-		return nil
+		return versionsExistInHackage(pkg, versions)
 	case "Hex":
 		return nil
 	case "Linux":
@@ -155,7 +155,7 @@ func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string) e
 	case "MinimOS":
 		return nil
 	case "npm":
-		return nil
+		return versionsExistInNpm(pkg, versions)
 	case "NuGet":
 		return nil
 	case "openSUSE":
