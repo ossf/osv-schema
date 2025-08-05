@@ -21,7 +21,6 @@ func versionsExistInGeneric(
 	versions []string,
 	eco string,
 	packageInstanceURL string,
-	releasesPath string,
 	versionsPath string,
 ) error {
 	resp, err := faulttolerant.Get(packageInstanceURL)
@@ -40,11 +39,9 @@ func versionsExistInGeneric(
 	}
 	// Fetch all known versions of package.
 	versionsInRepository := []string{}
-	releases := gjson.GetBytes(respJSON, releasesPath)
-	releases.ForEach(func(key, value gjson.Result) bool {
-		versionsInRepository = append(versionsInRepository, value.Get(versionsPath).String())
-		return true // keep iterating.
-	})
+	for _, result := range gjson.GetBytes(respJSON, versionsPath).Array() {
+		versionsInRepository = append(versionsInRepository, result.String())
+	}
 	// Determine which referenced versions are missing.
 	versionsMissing := []string{}
 	for _, versionToCheckFor := range versions {
@@ -81,7 +78,7 @@ func versionsExistInCrates(pkg string, versions []string) error {
 		pkg, versions,
 		"crates.io",
 		packageInstanceURL,
-		"versions", "num",
+		"versions.#.num",
 	)
 }
 
@@ -207,7 +204,7 @@ func versionsExistInHackage(pkg string, versions []string) error {
 		pkg, versions,
 		"Hackage",
 		packageInstanceURL,
-		"@keys", "@this",
+		"@keys",
 	)
 }
 
@@ -219,7 +216,7 @@ func versionsExistInNpm(pkg string, versions []string) error {
 		pkg, versions,
 		"npm",
 		packageInstanceURL,
-		"versions.@keys", "@this",
+		"versions.@keys",
 	)
 }
 
@@ -231,7 +228,7 @@ func versionsExistInPackagist(pkg string, versions []string) error {
 		pkg, versions,
 		"Packagist",
 		packageInstanceURL,
-		fmt.Sprintf("packages.%s", pkg), "version",
+		fmt.Sprintf("packages.%s.#.version", pkg),
 	)
 }
 
@@ -246,7 +243,7 @@ func versionsExistInPyPI(pkg string, versions []string) error {
 		pkg, versions,
 		"PyPI",
 		packageInstanceURL,
-		"releases.@keys", "@this",
+		"releases.@keys",
 	)
 }
 
@@ -258,6 +255,6 @@ func versionsExistInRubyGems(pkg string, versions []string) error {
 		pkg, versions,
 		"RubyGems",
 		packageInstanceURL,
-		"@this", "number",
+		"@this.#.number",
 	)
 }
