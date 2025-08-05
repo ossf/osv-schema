@@ -48,63 +48,6 @@ func existsInGo(pkg string) bool {
 	return checkPackageExists(packageInstanceURL)
 }
 
-// Validate the existence of a package in npm.
-func existsInNpm(pkg string) bool {
-	ecosystem := "npm"
-	packageInstanceURL := fmt.Sprintf("%s/%s", EcosystemBaseURLs[ecosystem], pkg)
-
-	if isPackageInDepsDev(ecosystem, pkg) {
-		return true
-	}
-
-	return checkPackageExists(packageInstanceURL)
-}
-
-// Validate the existence of a package in NuGet.
-func existsInNuget(pkg string) bool {
-	ecosystem := "NuGet"
-	packageInstanceURL := fmt.Sprintf("%s/%s/index.json", EcosystemBaseURLs[ecosystem], pkg)
-
-	if isPackageInDepsDev(ecosystem, pkg) {
-		return true
-	}
-
-	return checkPackageExists(packageInstanceURL)
-}
-
-// Validate the existence of a package in RubyGems.
-func existsInRubyGems(pkg string) bool {
-	packageInstanceURL := fmt.Sprintf("%s/gems/%s.json", EcosystemBaseURLs["RubyGems"], pkg)
-
-	return checkPackageExists(packageInstanceURL)
-}
-
-// Validate the existence of a package in Packagist.
-func existsInPackagist(pkg string) bool {
-	packageInstanceURL := fmt.Sprintf("%s/%s.json", EcosystemBaseURLs["Packagist"], pkg)
-
-	return checkPackageExists(packageInstanceURL)
-}
-
-// Validate the existence of a package in PyPI.
-func existsInPyPI(pkg string) bool {
-	ecosystem := "PyPI"
-	packageInstanceURL := fmt.Sprintf("%s/%s/json", EcosystemBaseURLs[ecosystem], strings.ToLower(pkg))
-
-	if isPackageInDepsDev(ecosystem, pkg) {
-		return true
-	}
-
-	return checkPackageExists(packageInstanceURL)
-}
-
-// Validate the existence of a package in Pub.
-func existsInPub(pkg string) bool {
-	packageInstanceURL := fmt.Sprintf("%s/%s", EcosystemBaseURLs["Pub"], pkg)
-
-	return checkPackageExists(packageInstanceURL)
-}
-
 // Validate the existence of a package in Hackage.
 func existsInHackage(pkg string) bool {
 	packageInstanceURL := fmt.Sprintf("%s/%s", EcosystemBaseURLs["Hackage"], pkg)
@@ -134,6 +77,63 @@ func existsInMaven(pkg string) bool {
 	}
 
 	return resp.StatusCode == http.StatusOK
+}
+
+// Validate the existence of a package in npm.
+func existsInNpm(pkg string) bool {
+	ecosystem := "npm"
+	packageInstanceURL := fmt.Sprintf("%s/%s", EcosystemBaseURLs[ecosystem], pkg)
+
+	if isPackageInDepsDev(ecosystem, pkg) {
+		return true
+	}
+
+	return checkPackageExists(packageInstanceURL)
+}
+
+// Validate the existence of a package in NuGet.
+func existsInNuget(pkg string) bool {
+	ecosystem := "NuGet"
+	packageInstanceURL := fmt.Sprintf("%s/%s/index.json", EcosystemBaseURLs[ecosystem], pkg)
+
+	if isPackageInDepsDev(ecosystem, pkg) {
+		return true
+	}
+
+	return checkPackageExists(packageInstanceURL)
+}
+
+// Validate the existence of a package in Packagist.
+func existsInPackagist(pkg string) bool {
+	packageInstanceURL := fmt.Sprintf("%s/%s.json", EcosystemBaseURLs["Packagist"], pkg)
+
+	return checkPackageExists(packageInstanceURL)
+}
+
+// Validate the existence of a package in Pub.
+func existsInPub(pkg string) bool {
+	packageInstanceURL := fmt.Sprintf("%s/%s", EcosystemBaseURLs["Pub"], pkg)
+
+	return checkPackageExists(packageInstanceURL)
+}
+
+// Validate the existence of a package in PyPI.
+func existsInPyPI(pkg string) bool {
+	ecosystem := "PyPI"
+	packageInstanceURL := fmt.Sprintf("%s/%s/json", EcosystemBaseURLs[ecosystem], strings.ToLower(pkg))
+
+	if isPackageInDepsDev(ecosystem, pkg) {
+		return true
+	}
+
+	return checkPackageExists(packageInstanceURL)
+}
+
+// Validate the existence of a package in RubyGems.
+func existsInRubyGems(pkg string) bool {
+	packageInstanceURL := fmt.Sprintf("%s/gems/%s.json", EcosystemBaseURLs["RubyGems"], pkg)
+
+	return checkPackageExists(packageInstanceURL)
 }
 
 // Makes an HTTP GET request to check package existance, with fault tolerance.

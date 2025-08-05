@@ -6,30 +6,30 @@ import (
 
 // Ecosystem support is a work in progress.
 var SupportedEcosystems = []string{
-	"Go",
-	"PyPI",
 	"crates.io",
-	"npm",
-	"NuGet",
-	"RubyGems",
-	"Packagist",
-	"Pub",
+	"Go",
 	"Hackage",
 	"Maven",
+	"npm",
+	"NuGet",
+	"Packagist",
+	"Pub",
+	"PyPI",
+	"RubyGems",
 }
 
 // EcosystemBaseURLs maps ecosystems to their base API URLs.
 var EcosystemBaseURLs = map[string]string{
-	"Go":        "https://proxy.golang.org",
-	"PyPI":      "https://pypi.org/pypi",
 	"crates.io": "https://crates.io/api/v1/crates",
-	"npm":       "https://registry.npmjs.org",
-	"NuGet":     "https://api.nuget.org/v3-flatcontainer",
-	"RubyGems":  "https://rubygems.org/api/v1",
-	"Packagist": "https://repo.packagist.org/p2",
-	"Pub":       "https://pub.dev/api/packages",
+	"Go":        "https://proxy.golang.org",
 	"Hackage":   "https://hackage.haskell.org/package",
 	"Maven":     "https://search.maven.org/solrsearch/select",
+	"npm":       "https://registry.npmjs.org",
+	"NuGet":     "https://api.nuget.org/v3-flatcontainer",
+	"Packagist": "https://repo.packagist.org/p2",
+	"Pub":       "https://pub.dev/api/packages",
+	"PyPI":      "https://pypi.org/pypi",
+	"RubyGems":  "https://rubygems.org/api/v1",
 }
 
 // Dispatcher for ecosystem-specific package existence checking.

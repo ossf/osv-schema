@@ -2,9 +2,7 @@ package pkgchecker
 
 import "testing"
 
-func Test_versionsExistInRubyGems(t *testing.T) {
-	t.Parallel()
-
+func Test_versionsExistInGo(t *testing.T) {
 	type args struct {
 		pkg      string
 		versions []string
@@ -15,44 +13,26 @@ func Test_versionsExistInRubyGems(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "multiple_versions_which_all_exist",
+			name: "an unreleased package",
 			args: args{
-				pkg:      "capistrano",
-				versions: []string{"2.5.7", "3.0.0.pre4", "3.11.1"},
+				pkg:      "github.com/nanobox-io/golang-nanoauth",
+				versions: nil,
 			},
 			wantErr: false,
 		},
 		{
-			name: "multiple_versions_with_one_that_does_not_exist",
+			name: "a released package",
 			args: args{
-				pkg:      "capistrano",
-				versions: []string{"1.1.1", "2.3rc9", "3.1.5", "5.1rc1"},
+				pkg:      "github.com/oauth2-proxy/oauth2-proxy",
+				versions: []string{"1.1.1"},
 			},
-			wantErr: true,
-		},
-		{
-			name: "an_invalid_version",
-			args: args{
-				pkg:      "capistrano",
-				versions: []string{"!"},
-			},
-			wantErr: true,
-		},
-		{
-			name: "a_package_that_does_not_exit",
-			args: args{
-				pkg:      "not-a-real-package",
-				versions: []string{"1.0.0"},
-			},
-			wantErr: true,
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			t.Parallel()
-
-			if err := versionsExistInRubyGems(tt.args.pkg, tt.args.versions); (err != nil) != tt.wantErr {
-				t.Errorf("versionsExistInRubyGems() error = %v, wantErr %v", err, tt.wantErr)
+			if err := versionsExistInGo(tt.args.pkg, tt.args.versions); (err != nil) != tt.wantErr {
+				t.Errorf("versionsExistInGo() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
@@ -186,7 +166,9 @@ func Test_versionsExistInPyPI(t *testing.T) {
 	}
 }
 
-func Test_versionsExistInGo(t *testing.T) {
+func Test_versionsExistInRubyGems(t *testing.T) {
+	t.Parallel()
+
 	type args struct {
 		pkg      string
 		versions []string
@@ -197,26 +179,44 @@ func Test_versionsExistInGo(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "an unreleased package",
+			name: "multiple_versions_which_all_exist",
 			args: args{
-				pkg:      "github.com/nanobox-io/golang-nanoauth",
-				versions: nil,
+				pkg:      "capistrano",
+				versions: []string{"2.5.7", "3.0.0.pre4", "3.11.1"},
 			},
 			wantErr: false,
 		},
 		{
-			name: "a released package",
+			name: "multiple_versions_with_one_that_does_not_exist",
 			args: args{
-				pkg:      "github.com/oauth2-proxy/oauth2-proxy",
-				versions: []string{"1.1.1"},
+				pkg:      "capistrano",
+				versions: []string{"1.1.1", "2.3rc9", "3.1.5", "5.1rc1"},
 			},
-			wantErr: false,
+			wantErr: true,
+		},
+		{
+			name: "an_invalid_version",
+			args: args{
+				pkg:      "capistrano",
+				versions: []string{"!"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "a_package_that_does_not_exit",
+			args: args{
+				pkg:      "not-a-real-package",
+				versions: []string{"1.0.0"},
+			},
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := versionsExistInGo(tt.args.pkg, tt.args.versions); (err != nil) != tt.wantErr {
-				t.Errorf("versionsExistInGo() error = %v, wantErr %v", err, tt.wantErr)
+			t.Parallel()
+
+			if err := versionsExistInRubyGems(tt.args.pkg, tt.args.versions); (err != nil) != tt.wantErr {
+				t.Errorf("versionsExistInRubyGems() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
