@@ -72,6 +72,19 @@ func versionsExistInGeneric(
 	return nil
 }
 
+// Confirm that all specified versions of a package exist in crates.io.
+func versionsExistInCrates(pkg string, versions []string) error {
+	// https://crates.io/api/v1/crates/A-Mazed
+	packageInstanceURL := fmt.Sprintf("%s/%s", EcosystemBaseURLs["crates.io"], pkg)
+
+	return versionsExistInGeneric(
+		pkg, versions,
+		"crates.io",
+		packageInstanceURL,
+		"versions", "num",
+	)
+}
+
 // Confirm that all specified versions of a package exist in Go.
 func versionsExistInGo(pkg string, versions []string) error {
 	if pkg == "stdlib" || pkg == "toolchain" {
