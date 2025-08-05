@@ -15,6 +15,19 @@ import (
 	"golang.org/x/mod/semver"
 )
 
+func fetchPackageData(packageInstanceURL string) ([]byte, error) {
+	resp, err := faulttolerant.Get(packageInstanceURL)
+	if err != nil {
+		return nil, fmt.Errorf("unable to validate package: %v", err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("unable to validate package: %q for %s", resp.Status, packageInstanceURL)
+	}
+
+	return io.ReadAll(resp.Body)
+}
+
 // Confirm that all specified versions of a package exist in a registry
 func versionsExistInGeneric(
 	pkg string,
@@ -23,20 +36,11 @@ func versionsExistInGeneric(
 	packageInstanceURL string,
 	versionsPath string,
 ) error {
-	resp, err := faulttolerant.Get(packageInstanceURL)
-	if err != nil {
-		return fmt.Errorf("unable to validate package: %v", err)
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("unable to validate package: %q for %s", resp.Status, packageInstanceURL)
-	}
-
-	// Parse the known versions from the JSON.
-	respJSON, err := io.ReadAll(resp.Body)
+	respJSON, err := fetchPackageData(packageInstanceURL)
 	if err != nil {
 		return fmt.Errorf("unable to retrieve JSON for %q: %v", pkg, err)
 	}
+
 	// Fetch all known versions of package.
 	versionsInRepository := []string{}
 	for _, result := range gjson.GetBytes(respJSON, versionsPath).Array() {
@@ -95,18 +99,7 @@ func versionsExistInGo(pkg string, versions []string) error {
 
 	packageInstanceURL := fmt.Sprintf("%s/%s/@v/list", EcosystemBaseURLs["Go"], pkg)
 
-	// This 404's for non-existent packages.
-	resp, err := faulttolerant.Get(packageInstanceURL)
-	if err != nil {
-		return fmt.Errorf("unable to validate package: %v", err)
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("unable to validate package: %q for %s", resp.Status, packageInstanceURL)
-	}
-
-	// Load the known versions from the list provided.
-	respBytes, err := io.ReadAll(resp.Body)
+	respBytes, err := fetchPackageData(packageInstanceURL)
 	if err != nil {
 		return fmt.Errorf("unable to retrieve versions for for %q: %v", pkg, err)
 	}
