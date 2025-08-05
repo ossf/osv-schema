@@ -187,6 +187,18 @@ func goVersionsExist(versions []string) error {
 }
 
 // Confirm that all specified versions of a package exist in RubyGems.
+func versionsExistInHackage(pkg string, versions []string) error {
+	packageInstanceURL := fmt.Sprintf("%s/%s.json", EcosystemBaseURLs["Hackage"], pkg)
+
+	return versionsExistInGeneric(
+		pkg, versions,
+		"Hackage",
+		packageInstanceURL,
+		"@keys", "@this",
+	)
+}
+
+// Confirm that all specified versions of a package exist in RubyGems.
 func versionsExistInNpm(pkg string, versions []string) error {
 	packageInstanceURL := fmt.Sprintf("%s/%s", EcosystemBaseURLs["npm"], pkg)
 
