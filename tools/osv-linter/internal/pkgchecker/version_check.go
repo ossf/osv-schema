@@ -186,6 +186,18 @@ func goVersionsExist(versions []string) error {
 	return nil
 }
 
+// Confirm that all specified versions of a package exist in RubyGems.
+func versionsExistInNpm(pkg string, versions []string) error {
+	packageInstanceURL := fmt.Sprintf("%s/%s", EcosystemBaseURLs["npm"], pkg)
+
+	return versionsExistInGeneric(
+		pkg, versions,
+		"npm",
+		packageInstanceURL,
+		"versions.@keys", "@this",
+	)
+}
+
 // Confirm that all specified versions of a package exist in Packagist.
 func versionsExistInPackagist(pkg string, versions []string) error {
 	packageInstanceURL := fmt.Sprintf("%s/%s.json", EcosystemBaseURLs["Packagist"], pkg)
