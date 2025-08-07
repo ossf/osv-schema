@@ -21,10 +21,7 @@
       "$ref": "#/$defs/timestamp"
     },
     "aliases": {
-      "type": [
-        "array",
-        "null"
-      ],
+      "type": ["array", "null"],
       "items": {
         "type": "string"
       }
@@ -51,10 +48,7 @@
       "$ref": "#/$defs/severity"
     },
     "affected": {
-      "type": [
-        "array",
-        "null"
-      ],
+      "type": ["array", "null"],
       "items": {
         "type": "object",
         "properties": {
@@ -71,10 +65,7 @@
                 "type": "string"
               }
             },
-            "required": [
-              "ecosystem",
-              "name"
-            ]
+            "required": ["ecosystem", "name"]
           },
           "severity": {
             "$ref": "#/$defs/severity"
@@ -86,11 +77,7 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "enum": [
-                    "GIT",
-                    "SEMVER",
-                    "ECOSYSTEM"
-                  ]
+                  "enum": ["GIT", "SEMVER", "ECOSYSTEM"]
                 },
                 "repo": {
                   "type": "string"
@@ -99,9 +86,7 @@
                   "title": "events must contain an introduced object and may contain fixed, last_affected or limit objects",
                   "type": "array",
                   "contains": {
-                    "required": [
-                      "introduced"
-                    ]
+                    "required": ["introduced"]
                   },
                   "items": {
                     "type": "object",
@@ -113,9 +98,7 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "introduced"
-                        ]
+                        "required": ["introduced"]
                       },
                       {
                         "type": "object",
@@ -124,9 +107,7 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "fixed"
-                        ]
+                        "required": ["fixed"]
                       },
                       {
                         "type": "object",
@@ -135,9 +116,7 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "last_affected"
-                        ]
+                        "required": ["last_affected"]
                       },
                       {
                         "type": "object",
@@ -146,9 +125,7 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "limit"
-                        ]
+                        "required": ["limit"]
                       }
                     ]
                   },
@@ -169,9 +146,7 @@
                     }
                   },
                   "then": {
-                    "required": [
-                      "repo"
-                    ]
+                    "required": ["repo"]
                   }
                 },
                 {
@@ -180,9 +155,7 @@
                     "properties": {
                       "events": {
                         "contains": {
-                          "required": [
-                            "last_affected"
-                          ]
+                          "required": ["last_affected"]
                         }
                       }
                     }
@@ -192,9 +165,7 @@
                       "properties": {
                         "events": {
                           "contains": {
-                            "required": [
-                              "fixed"
-                            ]
+                            "required": ["fixed"]
                           }
                         }
                       }
@@ -202,10 +173,7 @@
                   }
                 }
               ],
-              "required": [
-                "type",
-                "events"
-              ]
+              "required": ["type", "events"]
             }
           },
           "versions": {
@@ -224,10 +192,7 @@
       }
     },
     "references": {
-      "type": [
-        "array",
-        "null"
-      ],
+      "type": ["array", "null"],
       "items": {
         "type": "object",
         "properties": {
@@ -252,10 +217,7 @@
             "format": "uri"
           }
         },
-        "required": [
-          "type",
-          "url"
-        ]
+        "required": ["type", "url"]
       }
     },
     "credits": {
@@ -288,25 +250,18 @@
             ]
           }
         },
-        "required": [
-          "name"
-        ]
+        "required": ["name"]
       }
     },
     "database_specific": {
       "type": "object"
     }
   },
-  "required": [
-    "id",
-    "modified"
-  ],
+  "required": ["id", "modified"],
   "allOf": [
     {
       "if": {
-        "required": [
-          "severity"
-        ]
+        "required": ["severity"]
       },
       "then": {
         "properties": {
@@ -341,6 +296,7 @@
         "CRAN",
         "crates.io",
         "Debian",
+        "Echo",
         "GHC",
         "GitHub Actions",
         "Go",
@@ -377,7 +333,7 @@
       "type": "string",
       "title": "Currently supported ecosystems",
       "description": "These ecosystems are also documented at https://ossf.github.io/osv-schema/#affectedpackage-field",
-      "pattern": "^(AlmaLinux|Alpaquita|Alpine|Android|BellSoft Hardened Containers|Bioconductor|Bitnami|Chainguard|ConanCenter|CRAN|crates\\.io|Debian|GHC|GitHub Actions|Go|Hackage|Hex|Kubernetes|Linux|Mageia|Maven|MinimOS|npm|NuGet|openEuler|openSUSE|OSS-Fuzz|Packagist|Photon OS|Pub|PyPI|Red Hat|Rocky Linux|RubyGems|SUSE|SwiftURL|Ubuntu|Wolfi|GIT)(:.+)?$"
+      "pattern": "^(AlmaLinux|Alpaquita|Alpine|Android|BellSoft Hardened Containers|Bioconductor|Bitnami|Chainguard|ConanCenter|CRAN|crates\\.io|Debian|Echo|GHC|GitHub Actions|Go|Hackage|Hex|Kubernetes|Linux|Mageia|Maven|MinimOS|npm|NuGet|openEuler|openSUSE|OSS-Fuzz|Packagist|Photon OS|Pub|PyPI|Red Hat|Rocky Linux|RubyGems|SUSE|SwiftURL|Ubuntu|Wolfi|GIT)(:.+)?$"
     },
     "prefix": {
       "type": "string",
@@ -386,21 +342,13 @@
       "pattern": "^(ASB-A|PUB-A|ALSA|ALBA|ALEA|BELL|BIT|CGA|CURL|CVE|DSA|DLA|ELA|DTSA|GHSA|GO|GSD|HSEC|KUBE|LBSEC|LSN|MAL|MINI|MGASA|OESA|OSV|openSUSE-SU|PHSA|PSF|PYSEC|RHBA|RHEA|RHSA|RLSA|RXSA|RSEC|RUSTSEC|SUSE-[SRFO]U|UBUNTU|USN|V8)-"
     },
     "severity": {
-      "type": [
-        "array",
-        "null"
-      ],
+      "type": ["array", "null"],
       "items": {
         "type": "object",
         "properties": {
           "type": {
             "type": "string",
-            "enum": [
-              "CVSS_V2",
-              "CVSS_V3",
-              "CVSS_V4",
-              "Ubuntu"
-            ]
+            "enum": ["CVSS_V2", "CVSS_V3", "CVSS_V4", "Ubuntu"]
           },
           "score": {
             "type": "string"
@@ -466,22 +414,13 @@
             "then": {
               "properties": {
                 "score": {
-                  "enum": [
-                    "negligible",
-                    "low",
-                    "medium",
-                    "high",
-                    "critical"
-                  ]
+                  "enum": ["negligible", "low", "medium", "high", "critical"]
                 }
               }
             }
           }
         ],
-        "required": [
-          "type",
-          "score"
-        ]
+        "required": ["type", "score"]
       }
     },
     "timestamp": {
