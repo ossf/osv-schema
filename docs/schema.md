@@ -356,7 +356,6 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
-    <tr>
       <td><code>MINI</code></td>
       <td><a href="https://packages.mini.dev/advisories/osv/all.json">Minimus Security Notices</a></td>
       <td>
