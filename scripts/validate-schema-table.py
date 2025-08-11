@@ -3,6 +3,10 @@
 from html.parser import HTMLParser
 
 
+class UnexpectedTagError(Exception):
+  pass
+
+
 class HTMLValidator(HTMLParser):
   def __init__(self) -> None:
     super().__init__()
@@ -15,7 +19,7 @@ class HTMLValidator(HTMLParser):
   def handle_endtag(self, tag: str) -> None:
     last_tag = self.__tags.pop()
     if last_tag != tag:
-      raise Exception(f'unclosed {last_tag}')
+      raise UnexpectedTagError(last_tag)
 
 
 def extract_schema_table() -> str:
@@ -35,4 +39,11 @@ def extract_schema_table() -> str:
 table = extract_schema_table()
 
 validator = HTMLValidator()
-validator.feed(table)
+
+try:
+  validator.feed(table)
+except UnexpectedTagError as e:
+  print(
+    f'unexpected {e} tag in docs/schema.md databases table - ensure that the tags are properly paired'
+  )
+  exit(1)
