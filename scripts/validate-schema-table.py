@@ -23,21 +23,23 @@ class HTMLValidator(HTMLParser):
       raise UnexpectedTagError(last_tag)
 
 
-def extract_schema_table() -> str:
+def extract_schema_table() -> tuple[str, int]:
   raw_table = ''
+  index = -1
 
   with open('docs/schema.md') as f:
-    for line in f.readlines():
+    for i, line in enumerate(f.readlines()):
       if line == '<table>\n':
+        index = i + 1
         raw_table += line
       if raw_table != '':
         raw_table += line
       if line == '</table>\n':
         break
-  return raw_table
+  return raw_table, index
 
 
-table = extract_schema_table()
+table, starting_line = extract_schema_table()
 
 validator = HTMLValidator()
 
@@ -46,7 +48,7 @@ try:
 except UnexpectedTagError as e:
   if 'CI' in os.environ:
     print(
-      f'::error file=docs/schema.md,line=1::unexpected {e} tag in databases table - ensure that the tags are properly paired'
+      f'::error file=docs/schema.md,line={starting_line}::unexpected {e} tag in table - ensure that the tags are properly paired'
     )
   print(
     f'unexpected {e} tag in docs/schema.md databases table - ensure that the tags are properly paired'
