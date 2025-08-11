@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os
 from html.parser import HTMLParser
 
 
@@ -43,6 +44,10 @@ validator = HTMLValidator()
 try:
   validator.feed(table)
 except UnexpectedTagError as e:
+  if 'CI' in os.environ:
+    print(
+      f'::error file=docs/schema.md,line=1::unexpected {e} tag in databases table - ensure that the tags are properly paired'
+    )
   print(
     f'unexpected {e} tag in docs/schema.md databases table - ensure that the tags are properly paired'
   )
