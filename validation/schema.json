@@ -22,7 +22,7 @@
     },
     "aliases": {
       "type": [
-        "array", 
+        "array",
         "null"
       ],
       "items": {
@@ -52,7 +52,7 @@
     },
     "affected": {
       "type": [
-        "array", 
+        "array",
         "null"
       ],
       "items": {
@@ -72,7 +72,7 @@
               }
             },
             "required": [
-              "ecosystem", 
+              "ecosystem",
               "name"
             ]
           },
@@ -87,8 +87,8 @@
                 "type": {
                   "type": "string",
                   "enum": [
-                    "GIT", 
-                    "SEMVER", 
+                    "GIT",
+                    "SEMVER",
                     "ECOSYSTEM"
                   ]
                 },
@@ -203,7 +203,7 @@
                 }
               ],
               "required": [
-                "type", 
+                "type",
                 "events"
               ]
             }
@@ -300,7 +300,7 @@
   "required": [
     "id",
     "modified"
-    ],
+  ],
   "allOf": [
     {
       "if": {
