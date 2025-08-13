@@ -188,6 +188,18 @@ func goVersionsExist(versions []string) error {
 	return nil
 }
 
+// Confirm that all specified versions of a package exist in Hackage.
+func versionsExistInHackage(pkg string, versions []string) error {
+	packageInstanceURL := fmt.Sprintf("%s/%s.json", EcosystemBaseURLs["Hackage"], pkg)
+
+	return versionsExistInGeneric(
+		pkg, versions,
+		"Hackage",
+		packageInstanceURL,
+		"@keys",
+	)
+}
+
 // Confirm that all specified versions of a package exist in npm.
 func versionsExistInNpm(pkg string, versions []string) error {
 	packageInstanceURL := fmt.Sprintf("%s/%s", EcosystemBaseURLs["npm"], pkg)
