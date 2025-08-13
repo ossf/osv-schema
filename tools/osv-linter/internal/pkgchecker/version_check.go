@@ -15,36 +15,42 @@ import (
 	"golang.org/x/mod/semver"
 )
 
-// Confirm that all specified versions of a package exist in crates.io.
-func versionsExistInCrates(pkg string, versions []string) error {
-	packageInstanceURL := fmt.Sprintf("%s/%s", EcosystemBaseURLs["crates.io"], pkg)
-
+func fetchPackageData(packageInstanceURL string) ([]byte, error) {
 	resp, err := faulttolerant.Get(packageInstanceURL)
 	if err != nil {
-		return fmt.Errorf("unable to validate package: %v", err)
+		return nil, fmt.Errorf("unable to validate package: %v", err)
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("unable to validate package: %q for %s", resp.Status, packageInstanceURL)
+		return nil, fmt.Errorf("unable to validate package: %q for %s", resp.Status, packageInstanceURL)
 	}
 
-	// Parse the known versions from the JSON.
-	respJSON, err := io.ReadAll(resp.Body)
+	return io.ReadAll(resp.Body)
+}
+
+// Confirm that all specified versions of a package exist in a registry
+func versionsExistInGeneric(
+	pkg string,
+	versions []string,
+	eco string,
+	packageInstanceURL string,
+	versionsPath string,
+) error {
+	respJSON, err := fetchPackageData(packageInstanceURL)
 	if err != nil {
 		return fmt.Errorf("unable to retrieve JSON for %q: %v", pkg, err)
 	}
+
 	// Fetch all known versions of package.
 	versionsInRepository := []string{}
-	releases := gjson.GetBytes(respJSON, "versions")
-	releases.ForEach(func(key, value gjson.Result) bool {
-		versionsInRepository = append(versionsInRepository, value.Get("num").String())
-		return true // keep iterating.
-	})
+	for _, result := range gjson.GetBytes(respJSON, versionsPath).Array() {
+		versionsInRepository = append(versionsInRepository, result.String())
+	}
 	// Determine which referenced versions are missing.
 	versionsMissing := []string{}
 	for _, versionToCheckFor := range versions {
 		versionFound := false
-		vc, err := semantic.Parse(versionToCheckFor, "crates.io")
+		vc, err := semantic.Parse(versionToCheckFor, eco)
 		if err != nil {
 			versionsMissing = append(versionsMissing, versionToCheckFor)
 			continue
@@ -61,10 +67,22 @@ func versionsExistInCrates(pkg string, versions []string) error {
 		versionsMissing = append(versionsMissing, versionToCheckFor)
 	}
 	if len(versionsMissing) > 0 {
-		return &MissingVersionsError{Package: pkg, Ecosystem: "crates.io", Missing: versionsMissing, Known: versionsInRepository}
+		return &MissingVersionsError{Package: pkg, Ecosystem: eco, Missing: versionsMissing, Known: versionsInRepository}
 	}
 
 	return nil
+}
+
+// Confirm that all specified versions of a package exist in crates.io.
+func versionsExistInCrates(pkg string, versions []string) error {
+	packageInstanceURL := fmt.Sprintf("%s/%s", EcosystemBaseURLs["crates.io"], pkg)
+
+	return versionsExistInGeneric(
+		pkg, versions,
+		"crates.io",
+		packageInstanceURL,
+		"versions.#.num",
+	)
 }
 
 // Confirm that all specified versions of a package exist in Go.
@@ -81,18 +99,7 @@ func versionsExistInGo(pkg string, versions []string) error {
 
 	packageInstanceURL := fmt.Sprintf("%s/%s/@v/list", EcosystemBaseURLs["Go"], pkg)
 
-	// This 404's for non-existent packages.
-	resp, err := faulttolerant.Get(packageInstanceURL)
-	if err != nil {
-		return fmt.Errorf("unable to validate package: %v", err)
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("unable to validate package: %q for %s", resp.Status, packageInstanceURL)
-	}
-
-	// Load the known versions from the list provided.
-	respBytes, err := io.ReadAll(resp.Body)
+	respBytes, err := fetchPackageData(packageInstanceURL)
 	if err != nil {
 		return fmt.Errorf("unable to retrieve versions for for %q: %v", pkg, err)
 	}
@@ -185,104 +192,24 @@ func goVersionsExist(versions []string) error {
 func versionsExistInNpm(pkg string, versions []string) error {
 	packageInstanceURL := fmt.Sprintf("%s/%s", EcosystemBaseURLs["npm"], pkg)
 
-	resp, err := faulttolerant.Get(packageInstanceURL)
-	if err != nil {
-		return fmt.Errorf("unable to validate package: %v", err)
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("unable to validate package: %q for %s", resp.Status, packageInstanceURL)
-	}
-
-	// Parse the known versions from the JSON.
-	respJSON, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return fmt.Errorf("unable to retrieve JSON for %q: %v", pkg, err)
-	}
-	// Fetch all known versions of package.
-	versionsInRepository := []string{}
-	releases := gjson.GetBytes(respJSON, "versions.@keys")
-	releases.ForEach(func(key, value gjson.Result) bool {
-		versionsInRepository = append(versionsInRepository, value.String())
-		return true // keep iterating.
-	})
-	// Determine which referenced versions are missing.
-	versionsMissing := []string{}
-	for _, versionToCheckFor := range versions {
-		versionFound := false
-		vc, err := semantic.Parse(versionToCheckFor, "npm")
-		if err != nil {
-			versionsMissing = append(versionsMissing, versionToCheckFor)
-			continue
-		}
-		for _, pkgversion := range versionsInRepository {
-			if r, err := vc.CompareStr(pkgversion); r == 0 && err == nil {
-				versionFound = true
-				break
-			}
-		}
-		if versionFound {
-			continue
-		}
-		versionsMissing = append(versionsMissing, versionToCheckFor)
-	}
-	if len(versionsMissing) > 0 {
-		return &MissingVersionsError{Package: pkg, Ecosystem: "npm", Missing: versionsMissing, Known: versionsInRepository}
-	}
-
-	return nil
+	return versionsExistInGeneric(
+		pkg, versions,
+		"npm",
+		packageInstanceURL,
+		"versions.@keys",
+	)
 }
 
 // Confirm that all specified versions of a package exist in Packagist.
 func versionsExistInPackagist(pkg string, versions []string) error {
 	packageInstanceURL := fmt.Sprintf("%s/%s.json", EcosystemBaseURLs["Packagist"], pkg)
 
-	resp, err := faulttolerant.Get(packageInstanceURL)
-	if err != nil {
-		return fmt.Errorf("unable to validate package: %v", err)
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("unable to validate package: %q for %s", resp.Status, packageInstanceURL)
-	}
-
-	// Parse the known versions from the JSON.
-	respJSON, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return fmt.Errorf("unable to retrieve JSON for %q: %v", pkg, err)
-	}
-	// Fetch all known versions of package.
-	versionsInRepository := []string{}
-	releases := gjson.GetBytes(respJSON, fmt.Sprintf("packages.%s", pkg))
-	releases.ForEach(func(key, value gjson.Result) bool {
-		versionsInRepository = append(versionsInRepository, value.Get("version").String())
-		return true // keep iterating.
-	})
-	// Determine which referenced versions are missing.
-	versionsMissing := []string{}
-	for _, versionToCheckFor := range versions {
-		versionFound := false
-		vc, err := semantic.Parse(versionToCheckFor, "Packagist")
-		if err != nil {
-			versionsMissing = append(versionsMissing, versionToCheckFor)
-			continue
-		}
-		for _, pkgversion := range versionsInRepository {
-			if r, err := vc.CompareStr(pkgversion); r == 0 && err == nil {
-				versionFound = true
-				break
-			}
-		}
-		if versionFound {
-			continue
-		}
-		versionsMissing = append(versionsMissing, versionToCheckFor)
-	}
-	if len(versionsMissing) > 0 {
-		return &MissingVersionsError{Package: pkg, Ecosystem: "Packagist", Missing: versionsMissing, Known: versionsInRepository}
-	}
-
-	return nil
+	return versionsExistInGeneric(
+		pkg, versions,
+		"Packagist",
+		packageInstanceURL,
+		fmt.Sprintf("packages.%s.#.version", pkg),
+	)
 }
 
 // Confirm that all specified versions of a package exist in PyPI.
@@ -292,103 +219,22 @@ func versionsExistInPyPI(pkg string, versions []string) error {
 	pkgNormalized := strings.ToLower(pythonNormalizationRegex.ReplaceAllString(pkg, "-"))
 	packageInstanceURL := fmt.Sprintf("%s/%s/json", EcosystemBaseURLs["PyPI"], pkgNormalized)
 
-	// This 404's for non-existent packages.
-	resp, err := faulttolerant.Get(packageInstanceURL)
-	if err != nil {
-		return fmt.Errorf("unable to validate package: %v", err)
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("unable to validate package: %q for %s", resp.Status, packageInstanceURL)
-	}
-
-	// Parse the known versions from the JSON.
-	respJSON, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return fmt.Errorf("unable to retrieve JSON for %q: %v", pkg, err)
-	}
-	// Fetch all known versions of package.
-	versionsInPyPy := []string{}
-	releases := gjson.GetBytes(respJSON, "releases.@keys")
-	releases.ForEach(func(key, value gjson.Result) bool {
-		versionsInPyPy = append(versionsInPyPy, value.String())
-		return true // keep iterating.
-	})
-	// Determine which referenced versions are missing.
-	versionsMissing := []string{}
-	for _, versionToCheckFor := range versions {
-		versionFound := false
-		vc, err := semantic.Parse(versionToCheckFor, "PyPI")
-		if err != nil {
-			versionsMissing = append(versionsMissing, versionToCheckFor)
-			continue
-		}
-		for _, pkgversion := range versionsInPyPy {
-			if r, err := vc.CompareStr(pkgversion); r == 0 && err == nil {
-				versionFound = true
-				break
-			}
-		}
-		if versionFound {
-			continue
-		}
-		versionsMissing = append(versionsMissing, versionToCheckFor)
-	}
-	if len(versionsMissing) > 0 {
-		return &MissingVersionsError{Package: pkg, Ecosystem: "PyPI", Missing: versionsMissing, Known: versionsInPyPy}
-	}
-
-	return nil
+	return versionsExistInGeneric(
+		pkg, versions,
+		"PyPI",
+		packageInstanceURL,
+		"releases.@keys",
+	)
 }
 
 // Confirm that all specified versions of a package exist in RubyGems.
 func versionsExistInRubyGems(pkg string, versions []string) error {
 	packageInstanceURL := fmt.Sprintf("%s/versions/%s.json", EcosystemBaseURLs["RubyGems"], pkg)
 
-	resp, err := faulttolerant.Get(packageInstanceURL)
-	if err != nil {
-		return fmt.Errorf("unable to validate package: %v", err)
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("unable to validate package: %q for %s", resp.Status, packageInstanceURL)
-	}
-
-	// Parse the known versions from the JSON.
-	respJSON, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return fmt.Errorf("unable to retrieve JSON for %q: %v", pkg, err)
-	}
-	// Fetch all known versions of package.
-	versionsInRepository := []string{}
-	releases := gjson.GetBytes(respJSON, "@this")
-	releases.ForEach(func(key, value gjson.Result) bool {
-		versionsInRepository = append(versionsInRepository, value.Get("number").String())
-		return true // keep iterating.
-	})
-	// Determine which referenced versions are missing.
-	versionsMissing := []string{}
-	for _, versionToCheckFor := range versions {
-		versionFound := false
-		vc, err := semantic.Parse(versionToCheckFor, "RubyGems")
-		if err != nil {
-			versionsMissing = append(versionsMissing, versionToCheckFor)
-			continue
-		}
-		for _, pkgversion := range versionsInRepository {
-			if r, err := vc.CompareStr(pkgversion); r == 0 && err == nil {
-				versionFound = true
-				break
-			}
-		}
-		if versionFound {
-			continue
-		}
-		versionsMissing = append(versionsMissing, versionToCheckFor)
-	}
-	if len(versionsMissing) > 0 {
-		return &MissingVersionsError{Package: pkg, Ecosystem: "RubyGems", Missing: versionsMissing, Known: versionsInRepository}
-	}
-
-	return nil
+	return versionsExistInGeneric(
+		pkg, versions,
+		"RubyGems",
+		packageInstanceURL,
+		"@this.#.number",
+	)
 }
