@@ -50,7 +50,7 @@ func versionsExistInGeneric(
 	versionsMissing := []string{}
 	for _, versionToCheckFor := range versions {
 		versionFound := false
-		vc, err := semantic.Parse(versionToCheckFor, "npm")
+		vc, err := semantic.Parse(versionToCheckFor, eco)
 		if err != nil {
 			versionsMissing = append(versionsMissing, versionToCheckFor)
 			continue
