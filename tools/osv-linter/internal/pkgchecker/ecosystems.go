@@ -109,12 +109,21 @@ func ExistsInEcosystem(pkg string, ecosystem string) bool {
 type MissingVersionsError struct {
 	Package   string
 	Ecosystem string
+	Invalid   []string
 	Missing   []string
 	Known     []string
 }
 
 func (e *MissingVersionsError) Error() string {
-	return fmt.Sprintf("Failed to find %+q of %q in %q (have: %+q)", e.Missing, e.Package, e.Ecosystem, e.Known)
+	msg := fmt.Sprintf("Failed to find %+q of %q in %q (have: %+q", e.Missing, e.Package, e.Ecosystem, e.Known)
+
+	if len(e.Invalid) > 0 {
+		msg += fmt.Sprintf(", invalid versions: %+q", e.Invalid)
+	}
+
+	msg += ")"
+
+	return msg
 }
 
 // Dispatcher for ecosystem-specific package version existence checking.
