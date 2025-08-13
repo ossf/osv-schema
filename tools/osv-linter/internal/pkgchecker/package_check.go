@@ -55,6 +55,13 @@ func existsInHackage(pkg string) bool {
 	return checkPackageExists(packageInstanceURL)
 }
 
+// Validate the existence of a package in Hex.
+func existsInHex(pkg string) bool {
+	packageInstanceURL := fmt.Sprintf("%s/%s", EcosystemBaseURLs["Hex"], pkg)
+
+	return checkPackageExists(packageInstanceURL)
+}
+
 // Validate the existence of a package in Maven.
 func existsInMaven(pkg string) bool {
 	if !strings.Contains(pkg, ":") {
