@@ -67,7 +67,7 @@ func versionsExistInGeneric(
 		versionsMissing = append(versionsMissing, versionToCheckFor)
 	}
 	if len(versionsMissing) > 0 {
-		return &MissingVersionsError{Package: pkg, Ecosystem: eco, Missing: versionsMissing, Known: versionsInRepository}
+		return MissingVersionsError{Package: pkg, Ecosystem: eco, Missing: versionsMissing, Known: versionsInRepository}
 	}
 
 	return nil
@@ -130,7 +130,7 @@ func versionsExistInGo(pkg string, versions []string) error {
 		versionsMissing = append(versionsMissing, versionToCheckFor)
 	}
 	if len(versionsMissing) > 0 {
-		return &MissingVersionsError{Package: pkg, Ecosystem: "Go", Missing: versionsMissing, Known: versionsInGo}
+		return MissingVersionsError{Package: pkg, Ecosystem: "Go", Missing: versionsMissing, Known: versionsInGo}
 	}
 
 	return nil

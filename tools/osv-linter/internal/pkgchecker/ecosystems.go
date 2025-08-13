@@ -113,7 +113,7 @@ type MissingVersionsError struct {
 	Known     []string
 }
 
-func (e *MissingVersionsError) Error() string {
+func (e MissingVersionsError) Error() string {
 	return fmt.Sprintf("Failed to find %+q of %q in %q (have: %+q)", e.Missing, e.Package, e.Ecosystem, e.Known)
 }
 
