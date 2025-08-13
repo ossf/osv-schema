@@ -155,7 +155,7 @@ func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string) e
 	case "MinimOS":
 		return nil
 	case "npm":
-		return nil
+		return versionsExistInNpm(pkg, versions)
 	case "NuGet":
 		return nil
 	case "openSUSE":
