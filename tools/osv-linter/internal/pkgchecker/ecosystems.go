@@ -9,6 +9,7 @@ var SupportedEcosystems = []string{
 	"crates.io",
 	"Go",
 	"Hackage",
+	"Hex",
 	"Maven",
 	"npm",
 	"NuGet",
