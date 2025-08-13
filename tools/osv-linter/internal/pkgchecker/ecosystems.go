@@ -105,7 +105,7 @@ func ExistsInEcosystem(pkg string, ecosystem string) bool {
 	return false
 }
 
-// Missing VersionsError describes when specific versions of a package could not be found.
+// MissingVersionsError describes when specific versions of a package could not be found.
 type MissingVersionsError struct {
 	Package   string
 	Ecosystem string
