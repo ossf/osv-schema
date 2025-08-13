@@ -23,6 +23,7 @@ var EcosystemBaseURLs = map[string]string{
 	"crates.io": "https://crates.io/api/v1/crates",
 	"Go":        "https://proxy.golang.org",
 	"Hackage":   "https://hackage.haskell.org/package",
+	"Hex":       "https://hex.pm/api/packages",
 	"Maven":     "https://search.maven.org/solrsearch/select",
 	"npm":       "https://registry.npmjs.org",
 	"NuGet":     "https://api.nuget.org/v3-flatcontainer",
@@ -62,7 +63,7 @@ func ExistsInEcosystem(pkg string, ecosystem string) bool {
 	case "Hackage":
 		return existsInHackage(pkg)
 	case "Hex":
-		return true
+		return existsInHex(pkg)
 	case "Kubernetes":
 		return true
 	case "Linux":
