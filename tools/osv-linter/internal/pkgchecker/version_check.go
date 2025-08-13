@@ -188,6 +188,18 @@ func goVersionsExist(versions []string) error {
 	return nil
 }
 
+// Confirm that all specified versions of a package exist in Hex.
+func versionsExistInHex(pkg string, versions []string) error {
+	packageInstanceURL := fmt.Sprintf("%s/%s", EcosystemBaseURLs["Hex"], pkg)
+
+	return versionsExistInGeneric(
+		pkg, versions,
+		"Hex",
+		packageInstanceURL,
+		"releases.#.version",
+	)
+}
+
 // Confirm that all specified versions of a package exist in npm.
 func versionsExistInNpm(pkg string, versions []string) error {
 	packageInstanceURL := fmt.Sprintf("%s/%s", EcosystemBaseURLs["npm"], pkg)

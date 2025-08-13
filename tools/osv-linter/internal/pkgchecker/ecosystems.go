@@ -148,7 +148,7 @@ func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string) e
 	case "Hackage":
 		return nil
 	case "Hex":
-		return nil
+		return versionsExistInHex(pkg, versions)
 	case "Linux":
 		return nil
 	case "Maven":
