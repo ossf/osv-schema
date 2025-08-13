@@ -40,6 +40,7 @@ Together, these include vulnerabilities from:
 -   Chainguard
 -   crates.io
 -   Debian GNU/Linux
+-   Echo
 -   GitHub Actions
 -   Go
 -   Haskell
