@@ -44,7 +44,7 @@ func versionsExistInCrates(pkg string, versions []string) error {
 	versionsMissing := []string{}
 	for _, versionToCheckFor := range versions {
 		versionFound := false
-		vc, err := semantic.Parse(versionToCheckFor, "RubyGems")
+		vc, err := semantic.Parse(versionToCheckFor, "crates.io")
 		if err != nil {
 			versionsMissing = append(versionsMissing, versionToCheckFor)
 			continue
@@ -61,7 +61,7 @@ func versionsExistInCrates(pkg string, versions []string) error {
 		versionsMissing = append(versionsMissing, versionToCheckFor)
 	}
 	if len(versionsMissing) > 0 {
-		return &MissingVersionsError{Package: pkg, Ecosystem: "RubyGems", Missing: versionsMissing, Known: versionsInRepository}
+		return &MissingVersionsError{Package: pkg, Ecosystem: "crates.io", Missing: versionsMissing, Known: versionsInRepository}
 	}
 
 	return nil
