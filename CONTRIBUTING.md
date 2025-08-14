@@ -21,3 +21,22 @@ All submissions, including submissions by project members, require review. We
 use GitHub pull requests for this purpose. Consult
 [GitHub Help](https://help.github.com/articles/about-pull-requests/) for more
 information on using pull requests.
+
+## Adding a new ecosystem
+
+To add a new ecosystem, follow these steps:
+
+1.  **`ecosystems.json`**: Add an entry for the new ecosystem and it's description.
+    * If your ecosystem has multiple separate release, please include how releases are specified.
+
+2.  **Database-specific prefix**: Generally a new ecosystem will introduce a new database-specific ID prefix (e.g., `GHSA` for GitHub Security Advisories), please add it to:
+    *   The "Database-specific prefixes" table in `docs/schema.md`.
+    *   The `prefix` pattern within `validation/schema.json`.
+
+3.  **`README.md`**: Add the new ecosystem to the list of data exporters in the README.
+
+4.  **Run update script**: Finally, run `python3 ./scripts/update-ecosystems-lists.py`. This script will automatically update the following files based on your changes to `ecosystems.json`:
+    *   `bindings/go/osvschema/constants.go`
+    *   The main ecosystem table in `docs/schema.md`
+    *   The ecosystem enum in `validation/schema.json`
+    *   Make a copy of the `validation/schema.json` for the linter in `tools/osv-linter/internal/checks/schema_generated.json`

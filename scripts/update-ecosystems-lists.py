@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import json
+import shutil
 
 MARKDOWN_TABLE_MARKER_START = '<!-- begin auto-generated ecosystems list -->'
 MARKDOWN_TABLE_MARKER_END = '<!-- end auto-generated ecosystems list -->'
@@ -141,5 +142,5 @@ def update_go_constants():
 
 update_go_constants()
 update_json_schema('validation/schema.json')
-update_json_schema('tools/osv-linter/internal/checks/schema_generated.json')
+shutil.copy('validation/schema.json', 'tools/osv-linter/internal/checks/schema_generated.json')
 update_schema_md()
