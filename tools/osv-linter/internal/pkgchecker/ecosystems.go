@@ -20,6 +20,7 @@ var SupportedEcosystems = []string{
 
 // EcosystemBaseURLs maps ecosystems to their base API URLs.
 var EcosystemBaseURLs = map[string]string{
+	"CRAN":      "https://crandb.r-pkg.org/",
 	"crates.io": "https://crates.io/api/v1/crates",
 	"Go":        "https://proxy.golang.org",
 	"Hackage":   "https://hackage.haskell.org/package",
@@ -46,7 +47,7 @@ func ExistsInEcosystem(pkg string, ecosystem string) bool {
 	case "Chainguard":
 		return true
 	case "CRAN":
-		return true
+		return existsInCran(pkg)
 	case "crates.io":
 		return existsInCrates(pkg)
 	case "Debian":
@@ -131,7 +132,7 @@ func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string) e
 	case "Chainguard":
 		return nil
 	case "CRAN":
-		return nil
+		return versionsExistInCran(pkg, versions)
 	case "crates.io":
 		return versionsExistInCrates(pkg, versions)
 	case "Debian":

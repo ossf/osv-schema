@@ -8,6 +8,14 @@ import (
 	"github.com/ossf/osv-schema/linter/internal/faulttolerant"
 )
 
+// Validate the existence of a package in CRAN.
+func existsInCran(pkg string) bool {
+	ecosystem := "CRAN"
+	packageInstanceURL := fmt.Sprintf("%s/%s", EcosystemBaseURLs[ecosystem], pkg)
+
+	return checkPackageExists(packageInstanceURL)
+}
+
 // Validate the existence of a package in crates.io.
 func existsInCrates(pkg string) bool {
 	// Handle special case for rust standard library
