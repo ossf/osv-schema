@@ -143,7 +143,7 @@ func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string) e
 	case "Chainguard":
 		return nil
 	case "CRAN":
-		return nil
+		return versionsExistInCran(pkg, versions)
 	case "crates.io":
 		return versionsExistInCrates(pkg, versions)
 	case "Debian":
