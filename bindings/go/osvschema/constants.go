@@ -1,6 +1,6 @@
 package osvschema
 
-const SchemaVersion = "1.7.0"
+const SchemaVersion = "1.7.3"
 
 type Ecosystem string
 

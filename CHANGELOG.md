@@ -39,3 +39,5 @@
 - 2024-09-16 Released version 1.6.7. JSON schema and minor text formatting changes.
 - 2025-03-05 Released version 1.7.0. Add `upstream` field, `V8-` ID prefix,
   Kubernetes ecosystem, `Ubuntu` severity type.
+- 2025-08-05 Released version 1.7.2. Add new ecosystems (openEuler, MinimOS, BellSoft Alpaquita and Hardened Containers, Ubuntu LSN).
+- 2025-08-15 Released version 1.7.3. Add Echo ecosystem.
