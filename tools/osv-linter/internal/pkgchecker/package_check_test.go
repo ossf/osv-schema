@@ -196,6 +196,32 @@ func Test_existsInHackage(t *testing.T) {
 	}
 }
 
+func Test_existsInHex(t *testing.T) {
+	tests := []struct {
+		name string
+		pkg  string
+		want bool
+	}{
+		{
+			name: "existing package",
+			pkg:  "jason",
+			want: true,
+		},
+		{
+			name: "non-existing package",
+			pkg:  "non-existing-package",
+			want: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := existsInHex(tt.pkg); got != tt.want {
+				t.Errorf("existsInHex() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func Test_existsInMaven(t *testing.T) {
 	tests := []struct {
 		name string
