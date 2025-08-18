@@ -105,7 +105,7 @@ func ExistsInEcosystem(pkg string, ecosystem string) bool {
 	return false
 }
 
-// Missing VersionsError describes when specific versions of a package could not be found.
+// MissingVersionsError describes when specific versions of a package could not be found.
 type MissingVersionsError struct {
 	Package   string
 	Ecosystem string
@@ -114,7 +114,7 @@ type MissingVersionsError struct {
 	Known     []string
 }
 
-func (e *MissingVersionsError) Error() string {
+func (e MissingVersionsError) Error() string {
 	msg := fmt.Sprintf("Failed to find %+q of %q in %q (have: %+q", e.Missing, e.Package, e.Ecosystem, e.Known)
 
 	if len(e.Invalid) > 0 {
