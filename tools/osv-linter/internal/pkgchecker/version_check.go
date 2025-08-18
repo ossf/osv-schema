@@ -48,15 +48,24 @@ func versionsExistInGeneric(
 	}
 	// Determine which referenced versions are missing.
 	versionsMissing := []string{}
+	versionsInvalid := []string{}
 	for _, versionToCheckFor := range versions {
 		versionFound := false
 		vc, err := semantic.Parse(versionToCheckFor, eco)
 		if err != nil {
+			// consider this "missing" since the version here comes from the advisory
+			// so hopefully it's actually a malformed version rather than a bug
 			versionsMissing = append(versionsMissing, versionToCheckFor)
 			continue
 		}
 		for _, pkgversion := range versionsInRepository {
-			if r, err := vc.CompareStr(pkgversion); r == 0 && err == nil {
+			r, err := vc.CompareStr(pkgversion)
+
+			if err != nil {
+				// note versions that semantic considered invalid, since that is most
+				// likely a bug in our code given the version is from the ecosystem repo
+				versionsInvalid = append(versionsInvalid, pkgversion)
+			} else if r == 0 {
 				versionFound = true
 				break
 			}
@@ -66,8 +75,14 @@ func versionsExistInGeneric(
 		}
 		versionsMissing = append(versionsMissing, versionToCheckFor)
 	}
-	if len(versionsMissing) > 0 {
-		return &MissingVersionsError{Package: pkg, Ecosystem: eco, Missing: versionsMissing, Known: versionsInRepository}
+	if len(versionsMissing) > 0 || len(versionsInvalid) > 0 {
+		return &MissingVersionsError{
+			Package:   pkg,
+			Ecosystem: eco,
+			Invalid:   versionsInvalid,
+			Missing:   versionsMissing,
+			Known:     versionsInRepository,
+		}
 	}
 
 	return nil
