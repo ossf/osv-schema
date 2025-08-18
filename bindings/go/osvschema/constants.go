@@ -1,6 +1,6 @@
 package osvschema
 
-const SchemaVersion = "1.7.0"
+const SchemaVersion = "1.7.3"
 
 type Ecosystem string
 
@@ -17,6 +17,7 @@ const (
 	EcosystemCRAN                       Ecosystem = "CRAN"
 	EcosystemCratesIO                   Ecosystem = "crates.io"
 	EcosystemDebian                     Ecosystem = "Debian"
+	EcosystemEcho                       Ecosystem = "Echo"
 	EcosystemGHC                        Ecosystem = "GHC"
 	EcosystemGitHubActions              Ecosystem = "GitHub Actions"
 	EcosystemGo                         Ecosystem = "Go"

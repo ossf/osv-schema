@@ -8,6 +8,7 @@ This format is currently exported by:
 - [Bitnami Vulnerability Database](https://github.com/bitnami/vulndb)
 - [Chainguard](https://packages.cgr.dev/chainguard/osv/all.json)
 - [Curl](https://curl.se/docs/vuln.json)
+- [Echo](https://advisory.echohq.com/osv/all.json)
 - [GitHub Security Advisories](https://github.com/github/advisory-database)
 - [Global Security Database](https://github.com/cloudsecurityalliance/gsd-database)
 - [Go Vulnerability Database](https://github.com/golang/vulndb)
@@ -39,6 +40,7 @@ Together, these include vulnerabilities from:
 -   Chainguard
 -   crates.io
 -   Debian GNU/Linux
+-   Echo
 -   GitHub Actions
 -   Go
 -   Haskell

@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.7.2 (June 23, 2025)**
+**Version 1.7.3 (August 15, 2025)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -242,6 +242,17 @@ The defined database prefixes and their "home" databases are:
           <li>How to contribute: TBD</li>
           <li>Source URL: <code>https://debian.org/security/&lt;YEAR&gt;/&lt;ID&gt;</code> (lowercase dsa)</li>
           <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+    <td><code>ECHO</code></td>
+      <td><a href="https://advisory.echohq.com/osv/all.json">Echo Security Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: TBD</li>
+          <li>OSV Formatted URL: <code>https://advisory.echohq.com/osv/&lt;ID&gt;.json</code></li>
         </ul>
       </td>
     </tr>
@@ -789,6 +800,7 @@ The defined ecosystems are:
 | `CRAN` | The R package ecosystem. The `name` is an R package name. |
 | `crates.io` | The crates.io ecosystem for Rust; the `name` field is a crate name. |
 | `Debian` | The Debian package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Debian release. `<RELEASE>` is a numeric version specified in the [Debian distro-info-data](https://debian.pages.debian.net/distro-info-data/debian.csv). For example, the ecosystem string "Debian:7" refers to the Debian 7 (wheezy) release. |
+| `Echo` | The Echo package ecosystem; the `name` is the name of the source package. |
 | `GHC` | The Haskell compiler ecosystem. The `name` field is the name of a component of the GHC compiler ecosystem (e.g., compiler, GHCI, RTS). |
 | `GitHub Actions` | The GitHub Actions ecosystem; the `name` field is the action's repository name with owner e.g. `{owner}/{repo}`. |
 | `Go` | The Go ecosystem; the `name` field is a Go module path. |
