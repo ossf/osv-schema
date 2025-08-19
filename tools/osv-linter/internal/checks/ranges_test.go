@@ -31,14 +31,14 @@ func TestRangeHasIntroducedEvent(t *testing.T) {
 		{
 			name: "A compliant file",
 			args: args{
-				json: LoadTestData("../../test_data/CVE-2023-41045.json"),
+				json: LoadTestData("../../testdata/CVE-2023-41045.json"),
 			},
 			wantFindings: nil,
 		},
 		{
 			name: "A file without an introduced event",
 			args: args{
-				json: LoadTestData("../../test_data/nointroduced-CVE-2023-41045.json"),
+				json: LoadTestData("../../testdata/nointroduced-CVE-2023-41045.json"),
 			},
 			wantFindings: []CheckError{{Message: "missing 'introduced' object in event"}},
 		},
