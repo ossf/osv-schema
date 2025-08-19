@@ -28,14 +28,14 @@ func TestAffectedField(t *testing.T) {
 		{
 			name: "A file with an empty affected field",
 			args: args{
-				json: LoadTestData("../../testdata/SUSE-FU-2022:0444-1.json"),
+				json: LoadTestData("../../testdata/SUSE-FU-2022_0444-1.json"),
 			},
 			wantFindings: []CheckError{{Message: "Invalid Affected: affected field cannot be null or empty"}},
 		},
 		{
 			name: "A file without affected field",
 			args: args{
-				json: LoadTestData("../../testdata/RHSA-2022:0216.json"),
+				json: LoadTestData("../../testdata/RHSA-2022_0216.json"),
 			},
 			wantFindings: []CheckError{{Message: "Invalid Affected: affected field cannot be null or empty"}},
 		},
