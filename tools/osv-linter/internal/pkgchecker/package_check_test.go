@@ -4,6 +4,32 @@ import (
 	"testing"
 )
 
+func Test_existsInCran(t *testing.T) {
+	tests := []struct {
+		name string
+		pkg  string
+		want bool
+	}{
+		{
+			name: "existing package",
+			pkg:  "igraph",
+			want: true,
+		},
+		{
+			name: "non-existing package",
+			pkg:  "non-existing-package",
+			want: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := existsInCran(tt.pkg); got != tt.want {
+				t.Errorf("existsInCran() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func Test_existsInCrates(t *testing.T) {
 	tests := []struct {
 		name string
