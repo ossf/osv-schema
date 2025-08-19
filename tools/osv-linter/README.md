@@ -36,10 +36,10 @@ OPTIONS:
 ```
 
 ```text
-$ go run ./cmd/osv record lint test_data
-test_data/nointroduced-CVE-2023-41045.json:
+$ go run ./cmd/osv record lint testdata
+testdata/nointroduced-CVE-2023-41045.json:
          * [RNG:001]: missing 'introduced' object in event
-test_data/nondistinct-CVE-2018-5407.json:
+testdata/nondistinct-CVE-2018-5407.json:
          * [RNG:002]: overlapping event: "e818b74be2170fbe957a07b0da4401c2b694b3b8"
 2024/10/22 00:04:23 found errors
 exit status 1
