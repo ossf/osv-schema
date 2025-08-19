@@ -264,6 +264,18 @@ func versionsExistInPackagist(pkg string, versions []string) error {
 	)
 }
 
+// Confirm that all specified versions of a package exist in Pub.
+func versionsExistInPub(pkg string, versions []string) error {
+	packageInstanceURL := fmt.Sprintf("%s/%s", EcosystemBaseURLs["Pub"], pkg)
+
+	return versionsExistInGeneric(
+		pkg, versions,
+		"Pub",
+		packageInstanceURL,
+		"versions.#.version",
+	)
+}
+
 // Confirm that all specified versions of a package exist in PyPI.
 func versionsExistInPyPI(pkg string, versions []string) error {
 	// https://packaging.python.org/en/latest/specifications/name-normalization/
