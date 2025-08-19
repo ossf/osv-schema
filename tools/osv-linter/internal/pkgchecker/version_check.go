@@ -89,6 +89,18 @@ func versionsExistInGeneric(
 	return nil
 }
 
+// Confirm that all specified versions of a package exist in CRAN.
+func versionsExistInCran(pkg string, versions []string) error {
+	packageInstanceURL := fmt.Sprintf("%s/%s/all", EcosystemBaseURLs["CRAN"], pkg)
+
+	return versionsExistInGeneric(
+		pkg, versions,
+		"CRAN",
+		packageInstanceURL,
+		"versions.@keys",
+	)
+}
+
 // Confirm that all specified versions of a package exist in crates.io.
 func versionsExistInCrates(pkg string, versions []string) error {
 	packageInstanceURL := fmt.Sprintf("%s/%s", EcosystemBaseURLs["crates.io"], pkg)
