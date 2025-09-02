@@ -246,6 +246,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>DEBIAN</code></td>
+      <td><a href="https://security-tracker.debian.org/tracker/">Debian Security Tracker (provided by OSV.dev)</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>https://security-tracker.debian.org/tracker/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>DSA</code>/<code>DLA</code>/<code>DTSA</code></td>
       <td><a href="https://www.debian.org/security/">Debian Security Advisory Database (provided by OSV.dev)</a></td>
       <td>
