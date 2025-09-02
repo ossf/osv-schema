@@ -4,7 +4,7 @@ go 1.24.4
 
 require (
 	github.com/google/go-cmp v0.7.0
-	github.com/google/osv-scalibr v0.3.2-0.20250819020439-57339a98e548
+	github.com/google/osv-scalibr v0.3.3-0.20250826230339-30c71f65b5d6
 	github.com/package-url/packageurl-go v0.1.3
 	github.com/sethvargo/go-retry v0.2.4
 	github.com/tidwall/gjson v1.18.0
