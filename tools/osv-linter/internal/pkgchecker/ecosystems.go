@@ -54,6 +54,8 @@ func ExistsInEcosystem(pkg string, ecosystem string) bool {
 		return existsInCrates(pkg)
 	case "Debian":
 		return true
+	case "Echo":
+		return true
 	case "GIT":
 		return true
 	case "GitHub Actions":
@@ -147,6 +149,8 @@ func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string) e
 	case "crates.io":
 		return versionsExistInCrates(pkg, versions)
 	case "Debian":
+		return nil
+	case "Echo":
 		return nil
 	case "GIT":
 		return nil
