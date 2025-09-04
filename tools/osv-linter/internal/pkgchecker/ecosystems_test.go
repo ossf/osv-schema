@@ -166,6 +166,70 @@ func Test_versionsExistInGo(t *testing.T) {
 	}
 }
 
+func Test_versionsExistInHackage(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		pkg      string
+		versions []string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "multiple_versions_which_all_exist",
+			args: args{
+				pkg:      "aeson",
+				versions: []string{"0.1.0.0", "1.4.7.1", "2.2.2.0"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "multiple_versions_with_one_that_does_not_exist",
+			args: args{
+				pkg:      "aeson",
+				versions: []string{"1.1", "2.0.0-beta1", "3.1.5", "2.2.2.2"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "an_invalid_version",
+			args: args{
+				pkg:      "aeson",
+				versions: []string{"!"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "an_invalid_package",
+			args: args{
+				pkg:      "!",
+				versions: []string{"1.0.0"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "a_package_that_does_not_exit",
+			args: args{
+				pkg:      "not-a-real-package-hopefully",
+				versions: []string{"1.0.0"},
+			},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			if err := versionsExistInHackage(tt.args.pkg, tt.args.versions); (err != nil) != tt.wantErr {
+				t.Errorf("versionsExistInHackage() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
 func Test_versionsExistInHex(t *testing.T) {
 	t.Parallel()
 
