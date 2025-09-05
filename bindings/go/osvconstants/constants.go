@@ -35,6 +35,7 @@ const (
 	EcosystemCratesIO                   Ecosystem = "crates.io"
 	EcosystemDebian                     Ecosystem = "Debian"
 	EcosystemEcho                       Ecosystem = "Echo"
+	EcosystemFreeBSD                    Ecosystem = "FreeBSD"
 	EcosystemGHC                        Ecosystem = "GHC"
 	EcosystemGitHubActions              Ecosystem = "GitHub Actions"
 	EcosystemGo                         Ecosystem = "Go"

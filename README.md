@@ -44,6 +44,7 @@ Together, these include vulnerabilities from:
 -   Debian GNU/Linux
 -   Echo
 -   Erlang Ecosystem Foundation
+-   FreeBSD
 -   GitHub Actions
 -   Go
 -   Haskell
