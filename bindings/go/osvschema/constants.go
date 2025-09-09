@@ -31,6 +31,7 @@ const (
 	EcosystemCRAN                       Ecosystem = "CRAN"
 	EcosystemChainguard                 Ecosystem = "Chainguard"
 	EcosystemConanCenter                Ecosystem = "ConanCenter"
+	EcosystemCratesIO                   Ecosystem = "crates.io"
 	EcosystemDebian                     Ecosystem = "Debian"
 	EcosystemEcho                       Ecosystem = "Echo"
 	EcosystemGHC                        Ecosystem = "GHC"
@@ -43,8 +44,11 @@ const (
 	EcosystemMageia                     Ecosystem = "Mageia"
 	EcosystemMaven                      Ecosystem = "Maven"
 	EcosystemMinimOS                    Ecosystem = "MinimOS"
+	EcosystemNPM                        Ecosystem = "npm"
 	EcosystemNuGet                      Ecosystem = "NuGet"
 	EcosystemOSSFuzz                    Ecosystem = "OSS-Fuzz"
+	EcosystemOpenEuler                  Ecosystem = "openEuler"
+	EcosystemOpenSUSE                   Ecosystem = "openSUSE"
 	EcosystemPackagist                  Ecosystem = "Packagist"
 	EcosystemPhotonOS                   Ecosystem = "Photon OS"
 	EcosystemPub                        Ecosystem = "Pub"
@@ -56,10 +60,6 @@ const (
 	EcosystemSwiftURL                   Ecosystem = "SwiftURL"
 	EcosystemUbuntu                     Ecosystem = "Ubuntu"
 	EcosystemWolfi                      Ecosystem = "Wolfi"
-	EcosystemCratesIO                   Ecosystem = "crates.io"
-	EcosystemNPM                        Ecosystem = "npm"
-	EcosystemOpenEuler                  Ecosystem = "openEuler"
-	EcosystemOpenSUSE                   Ecosystem = "openSUSE"
 )
 
 type RangeType string

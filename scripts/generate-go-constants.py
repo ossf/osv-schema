@@ -71,6 +71,9 @@ def generate_go_enum(type_name: str, enum_values: list[str]) -> str:
         go_name = prefix + convert_enum_value_to_go_name(type_name, value)
         constants.append((go_name, value))
 
+    # Sort by the generated Go constant name.
+    constants.sort(key=lambda x: x[0])
+
     if not constants:
         lines.append(')')
         return '\n'.join(lines)
