@@ -181,7 +181,7 @@ The defined database prefixes and their "home" databases are:
     </tr>
     <tr>
       <td><code>ALPINE</code></td>
-      <td><a href="https://secdb.alpinelinux.org/">Alpine</a></td>
+      <td><a href="https://secdb.alpinelinux.org/">Alpine (provided by OSV.dev)</a></td>
       <td>
         <ul>
           <li>How to contribute: TBD</li>
