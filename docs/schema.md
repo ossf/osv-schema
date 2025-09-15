@@ -180,6 +180,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>ALPINE</code></td>
+      <td><a href="https://secdb.alpinelinux.org/">Alpine</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>https://security.alpinelinux.org/vuln/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/ALPINE-&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>BELL</code></td>
       <td><a href="https://docs.bell-sw.com/security/search/">BellSoft Security Advisory</a></td>
       <td>
