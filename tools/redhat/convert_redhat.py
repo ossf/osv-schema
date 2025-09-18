@@ -3,12 +3,9 @@
     i.e. https://access.redhat.com/security/data/csaf/v2/advisories/2024/rhsa-2024_4546.json
 """
 import argparse
-import json
 import sys
 from datetime import datetime
 
-import requests
-from jsonschema import validate
 from redhat_osv.osv import DATE_FORMAT, RedHatConverter
 
 
