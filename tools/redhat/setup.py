@@ -4,7 +4,7 @@
 
 from setuptools import setup
 
-REQUIRES = ["jsonschema", "requests"]
+REQUIRES = ["jsonschema", "requests", "packageurl-python"]
 
 setup(
     name="redhat_osv",

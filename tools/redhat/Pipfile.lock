@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "ea18b159b5893bfad0bc4681c87473c2a0d7f761c5ea693cb99ece3eda726246"
+            "sha256": "1fce77b997f349b6ef490cc02058c7e04889231782247ec7be92e04c113bdc21"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -150,6 +150,15 @@
             "markers": "python_version >= '3.8'",
             "version": "==2023.12.1"
         },
+        "packageurl-python": {
+            "hashes": [
+                "sha256:a7be3f3ba70d705f738ace9bf6124f31920245a49fa69d4b416da7037dd2de61",
+                "sha256:f0e55452ab37b5c192c443de1458e3f3b4d8ac27f747df6e8c48adeab081d321"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.8'",
+            "version": "==0.17.5"
+        },
         "redhat-osv": {
             "editable": true,
             "path": "."
@@ -284,8 +293,8 @@
                 "sha256:ca899ca043dcb1bafa3e262d73aa25c465bfb49e0bd9dd5d59f1d0acba2f8fac",
                 "sha256:e7d814a81dad81e6caf2ec9fdedb284ecc9c73076b62654547cc64ccdcae26e9"
             ],
-            "markers": "python_version >= '3.8'",
-            "version": "==2.2.3"
+            "markers": "python_version >= '3.9'",
+            "version": "==2.5.0"
         }
     },
     "develop": {
