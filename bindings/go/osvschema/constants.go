@@ -89,8 +89,8 @@ const (
 type SeverityType string
 
 const (
-	SeverityCvssV2 SeverityType = "CVSS_V2"
-	SeverityCvssV3 SeverityType = "CVSS_V3"
-	SeverityCvssV4 SeverityType = "CVSS_V4"
+	SeverityCVSSV2 SeverityType = "CVSS_V2"
+	SeverityCVSSV3 SeverityType = "CVSS_V3"
+	SeverityCVSSV4 SeverityType = "CVSS_V4"
 	SeverityUbuntu SeverityType = "Ubuntu"
 )

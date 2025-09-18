@@ -29,7 +29,7 @@ def to_pascal_case(s: str) -> str:
 def convert_enum_value_to_go_name(type_name: str, value: str) -> str:
     """
     Converts an enum value string (e.g., "CVSS_V2") into its Go constant
-    name suffix (e.g., "CvssV2").
+    name suffix (e.g., "CVSSV2").
     """
     if type_name == 'Ecosystem':
         # Handle special cases for ecosystems that don't fit the standard
@@ -43,8 +43,13 @@ def convert_enum_value_to_go_name(type_name: str, value: str) -> str:
         name = name.replace('-', '').replace(' ', '')
         return name
 
+    if type_name == 'SeverityType':
+        if value.startswith('CVSS'):
+            return value.replace('_', '')
+        # Fallback for other severity types like "Ubuntu".
+        return to_pascal_case(value)
+
     # For all other enum types, convert the value to PascalCase.
-    # e.g., "CVSS_V2" -> "CvssV2"
     # e.g., "REMEDIATION_DEVELOPER" -> "RemediationDeveloper"
     return to_pascal_case(value)
 
