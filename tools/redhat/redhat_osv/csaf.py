@@ -3,8 +3,10 @@ import json
 from dataclasses import dataclass, InitVar, field
 from typing import Any, Iterable
 
+
 class RemediationParseError(ValueError):
-    pass
+    """Exception raised when parsing remediation data fails."""
+
 
 @dataclass
 class Remediation:
@@ -32,7 +34,50 @@ class Remediation:
 
         # NEVRA stands for Name Epoch Version Release and Architecture
         # We split the name from the rest of the 'version' data (EVRA). We store name as component.
-        split_component_version = self.product_version.rsplit("-", maxsplit=2)
+
+        # Handle modular RPMs that have module information at the end
+        # (e.g., -virt:rhel, -python39:3.9)
+        # Format: NAME-EPOCH:VERSION-RELEASE.ARCH.rpm-MODULE:STREAM
+        working_version = self.product_version
+
+        # Check if this looks like it has module info at the end
+        # Module info pattern: ends with "-module:stream" where module:stream contains a colon
+        # Module names can contain hyphens (e.g., virt-devel:rhel), so we need to be more careful
+        if "-" in working_version and ":" in working_version:
+            # Look for the pattern where module info comes after .rpm or architecture
+            # Find positions of key markers
+            rpm_pos = working_version.find(".rpm")
+            arch_suffixes = [
+                ".src", ".noarch", ".x86_64", ".aarch64", ".ppc64le", ".s390x"
+            ]
+            arch_pos = -1
+            for suffix in arch_suffixes:
+                pos = working_version.find(suffix)
+                arch_pos = max(arch_pos, pos)
+
+            # Find the start of the module suffix (after .rpm or architecture)
+            module_start = -1
+            if rpm_pos >= 0:
+                # Look for dash after .rpm
+                dash_after_rpm = working_version.find("-", rpm_pos + 4)
+                if dash_after_rpm >= 0:
+                    module_start = dash_after_rpm
+            elif arch_pos >= 0:
+                # Look for dash after architecture
+                dash_after_arch = working_version.find("-", arch_pos)
+                if dash_after_arch >= 0:
+                    module_start = dash_after_arch
+
+            # If we found a potential module start and it contains a colon, remove it
+            if module_start >= 0 and ":" in working_version[module_start:]:
+                working_version = working_version[:module_start]
+
+        # Also remove .rpm suffix and architecture if present
+        # This handles cases like "package-1.2.3-4.el8.x86_64.rpm"
+        if working_version.endswith(".rpm"):
+            working_version = working_version[:-4]  # Remove ".rpm"
+
+        split_component_version = working_version.rsplit("-", maxsplit=2)
         if len(split_component_version) < 3:
             raise RemediationParseError(
                 f"Could not convert component into NEVRA: {self.product_version}"
@@ -41,15 +86,44 @@ class Remediation:
         # product ID, discard the module part of the name and look for that in the purl dict.
         # Ideally we would keep the module information and use it when scanning a RHEL system,
         # however this is not done today by Clair:  https://github.com/quay/claircore/pull/901/files
-        if split_component_version[0].count(":") == 4:
+        if split_component_version[0].count(":") >= 4:
+            # For modular RPMs like "python39:3.9:8060020240801142753:6a631399:PyYAML"
+            # Extract just the package name (last part after colons)
             self.component = split_component_version[0].rsplit(":")[-1]
         else:
             self.component = split_component_version[0]
         self.fixed_version = "-".join(
             (split_component_version[1], split_component_version[2]))
 
+        # Remove architecture suffixes from fixed_version
+        # Common architectures: .src, .noarch, .x86_64, .aarch64, .ppc64le, .s390x
+        arch_suffixes = [
+            '.src', '.noarch', '.x86_64', '.aarch64', '.ppc64le', '.s390x'
+        ]
+        for suffix in arch_suffixes:
+            if self.fixed_version.endswith(suffix):
+                self.fixed_version = self.fixed_version[:-len(suffix)]
+                break
+
+        # Add implicit epoch if not present
+        # RPM convention: if no epoch is specified, it defaults to 0:
+        if ':' not in self.fixed_version:
+            self.fixed_version = f"0:{self.fixed_version}"
+
         try:
-            nevra = f"{self.component}-{self.fixed_version}"
+            # For PURL lookup, we need to construct the correct NEVRA format
+            # For modular RPMs, the PURL key format doesn't include the module prefix
+            # but it DOES include the architecture suffix
+            if split_component_version[0].count(":") >= 4:
+                # For modular RPMs, reconstruct the original fixed_version
+                # with architecture for lookup
+                original_fixed_version = "-".join(
+                    (split_component_version[1], split_component_version[2]))
+                nevra = f"{self.component}-{original_fixed_version}"
+            else:
+                # For regular packages, use the original product_version format
+                nevra = self.product_version
+
             self.purl = purls[nevra]
             self.cpe = cpes[self.product]
         except KeyError:
@@ -163,9 +237,13 @@ class CSAF:
         }
 
         # Only support csaf_vex 2.0
-        if self.csaf != {"type": "csaf_security_advisory", "csaf_version": "2.0"}:
+        if self.csaf != {
+                "type": "csaf_security_advisory",
+                "csaf_version": "2.0"
+        }:
             raise ValueError(
-                f"Can only handle csaf_security_advisory 2.0 documents. Got: {self.csaf}")
+                f"Can only handle csaf_security_advisory 2.0 documents. Got: {self.csaf}"
+            )
 
         self.cpes, self.purls = build_product_maps(csaf_data["product_tree"])
 

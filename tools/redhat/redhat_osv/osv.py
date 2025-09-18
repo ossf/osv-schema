@@ -5,7 +5,7 @@ import json
 from typing import Literal
 import requests
 from jsonschema import validate
-from redhat_osv.csaf import Remediation, CSAF
+from redhat_osv.csaf import CSAF
 
 # Update this if verified against a later version
 SCHEMA_VERSION = "1.7.0"
@@ -104,7 +104,6 @@ class Package:
             self.purl = self.purl[:version_index]
 
 
-
 @dataclass
 class Affected:
     """
@@ -157,25 +156,27 @@ class OSV:
         self.affected: list[Affected] = []
 
         # Deduplicate arch specific remediations
-        unique_packages: dict[str: tuple[str: str]] = {}
+        unique_packages: dict[str:tuple[str:str]] = {}
 
         for vulnerability in csaf_data.vulnerabilities:
             self.upstream.append(vulnerability.cve_id)
             for remediation in vulnerability.remediations:
                 # Safety check for when we start processing non-rpm content
                 if not remediation.purl.startswith("pkg:rpm/"):
-                    package = Package(remediation.component, remediation.cpe, remediation.purl)
+                    package = Package(remediation.component, remediation.cpe,
+                                      remediation.purl)
                     ranges = [Range(remediation.fixed_version)]
                     self.affected.append(Affected(package, ranges))
                 else:
-                    # Each RPM version in RHEL has a trailing '.<arch>', remove those to avoid
-                    # problems comparing the same package from different archs
-                    version_arch_split = remediation.fixed_version.rsplit(".", 1)
+                    # Architecture suffixes are now removed in the Remediation class,
+                    # so we can use the fixed_version directly
                     # CPE's are URI percent encoded and '&' is a reserved character so it should
                     # never appear in a CPE without being percent encoded.
-                    unique_packages[remediation.cpe + "&" + remediation.component] = (
-                        version_arch_split[0], remediation.purl,
-                    )
+                    unique_packages[remediation.cpe + "&" +
+                                    remediation.component] = (
+                                        remediation.fixed_version,
+                                        remediation.purl,
+                                    )
 
         # Add all the RPM packages without arch suffixes
         for package_key, version_purl in unique_packages.items():

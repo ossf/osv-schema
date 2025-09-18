@@ -2,12 +2,9 @@
     i.e. https://access.redhat.com/security/data/csaf/v2/advisories/2024/rhsa-2024_4546.json
 """
 
-from setuptools import setup, find_packages
+from setuptools import setup
 
-REQUIRES = [
-    "jsonschema",
-    "requests"
-]
+REQUIRES = ["jsonschema", "requests"]
 
 setup(
     name="redhat_osv",
@@ -22,5 +19,6 @@ setup(
     ],
     packages=["redhat_osv"],
     entry_points={"console_scripts": ["convert_redhat=convert_redhat:main"]},
-    long_description="The purpose of this tool is to convert from Red Hat CSAF documents to OSV",
+    long_description=
+    "The purpose of this tool is to convert from Red Hat CSAF documents to OSV",
 )
