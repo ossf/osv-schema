@@ -6,6 +6,7 @@ import (
 
 // Ecosystem support is a work in progress.
 var SupportedEcosystems = []string{
+	"CRAN",
 	"crates.io",
 	"Go",
 	"Hackage",
