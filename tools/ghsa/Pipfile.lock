@@ -488,12 +488,12 @@
         },
         "osv": {
             "hashes": [
-                "sha256:010d36f485eea2b07fdfcf13731fbfe142274294852e84fb1d1fe8513fa9f006",
-                "sha256:d35e0247b2da5a4b376bd04aa7bcbd67b05130eb096e98fc735c490112fa37c0"
+                "sha256:0de0206e474d7a746d142f5f1e9eb4c70b591015d1da85e6d0affa9a20fccb15",
+                "sha256:8d8bc402614c25686c1b8e406765c2fda0fc2ba5d444fcc47d0216d8bcd00134"
             ],
             "index": "pypi",
-            "markers": "python_version >= '3.11' and python_version < '4.0'",
-            "version": "==0.1.0"
+            "markers": "python_version >= '3.13' and python_version < '4.0'",
+            "version": "==0.1.1"
         },
         "packageurl-python": {
             "hashes": [
