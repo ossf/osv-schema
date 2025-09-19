@@ -178,7 +178,7 @@ func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string) e
 	case "Packagist":
 		return versionsExistInPackagist(pkg, versions)
 	case "Pub":
-		return nil
+		return versionsExistInPub(pkg, versions)
 	case "PyPI":
 		return versionsExistInPyPI(pkg, versions)
 	case "Red Hat":

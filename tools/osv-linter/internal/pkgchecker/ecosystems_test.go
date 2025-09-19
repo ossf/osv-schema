@@ -486,6 +486,62 @@ func Test_versionsExistInPackagist(t *testing.T) {
 	}
 }
 
+func Test_versionsExistInPub(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		pkg      string
+		versions []string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "multiple_versions_which_all_exist",
+			args: args{
+				pkg:      "agent_dart",
+				versions: []string{"0.0.1", "0.1.14+1", "0.1.24", "1.0.0-dev.11"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "multiple_versions_with_one_that_does_not_exist",
+			args: args{
+				pkg:      "agent_dart",
+				versions: []string{"0.1.1", "0.1.15+4", "1.0.0-dev.17"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "an_invalid_version",
+			args: args{
+				pkg:      "agent_dart",
+				versions: []string{"!"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "a_package_that_does_not_exit",
+			args: args{
+				pkg:      "not-a-real-package",
+				versions: []string{"1.0.0"},
+			},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			if err := versionsExistInPub(tt.args.pkg, tt.args.versions); (err != nil) != tt.wantErr {
+				t.Errorf("versionsExistInPub() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
 func Test_versionsExistInPyPI(t *testing.T) {
 	t.Parallel()
 
