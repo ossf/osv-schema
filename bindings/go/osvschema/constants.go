@@ -67,7 +67,7 @@ type RangeType string
 const (
 	RangeEcosystem RangeType = "ECOSYSTEM"
 	RangeGit       RangeType = "GIT"
-	RangeSemver    RangeType = "SEMVER"
+	RangeSemVer    RangeType = "SEMVER"
 )
 
 type ReferenceType string
