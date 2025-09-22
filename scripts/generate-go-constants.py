@@ -49,6 +49,9 @@ def convert_enum_value_to_go_name(type_name: str, value: str) -> str:
         # Fallback for other severity types like "Ubuntu".
         return to_pascal_case(value)
 
+    if type_name == 'RangeType' and value == 'SEMVER':
+      return 'SemVer'
+
     # For all other enum types, convert the value to PascalCase.
     # e.g., "REMEDIATION_DEVELOPER" -> "RemediationDeveloper"
     return to_pascal_case(value)
