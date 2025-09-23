@@ -11,8 +11,8 @@ class TestRedHatConverter(unittest.TestCase):
     test_advisories = ["2024_4546", "2024_6220"]
 
     def test_convert_redhat(self):
+        """Test conversion of Red Hat CSAF files to OSV format."""
         for test_advisory in self.test_advisories:
-            """ Test a single demo CSAF file """
             modified_time = datetime.strptime("2024-09-02T14:30:00",
                                               "%Y-%m-%dT%H:%M:%S")
             csaf_file = f"testdata/CSAF/rhsa-{test_advisory}.json"

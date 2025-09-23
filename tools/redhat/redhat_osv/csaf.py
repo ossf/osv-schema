@@ -2,9 +2,52 @@
 import json
 from dataclasses import dataclass, InitVar, field
 from typing import Any, Iterable
+from packageurl import PackageURL
+
 
 class RemediationParseError(ValueError):
-    pass
+    """Exception raised when parsing remediation data fails."""
+
+
+def parse_purl_info(purl: str) -> tuple[str, str]:
+    """
+    Parse a PURL to extract component name and version.
+
+    Args:
+        purl: A PURL string like "pkg:rpm/redhat/package@version?arch=x86_64"
+
+    Returns:
+        tuple: (component_name, version) where version includes epoch if present
+        Uses epoch=0 as default if no epoch is specified
+
+    Raises:
+        ValueError: If the PURL format is invalid or not an RPM PURL
+    """
+    try:
+        parsed_purl = PackageURL.from_string(purl)
+    except Exception as e:
+        raise ValueError(f"Invalid PURL format: {purl}") from e
+
+    # Check that this is an RPM PURL
+    if parsed_purl.type != "rpm":
+        raise ValueError(f"Only RPM PURLs are supported, got: {purl}")
+
+    component = parsed_purl.name
+    version = parsed_purl.version
+
+    if not component:
+        raise ValueError(f"PURL missing component name: {purl}")
+    if not version:
+        raise ValueError(f"PURL missing version: {purl}")
+
+    # Check for epoch qualifier and include it in the version
+    epoch = parsed_purl.qualifiers.get('epoch', '0')
+    if ':' not in version:
+        # Add epoch prefix if not already present in version
+        version = f"{epoch}:{version}"
+
+    return component, version
+
 
 @dataclass
 class Remediation:
@@ -30,41 +73,49 @@ class Remediation:
         (self.product, self.product_version) = csaf_product_id.split(":",
                                                                      maxsplit=1)
 
-        # NEVRA stands for Name Epoch Version Release and Architecture
-        # We split the name from the rest of the 'version' data (EVRA). We store name as component.
-        split_component_version = self.product_version.rsplit("-", maxsplit=2)
-        if len(split_component_version) < 3:
-            raise RemediationParseError(
-                f"Could not convert component into NEVRA: {self.product_version}"
-            )
-        # RHEL Modules have 4 colons in the name part of the NEVRA. If we detect a modular RPM
-        # product ID, discard the module part of the name and look for that in the purl dict.
-        # Ideally we would keep the module information and use it when scanning a RHEL system,
-        # however this is not done today by Clair:  https://github.com/quay/claircore/pull/901/files
-        if split_component_version[0].count(":") == 4:
-            self.component = split_component_version[0].rsplit(":")[-1]
-        else:
-            self.component = split_component_version[0]
-        self.fixed_version = "-".join(
-            (split_component_version[1], split_component_version[2]))
+        # Find the PURL for this product_version
+        # The purls dict maps different formats depending on the package type
+        purl_key = None
 
+        # Try the full product_version first (works for regular packages and some modular RPMs)
+        if self.product_version in purls:
+            purl_key = self.product_version
+        else:
+            # For modular RPMs with module prefix, extract just the NEVRA part
+            # Pattern: module:stream:build:context:NEVRA
+            # The NEVRA part starts after the 4th colon
+            if self.product_version.count(":") >= 4:
+                nevra_candidate = self.product_version.split(':', maxsplit=4)[-1]
+                if nevra_candidate in purls:
+                    purl_key = nevra_candidate
+
+        if purl_key is None:
+            # This happens for module-only product IDs that don't represent specific packages
+            # These should be skipped as they don't have corresponding RPM packages
+            raise RemediationParseError(
+                f"No PURL found for product ID: {csaf_product_id}")
         try:
-            nevra = f"{self.component}-{self.fixed_version}"
-            self.purl = purls[nevra]
+            self.purl = purls[purl_key]
             self.cpe = cpes[self.product]
-        except KeyError:
+        except KeyError as e:
             # pylint: disable=raise-missing-from
-            # Raising this as a ValueError instead of as a KeyError allows us to wrap
-            # the entire call to init() in try/catch block with a single exception type
-            raise ValueError(
-                f"Did not find {csaf_product_id} in product branches")
+            raise RemediationParseError(
+                f"Did not find {csaf_product_id} in product branches: {e}")
 
         # There are many pkg:oci/ remediations in Red Hat data. However there are no strict
         # rules enforced on versioning Red Hat containers, therefore we cant compare container
         # versions to each other with 100% accuracy at this time.
         if not self.purl.startswith("pkg:rpm/"):
-            raise ValueError(
+            raise RemediationParseError(
                 "Non RPM remediations are not supported in OSV at this time")
+
+        # Extract component name and version from the PURL instead of parsing product_id
+        # This is much more reliable than heuristic parsing
+        try:
+            self.component, self.fixed_version = parse_purl_info(self.purl)
+        except ValueError as e:
+            raise RemediationParseError(
+                f"Failed to parse PURL {self.purl}: {e}") from e
 
 
 @dataclass
@@ -163,9 +214,13 @@ class CSAF:
         }
 
         # Only support csaf_vex 2.0
-        if self.csaf != {"type": "csaf_security_advisory", "csaf_version": "2.0"}:
+        if self.csaf != {
+                "type": "csaf_security_advisory",
+                "csaf_version": "2.0"
+        }:
             raise ValueError(
-                f"Can only handle csaf_security_advisory 2.0 documents. Got: {self.csaf}")
+                f"Can only handle csaf_security_advisory 2.0 documents. Got: {self.csaf}"
+            )
 
         self.cpes, self.purls = build_product_maps(csaf_data["product_tree"])
 

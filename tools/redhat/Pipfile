@@ -10,4 +10,7 @@ yapf = "*"
 redhat_osv = {path = "."}
 
 [packages]
-redhat_osv = {editable = true, path = "."}
+requests = "*"
+setuptools = "*"
+packageurl-python = "*"
+redhat-osv = {file = ".", editable = true}
