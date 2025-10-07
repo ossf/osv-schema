@@ -334,6 +334,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>JLSEC</code></td>
+      <td><a href="https://github.com/JuliaLang/SecurityAdvisories.jl">Julia Security Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/JuliaLang/SecurityAdvisories.jl/blob/main/CONTRIBUTING.md">https://github.com/JuliaLang/SecurityAdvisories.jl/blob/main/CONTRIBUTING.md</a></li>
+          <li>Source URL: <code>https://github.com/JuliaLang/SecurityAdvisories.jl/blob/main/advisories/published/&lt;YEAR&gt;/&lt;ID&gt;.toml</code></li>
+          <li>OSV Formatted URL: <code>https://github.com/JuliaLang/SecurityAdvisories.jl/blob/generated/osv/&lt;YEAR&gt;/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>KUBE</code></td>
       <td><a href="https://github.com/kubernetes-sigs/cve-feed-osv">Kubernetes Official CVE Feed</a></td>
       <td>
