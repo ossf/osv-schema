@@ -28,7 +28,7 @@ var EcosystemBaseURLs = map[string]string{
 	"Go":        "https://proxy.golang.org",
 	"Hackage":   "https://hackage.haskell.org/package",
 	"Hex":       "https://hex.pm/api/packages",
-	"Julia":     "https://juliahub.com/docs/General",
+	"Julia":     "http://juliaregistries.github.io/GeneralMetadata.jl/api",
 	"Maven":     "https://search.maven.org/solrsearch/select",
 	"npm":       "https://registry.npmjs.org",
 	"NuGet":     "https://api.nuget.org/v3-flatcontainer",

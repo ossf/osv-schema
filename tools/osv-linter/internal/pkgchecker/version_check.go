@@ -286,7 +286,7 @@ func versionsExistInJulia(pkg string, versions []string) error {
 	versionsInRepository := []string{}
 	releases := gjson.GetBytes(respJSON, "@this")
 	releases.ForEach(func(key, value gjson.Result) bool {
-		versionsInRepository = append(versionsInRepository, value.String())
+		versionsInRepository = append(versionsInRepository, key.String())
 		return true // keep iterating.
 	})
 	// Determine which referenced versions are missing.
