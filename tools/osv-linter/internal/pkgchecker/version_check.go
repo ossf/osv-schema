@@ -268,52 +268,12 @@ func versionsExistInNuGet(pkg string, versions []string) error {
 func versionsExistInJulia(pkg string, versions []string) error {
 	packageInstanceURL := fmt.Sprintf("%s/%s/versions.json", EcosystemBaseURLs["Julia"], pkg)
 
-	resp, err := faulttolerant.Get(packageInstanceURL)
-	if err != nil {
-		return fmt.Errorf("unable to validate package: %v", err)
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("unable to validate package: %q for %s", resp.Status, packageInstanceURL)
-	}
-
-	// Parse the known versions from the JSON.
-	respJSON, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return fmt.Errorf("unable to retrieve JSON for %q: %v", pkg, err)
-	}
-	// Fetch all known versions of package.
-	versionsInRepository := []string{}
-	releases := gjson.GetBytes(respJSON, "@this")
-	releases.ForEach(func(key, value gjson.Result) bool {
-		versionsInRepository = append(versionsInRepository, key.String())
-		return true // keep iterating.
-	})
-	// Determine which referenced versions are missing.
-	versionsMissing := []string{}
-	for _, versionToCheckFor := range versions {
-		versionFound := false
-		vc, err := semantic.Parse(versionToCheckFor, "Julia")
-		if err != nil {
-			versionsMissing = append(versionsMissing, versionToCheckFor)
-			continue
-		}
-		for _, pkgversion := range versionsInRepository {
-			if r, err := vc.CompareStr(pkgversion); r == 0 && err == nil {
-				versionFound = true
-				break
-			}
-		}
-		if versionFound {
-			continue
-		}
-		versionsMissing = append(versionsMissing, versionToCheckFor)
-	}
-	if len(versionsMissing) > 0 {
-		return &MissingVersionsError{Package: pkg, Ecosystem: "Julia", Missing: versionsMissing, Known: versionsInRepository}
-	}
-
-	return nil
+	return versionsExistInGeneric(
+		pkg, versions,
+		"Julia",
+		packageInstanceURL,
+		"@keys",
+	)
 }
 
 // Confirm that all specified versions of a package exist in Packagist.
