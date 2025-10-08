@@ -293,7 +293,7 @@ func versionsExistInJulia(pkg string, versions []string) error {
 	versionsMissing := []string{}
 	for _, versionToCheckFor := range versions {
 		versionFound := false
-		vc, err := semantic.Parse(versionToCheckFor, "Go") // TODO: Add Julia support in semantic.
+		vc, err := semantic.Parse(versionToCheckFor, "Julia")
 		if err != nil {
 			versionsMissing = append(versionsMissing, versionToCheckFor)
 			continue
