@@ -17,6 +17,16 @@ concurrency:
 permissions: {}
 
 jobs:
+  filenames:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - run: |
+          find . -mindepth 1 ! -regex '.*/[#@A-Za-z0-9._-]*' \
+            | xargs -I '{}' bash -c \
+              "echo '{}' && echo '::error file={}::This filename contains undesired characters' && false"
   tests_osv-go:
     permissions:
       contents: read # to fetch code (actions/checkout)
