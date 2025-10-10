@@ -334,6 +334,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>JLSEC</code></td>
+      <td><a href="https://github.com/JuliaLang/SecurityAdvisories.jl">Julia Security Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/JuliaLang/SecurityAdvisories.jl/blob/main/CONTRIBUTING.md">https://github.com/JuliaLang/SecurityAdvisories.jl/blob/main/CONTRIBUTING.md</a></li>
+          <li>Source URL: <code>https://github.com/JuliaLang/SecurityAdvisories.jl/blob/main/advisories/published/&lt;YEAR&gt;/&lt;ID&gt;.toml</code></li>
+          <li>OSV Formatted URL: <code>https://github.com/JuliaLang/SecurityAdvisories.jl/blob/generated/osv/&lt;YEAR&gt;/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>KUBE</code></td>
       <td><a href="https://github.com/kubernetes-sigs/cve-feed-osv">Kubernetes Official CVE Feed</a></td>
       <td>
@@ -828,6 +839,7 @@ The defined ecosystems are:
 | `Go` | The Go ecosystem; the `name` field is a Go module path. |
 | `Hackage` | The Haskell package ecosystem. The `name` field is a Haskell package name as published on Hackage. |
 | `Hex` | The package manager for the Erlang ecosystem; the `name` is a Hex package name. |
+| `Julia` | The Julia Programming Language ecosystem; the `name` is a registered package in the General registry. |
 | `Kubernetes` | The Kubernetes ecosystem; `name` is the Go module name associated with the relevant Kubernetes component (e.g. `k8s.io/apiserver`) |
 | `Linux` | The Linux kernel. The only supported `name` is `Kernel`. |
 | `Mageia` | The Mageia Linux package ecosystem; the `name` is the name of the source package. The ecosystem string must have a `:<RELEASE-NUMBER>` suffix to scope the package to a particular Mageia release. Eg `Mageia:9`. |
