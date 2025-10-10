@@ -125,7 +125,7 @@ def update_go_constants():
   Updates the Go constants with the list of ecosystems
   :return:
   """
-  go = open('bindings/go/osvschema/constants.go').read()
+  go = open('bindings/go/osvconstants/constants.go').read()
 
   ecosystem_constants_start = go.index('type Ecosystem string\n\nconst (\n')
   ecosystems_constants_end = go.index(')', ecosystem_constants_start)
@@ -137,7 +137,7 @@ def update_go_constants():
     go[ecosystems_constants_end + 2:]
   )
 
-  open('bindings/go/osvschema/constants.go', 'w').write(go)
+  open('bindings/go/osvconstants/constants.go', 'w').write(go)
 
 
 update_go_constants()
