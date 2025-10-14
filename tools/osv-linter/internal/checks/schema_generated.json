@@ -347,6 +347,7 @@
         "Go",
         "Hackage",
         "Hex",
+        "Julia",
         "Kubernetes",
         "Linux",
         "Mageia",
@@ -378,13 +379,13 @@
       "type": "string",
       "title": "Currently supported ecosystems",
       "description": "These ecosystems are also documented at https://ossf.github.io/osv-schema/#affectedpackage-field",
-      "pattern": "^(AlmaLinux|Alpaquita|Alpine|Android|BellSoft Hardened Containers|Bioconductor|Bitnami|Chainguard|ConanCenter|CRAN|crates\\.io|Debian|Echo|GHC|GitHub Actions|Go|Hackage|Hex|Kubernetes|Linux|Mageia|Maven|MinimOS|npm|NuGet|openEuler|openSUSE|OSS-Fuzz|Packagist|Photon OS|Pub|PyPI|Red Hat|Rocky Linux|RubyGems|SUSE|SwiftURL|Ubuntu|Wolfi|GIT)(:.+)?$"
+      "pattern": "^(AlmaLinux|Alpaquita|Alpine|Android|BellSoft Hardened Containers|Bioconductor|Bitnami|Chainguard|ConanCenter|CRAN|crates\\.io|Debian|Echo|GHC|GitHub Actions|Go|Hackage|Hex|Julia|Kubernetes|Linux|Mageia|Maven|MinimOS|npm|NuGet|openEuler|openSUSE|OSS-Fuzz|Packagist|Photon OS|Pub|PyPI|Red Hat|Rocky Linux|RubyGems|SUSE|SwiftURL|Ubuntu|Wolfi|GIT)(:.+)?$"
     },
     "prefix": {
       "type": "string",
       "title": "Currently supported home database identifier prefixes",
       "description": "These home databases are also documented at https://ossf.github.io/osv-schema/#id-modified-fields",
-      "pattern": "^(ASB-A|PUB-A|ALPINE|ALSA|ALBA|ALEA|BELL|BIT|CGA|CURL|CVE|DEBIAN|DSA|DLA|ELA|DTSA|ECHO|GHSA|GO|GSD|HSEC|KUBE|LBSEC|LSN|MAL|MINI|MGASA|OESA|OSV|openSUSE-SU|PHSA|PSF|PYSEC|RHBA|RHEA|RHSA|RLSA|RXSA|RSEC|RUSTSEC|SUSE-[SRFO]U|UBUNTU|USN|V8)-"
+      "pattern": "^(ASB-A|PUB-A|ALPINE|ALSA|ALBA|ALEA|BELL|BIT|CGA|CURL|CVE|DEBIAN|DSA|DLA|ELA|DTSA|ECHO|GHSA|GO|GSD|HSEC|JLSEC|KUBE|LBSEC|LSN|MAL|MINI|MGASA|OESA|OSV|openSUSE-SU|PHSA|PSF|PYSEC|RHBA|RHEA|RHSA|RLSA|RXSA|RSEC|RUSTSEC|SUSE-[SRFO]U|UBUNTU|USN|V8)-"
     },
     "severity": {
       "type": [

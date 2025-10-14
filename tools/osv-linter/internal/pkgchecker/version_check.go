@@ -264,6 +264,18 @@ func versionsExistInNuGet(pkg string, versions []string) error {
 	)
 }
 
+// Confirm that all specified versions of a package exist in Julia.
+func versionsExistInJulia(pkg string, versions []string) error {
+	packageInstanceURL := fmt.Sprintf("%s/%s/versions.json", EcosystemBaseURLs["Julia"], pkg)
+
+	return versionsExistInGeneric(
+		pkg, versions,
+		"Julia",
+		packageInstanceURL,
+		"@keys",
+	)
+}
+
 // Confirm that all specified versions of a package exist in Packagist.
 func versionsExistInPackagist(pkg string, versions []string) error {
 	packageInstanceURL := fmt.Sprintf("%s/%s.json", EcosystemBaseURLs["Packagist"], pkg)
