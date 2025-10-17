@@ -368,6 +368,7 @@
         "SUSE",
         "SwiftURL",
         "Ubuntu",
+        "VSCode",
         "Wolfi"
       ]
     },
@@ -379,7 +380,7 @@
       "type": "string",
       "title": "Currently supported ecosystems",
       "description": "These ecosystems are also documented at https://ossf.github.io/osv-schema/#affectedpackage-field",
-      "pattern": "^(AlmaLinux|Alpaquita|Alpine|Android|BellSoft Hardened Containers|Bioconductor|Bitnami|Chainguard|ConanCenter|CRAN|crates\\.io|Debian|Echo|GHC|GitHub Actions|Go|Hackage|Hex|Julia|Kubernetes|Linux|Mageia|Maven|MinimOS|npm|NuGet|openEuler|openSUSE|OSS-Fuzz|Packagist|Photon OS|Pub|PyPI|Red Hat|Rocky Linux|RubyGems|SUSE|SwiftURL|Ubuntu|Wolfi|GIT)(:.+)?$"
+      "pattern": "^(AlmaLinux|Alpaquita|Alpine|Android|BellSoft Hardened Containers|Bioconductor|Bitnami|Chainguard|ConanCenter|CRAN|crates\\.io|Debian|Echo|GHC|GitHub Actions|Go|Hackage|Hex|Julia|Kubernetes|Linux|Mageia|Maven|MinimOS|npm|NuGet|openEuler|openSUSE|OSS-Fuzz|Packagist|Photon OS|Pub|PyPI|Red Hat|Rocky Linux|RubyGems|SUSE|SwiftURL|Ubuntu|VSCode|Wolfi|GIT)(:.+)?$"
     },
     "prefix": {
       "type": "string",
