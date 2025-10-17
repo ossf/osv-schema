@@ -60,6 +60,7 @@ const (
 	EcosystemSUSE                       Ecosystem = "SUSE"
 	EcosystemSwiftURL                   Ecosystem = "SwiftURL"
 	EcosystemUbuntu                     Ecosystem = "Ubuntu"
+	EcosystemVSCode                     Ecosystem = "VSCode"
 	EcosystemWolfi                      Ecosystem = "Wolfi"
 )
 
