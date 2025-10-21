@@ -13,5 +13,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-protoc --proto_path=../proto --go_out=paths=source_relative:go/osvschema --python_out=python --mypy_out=python vulnerability.proto
+protoc --proto_path=../proto --go_out=paths=source_relative:go/osvschema vulnerability.proto
 python3 ../scripts/generate-go-constants.py
