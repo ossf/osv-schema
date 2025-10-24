@@ -279,6 +279,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>EEF</code></td>
+      <td><a href="https://cna.erlef.org/osv/all.json">Erlang Ecosystem Foundation CNA Vulnerabilities</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://cna.erlef.org/contact">https://cna.erlef.org/contact</a></li>
+          <li>Source URL: <code>https://github.com/erlef-cna/website/tree/main/_data/osv</code></li>
+          <li>OSV Formatted URL: <code>https://cna.erlef.org/osv/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>ELA</code></td>
       <td><a href="https://www.freexian.com/lts/extended/">Debian Extended LTS Security Advisories (provided by Freexian)</a></td>
       <td>
