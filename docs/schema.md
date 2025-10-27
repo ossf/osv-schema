@@ -963,7 +963,10 @@ These `events` objects represent a "timeline" of status changes for the affected
 package.
 
 The values of `introduced`, `fixed`, `last_affected` and `limit` are version strings
-as defined by the `affected[].ranges[].type` field.
+as defined by the `affected[].ranges[].type` field. Note that these version
+strings are not guaranteed to exactly match versions of the package found in the
+upstream package repository. For example, they may be normalized, or have build
+metadata stripped.
 
 #### Special values
 
