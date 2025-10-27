@@ -41,6 +41,7 @@ Together, these include vulnerabilities from:
 -   crates.io
 -   Debian GNU/Linux
 -   Echo
+-   Erlang Ecosystem Foundation
 -   GitHub Actions
 -   Go
 -   Haskell
