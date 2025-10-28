@@ -843,7 +843,7 @@ The defined ecosystems are:
 | `ConanCenter` | The ConanCenter ecosystem for C and C++; the `name` field is a Conan package name. |
 | `CRAN` | The R package ecosystem. The `name` is an R package name. |
 | `crates.io` | The crates.io ecosystem for Rust; the `name` field is a crate name. |
-| `Debian` | The Debian package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Debian release. `<RELEASE>` is a numeric version specified in the [Debian distro-info-data](https://debian.pages.debian.net/distro-info-data/debian.csv). For example, the ecosystem string "Debian:7" refers to the Debian 7 (wheezy) release. |
+| `Debian` | The Debian package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Debian release. `<RELEASE>` is a numeric version specified in the [Debian distro-info-data](https://debian.pages.debian.net/distro-info-data/debian.csv). For example, the ecosystem string "Debian:7" refers to the Debian 7 (wheezy) release. For `sid` and `experimental`, use the full string, e.g. "Debian:sid". |
 | `Echo` | The Echo package ecosystem; the `name` is the name of the source package. |
 | `GHC` | The Haskell compiler ecosystem. The `name` field is the name of a component of the GHC compiler ecosystem (e.g., compiler, GHCI, RTS). |
 | `GitHub Actions` | The GitHub Actions ecosystem; the `name` field is the action's repository name with owner e.g. `{owner}/{repo}`. |
