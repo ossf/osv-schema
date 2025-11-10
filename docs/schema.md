@@ -229,7 +229,7 @@ The defined database prefixes and their "home" databases are:
       <td>
         <ul>
           <li>How to contribute: TBD</li>
-          <li>Source URL: <code></code>https://github.com/cleanstart-dev/cleanstart-security-advisories</li>
+          <li>Source URL: <code>https://github.com/cleanstart-dev/cleanstart-security-advisories</code></li>
           <li>OSV Formatted URL: <code>TBD</code></li>
         </ul>
       </td>
