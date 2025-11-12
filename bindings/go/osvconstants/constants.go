@@ -29,6 +29,7 @@ const (
 	EcosystemBioconductor               Ecosystem = "Bioconductor"
 	EcosystemBitnami                    Ecosystem = "Bitnami"
 	EcosystemChainguard                 Ecosystem = "Chainguard"
+	EcosystemCleanStart                 Ecosystem = "CleanStart"
 	EcosystemConanCenter                Ecosystem = "ConanCenter"
 	EcosystemCRAN                       Ecosystem = "CRAN"
 	EcosystemCratesIO                   Ecosystem = "crates.io"

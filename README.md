@@ -7,6 +7,7 @@ This format is currently exported by:
 - [BellSoft Security Advisory](https://github.com/bell-sw/osv-database)
 - [Bitnami Vulnerability Database](https://github.com/bitnami/vulndb)
 - [Chainguard](https://packages.cgr.dev/chainguard/osv/all.json)
+- [CleanStart](https://github.com/cleanstart-dev/cleanstart-security-advisories)
 - [Curl](https://curl.se/docs/vuln.json)
 - [Echo](https://advisory.echohq.com/osv/all.json)
 - [GitHub Security Advisories](https://github.com/github/advisory-database)
@@ -38,6 +39,7 @@ Together, these include vulnerabilities from:
 -   BellSoft Hardened Containers
 -   Bitnami
 -   Chainguard
+-   CleanStart
 -   crates.io
 -   Debian GNU/Linux
 -   Echo
