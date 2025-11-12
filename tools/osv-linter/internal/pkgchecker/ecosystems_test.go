@@ -550,6 +550,96 @@ func Test_versionsExistInPackagist(t *testing.T) {
 	}
 }
 
+func Test_versionsExistInPackagist_Drupal(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		pkg      string
+		versions []string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "multiple_versions_which_all_exist_on_packagist_repo",
+			args: args{
+				pkg:      "drupal/core-recommended",
+				versions: []string{"8.0.3", "10.1.0-rc1", "11.2.0"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "multiple_versions_which_all_exist_on_drupal_repo",
+			args: args{
+				pkg:      "drupal/simple_sitemap",
+				versions: []string{"1.3.0", "3.0.0-rc3", "4.1.3"},
+			},
+			wantErr: false,
+		},
+		{
+			// the drupal repo has advisories for this package, but not versions
+			name: "multiple_versions_which_all_exist_on_both_repos",
+			args: args{
+				pkg:      "drupal/core",
+				versions: []string{"8.0.1", "9.4.0-beta1", "11.0.2"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "multiple_versions_with_one_that_does_not_exist_on_packagist_repo",
+			args: args{
+				pkg:      "drupal/core-recommended",
+				versions: []string{"8.9.14", "9.5.0-rc3", "10.5.1"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "multiple_versions_with_one_that_does_not_exist_on_drupal_repo",
+			args: args{
+				pkg:      "drupal/simple_sitemap",
+				versions: []string{"1.1.0", "3.0.0-rc5", "4.1.1"},
+			},
+			wantErr: true,
+		},
+		{
+			// the drupal repo has advisories for this package, but not versions
+			name: "multiple_versions_with_one_that_does_not_exist_on_both_repos",
+			args: args{
+				pkg:      "drupal/core",
+				versions: []string{"8.7.5", "10.1.9", "11.1.4"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "an_invalid_version",
+			args: args{
+				pkg:      "drupal/simple_sitemap",
+				versions: []string{"!"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "a_package_that_does_not_exit",
+			args: args{
+				pkg:      "drupal/not-a-real-package",
+				versions: []string{"1.0.0"},
+			},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			if err := versionsExistInPackagist(tt.args.pkg, tt.args.versions); (err != nil) != tt.wantErr {
+				t.Errorf("versionsExistInPackagist() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
 func Test_versionsExistInPub(t *testing.T) {
 	t.Parallel()
 

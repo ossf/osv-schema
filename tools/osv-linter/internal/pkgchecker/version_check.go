@@ -1,6 +1,7 @@
 package pkgchecker
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -14,6 +15,8 @@ import (
 	"golang.org/x/mod/module"
 	"golang.org/x/mod/semver"
 )
+
+var errPathNotFound = errors.New("path not found")
 
 func fetchPackageData(packageInstanceURL string) ([]byte, error) {
 	resp, err := faulttolerant.Get(packageInstanceURL)
@@ -43,7 +46,14 @@ func versionsExistInGeneric(
 
 	// Fetch all known versions of package.
 	versionsInRepository := []string{}
-	for _, result := range gjson.GetBytes(respJSON, versionsPath).Array() {
+
+	r := gjson.GetBytes(respJSON, versionsPath)
+
+	if !r.Exists() {
+		return errPathNotFound
+	}
+
+	for _, result := range r.Array() {
 		versionsInRepository = append(versionsInRepository, result.String())
 	}
 	// Determine which referenced versions are missing.
@@ -278,6 +288,30 @@ func versionsExistInJulia(pkg string, versions []string) error {
 
 // Confirm that all specified versions of a package exist in Packagist.
 func versionsExistInPackagist(pkg string, versions []string) error {
+	// most drupal packages are published in a dedicated repository, so check there first
+	if strings.HasPrefix(pkg, "drupal/") {
+		drupalInstanceURL := fmt.Sprintf("%s/%s.json", "https://packages.drupal.org/files/packages/8/p2", pkg)
+
+		err := versionsExistInGeneric(
+			pkg, versions,
+			"Packagist",
+			drupalInstanceURL,
+			fmt.Sprintf("packages.%s.#.version", pkg),
+		)
+
+		if err == nil {
+			return err
+		}
+
+		// not all drupal packages are published on the drupal repository,
+		// and some packages are only present with security advisories
+		//
+		// todo: ideally we should not be checking the error message itself
+		if !strings.HasSuffix(err.Error(), "bad response: 404") && !errors.Is(err, errPathNotFound) {
+			return err
+		}
+	}
+
 	packageInstanceURL := fmt.Sprintf("%s/%s.json", EcosystemBaseURLs["Packagist"], pkg)
 
 	return versionsExistInGeneric(

@@ -152,12 +152,27 @@ func Test_existsInPackagist(t *testing.T) {
 	}{
 		{
 			name: "existing package",
+			pkg:  "composer/installers",
+			want: true,
+		},
+		{
+			name: "existing drupal packagist package",
 			pkg:  "drupal/core",
+			want: true,
+		},
+		{
+			name: "existing drupal repo package",
+			pkg:  "drupal/simple_sitemap",
 			want: true,
 		},
 		{
 			name: "non-existing package",
 			pkg:  "non-existing-package",
+			want: false,
+		},
+		{
+			name: "non-existing drupal package",
+			pkg:  "drupal/non-existing-package",
 			want: false,
 		},
 	}

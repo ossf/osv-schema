@@ -268,6 +268,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>DRUPAL</code></td>
+      <td><a href="https://github.com/DrupalSecurityTeam/drupal-advisory-database">Drupal Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://www.drupal.org/docs/develop/issues/issue-procedures-and-etiquette/reporting-a-security-issue">https://www.drupal.org/docs/develop/issues/issue-procedures-and-etiquette/reporting-a-security-issue</a></li>
+          <li>Source URL: <code>https://www.drupal.org/security/</code></li>
+          <li>OSV Formatted URL: <code>https://github.com/DrupalSecurityTeam/drupal-advisory-database/blob/main/advisories/&gt;module&lt;/&gt;ID&lt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>DSA</code>/<code>DLA</code>/<code>DTSA</code></td>
       <td><a href="https://www.debian.org/security/">Debian Security Advisory Database (provided by OSV.dev)</a></td>
       <td>
