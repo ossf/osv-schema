@@ -14,6 +14,7 @@ This format is currently exported by:
 - [Global Security Database](https://github.com/cloudsecurityalliance/gsd-database)
 - [Go Vulnerability Database](https://github.com/golang/vulndb)
 - [Haskell Security Advisories](https://github.com/haskell/security-advisories)
+- [Julia Security Advisories](https://github.com/JuliaLang/SecurityAdvisories.jl)
 - [LoopBack Advisory Database](https://github.com/loopbackio/security/tree/main/advisories)
 - [Malicious Packages Repository](https://github.com/ossf/malicious-packages)
 - [Mageia Advisories](https://advisories.mageia.org/)
@@ -49,6 +50,7 @@ Together, these include vulnerabilities from:
 -   Go
 -   Haskell
 -   Hex
+-   Julia
 -   Linux kernel
 -   Mageia
 -   Maven
