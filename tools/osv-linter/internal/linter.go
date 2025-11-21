@@ -199,30 +199,38 @@ func LintCommand(cCtx *cli.Context) error {
 	return nil
 }
 
+func checkFile(cCtx *cli.Context, fileToCheck string, checksToBeRun []*checks.CheckDef) ([]checks.CheckError, error) {
+	var recordBytes []byte
+	var err error
+	// Special case for stdin.
+	if fileToCheck == "<stdin>" {
+		recordBytes, err = io.ReadAll(os.Stdin)
+	} else {
+		recordBytes, err = os.ReadFile(fileToCheck)
+	}
+	if err != nil {
+		return nil, err
+	}
+	return lint(&Content{filename: fileToCheck, bytes: recordBytes}, &Config{
+		verbose:      cCtx.Bool("verbose"),
+		checks:       checksToBeRun,
+		ecosystems:   cCtx.StringSlice("ecosystems"),
+		json:         cCtx.Bool("json"), // Pass the JSON output mode
+		newEcosystem: cCtx.Bool("new-ecosystem"),
+	}), nil
+}
+
 func checkFiles(cCtx *cli.Context, filesToCheck []string, checksToBeRun []*checks.CheckDef) map[string][]checks.CheckError {
 	perFileFindings := map[string][]checks.CheckError{}
 
 	// Run the check(s) on the files.
 	for _, fileToCheck := range filesToCheck {
-		var recordBytes []byte
-		var err error
-		// Special case for stdin.
-		if fileToCheck == "<stdin>" {
-			recordBytes, err = io.ReadAll(os.Stdin)
-		} else {
-			recordBytes, err = os.ReadFile(fileToCheck)
-		}
+		findings, err := checkFile(cCtx, fileToCheck, checksToBeRun)
+
 		if err != nil {
 			log.Printf("%v, skipping", err)
 			continue
 		}
-		findings := lint(&Content{filename: fileToCheck, bytes: recordBytes}, &Config{
-			verbose:      cCtx.Bool("verbose"),
-			checks:       checksToBeRun,
-			ecosystems:   cCtx.StringSlice("ecosystems"),
-			json:         cCtx.Bool("json"), // Pass the JSON output mode
-			newEcosystem: cCtx.Bool("new-ecosystem"),
-		})
 		if findings != nil {
 			perFileFindings[fileToCheck] = findings
 		}
