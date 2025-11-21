@@ -122,8 +122,6 @@ func LintCommand(cCtx *cli.Context) error {
 		checksToBeRun = collection.Checks
 	}
 
-	perFileFindings := map[string][]checks.CheckError{}
-
 	// Figure out what files to check.
 	var filesToCheck []string
 	for _, thingToCheck := range cCtx.Args().Slice() {
@@ -173,6 +171,37 @@ func LintCommand(cCtx *cli.Context) error {
 		filesToCheck = append(filesToCheck, "<stdin>")
 	}
 
+	perFileFindings := checkFiles(cCtx, filesToCheck, checksToBeRun)
+
+	if cCtx.Bool("json") {
+		outputMap := perFileFindings
+		if outputMap == nil {
+			outputMap = make(map[string][]checks.CheckError) // Ensure a non-nil map for JSON, results in {}
+		}
+		jsonData, err := json.MarshalIndent(outputMap, "", "  ")
+		if err != nil {
+			log.Printf("Error marshalling findings to JSON: %v", err)
+			return fmt.Errorf("internal error: could not format results as JSON: %w", err)
+		}
+		fmt.Println(string(jsonData))
+	} else {
+		for filename, findings := range perFileFindings {
+			fmt.Printf("%s:\n", filename)
+			for _, finding := range findings {
+				fmt.Printf("\t * %s\n", finding.Error())
+			}
+		}
+	}
+
+	if len(perFileFindings) > 0 {
+		return errors.New("found errors")
+	}
+	return nil
+}
+
+func checkFiles(cCtx *cli.Context, filesToCheck []string, checksToBeRun []*checks.CheckDef) map[string][]checks.CheckError {
+	perFileFindings := map[string][]checks.CheckError{}
+
 	// Run the check(s) on the files.
 	for _, fileToCheck := range filesToCheck {
 		var recordBytes []byte
@@ -199,28 +228,5 @@ func LintCommand(cCtx *cli.Context) error {
 		}
 	}
 
-	if cCtx.Bool("json") {
-		outputMap := perFileFindings
-		if outputMap == nil {
-			outputMap = make(map[string][]checks.CheckError) // Ensure a non-nil map for JSON, results in {}
-		}
-		jsonData, err := json.MarshalIndent(outputMap, "", "  ")
-		if err != nil {
-			log.Printf("Error marshalling findings to JSON: %v", err)
-			return fmt.Errorf("internal error: could not format results as JSON: %w", err)
-		}
-		fmt.Println(string(jsonData))
-	} else {
-		for filename, findings := range perFileFindings {
-			fmt.Printf("%s:\n", filename)
-			for _, finding := range findings {
-				fmt.Printf("\t * %s\n", finding.Error())
-			}
-		}
-	}
-
-	if len(perFileFindings) > 0 {
-		return errors.New("found errors")
-	}
-	return nil
+	return perFileFindings
 }
