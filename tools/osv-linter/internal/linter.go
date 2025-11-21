@@ -230,7 +230,7 @@ type result struct {
 func checkFiles(cCtx *cli.Context, filesToCheck []string, checksToBeRun []*checks.CheckDef) map[string][]checks.CheckError {
 	perFileFindings := map[string][]checks.CheckError{}
 
-	conLimit := 10
+	conLimit := cCtx.Int("parallel")
 
 	if len(filesToCheck) == 0 {
 		return perFileFindings
