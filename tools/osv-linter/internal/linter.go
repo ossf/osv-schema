@@ -121,8 +121,6 @@ func LintCommand(cCtx *cli.Context) error {
 		checksToBeRun = collection.Checks
 	}
 
-	perFileFindings := map[string][]checks.CheckError{}
-
 	// Figure out what files to check.
 	var filesToCheck []string
 	for _, thingToCheck := range cCtx.Args().Slice() {
@@ -172,30 +170,7 @@ func LintCommand(cCtx *cli.Context) error {
 		filesToCheck = append(filesToCheck, "<stdin>")
 	}
 
-	// Run the check(s) on the files.
-	for _, fileToCheck := range filesToCheck {
-		var recordBytes []byte
-		var err error
-		// Special case for stdin.
-		if fileToCheck == "<stdin>" {
-			recordBytes, err = io.ReadAll(os.Stdin)
-		} else {
-			recordBytes, err = os.ReadFile(fileToCheck)
-		}
-		if err != nil {
-			log.Printf("%v, skipping", err)
-			continue
-		}
-		findings := lint(&Content{filename: fileToCheck, bytes: recordBytes}, &Config{
-			verbose:    cCtx.Bool("verbose"),
-			checks:     checksToBeRun,
-			ecosystems: cCtx.StringSlice("ecosystems"),
-			json:       cCtx.Bool("json"), // Pass the JSON output mode
-		})
-		if findings != nil {
-			perFileFindings[fileToCheck] = findings
-		}
-	}
+	perFileFindings := checkFiles(cCtx, filesToCheck, checksToBeRun)
 
 	if cCtx.Bool("json") {
 		outputMap := perFileFindings
@@ -223,4 +198,35 @@ func LintCommand(cCtx *cli.Context) error {
 		return errors.New("found errors")
 	}
 	return nil
+}
+
+func checkFiles(cCtx *cli.Context, filesToCheck []string, checksToBeRun []*checks.CheckDef) map[string][]checks.CheckError {
+	perFileFindings := map[string][]checks.CheckError{}
+
+	// Run the check(s) on the files.
+	for _, fileToCheck := range filesToCheck {
+		var recordBytes []byte
+		var err error
+		// Special case for stdin.
+		if fileToCheck == "<stdin>" {
+			recordBytes, err = io.ReadAll(os.Stdin)
+		} else {
+			recordBytes, err = os.ReadFile(fileToCheck)
+		}
+		if err != nil {
+			log.Printf("%v, skipping", err)
+			continue
+		}
+		findings := lint(&Content{filename: fileToCheck, bytes: recordBytes}, &Config{
+			verbose:    cCtx.Bool("verbose"),
+			checks:     checksToBeRun,
+			ecosystems: cCtx.StringSlice("ecosystems"),
+			json:       cCtx.Bool("json"), // Pass the JSON output mode
+		})
+		if findings != nil {
+			perFileFindings[fileToCheck] = findings
+		}
+	}
+
+	return perFileFindings
 }
