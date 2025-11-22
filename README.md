@@ -43,6 +43,7 @@ Together, these include vulnerabilities from:
 -   CleanStart
 -   crates.io
 -   Debian GNU/Linux
+-   Docker
 -   Echo
 -   Erlang Ecosystem Foundation
 -   FreeBSD
