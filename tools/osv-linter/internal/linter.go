@@ -13,6 +13,7 @@ import (
 
 	"github.com/tidwall/gjson"
 
+	"golang.org/x/sync/errgroup"
 	"golang.org/x/term"
 
 	"github.com/urfave/cli/v2"
@@ -220,13 +221,6 @@ func checkFile(cCtx *cli.Context, fileToCheck string, checksToBeRun []*checks.Ch
 	}), nil
 }
 
-// a struct to hold the result from each request
-type result struct {
-	fileToCheck string
-	res         []checks.CheckError
-	err         error
-}
-
 func checkFiles(cCtx *cli.Context, filesToCheck []string, checksToBeRun []*checks.CheckDef) map[string][]checks.CheckError {
 	perFileFindings := map[string][]checks.CheckError{}
 
@@ -236,52 +230,26 @@ func checkFiles(cCtx *cli.Context, filesToCheck []string, checksToBeRun []*check
 		return perFileFindings
 	}
 
-	// buffered channel which controls the number of concurrent operations
-	semaphoreChan := make(chan struct{}, conLimit)
-	resultsChan := make(chan *result)
+	var eg errgroup.Group
 
-	defer func() {
-		close(semaphoreChan)
-		close(resultsChan)
-	}()
+	eg.SetLimit(conLimit)
 
 	for _, fileToCheck := range filesToCheck {
-		go func(fileToCheck string) {
-			// send to the buffered semaphore channel, which will block if we're
-			// already got as many goroutines as our concurrency limit allows
-			//
-			// when one of those routines finish they'll read from this channel,
-			// freeing up a slot to unblock this send
-			semaphoreChan <- struct{}{}
-
+		eg.Go(func() error {
 			findings, err := checkFile(cCtx, fileToCheck, checksToBeRun)
-			result := &result{fileToCheck, findings, err}
 
-			resultsChan <- result
+			if err != nil {
+				log.Printf("%v, skipping", err)
+			} else if findings != nil {
+				perFileFindings[fileToCheck] = findings
+			}
 
-			// read from the buffered semaphore to free up a slot to allow
-			// another goroutine to start, since this one is wrapping up
-			<-semaphoreChan
-		}(fileToCheck)
+			return nil
+		})
 	}
 
-	finished := 0
-
-	for {
-		result := <-resultsChan
-
-		if result.err != nil {
-			log.Printf("%v, skipping", result.err)
-		} else if result.res != nil {
-			perFileFindings[result.fileToCheck] = result.res
-		}
-
-		finished += 1
-
-		if finished == len(filesToCheck) {
-			break
-		}
-	}
+	// errors are handled within the go routines
+	_ = eg.Wait()
 
 	return perFileFindings
 }
