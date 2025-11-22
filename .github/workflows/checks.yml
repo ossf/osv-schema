@@ -48,6 +48,7 @@ jobs:
 
       - run: go test ./...
       - run: gofmt -s -d */**.go
+      - run: go mod tidy -diff
   tests_osv-linter:
     permissions:
       contents: read # to fetch code (actions/checkout)
@@ -69,6 +70,7 @@ jobs:
 
       - run: go test ./...
       - run: gofmt -s -d */**.go
+      - run: go mod tidy -diff
 
   ecosystem_lists:
     permissions:
