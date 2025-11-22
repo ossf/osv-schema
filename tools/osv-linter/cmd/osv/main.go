@@ -43,6 +43,11 @@ func main() {
 								Name:  "json",
 								Usage: "output results as JSON",
 							},
+							&cli.IntFlag{
+								Name:  "parallel",
+								Usage: "how many files to process in parallel",
+								Value: 1,
+							},
 						},
 						Aliases: []string{"check"},
 						Usage:   "check OSV records for correctness",
