@@ -224,15 +224,9 @@ func checkFile(cCtx *cli.Context, fileToCheck string, checksToBeRun []*checks.Ch
 func checkFiles(cCtx *cli.Context, filesToCheck []string, checksToBeRun []*checks.CheckDef) map[string][]checks.CheckError {
 	perFileFindings := map[string][]checks.CheckError{}
 
-	conLimit := cCtx.Int("parallel")
-
-	if len(filesToCheck) == 0 {
-		return perFileFindings
-	}
-
 	var eg errgroup.Group
 
-	eg.SetLimit(conLimit)
+	eg.SetLimit(cCtx.Int("parallel"))
 
 	for _, fileToCheck := range filesToCheck {
 		eg.Go(func() error {
