@@ -1,0 +1,39 @@
+header:
+  schema-version: 2.1.0
+  last-updated: '2025-11-24'
+  last-reviewed: '2025-11-24'
+  url: https://github.com/ossf/osv-schema
+
+repository:
+  url: https://github.com/ossf/osv-schema
+  status: active
+  accepts-change-request: true
+  accepts-automated-change-request: true
+  core-team:
+    - name: Rex Pan
+      affiliation: Google
+      primary: true
+    - name: Jason Shepherd
+      affiliation: Red Hat
+      primary: true
+    - name: Madison Oliver
+      affiliation: GitHub
+      primary: true
+    - name: Chris Robinson
+      affiliation: OpenSSF
+      primary: true
+    - name: Andrew Pollock
+      primary: true
+    - name: Vulnerability Disclosures WG
+      affiliation: OpenSSF
+      email: openssf-wg-vul-disclosures@lists.openssf.org
+      primary: true
+
+  license:
+    url: https://github.com/ossf/osv-schema/blob/main/LICENSE
+    expression: Apache-2.0
+  security:
+    assessments:
+      self:
+        comment: |
+          Self assessment has not yet been completed.
