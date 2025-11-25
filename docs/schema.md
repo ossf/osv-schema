@@ -532,6 +532,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>ROOT-OS</code>/<code>ROOT-APP</code></td>
+      <td><a href="https://api.root.io/external/osv/all.json">Root Security Advisories</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>TBD</code></li>
+          <li>OSV Formatted URL: <code>https://api.root.io/external/osv/all.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>RUSTSEC</code></td>
       <td><a href="https://github.com/rustsec/advisory-db">RustSec Advisory Database</a></td>
       <td>
