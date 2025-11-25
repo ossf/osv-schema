@@ -55,7 +55,9 @@ func PackageExists(json *gjson.Result, config *Config) (findings []CheckError) {
 		}
 		// Not cached, determine existence.
 		if !pkgchecker.ExistsInEcosystem(pkg, ecosystem) {
-			findings = append(findings, CheckError{Message: fmt.Sprintf("package %q not found in %q", pkg, ecosystem)})
+			if !config.NewEcosystem {
+				findings = append(findings, CheckError{Message: fmt.Sprintf("package %q not found in %q", pkg, ecosystem)})
+			}
 			knownNonexistent[Package{Ecosystem: ecosystem, Name: pkg}] = true
 		} else {
 			knownExistent[Package{Ecosystem: ecosystem, Name: pkg}] = true
@@ -128,6 +130,9 @@ func PackageVersionsExist(json *gjson.Result, config *Config) (findings []CheckE
 		})
 		err := pkgchecker.VersionsExistInEcosystem(pkg, versionsToCheck, ecosystem)
 		if err != nil {
+			if config.NewEcosystem && strings.Contains(err.Error(), "unsupported ecosystem") {
+				return true // keep iterating
+			}
 			findings = append(findings, CheckError{Message: err.Error()})
 		}
 

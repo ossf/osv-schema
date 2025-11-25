@@ -21,7 +21,7 @@ var CheckInvalidSchema = &CheckDef{
 	Check:       SchemaCheck,
 }
 
-func SchemaCheck(json *gjson.Result, _ *Config) []CheckError {
+func SchemaCheck(json *gjson.Result, config *Config) []CheckError {
 	schemaLoader := gojsonschema.NewBytesLoader(embeddedSchema)
 	documentLoader := gojsonschema.NewStringLoader(json.Raw)
 
@@ -38,7 +38,14 @@ func SchemaCheck(json *gjson.Result, _ *Config) []CheckError {
 
 	var errors []string
 	for _, desc := range result.Errors() {
+		if config.NewEcosystem && strings.Contains(desc.Description(), "Does not match pattern") {
+			continue
+		}
 		errors = append(errors, fmt.Sprintf("- %s", desc))
+	}
+
+	if len(errors) == 0 {
+		return nil
 	}
 
 	return []CheckError{

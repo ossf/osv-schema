@@ -40,8 +40,9 @@ type CheckDef struct {
 // Config defines the configuration for a check.
 type Config struct {
 	Verbose    bool
-	Ecosystems []string
-	JSON       bool
+	Ecosystems   []string
+	JSON         bool
+	NewEcosystem bool
 }
 
 // Check defines how to run the check.

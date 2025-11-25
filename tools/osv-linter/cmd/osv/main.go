@@ -43,6 +43,10 @@ func main() {
 								Name:  "json",
 								Usage: "output results as JSON",
 							},
+							&cli.BoolFlag{
+								Name:  "new-ecosystem",
+								Usage: "ignore certain checks for new ecosystems (e.g. schema pattern checks, unsupported ecosystem checks)",
+							},
 						},
 						Aliases: []string{"check"},
 						Usage:   "check OSV records for correctness",

@@ -29,9 +29,10 @@ type Content struct {
 // Config defines the arguments for lint().
 type Config struct {
 	checks     []*checks.CheckDef // which checks to run.
-	ecosystems []string           // which ecosystems to limit package checks to.
-	verbose    bool               // whether to emit verbose output.
-	json       bool               // whether to output results as JSON.
+	ecosystems   []string           // which ecosystems to limit package checks to.
+	verbose      bool               // whether to emit verbose output.
+	json         bool               // whether to output results as JSON.
+	newEcosystem bool               // whether to ignore certain checks for new ecosystems.
 }
 
 func lint(content *Content, config *Config) (findings []checks.CheckError) {
@@ -46,7 +47,7 @@ func lint(content *Content, config *Config) (findings []checks.CheckError) {
 		if config.verbose && !config.json {
 			fmt.Printf("Running %q check on %q\n", check.Name, content.filename)
 		}
-		checkConfig := checks.Config{Verbose: config.verbose, Ecosystems: config.ecosystems}
+		checkConfig := checks.Config{Verbose: config.verbose, Ecosystems: config.ecosystems, NewEcosystem: config.newEcosystem}
 		checkFindings := check.Run(&record, &checkConfig)
 		if checkFindings != nil && config.verbose {
 			log.Printf("%q: %q: %#v", content.filename, check.Name, checkFindings)
@@ -189,8 +190,9 @@ func LintCommand(cCtx *cli.Context) error {
 		findings := lint(&Content{filename: fileToCheck, bytes: recordBytes}, &Config{
 			verbose:    cCtx.Bool("verbose"),
 			checks:     checksToBeRun,
-			ecosystems: cCtx.StringSlice("ecosystems"),
-			json:       cCtx.Bool("json"), // Pass the JSON output mode
+			ecosystems:   cCtx.StringSlice("ecosystems"),
+			json:         cCtx.Bool("json"), // Pass the JSON output mode
+			newEcosystem: cCtx.Bool("new-ecosystem"),
 		})
 		if findings != nil {
 			perFileFindings[fileToCheck] = findings
