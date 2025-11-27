@@ -211,12 +211,10 @@ func LintCommand(cCtx *cli.Context) error {
 		}
 		fmt.Println(string(jsonData))
 	} else {
-		if len(perFileFindings) > 0 {
-			for filename, findings := range perFileFindings {
-				fmt.Printf("%s:\n", filename)
-				for _, finding := range findings {
-					fmt.Printf("\t * %s\n", finding.Error())
-				}
+		for filename, findings := range perFileFindings {
+			fmt.Printf("%s:\n", filename)
+			for _, finding := range findings {
+				fmt.Printf("\t * %s\n", finding.Error())
 			}
 		}
 	}
