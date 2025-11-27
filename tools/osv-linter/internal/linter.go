@@ -28,7 +28,7 @@ type Content struct {
 
 // Config defines the arguments for lint().
 type Config struct {
-	checks     []*checks.CheckDef // which checks to run.
+	checks       []*checks.CheckDef // which checks to run.
 	ecosystems   []string           // which ecosystems to limit package checks to.
 	verbose      bool               // whether to emit verbose output.
 	json         bool               // whether to output results as JSON.
@@ -188,8 +188,8 @@ func LintCommand(cCtx *cli.Context) error {
 			continue
 		}
 		findings := lint(&Content{filename: fileToCheck, bytes: recordBytes}, &Config{
-			verbose:    cCtx.Bool("verbose"),
-			checks:     checksToBeRun,
+			verbose:      cCtx.Bool("verbose"),
+			checks:       checksToBeRun,
 			ecosystems:   cCtx.StringSlice("ecosystems"),
 			json:         cCtx.Bool("json"), // Pass the JSON output mode
 			newEcosystem: cCtx.Bool("new-ecosystem"),
