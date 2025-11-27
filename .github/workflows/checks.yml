@@ -47,7 +47,8 @@ jobs:
           check-latest: true
 
       - run: go test ./...
-      - run: gofmt -s -d */**.go
+      - run: gofmt -s */**.go
+      - run: git diff --exit-code
       - run: go mod tidy -diff
   tests_osv-linter:
     permissions:
@@ -69,7 +70,8 @@ jobs:
           check-latest: true
 
       - run: go test ./...
-      - run: gofmt -s -d */**.go
+      - run: gofmt -s */**.go
+      - run: git diff --exit-code
       - run: go mod tidy -diff
 
   ecosystem_lists:
