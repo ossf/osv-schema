@@ -5,6 +5,8 @@ import (
 )
 
 func Test_existsInCran(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
@@ -31,6 +33,8 @@ func Test_existsInCran(t *testing.T) {
 }
 
 func Test_existsInCrates(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
@@ -62,6 +66,8 @@ func Test_existsInCrates(t *testing.T) {
 }
 
 func Test_existsInNpm(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
@@ -93,6 +99,8 @@ func Test_existsInNpm(t *testing.T) {
 }
 
 func Test_existsInNuget(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
@@ -119,6 +127,8 @@ func Test_existsInNuget(t *testing.T) {
 }
 
 func Test_existsInRubyGems(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
@@ -145,6 +155,8 @@ func Test_existsInRubyGems(t *testing.T) {
 }
 
 func Test_existsInPackagist(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
@@ -186,6 +198,8 @@ func Test_existsInPackagist(t *testing.T) {
 }
 
 func Test_existsInPub(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
@@ -212,6 +226,8 @@ func Test_existsInPub(t *testing.T) {
 }
 
 func Test_existsInHackage(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
@@ -238,6 +254,8 @@ func Test_existsInHackage(t *testing.T) {
 }
 
 func Test_existsInHex(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
@@ -264,6 +282,8 @@ func Test_existsInHex(t *testing.T) {
 }
 
 func Test_existsInJulia(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
@@ -290,6 +310,8 @@ func Test_existsInJulia(t *testing.T) {
 }
 
 func Test_existsInMaven(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
@@ -316,6 +338,8 @@ func Test_existsInMaven(t *testing.T) {
 }
 
 func Test_existsInPyPI(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
@@ -342,6 +366,8 @@ func Test_existsInPyPI(t *testing.T) {
 }
 
 func Test_existsInGo(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string

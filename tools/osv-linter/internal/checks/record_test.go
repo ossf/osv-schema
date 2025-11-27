@@ -10,6 +10,8 @@ import (
 )
 
 func TestAffectedField(t *testing.T) {
+	t.Parallel()
+
 	type args struct {
 		json *gjson.Result
 	}
@@ -51,6 +53,8 @@ func TestAffectedField(t *testing.T) {
 }
 
 func TestAliasesCheck(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name         string
 		jsonData     string
@@ -106,6 +110,8 @@ func TestAliasesCheck(t *testing.T) {
 }
 
 func TestRelatedCheck(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name         string
 		jsonData     string
@@ -161,6 +167,8 @@ func TestRelatedCheck(t *testing.T) {
 }
 
 func TestUpstreamCheck(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name         string
 		jsonData     string

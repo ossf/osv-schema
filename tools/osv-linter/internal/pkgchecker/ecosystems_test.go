@@ -131,6 +131,8 @@ func Test_versionsExistInCrates(t *testing.T) {
 }
 
 func Test_versionsExistInGo(t *testing.T) {
+	t.Parallel()
+
 	type args struct {
 		pkg      string
 		versions []string
