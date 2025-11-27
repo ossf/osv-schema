@@ -248,7 +248,9 @@ func checkFiles(cCtx *cli.Context, filesToCheck []string, checksToBeRun []*check
 	perFileFindings := map[string][]checks.CheckError{}
 
 	for i, findings := range foundFindings {
-		perFileFindings[filesToCheck[i]] = findings
+		if findings != nil {
+			perFileFindings[filesToCheck[i]] = findings
+		}
 	}
 
 	return perFileFindings
