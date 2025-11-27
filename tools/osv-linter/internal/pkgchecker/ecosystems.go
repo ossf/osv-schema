@@ -39,7 +39,7 @@ var EcosystemBaseURLs = map[string]string{
 }
 
 // Dispatcher for ecosystem-specific package existence checking.
-func ExistsInEcosystem(pkg string, ecosystem string) bool {
+func ExistsInEcosystem(pkg string, ecosystem string, suffix string) bool {
 	switch ecosystem {
 	case "AlmaLinux":
 		return true
@@ -90,7 +90,7 @@ func ExistsInEcosystem(pkg string, ecosystem string) bool {
 	case "OSS-Fuzz":
 		return true
 	case "Packagist":
-		return existsInPackagist(pkg)
+		return existsInPackagist(pkg, suffix)
 	case "Pub":
 		return existsInPub(pkg)
 	case "PyPI":
@@ -137,7 +137,7 @@ func (e MissingVersionsError) Error() string {
 }
 
 // Dispatcher for ecosystem-specific package version existence checking.
-func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string) error {
+func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string, suffix string) error {
 	switch ecosystem {
 	case "AlmaLinux":
 		return nil
@@ -186,7 +186,7 @@ func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string) e
 	case "OSS-Fuzz":
 		return nil
 	case "Packagist":
-		return versionsExistInPackagist(pkg, versions)
+		return versionsExistInPackagist(pkg, versions, suffix)
 	case "Pub":
 		return versionsExistInPub(pkg, versions)
 	case "PyPI":
