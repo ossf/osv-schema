@@ -6,10 +6,13 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"sync"
 
 	"github.com/ossf/osv-schema/linter/internal/faulttolerant"
 	"github.com/tidwall/gjson"
 )
+
+var packagistCache sync.Map
 
 func fetchPackagistPackagesInfo(repo string) ([]byte, error) {
 	resp, err := faulttolerant.Get(repo)
@@ -31,7 +34,7 @@ func fetchPackagistPackagesInfo(repo string) ([]byte, error) {
 // and be absolute.
 //
 // also see https://getcomposer.org/doc/05-repositories.md#metadata-url-available-packages-and-available-package-patterns
-func fetchPackagistMetadataUrl(repo string) (string, error) {
+func fetchPackagistMetadataUrlActual(repo string) (string, error) {
 	packagesInfo, err := fetchPackagistPackagesInfo(repo + "/packages.json")
 
 	if err != nil {
@@ -53,6 +56,22 @@ func fetchPackagistMetadataUrl(repo string) (string, error) {
 	}
 
 	return fmt.Sprintf("%s://%s%s", parsed.Scheme, parsed.Host, metadataURL), nil
+}
+
+func fetchPackagistMetadataUrl(repo string) (string, error) {
+	cached, ok := packagistCache.Load(repo)
+
+	if !ok {
+		metadataURL, err := fetchPackagistMetadataUrlActual(repo)
+
+		if err != nil {
+			return "", err
+		}
+
+		cached, _ = packagistCache.LoadOrStore(repo, metadataURL)
+	}
+
+	return cached.(string), nil
 }
 
 func resolvePackagistPackageInstanceURL(pkg string, repo string) (string, error) {
