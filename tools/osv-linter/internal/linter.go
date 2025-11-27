@@ -222,20 +222,20 @@ func checkFile(cCtx *cli.Context, fileToCheck string, checksToBeRun []*checks.Ch
 }
 
 func checkFiles(cCtx *cli.Context, filesToCheck []string, checksToBeRun []*checks.CheckDef) map[string][]checks.CheckError {
-	perFileFindings := map[string][]checks.CheckError{}
+	foundFindings := make([][]checks.CheckError, len(filesToCheck))
 
 	var eg errgroup.Group
 
 	eg.SetLimit(cCtx.Int("parallel"))
 
-	for _, fileToCheck := range filesToCheck {
+	for i, fileToCheck := range filesToCheck {
 		eg.Go(func() error {
 			findings, err := checkFile(cCtx, fileToCheck, checksToBeRun)
 
 			if err != nil {
 				log.Printf("%v, skipping", err)
 			} else if findings != nil {
-				perFileFindings[fileToCheck] = findings
+				foundFindings[i] = findings
 			}
 
 			return nil
@@ -244,6 +244,12 @@ func checkFiles(cCtx *cli.Context, filesToCheck []string, checksToBeRun []*check
 
 	// errors are handled within the go routines
 	_ = eg.Wait()
+
+	perFileFindings := map[string][]checks.CheckError{}
+
+	for i, findings := range foundFindings {
+		perFileFindings[filesToCheck[i]] = findings
+	}
 
 	return perFileFindings
 }
