@@ -47,6 +47,11 @@ func main() {
 								Name:  "new-ecosystem",
 								Usage: "ignore certain checks for new ecosystems (e.g. schema pattern checks, unsupported ecosystem checks)",
 							},
+							&cli.IntFlag{
+								Name:  "parallel",
+								Usage: "how many files to process in parallel",
+								Value: 1,
+							},
 						},
 						Aliases: []string{"check"},
 						Usage:   "check OSV records for correctness",
