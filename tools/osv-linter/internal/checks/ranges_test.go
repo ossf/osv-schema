@@ -20,6 +20,8 @@ func LoadTestData(filename string) *gjson.Result {
 }
 
 func TestRangeHasIntroducedEvent(t *testing.T) {
+	t.Parallel()
+
 	type args struct {
 		json *gjson.Result
 	}

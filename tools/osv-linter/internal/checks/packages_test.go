@@ -8,6 +8,8 @@ import (
 )
 
 func TestPackageExists(t *testing.T) {
+	t.Parallel()
+
 	type args struct {
 		json   *gjson.Result
 		config *Config
