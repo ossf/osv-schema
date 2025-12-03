@@ -9,10 +9,11 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+// Please run 'go generate ./...' to sync schema.json.
 //go:generate cp ../../../../validation/schema.json schema_generated.json
 
 //go:embed schema_generated.json
-var embeddedSchema []byte // Please run 'go generate ./...' to sync schema.json.
+var LoadedSchema []byte
 
 var CheckInvalidSchema = &CheckDef{
 	Code:        "SCH:001",
@@ -22,7 +23,7 @@ var CheckInvalidSchema = &CheckDef{
 }
 
 func SchemaCheck(json *gjson.Result, config *Config) []CheckError {
-	schemaLoader := gojsonschema.NewBytesLoader(embeddedSchema)
+	schemaLoader := gojsonschema.NewBytesLoader(LoadedSchema)
 	documentLoader := gojsonschema.NewStringLoader(json.Raw)
 
 	result, err := gojsonschema.Validate(schemaLoader, documentLoader)
