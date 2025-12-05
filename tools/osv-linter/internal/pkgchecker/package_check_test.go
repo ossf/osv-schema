@@ -160,6 +160,7 @@ func Test_existsInPackagist(t *testing.T) {
 	tests := []struct {
 		name string
 		pkg  string
+		repo string
 		want bool
 	}{
 		{
@@ -168,13 +169,27 @@ func Test_existsInPackagist(t *testing.T) {
 			want: true,
 		},
 		{
-			name: "existing drupal packagist package",
+			name: "existing drupal packagist package with packagist repo",
 			pkg:  "drupal/core",
 			want: true,
 		},
 		{
-			name: "existing drupal repo package",
+			// the drupal repo has advisories for this package, so it is technically
+			// considered as existing even though the versions live in packagist
+			name: "existing drupal packagist package with drupal repo",
+			pkg:  "drupal/core",
+			repo: "https://packages.drupal.org/8",
+			want: true,
+		},
+		{
+			name: "existing drupal repo package with packagist repo",
 			pkg:  "drupal/simple_sitemap",
+			want: false,
+		},
+		{
+			name: "existing drupal repo package with drupal repo",
+			pkg:  "drupal/simple_sitemap",
+			repo: "https://packages.drupal.org/8",
 			want: true,
 		},
 		{
@@ -187,10 +202,21 @@ func Test_existsInPackagist(t *testing.T) {
 			pkg:  "drupal/non-existing-package",
 			want: false,
 		},
+		{
+			name: "non-existing drupal package with packagist repo",
+			pkg:  "drupal/non-existing-package",
+			want: false,
+		},
+		{
+			name: "non-existing drupal package with drupal repo",
+			pkg:  "drupal/non-existing-package",
+			repo: "https://packages.drupal.org/8",
+			want: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := existsInPackagist(tt.pkg); got != tt.want {
+			if got := existsInPackagist(tt.pkg, tt.repo); got != tt.want {
 				t.Errorf("existsInPackagist() = %v, want %v", got, tt.want)
 			}
 		})

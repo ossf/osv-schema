@@ -126,17 +126,12 @@ func existsInNuget(pkg string) bool {
 }
 
 // Validate the existence of a package in Packagist.
-func existsInPackagist(pkg string) bool {
-	// most drupal packages are published in a dedicated repository, so check there first
-	if strings.HasPrefix(pkg, "drupal/") {
-		drupalInstanceURL := fmt.Sprintf("%s/%s.json", "https://packages.drupal.org/files/packages/8/p2", pkg)
+func existsInPackagist(pkg string, repo string) bool {
+	packageInstanceURL, err := resolvePackagistPackageInstanceURL(pkg, repo)
 
-		if checkPackageExists(drupalInstanceURL) {
-			return true
-		}
+	if err != nil {
+		return false
 	}
-
-	packageInstanceURL := fmt.Sprintf("%s/%s.json", EcosystemBaseURLs["Packagist"], pkg)
 
 	return checkPackageExists(packageInstanceURL)
 }
