@@ -287,32 +287,12 @@ func versionsExistInJulia(pkg string, versions []string) error {
 }
 
 // Confirm that all specified versions of a package exist in Packagist.
-func versionsExistInPackagist(pkg string, versions []string) error {
-	// most drupal packages are published in a dedicated repository, so check there first
-	if strings.HasPrefix(pkg, "drupal/") {
-		drupalInstanceURL := fmt.Sprintf("%s/%s.json", "https://packages.drupal.org/files/packages/8/p2", pkg)
+func versionsExistInPackagist(pkg string, versions []string, repo string) error {
+	packageInstanceURL, err := resolvePackagistPackageInstanceURL(pkg, repo)
 
-		err := versionsExistInGeneric(
-			pkg, versions,
-			"Packagist",
-			drupalInstanceURL,
-			fmt.Sprintf("packages.%s.#.version", pkg),
-		)
-
-		if err == nil {
-			return err
-		}
-
-		// not all drupal packages are published on the drupal repository,
-		// and some packages are only present with security advisories
-		//
-		// todo: ideally we should not be checking the error message itself
-		if !strings.HasSuffix(err.Error(), "bad response: 404") && !errors.Is(err, errPathNotFound) {
-			return err
-		}
+	if err != nil {
+		return err
 	}
-
-	packageInstanceURL := fmt.Sprintf("%s/%s.json", EcosystemBaseURLs["Packagist"], pkg)
 
 	return versionsExistInGeneric(
 		pkg, versions,
