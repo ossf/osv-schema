@@ -54,6 +54,7 @@ There are many home databases publishing OSV-format advisories or maintain conve
 - [RConsortium Advisory Database](https://github.com/RConsortium/r-advisory-database)
 - [Red Hat](https://security.access.redhat.com/data)
 - [Rocky Linux](https://distro-tools.rocky.page/apollo/openapi/#osv)
+- [Root](https://api.root.io/external/osv/all.json)
 - [Rust Advisory Database](https://github.com/RustSec/advisory-db)
 - [SUSE](https://www.suse.com/support/security/)
 - [Ubuntu](https://github.com/canonical/ubuntu-security-notices/)
