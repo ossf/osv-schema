@@ -45,6 +45,7 @@ There are many home databases publishing OSV-format advisories or maintain conve
 - [Malicious Packages Repository](https://github.com/ossf/malicious-packages)
 - [Mageia Advisories](https://advisories.mageia.org/)
 - [MinimOS](https://packages.mini.dev/advisories/osv/all.json)
+- [OCaml](https://github.com/ocaml/security-advisories)
 - [openEuler](https://repo.openeuler.org/security/data)
 - [OSS-Fuzz](https://github.com/google/oss-fuzz-vulns)
 - [OSV.dev maintained converters](https://github.com/google/osv.dev#current-data-sources) (Debian, Alpine, NVD)
@@ -85,6 +86,7 @@ Together, these include vulnerabilities from:
 - MinimOS
 - npm
 - NuGet
+- OCaml
 - openEuler
 - openSUSE
 - OSS-Fuzz

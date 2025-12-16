@@ -466,6 +466,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>OSEC</code></td>
+      <td><a href="https://github.com/ocaml/security-advisories">OCaml Security Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/ocaml/security-advisories?tab=readme-ov-file#reporting-vulnerabilities">https://github.com/ocaml/security-advisories?tab=readme-ov-file#reporting-vulnerabilities</a></li>
+          <li>Source URL: <code>https://github.com/ocaml/security-advisories/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/ocaml/security-advisories/main/advisories/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>OSV</code></td>
       <td><a href="https://osv.dev/list">Advisories allocated by OSV.dev (currently only from OSS-Fuzz)</a></td>
       <td>
@@ -894,6 +905,7 @@ The defined ecosystems are:
 | `MinimOS` | The MinimOS package ecosystem; the `name` is the name of the package. |
 | `npm` | The NPM ecosystem; the `name` field is an NPM package name. |
 | `NuGet` | The NuGet package ecosystem. The `name` field is a NuGet package name. |
+| `opam` | The OCaml package manager ecosystem. The `name` field is an opam package name. |
 | `openEuler` | The openEuler ecosystem; The `name` field is the name of the source RPM. The ecosystem string has a `<RELEASE>` suffix, specifying a particular openEuler LTS Release.`<RELEASE>` is numeric (YY.MM) version maintained in our [archive list](https://www.openeuler.org/en/download/?archive=true). Here, `LTS` stands for long term support and `SP` stands for service pack which offers extensions and enhancements of the major LTS version. Note innovation versions (those without `LTS`) are out of our security advisories' scope. The `ecosystem_specific` field contains all updated packages, including src rpm and binaries of different architectures. For more information, please refer to our [vulnerability disclosure policy](https://gitee.com/openeuler/security-committee/blob/master/docs/en/vulnerability-management-process/security-disclosure-en.md) and this [example](https://www.openeuler.org/en/security/security-bulletins/detail/?id=openEuler-SA-2025-1612) of a source security advisory. |
 | `openSUSE` | The openSUSE ecosystem; The ecosystem string has a `:<RELEASE>` suffix presenting the marketing name of the openSUSE distribution. `<RELEASE>` matches the value in the `/etc/os-release` `PRETTY_NAME` field. The `name` field is the name of the source RPM and accompanied by a purl. There is an `ecosystem_specific` specific array `binaries` of the associated RPM binary packages in this specific openSUSE distribution. The ECOSYSTEM version ordering is the RPM versioncompare ordering, and the database uses the `introduced` and `fixed` boundaries. |
 | `OSS-Fuzz` | For reports from the OSS-Fuzz project that have no more appropriate ecosystem; the `name` field is the name assigned by the OSS-Fuzz project, as recorded in the submitted fuzzing configuration. |
