@@ -9,10 +9,11 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+// Please run 'go generate ./...' to sync schema.json.
 //go:generate cp ../../../../validation/schema.json schema_generated.json
 
 //go:embed schema_generated.json
-var embeddedSchema []byte // Please run 'go generate ./...' to sync schema.json.
+var LoadedSchema []byte
 
 var CheckInvalidSchema = &CheckDef{
 	Code:        "SCH:001",
@@ -21,8 +22,8 @@ var CheckInvalidSchema = &CheckDef{
 	Check:       SchemaCheck,
 }
 
-func SchemaCheck(json *gjson.Result, _ *Config) []CheckError {
-	schemaLoader := gojsonschema.NewBytesLoader(embeddedSchema)
+func SchemaCheck(json *gjson.Result, config *Config) []CheckError {
+	schemaLoader := gojsonschema.NewBytesLoader(LoadedSchema)
 	documentLoader := gojsonschema.NewStringLoader(json.Raw)
 
 	result, err := gojsonschema.Validate(schemaLoader, documentLoader)
@@ -38,7 +39,14 @@ func SchemaCheck(json *gjson.Result, _ *Config) []CheckError {
 
 	var errors []string
 	for _, desc := range result.Errors() {
+		if config.NewEcosystem && strings.Contains(desc.Description(), "Does not match pattern") {
+			continue
+		}
 		errors = append(errors, fmt.Sprintf("- %s", desc))
+	}
+
+	if len(errors) == 0 {
+		return nil
 	}
 
 	return []CheckError{

@@ -1,6 +1,7 @@
 package pkgchecker
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -14,6 +15,8 @@ import (
 	"golang.org/x/mod/module"
 	"golang.org/x/mod/semver"
 )
+
+var errPathNotFound = errors.New("path not found")
 
 func fetchPackageData(packageInstanceURL string) ([]byte, error) {
 	resp, err := faulttolerant.Get(packageInstanceURL)
@@ -43,7 +46,14 @@ func versionsExistInGeneric(
 
 	// Fetch all known versions of package.
 	versionsInRepository := []string{}
-	for _, result := range gjson.GetBytes(respJSON, versionsPath).Array() {
+
+	r := gjson.GetBytes(respJSON, versionsPath)
+
+	if !r.Exists() {
+		return errPathNotFound
+	}
+
+	for _, result := range r.Array() {
 		versionsInRepository = append(versionsInRepository, result.String())
 	}
 	// Determine which referenced versions are missing.
@@ -277,8 +287,12 @@ func versionsExistInJulia(pkg string, versions []string) error {
 }
 
 // Confirm that all specified versions of a package exist in Packagist.
-func versionsExistInPackagist(pkg string, versions []string) error {
-	packageInstanceURL := fmt.Sprintf("%s/%s.json", EcosystemBaseURLs["Packagist"], pkg)
+func versionsExistInPackagist(pkg string, versions []string, repo string) error {
+	packageInstanceURL, err := resolvePackagistPackageInstanceURL(pkg, repo)
+
+	if err != nil {
+		return err
+	}
 
 	return versionsExistInGeneric(
 		pkg, versions,

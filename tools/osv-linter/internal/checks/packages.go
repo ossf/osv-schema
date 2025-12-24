@@ -37,9 +37,8 @@ func PackageExists(json *gjson.Result, config *Config) (findings []CheckError) {
 		if !maybePackage.Exists() {
 			return true // keep iterating (over affected entries)
 		}
-		// Normalize ecosystems with a colon to their base.
-		// e.g. "Alpine:v3.5" -> "Alpine"
-		ecosystem := strings.Split(value.Get("package.ecosystem").String(), ":")[0]
+		// Separate out the ecosystem and its suffix e.g. "Alpine:v3.5" -> "Alpine"
+		ecosystem, suffix, _ := strings.Cut(value.Get("package.ecosystem").String(), ":")
 		// Use config.Ecosystems as an allowlist, if it is set.
 		if len(config.Ecosystems) > 0 && !slices.Contains(config.Ecosystems, ecosystem) {
 			return true // keep iterating (over affected entries)
@@ -54,8 +53,10 @@ func PackageExists(json *gjson.Result, config *Config) (findings []CheckError) {
 			return true // keep iterating (over affected entries)
 		}
 		// Not cached, determine existence.
-		if !pkgchecker.ExistsInEcosystem(pkg, ecosystem) {
-			findings = append(findings, CheckError{Message: fmt.Sprintf("package %q not found in %q", pkg, ecosystem)})
+		if !pkgchecker.ExistsInEcosystem(pkg, ecosystem, suffix) {
+			if !config.NewEcosystem {
+				findings = append(findings, CheckError{Message: fmt.Sprintf("package %q not found in %q", pkg, ecosystem)})
+			}
 			knownNonexistent[Package{Ecosystem: ecosystem, Name: pkg}] = true
 		} else {
 			knownExistent[Package{Ecosystem: ecosystem, Name: pkg}] = true
@@ -84,9 +85,8 @@ func PackageVersionsExist(json *gjson.Result, config *Config) (findings []CheckE
 		if !maybePackage.Exists() {
 			return true // keep iterating (over affected entries)
 		}
-		// Normalize ecosystems with a colon to their base.
-		// e.g. "Alpine:v3.5" -> "Alpine"
-		ecosystem := strings.Split(value.Get("package.ecosystem").String(), ":")[0]
+		// Separate out the ecosystem and its suffix e.g. "Alpine:v3.5" -> "Alpine"
+		ecosystem, suffix, _ := strings.Cut(value.Get("package.ecosystem").String(), ":")
 		// Use config.Ecosystems as an allowlist, if it is set.
 		if len(config.Ecosystems) != 0 && !slices.Contains(config.Ecosystems, ecosystem) {
 			return true // keep iterating (over affected entries)
@@ -126,8 +126,11 @@ func PackageVersionsExist(json *gjson.Result, config *Config) (findings []CheckE
 			versionsToCheck = append(versionsToCheck, value.String())
 			return true // keep iterating (over versions)
 		})
-		err := pkgchecker.VersionsExistInEcosystem(pkg, versionsToCheck, ecosystem)
+		err := pkgchecker.VersionsExistInEcosystem(pkg, versionsToCheck, ecosystem, suffix)
 		if err != nil {
+			if config.NewEcosystem && strings.Contains(err.Error(), "unsupported ecosystem") {
+				return true // keep iterating
+			}
 			findings = append(findings, CheckError{Message: err.Error()})
 		}
 
@@ -166,7 +169,7 @@ func PackagePurlValid(json *gjson.Result, config *Config) (findings []CheckError
 			purlWithVersion := purl.String() + "@version"
 			_, err = packageurl.FromString(purlWithVersion)
 			if err != nil {
-				findings = append(findings, CheckError{Message: fmt.Sprintf("Invalid Purl %q: %#v", purl.String(), err)})
+				findings = append(findings, CheckError{Message: fmt.Sprintf("Invalid Purl %q: %v", purl.String(), err)})
 			}
 		}
 

@@ -126,8 +126,12 @@ func existsInNuget(pkg string) bool {
 }
 
 // Validate the existence of a package in Packagist.
-func existsInPackagist(pkg string) bool {
-	packageInstanceURL := fmt.Sprintf("%s/%s.json", EcosystemBaseURLs["Packagist"], pkg)
+func existsInPackagist(pkg string, repo string) bool {
+	packageInstanceURL, err := resolvePackagistPackageInstanceURL(pkg, repo)
+
+	if err != nil {
+		return false
+	}
 
 	return checkPackageExists(packageInstanceURL)
 }

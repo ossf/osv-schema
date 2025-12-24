@@ -131,6 +131,8 @@ func Test_versionsExistInCrates(t *testing.T) {
 }
 
 func Test_versionsExistInGo(t *testing.T) {
+	t.Parallel()
+
 	type args struct {
 		pkg      string
 		versions []string
@@ -486,7 +488,7 @@ func Test_versionsExistInNuGet(t *testing.T) {
 	}
 }
 
-func Test_versionsExistInPackagist(t *testing.T) {
+func Test_versionsExistInPackagist_DefaultRepo(t *testing.T) {
 	t.Parallel()
 
 	type args struct {
@@ -538,12 +540,202 @@ func Test_versionsExistInPackagist(t *testing.T) {
 			},
 			wantErr: true,
 		},
+
+		// drupal packages
+		{
+			name: "drupal_package_with_multiple_versions_which_all_exist_on_packagist_repo",
+			args: args{
+				pkg:      "drupal/core-recommended",
+				versions: []string{"8.0.3", "10.1.0-rc1", "11.2.0"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "drupal_package_with_multiple_versions_which_all_exist_on_both_repos",
+			args: args{
+				pkg:      "drupal/core",
+				versions: []string{"8.0.1", "9.4.0-beta1", "11.0.2"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "drupal_package_with_multiple_versions_with_one_that_does_not_exist_on_packagist_repo",
+			args: args{
+				pkg:      "drupal/core-recommended",
+				versions: []string{"8.9.14", "9.5.0-rc3", "10.5.1"},
+			},
+			wantErr: true,
+		},
+
+		// wpackagist packages
+		{
+			name: "wpackagist_plugin_with_multiple_versions_which_all_exist_on_packagist_repo",
+			args: args{
+				pkg:      "wpackagist-plugin/wpal-autoload",
+				versions: []string{"1.0.1", "1.0.7", "1.1.2"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "wpackagist_theme_with_one_version_on_packagist_repo",
+			args: args{
+				pkg:      "wpackagist-theme/twentytwentytwo",
+				versions: []string{"1.0.0"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "wpackagist_plugin_with_no_versions_that_exist_on_packagist_repo",
+			args: args{
+				pkg:      "drupal/core-recommended",
+				versions: []string{"8.9.14", "9.5.0-rc3", "10.5.1"},
+			},
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 
-			if err := versionsExistInPackagist(tt.args.pkg, tt.args.versions); (err != nil) != tt.wantErr {
+			if err := versionsExistInPackagist(tt.args.pkg, tt.args.versions, ""); (err != nil) != tt.wantErr {
+				t.Errorf("versionsExistInPackagist() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func Test_versionsExistInPackagist_DrupalRepo(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		pkg      string
+		versions []string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			// the drupal repo has advisories for this package, but not versions
+			name: "multiple_versions_which_only_exist_on_packagist_repo",
+			args: args{
+				pkg:      "drupal/core-recommended",
+				versions: []string{"8.0.3", "10.1.0-rc1", "11.2.0"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "multiple_versions_which_all_exist_on_drupal_repo",
+			args: args{
+				pkg:      "drupal/simple_sitemap",
+				versions: []string{"1.3.0", "3.0.0-rc3", "4.1.3"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "multiple_versions_with_one_that_does_not_exist_on_drupal_repo",
+			args: args{
+				pkg:      "drupal/simple_sitemap",
+				versions: []string{"1.1.0", "3.0.0-rc5", "4.1.1"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "an_invalid_version",
+			args: args{
+				pkg:      "drupal/simple_sitemap",
+				versions: []string{"!"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "a_package_that_does_not_exit",
+			args: args{
+				pkg:      "drupal/not-a-real-package",
+				versions: []string{"1.0.0"},
+			},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			if err := versionsExistInPackagist(tt.args.pkg, tt.args.versions, "https://packages.drupal.org/8"); (err != nil) != tt.wantErr {
+				t.Errorf("versionsExistInPackagist() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func Test_versionsExistInPackagist_WPackagistRepo(t *testing.T) {
+	t.Skip("wpackagist uses the composer v1 api, which we don't support (i.e. providers-url & providers-includes)")
+	t.Parallel()
+
+	type args struct {
+		pkg      string
+		versions []string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "multiple_plugin_versions_which_all_exist_on_wpackagist_repo",
+			args: args{
+				pkg:      "wpackagist-plugin/akismet",
+				versions: []string{"2.3.0", "3.0.0-RC1", "5.4"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "multiple_plugin_versions_with_one_that_does_not_exist_on_wpackagist_repo",
+			args: args{
+				pkg:      "wpackagist-plugin/akismet",
+				versions: []string{"1.1.0", "2.3.4", "4.0.6"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "multiple_theme_versions_which_all_exist_on_wpackagist_repo",
+			args: args{
+				pkg:      "wpackagist-theme/hueman",
+				versions: []string{"1.2.8", "3.4.11", "3.7.26"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "multiple_theme_versions_with_one_that_does_not_exist_on_wpackagist_repo",
+			args: args{
+				pkg:      "wpackagist-theme/hueman",
+				versions: []string{"1.0.4", "2.3.4", "3.3.27"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "an_invalid_version",
+			args: args{
+				pkg:      "wpackagist-plugin/simple_sitemap",
+				versions: []string{"!"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "a_package_that_does_not_exit",
+			args: args{
+				pkg:      "wpackagist-plugin/not-a-real-package",
+				versions: []string{"1.0.0"},
+			},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			if err := versionsExistInPackagist(tt.args.pkg, tt.args.versions, "https://wpackagist.org"); (err != nil) != tt.wantErr {
 				t.Errorf("versionsExistInPackagist() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})

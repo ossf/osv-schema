@@ -5,6 +5,8 @@ import (
 )
 
 func Test_existsInCran(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
@@ -31,6 +33,8 @@ func Test_existsInCran(t *testing.T) {
 }
 
 func Test_existsInCrates(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
@@ -62,6 +66,8 @@ func Test_existsInCrates(t *testing.T) {
 }
 
 func Test_existsInNpm(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
@@ -93,6 +99,8 @@ func Test_existsInNpm(t *testing.T) {
 }
 
 func Test_existsInNuget(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
@@ -119,6 +127,8 @@ func Test_existsInNuget(t *testing.T) {
 }
 
 func Test_existsInRubyGems(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
@@ -145,14 +155,41 @@ func Test_existsInRubyGems(t *testing.T) {
 }
 
 func Test_existsInPackagist(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
+		repo string
 		want bool
 	}{
 		{
 			name: "existing package",
+			pkg:  "composer/installers",
+			want: true,
+		},
+		{
+			name: "existing drupal packagist package with packagist repo",
 			pkg:  "drupal/core",
+			want: true,
+		},
+		{
+			// the drupal repo has advisories for this package, so it is technically
+			// considered as existing even though the versions live in packagist
+			name: "existing drupal packagist package with drupal repo",
+			pkg:  "drupal/core",
+			repo: "https://packages.drupal.org/8",
+			want: true,
+		},
+		{
+			name: "existing drupal repo package with packagist repo",
+			pkg:  "drupal/simple_sitemap",
+			want: false,
+		},
+		{
+			name: "existing drupal repo package with drupal repo",
+			pkg:  "drupal/simple_sitemap",
+			repo: "https://packages.drupal.org/8",
 			want: true,
 		},
 		{
@@ -160,10 +197,26 @@ func Test_existsInPackagist(t *testing.T) {
 			pkg:  "non-existing-package",
 			want: false,
 		},
+		{
+			name: "non-existing drupal package",
+			pkg:  "drupal/non-existing-package",
+			want: false,
+		},
+		{
+			name: "non-existing drupal package with packagist repo",
+			pkg:  "drupal/non-existing-package",
+			want: false,
+		},
+		{
+			name: "non-existing drupal package with drupal repo",
+			pkg:  "drupal/non-existing-package",
+			repo: "https://packages.drupal.org/8",
+			want: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := existsInPackagist(tt.pkg); got != tt.want {
+			if got := existsInPackagist(tt.pkg, tt.repo); got != tt.want {
 				t.Errorf("existsInPackagist() = %v, want %v", got, tt.want)
 			}
 		})
@@ -171,6 +224,8 @@ func Test_existsInPackagist(t *testing.T) {
 }
 
 func Test_existsInPub(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
@@ -197,6 +252,8 @@ func Test_existsInPub(t *testing.T) {
 }
 
 func Test_existsInHackage(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
@@ -223,6 +280,8 @@ func Test_existsInHackage(t *testing.T) {
 }
 
 func Test_existsInHex(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
@@ -249,6 +308,8 @@ func Test_existsInHex(t *testing.T) {
 }
 
 func Test_existsInJulia(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
@@ -275,6 +336,8 @@ func Test_existsInJulia(t *testing.T) {
 }
 
 func Test_existsInMaven(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
@@ -301,6 +364,8 @@ func Test_existsInMaven(t *testing.T) {
 }
 
 func Test_existsInPyPI(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string
@@ -327,6 +392,8 @@ func Test_existsInPyPI(t *testing.T) {
 }
 
 func Test_existsInGo(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		pkg  string

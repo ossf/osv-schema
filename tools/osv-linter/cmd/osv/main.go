@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/ossf/osv-schema/linter/internal"
+	"github.com/ossf/osv-schema/linter/internal/checks"
 	"github.com/urfave/cli/v2"
 )
 
@@ -42,6 +43,28 @@ func main() {
 							&cli.BoolFlag{
 								Name:  "json",
 								Usage: "output results as JSON",
+							},
+							&cli.BoolFlag{
+								Name:  "new-ecosystem",
+								Usage: "ignore certain checks for new ecosystems (e.g. schema pattern checks, unsupported ecosystem checks)",
+							},
+							&cli.IntFlag{
+								Name:  "parallel",
+								Usage: "how many files to process in parallel",
+								Value: 1,
+							},
+							&cli.StringFlag{
+								Name:  "schema-file",
+								Usage: "path to a custom schema file to be used instead of the embedded one",
+								Action: func(_ *cli.Context, s string) error {
+									b, err := os.ReadFile(s)
+
+									if err == nil {
+										checks.LoadedSchema = b
+									}
+
+									return err
+								},
 							},
 						},
 						Aliases: []string{"check"},
