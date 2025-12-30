@@ -45,6 +45,7 @@ const (
 	EcosystemPyPI                       Ecosystem = "PyPI"
 	EcosystemRedHat                     Ecosystem = "Red Hat"
 	EcosystemRockyLinux                 Ecosystem = "Rocky Linux"
+	EcosystemRoot                       Ecosystem = "Root"
 	EcosystemRubyGems                   Ecosystem = "RubyGems"
 	EcosystemSUSE                       Ecosystem = "SUSE"
 	EcosystemSwiftURL                   Ecosystem = "SwiftURL"
