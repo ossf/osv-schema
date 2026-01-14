@@ -228,9 +228,9 @@ The defined database prefixes and their "home" databases are:
       <td><a href="https://github.com/cleanstart-dev/cleanstart-security-advisories"></a></td>
       <td>
         <ul>
-          <li>How to contribute: TBD</li>
+          <li>How to contribute:<code>https://github.com/cleanstart-dev/cleanstart-security-advisories/issues</code></li>
           <li>Source URL: <code>https://github.com/cleanstart-dev/cleanstart-security-advisories</code></li>
-          <li>OSV Formatted URL: <code>TBD</code></li>
+          <li>OSV Formatted URL: <code>https://github.com/cleanstart-dev/cleanstart-security-advisories/tree/main/advisories/&lt;YYYY&gt;/CLEANSTART-YYYY-&lt;ID&gt;.json</code></li>
         </ul>
       </td>
     </tr>
