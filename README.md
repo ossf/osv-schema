@@ -66,6 +66,7 @@ Together, these include vulnerabilities from:
 - Alpine
 - Alpaquita Linux
 - Android
+- Azure Linux
 - BellSoft Hardened Containers
 - Bitnami
 - Chainguard
