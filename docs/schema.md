@@ -471,8 +471,8 @@ The defined database prefixes and their "home" databases are:
       <td>
         <ul>
           <li>How to contribute: <a href="https://github.com/ocaml/security-advisories?tab=readme-ov-file#reporting-vulnerabilities">https://github.com/ocaml/security-advisories?tab=readme-ov-file#reporting-vulnerabilities</a></li>
-          <li>Source URL: <code>https://github.com/ocaml/security-advisories/&lt;ID&gt;</code></li>
-          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/ocaml/security-advisories/main/advisories/&lt;ID&gt;.json</code></li>
+          <li>Source URL: <code>https://github.com/ocaml/security-advisories/advisories/&lt;YEAR&gt;/&lt;ID&gt;.md</code></li>
+          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/ocaml/security-advisories/generated-osv/&lt;YEAR&gt;/&lt;ID&gt;.json</code></li>
         </ul>
       </td>
     </tr>
