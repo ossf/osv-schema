@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.7.4 (October 27, 2025)**
+**Version 1.7.5 (January 21, 2026)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -277,7 +277,7 @@ The defined database prefixes and their "home" databases are:
           <li>OSV Formatted URL: <code>https://github.com/docker-hardened-images/advisories/blob/main/osv/&lt;MODULE&gt;/&lt;ID&gt;</code></li>
         </ul>
       </td>
-    </tr>    
+    </tr>
     <tr>
       <td><code>DRUPAL</code></td>
       <td><a href="https://github.com/DrupalSecurityTeam/drupal-advisory-database">Drupal Advisory Database</a></td>
