@@ -9,7 +9,7 @@ The OSV schema provides a human and machine-readable format to describe vulnerab
 ## Quick links
 
 - Specification (rendered): <https://ossf.github.io/osv-schema/>
-- JSON Schema: [schema.json](schema.json)
+- JSON Schema: [schema.json](validation/schema.json)
 - Protocol buffer definition: [proto/vulnerability.proto](proto/vulnerability.proto)
 - Tools and converters: [tools/](tools)
 
