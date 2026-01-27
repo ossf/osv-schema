@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.7.4 (October 27, 2025)**
+**Version 1.7.5 (January 21, 2026)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -195,6 +195,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>AZL</code></td>
+      <td><a href="https://github.com/microsoft/AzureLinuxVulnerabilityData">Azure Linux Security Advisory</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>https://github.com/microsoft/AzureLinuxVulnerabilityData</code></li>
+          <li>OSV Formatted URL: <code>TBD</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>BELL</code></td>
       <td><a href="https://docs.bell-sw.com/security/search/">BellSoft Security Advisory</a></td>
       <td>
@@ -281,7 +292,7 @@ The defined database prefixes and their "home" databases are:
           <li>OSV Formatted URL: <code>https://github.com/docker-hardened-images/advisories/blob/main/osv/&lt;MODULE&gt;/&lt;ID&gt;</code></li>
         </ul>
       </td>
-    </tr>    
+    </tr>
     <tr>
       <td><code>DRUPAL</code></td>
       <td><a href="https://github.com/DrupalSecurityTeam/drupal-advisory-database">Drupal Advisory Database</a></td>
@@ -475,8 +486,8 @@ The defined database prefixes and their "home" databases are:
       <td>
         <ul>
           <li>How to contribute: <a href="https://github.com/ocaml/security-advisories?tab=readme-ov-file#reporting-vulnerabilities">https://github.com/ocaml/security-advisories?tab=readme-ov-file#reporting-vulnerabilities</a></li>
-          <li>Source URL: <code>https://github.com/ocaml/security-advisories/&lt;ID&gt;</code></li>
-          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/ocaml/security-advisories/main/advisories/&lt;ID&gt;.json</code></li>
+          <li>Source URL: <code>https://github.com/ocaml/security-advisories/advisories/&lt;YEAR&gt;/&lt;ID&gt;.md</code></li>
+          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/ocaml/security-advisories/generated-osv/&lt;YEAR&gt;/&lt;ID&gt;.json</code></li>
         </ul>
       </td>
     </tr>
@@ -895,6 +906,7 @@ The defined ecosystems are:
 | `Alpaquita` | BellSoft Alpaquita Linux package ecosystem; the `name` is the name of the source package. The ecosystem string has a `:<RELEASE>` suffix to scope the package to a particular Alpaquita Linux release. `<RELEASE>` is the id of the particular Alpaquita Linux release. Examples: `Alpaquita:23`, `Alpaquita:stream`. |
 | `Alpine` | The Alpine package ecosystem; the `name` is the name of the source package. The ecosystem string must have a `:v<RELEASE-NUMBER>` suffix to scope the package to a particular Alpine release branch (the `v` prefix is required). E.g. `v3.16`. |
 | `Android` | The Android ecosystem. Android organizes code using [`repo` tool](https://gerrit.googlesource.com/git-repo/+/HEAD/README.md), which manages multiple git projects under one or more remote git servers, where each project is identified by its name in [repo configuration](https://gerrit.googlesource.com/git-repo/+/HEAD/docs/manifest-format.md#Element-project) (e.g. `platform/frameworks/base`). The `name` field should contain the name of that affected git project/submodule. One exception is when the project contains the Linux kernel source code, in which case `name` field will be `:linux_kernel:`, followed by an optional SoC vendor name e.g. `:linux_kernel:Qualcomm`. The list of recognized SoC vendors is listed in the [Appendix](#android-soc-vendors) |
+| `Azure Linux` | The Azure Linux package ecosystem; the `name` is the name of the source package. The ecosystem string has a `:<RELEASE>` suffix to scope the package to a particular Azure Linux release. `<RELEASE>` is a numeric version. |
 | `BellSoft Hardened Containers` | BellSoft Hardened Containers package ecosystem; the `name` is the name of the source package. The ecosystem string has a `:<RELEASE>` suffix to scope the package to a particular Hardened Containers release. `<RELEASE>` is the id of the particular Hardened Containers release. Examples: `BellSoft Hardened Containers:23`, `BellSoft Hardened Containers:stream`. |
 | `Bioconductor` | The biological R package ecosystem. The `name` is an R package name. |
 | `Bitnami` | Bitnami package ecosystem; the `name` is the name of the affected component. |
