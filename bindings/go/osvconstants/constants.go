@@ -10,6 +10,7 @@ const (
 	EcosystemAlpaquita                  Ecosystem = "Alpaquita"
 	EcosystemAlpine                     Ecosystem = "Alpine"
 	EcosystemAndroid                    Ecosystem = "Android"
+	EcosystemAzureLinux                 Ecosystem = "Azure Linux"
 	EcosystemBellSoftHardenedContainers Ecosystem = "BellSoft Hardened Containers"
 	EcosystemBioconductor               Ecosystem = "Bioconductor"
 	EcosystemBitnami                    Ecosystem = "Bitnami"
