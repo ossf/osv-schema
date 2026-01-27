@@ -316,7 +316,7 @@ The defined database prefixes and their "home" databases are:
       <td><a href="https://advisory.echohq.com/osv/all.json">Echo Security Advisory Database</a></td>
       <td>
         <ul>
-          <li>How to contribute: TBD</li>
+          <li>How to contribute: <a href="https://echo.ai/">https://echo.ai</a></li>
           <li>Source URL: TBD</li>
           <li>OSV Formatted URL: <code>https://advisory.echohq.com/osv/&lt;ID&gt;.json</code></li>
         </ul>
