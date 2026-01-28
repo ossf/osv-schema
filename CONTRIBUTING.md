@@ -40,3 +40,30 @@ To add a new ecosystem, follow these steps:
     *   The main ecosystem table in `docs/schema.md`
     *   The ecosystem enum in `validation/schema.json`
     *   Make a copy of the `validation/schema.json` for the linter in `tools/osv-linter/internal/checks/schema_generated.json`
+
+## Development policies
+
+### Dependencies 
+
+#### Selection
+
+Dependencies should be taken in an intentional manner, following the OpenSSF's
+[Best Practices
+Guides](https://github.com/ossf/wg-best-practices-os-developers?tab=readme-ov-file#best-practices-guides)
+and [Concise
+Guides](https://github.com/ossf/wg-best-practices-os-developers?tab=readme-ov-file#concise-guides).
+Bias towards avoiding taking a new dependency where possible. Include your
+rationale for adding a new dependency in the pull request that adds it so
+reviewers may understand it, and the rationale is captured in the commit history. 
+
+To ease their ongoing management, dependencies *must* be obtained from relevant
+language-specific package registries and *not* vendored.
+
+#### Tracking
+
+Dependencies are tracked by their respective lock files.
+
+#### Management
+
+Dependencies are managed with standard dependency management tooling, such as
+Dependabot.
