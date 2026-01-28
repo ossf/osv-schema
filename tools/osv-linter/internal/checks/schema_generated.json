@@ -392,7 +392,7 @@
       "type": "string",
       "title": "Currently supported home database identifier prefixes",
       "description": "These home databases are also documented at https://ossf.github.io/osv-schema/#id-modified-fields",
-      "pattern": "^(ASB-A|PUB-A|ALPINE|ALSA|ALBA|ALEA|AZL|BELL|BIT|CGA|CLEANSTART|CURL|CVE|DEBIAN|DHI|DRUPAL|DSA|DLA|ELA|DTSA|ECHO|EEF|FreeBSD|GHSA|GO|GSD|HSEC|JLSEC|KUBE|LBSEC|LSN|MAL|MINI|MGASA|OESA|OSEC|OSV|openSUSE-SU|PHSA|PSF|PYSEC|RHBA|RHEA|RHSA|RLSA|RXSA|RSEC|ROOT|RUSTSEC|SUSE-[SRFO]U|UBUNTU|USN|V8)-"
+      "pattern": "^(x_|(ASB-A|PUB-A|ALPINE|ALSA|ALBA|ALEA|AZL|BELL|BIT|CGA|CLEANSTART|CURL|CVE|DEBIAN|DHI|DRUPAL|DSA|DLA|ELA|DTSA|ECHO|EEF|FreeBSD|GHSA|GO|GSD|HSEC|JLSEC|KUBE|LBSEC|LSN|MAL|MINI|MGASA|OESA|OSEC|OSV|openSUSE-SU|PHSA|PSF|PYSEC|RHBA|RHEA|RHSA|RLSA|RXSA|RSEC|ROOT|RUSTSEC|SUSE-[SRFO]U|UBUNTU|USN|V8)-)"
     },
     "severity": {
       "type": [

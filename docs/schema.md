@@ -143,6 +143,10 @@ string of the format `<DB>-<ENTRYID>`, where `DB` names the database and
 `ENTRYID` is in the format used by the database. For example: "OSV-2020-111",
 "CVE-2021-3114", or "GHSA-vp9c-fpxx-744v".
 
+The `x_` prefix can be used to denote a local database that isn't aggregated 
+by OSV.dev, allowing external records to be schema-compliant. For example: 
+"x_CUSTOM-0001".
+
 The defined database prefixes and their "home" databases are:
 
 <!-- Unfortunately, markdown tables are even worse than this to read/write -->
