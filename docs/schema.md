@@ -1058,8 +1058,8 @@ Only **a single type** (either `introduced`, `fixed`, `last_affected`,
 `limit`) is allowed in each event object. For instance,
 `{"introduced": "1.0.0", "fixed": "1.0.2"}` is **invalid**.
 
-Entries in the `events` array can contain either `last_affected` or `fixed`
-events, but not both. It's **strongly recommended** to use `fixed` instead of
+Entries in the `events` array may be "last_affected" or "fixed" events, 
+but not both. It's **strongly recommended** to use `fixed` instead of
 `last_affected` where possible, as it precisely identifies the version which
 contains the fix. `last_affected` should be thought of as the hard ceiling
 of the vulnerability _at the time of publication_ in the absence of a fixed version.
