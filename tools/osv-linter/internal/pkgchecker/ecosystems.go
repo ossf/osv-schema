@@ -18,6 +18,7 @@ var SupportedEcosystems = []string{
 	"Packagist",
 	"Pub",
 	"PyPI",
+	"Rubies",
 	"RubyGems",
 }
 
