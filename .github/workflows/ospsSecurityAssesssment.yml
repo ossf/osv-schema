@@ -15,10 +15,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Open Source Project Security Baseline Scanner
-        uses: revanite-io/osps-baseline-action@v1.0.0
+        uses: revanite-io/osps-baseline-action@v1.3.1
         with:
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
@@ -28,7 +28,7 @@ jobs:
 
       - name: Upload Assessment Results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: osps-assessment-results-${{ github.run_number }}
           path: evaluation_results/
