@@ -175,6 +175,74 @@
                   }
                 },
                 {
+                  "title": "GIT ranges must use full-length commit hashes",
+                  "if": {
+                    "properties": {
+                      "type": {
+                        "const": "GIT"
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "events": {
+                        "items": {
+                          "oneOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "introduced": {
+                                  "type": "string",
+                                  "pattern": "^(0|[a-f0-9]{40}|[a-f0-9]{64})$"
+                                }
+                              },
+                              "required": [
+                                "introduced"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "fixed": {
+                                  "type": "string",
+                                  "pattern": "^(0|[a-f0-9]{40}|[a-f0-9]{64})$"
+                                }
+                              },
+                              "required": [
+                                "fixed"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "last_affected": {
+                                  "type": "string",
+                                  "pattern": "^(0|[a-f0-9]{40}|[a-f0-9]{64})$"
+                                }
+                              },
+                              "required": [
+                                "last_affected"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "limit": {
+                                  "type": "string",
+                                  "pattern": "^(0|[a-f0-9]{40}|[a-f0-9]{64})$"
+                                }
+                              },
+                              "required": [
+                                "limit"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                {
                   "title": "last_affected and fixed events are mutually exclusive",
                   "if": {
                     "properties": {
