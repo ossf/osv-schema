@@ -9,6 +9,10 @@ import (
 	"github.com/sethvargo/go-retry"
 )
 
+var httpClient = &http.Client{
+	Timeout: 10 * time.Second,
+}
+
 // Make a HTTP GET request for url and retry 3 times, with an exponential backoff.
 func Get(url string) (resp *http.Response, err error) {
 	backoff := retry.NewExponential(1 * time.Second)
@@ -20,7 +24,7 @@ func Get(url string) (resp *http.Response, err error) {
 
 		req.Header.Set("User-Agent", "osv-linter")
 
-		r, err := http.DefaultClient.Do(req)
+		r, err := httpClient.Do(req)
 		if err != nil {
 			return err
 		}
@@ -51,7 +55,7 @@ func Head(url string) (resp *http.Response, err error) {
 
 		req.Header.Set("User-Agent", "osv-linter")
 
-		r, err := http.DefaultClient.Do(req)
+		r, err := httpClient.Do(req)
 		if err != nil {
 			return err
 		}
