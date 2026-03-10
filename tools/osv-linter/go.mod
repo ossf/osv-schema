@@ -1,6 +1,6 @@
 module github.com/ossf/osv-schema/linter
 
-go 1.25.6
+go 1.25.8
 
 require (
 	github.com/google/go-cmp v0.7.0
