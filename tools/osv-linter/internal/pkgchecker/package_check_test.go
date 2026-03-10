@@ -252,7 +252,6 @@ func Test_existsInPub(t *testing.T) {
 }
 
 func Test_existsInHackage(t *testing.T) {
-	t.Skip("Skipping temporarily due to Hackage API issues")
 	t.Parallel()
 
 	tests := []struct {
