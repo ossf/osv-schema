@@ -101,6 +101,7 @@ Together, these include vulnerabilities from:
 - Red Hat
 - SUSE
 - Rocky Linux
+- Rubies (Ruby languages)
 - RubyGems
 - Ubuntu
 
