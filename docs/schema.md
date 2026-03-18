@@ -143,8 +143,8 @@ string of the format `<DB>-<ENTRYID>`, where `DB` names the database and
 `ENTRYID` is in the format used by the database. For example: "OSV-2020-111",
 "CVE-2021-3114", or "GHSA-vp9c-fpxx-744v".
 
-The `x_` prefix can be used to denote a local database that isn't aggregated 
-by OSV.dev, allowing external records to be schema-compliant. For example: 
+The `x_` prefix can be used to denote a local database that isn't aggregated
+by OSV.dev, allowing external records to be schema-compliant. For example:
 "x_CUSTOM-0001".
 
 The defined database prefixes and their "home" databases are:
@@ -356,6 +356,17 @@ The defined database prefixes and their "home" databases are:
           <li>How to contribute: <a href="https://github.com/github/advisory-database#contributions">https://github.com/github/advisory-database#contributions</a></li>
           <li>Source URL: <code>https://github.com/advisories/&lt;ID&gt;</code></li>
           <li>OSV Formatted URL: <code>https://api.osv.dev/v1/vulns/&lt;ID&gt;</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>GLAM</code></td>
+      <td><a href="https://gitlab.com">GitLab Advisories for Malware</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>TBD</code></li>
+          <li>OSV Formatted URL: <code>TBD</code></li>
         </ul>
       </td>
     </tr>
@@ -1058,7 +1069,7 @@ Only **a single type** (either `introduced`, `fixed`, `last_affected`,
 `limit`) is allowed in each event object. For instance,
 `{"introduced": "1.0.0", "fixed": "1.0.2"}` is **invalid**.
 
-Entries in the `events` array may be "last_affected" or "fixed" events, 
+Entries in the `events` array may be "last_affected" or "fixed" events,
 but not both. It's **strongly recommended** to use `fixed` instead of
 `last_affected` where possible, as it precisely identifies the version which
 contains the fix. `last_affected` should be thought of as the hard ceiling
