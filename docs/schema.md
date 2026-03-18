@@ -57,7 +57,8 @@ A JSON Schema for validation is also available
 	"details": string,
 	"severity": [ {
 		"type": string,
-		"score": string
+		"score": string,
+    "source": string
 	} ],
 	"affected": [ {
 		"package": {
@@ -67,7 +68,8 @@ A JSON Schema for validation is also available
 		},
 		"severity": [ {
 			"type": string,
-			"score": string
+			"score": string,
+      "source": string
 		} ],
 		"ranges": [ {
 			"type": string,
@@ -143,8 +145,8 @@ string of the format `<DB>-<ENTRYID>`, where `DB` names the database and
 `ENTRYID` is in the format used by the database. For example: "OSV-2020-111",
 "CVE-2021-3114", or "GHSA-vp9c-fpxx-744v".
 
-The `x_` prefix can be used to denote a local database that isn't aggregated 
-by OSV.dev, allowing external records to be schema-compliant. For example: 
+The `x_` prefix can be used to denote a local database that isn't aggregated
+by OSV.dev, allowing external records to be schema-compliant. For example:
 "x_CUSTOM-0001".
 
 The defined database prefixes and their "home" databases are:
@@ -778,7 +780,8 @@ display sites to unnecessary vulnerabilities.)
 {
 	"severity": [ {
 		"type": string,
-		"score": string
+		"score": string,
+    "source": string
 	} ]
 }
 ```
@@ -786,7 +789,7 @@ display sites to unnecessary vulnerabilities.)
 The `severity` field is a JSON array that allows generating systems to describe
 the severity of a vulnerability using one or more quantitative scoring methods.
 Each `severity` item is a JSON object specifying a `type` and `score` property,
-described below.
+as well as an optional `source` property, described below.
 
 ### severity[].type field
 
@@ -806,6 +809,12 @@ describes the quantitative method used to calculate the associated `score`.
 The `severity[].score` property is a string representing the severity score based
 on the selected `severity[].type`, as described above.
 
+### severity[].source field
+
+The `severity[].source` property is an optional string representing the provider of the
+severity, which could be in the form of a name, email address, or other identifier. This
+property is generally used by databases that aggregate severities from multiple providers.
+
 ## affected fields
 
 ```json
@@ -818,7 +827,8 @@ on the selected `severity[].type`, as described above.
 		},
 		"severity": [ {
 			"type": string,
-			"score": string
+			"score": string,
+      "source": string
 		} ],
 		"ranges": [ {
 			"type": string,
@@ -1058,7 +1068,7 @@ Only **a single type** (either `introduced`, `fixed`, `last_affected`,
 `limit`) is allowed in each event object. For instance,
 `{"introduced": "1.0.0", "fixed": "1.0.2"}` is **invalid**.
 
-Entries in the `events` array may be "last_affected" or "fixed" events, 
+Entries in the `events` array may be "last_affected" or "fixed" events,
 but not both. It's **strongly recommended** to use `fixed` instead of
 `last_affected` where possible, as it precisely identifies the version which
 contains the fix. `last_affected` should be thought of as the hard ceiling
