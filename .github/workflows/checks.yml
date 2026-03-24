@@ -116,7 +116,7 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Validate OSV Schema
-        uses: dsanders11/json-schema-validate-action@79b2d95a446a0d786f7f244ae7764f8370ff3657 # v1.4.0
+        uses: dsanders11/json-schema-validate-action@eddf079f55830cc9a916a3c512ba9086240d2fea # v2.0.0
         with:
           # https://github.com/marketplace/actions/json-schema-validate#validating-schema
           schema: json-schema
