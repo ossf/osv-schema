@@ -639,7 +639,7 @@ The defined database prefixes and their "home" databases are:
       <td><a href="https://security.tuxcare.com/errata/">TuxCare Security Advisory</a></td>
       <td>
         <ul>
-          <li>How to contribute: TBD</li>
+          <li>How to contribute: Contact us via <a href="mailto:security-advisories@tuxcare.com">security-advisories@tuxcare.com</a></li>
           <li>Source URL: <code>https://security.tuxcare.com/errata/&lt;component&gt;/&lt;os&gt;/&lt;ID&gt;.html</code></li>
           <li>OSV Formatted URL: <code>N/A</code></li>
         </ul>
