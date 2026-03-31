@@ -635,6 +635,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>CLSA</code></td>
+      <td><a href="https://security.tuxcare.com/errata/">TuxCare Security Advisory</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: Contact us via <a href="mailto:security-advisories@tuxcare.com">security-advisories@tuxcare.com</a></li>
+          <li>Source URL: <code>https://security.tuxcare.com/errata/&lt;component&gt;/&lt;os&gt;/&lt;ID&gt;.html</code></li>
+          <li>OSV Formatted URL: <code>N/A</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td>Your database here</td>
       <td colspan="2"><a href="https://github.com/ossf/osv-schema/compare">Send us a PR</a></td>
     </tr>
@@ -946,6 +957,7 @@ The defined ecosystems are:
 | `RubyGems` | The RubyGems ecosystem; the `name` field is a gem name. |
 | `SUSE` | The SUSE ecosystem; The ecosystem string has a `:<RELEASE>` suffix representing the marketing name of the SUSE product. `<RELEASE>` matches the value in the /etc/os-release `PRETTY_NAME` field. The `name` field is the name of the source RPM and accompanied by a purl. There is a `ecosystem_specific` specific array `binaries` of the associated RPM binary packages in this specific SUSE product. The ECOSYSTEM version ordering is the RPM versioncompare ordering, and the database uses the `introduced` and `fixed` boundaries. |
 | `SwiftURL` | The Swift Package Manager ecosystem. The `name` is a Git URL to the source of the package. Versions are Git tags that comform to [SemVer 2.0](https://docs.swift.org/package-manager/PackageDescription/PackageDescription.html#version). |
+| `TuxCare` | TuxCare package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular TuxCare release. `<RELEASE>` is a numeric version. |
 | `Ubuntu` | The Ubuntu package ecosystem; the `name` field is the name of the source package. The ecosystem string has a `:<RELEASE>` suffix to scope the package to a particular Ubuntu release. `<RELEASE>` is a numeric ("YY.MM") version as specified in [Ubuntu Releases](https://wiki.ubuntu.com/Releases), with a mandatory `:LTS` suffix if the release is marked as LTS. The release version may also be prefixed with `:Pro:` to denote Ubuntu Pro (aka Expanded Security Maintenance (ESM)) updates. For example, the ecosystem string "Ubuntu:22.04:LTS" refers to Ubuntu 22.04 LTS (jammy), while "Ubuntu:Pro:18.04:LTS" refers to fixes that landed in Ubuntu 18.04 LTS (bionic) under Ubuntu Pro/ESM. |
 | `VSCode` | The Visual Studio Code extensions ecosystem; the `name` is the `<publisher>.<name>` string which uniquely identifies a package. This identifier is composed from the `Publisher` and `Id` attributes of the `Identity` element in the package's `.vsixmanifest` file. It also corresponds to the `itemName` parameter of the package as found on the [Visual Studio Marketplace for VS Code](https://marketplace.visualstudio.com/vscode) extensions page, or the `namespace` and `name` fields of the [OpenVSX](https://open-vsx.org/) API response for the target package. The ecosystem string might optionally have a `:<REMOTE-REPO-URL>` suffix to denote the remote repository URL that best represents the source of truth for this package, without a trailing slash (e.g. `VSCode:https://open-vsx.org`). If this is omitted, this is assumed to be the Visual Studio Marketplace for VSCode (`https://marketplace.visualstudio.com/vscode`). |
 | `Wolfi` | The Wolfi package ecosystem; the `name` is the name of the package. |
