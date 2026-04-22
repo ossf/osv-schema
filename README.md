@@ -60,6 +60,7 @@ There are many home databases publishing OSV-format advisories or maintain conve
 - [Ubuntu](https://github.com/canonical/ubuntu-security-notices/)
 - [VMWare Photon OS](https://github.com/vmware/photon/wiki/Security-Advisories) (unofficial)
 - [TuxCare](https://github.com/cloudlinux/tuxcare-osv)
+- [GitroomHQ](https://advisory.ennogelhaus.de/public/gitroomhq)
 
 Together, these include vulnerabilities from:
 
@@ -105,6 +106,7 @@ Together, these include vulnerabilities from:
 - RubyGems
 - Ubuntu
 - TuxCare
+- GitroomHQ
 
 See the repository history and the `tools/` subdirectories for more examples and testdata.
 
