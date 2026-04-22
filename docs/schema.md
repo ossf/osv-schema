@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.7.5 (January 21, 2026)**
+**Version 1.7.6 (April 22, 2026)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -646,6 +646,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>PSA</code></td>
+      <td><a href="https://advisory.ennogelhaus.de/public/gitroomhq">GitroomHQ Security Advisory</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://advisory.ennogelhaus.de/disclose/gitroomhq%2Fpostiz%2Fpostiz-app">Report a vulnerability</a></li>
+          <li>Source URL: <code>https://advisory.ennogelhaus.de/advisories/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://advisory.ennogelhaus.de/api/public/osv/group/gitroomhq/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td>Your database here</td>
       <td colspan="2"><a href="https://github.com/ossf/osv-schema/compare">Send us a PR</a></td>
     </tr>
@@ -961,6 +972,7 @@ The defined ecosystems are:
 | `Ubuntu` | The Ubuntu package ecosystem; the `name` field is the name of the source package. The ecosystem string has a `:<RELEASE>` suffix to scope the package to a particular Ubuntu release. `<RELEASE>` is a numeric ("YY.MM") version as specified in [Ubuntu Releases](https://wiki.ubuntu.com/Releases), with a mandatory `:LTS` suffix if the release is marked as LTS. The release version may also be prefixed with `:Pro:` to denote Ubuntu Pro (aka Expanded Security Maintenance (ESM)) updates. For example, the ecosystem string "Ubuntu:22.04:LTS" refers to Ubuntu 22.04 LTS (jammy), while "Ubuntu:Pro:18.04:LTS" refers to fixes that landed in Ubuntu 18.04 LTS (bionic) under Ubuntu Pro/ESM. |
 | `VSCode` | The Visual Studio Code extensions ecosystem; the `name` is the `<publisher>.<name>` string which uniquely identifies a package. This identifier is composed from the `Publisher` and `Id` attributes of the `Identity` element in the package's `.vsixmanifest` file. It also corresponds to the `itemName` parameter of the package as found on the [Visual Studio Marketplace for VS Code](https://marketplace.visualstudio.com/vscode) extensions page, or the `namespace` and `name` fields of the [OpenVSX](https://open-vsx.org/) API response for the target package. The ecosystem string might optionally have a `:<REMOTE-REPO-URL>` suffix to denote the remote repository URL that best represents the source of truth for this package, without a trailing slash (e.g. `VSCode:https://open-vsx.org`). If this is omitted, this is assumed to be the Visual Studio Marketplace for VSCode (`https://marketplace.visualstudio.com/vscode`). |
 | `Wolfi` | The Wolfi package ecosystem; the `name` is the name of the package. |
+| `GitroomHQ` | The Postiz open source social media scheduling application; the `name` is the name of the GitroomHQ component (e.g. `postiz-app`). |
 | Your ecosystem here. | [Send us a PR](https://github.com/ossf/osv-schema/compare). |
 
 <!-- end auto-generated ecosystems list -->
