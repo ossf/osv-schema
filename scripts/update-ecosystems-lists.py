@@ -8,7 +8,7 @@ MARKDOWN_TABLE_MARKER_END = '<!-- end auto-generated ecosystems list -->'
 
 # The version is not in the schema, so it's hardcoded here for now.
 # This should be kept in sync with the canonical version.
-SCHEMA_VERSION = "1.7.3"
+SCHEMA_VERSION = "1.7.5"
 
 # ensure that the ecosystems are sorted alphabetically and don't have extra whitespace
 ecosystems: dict[str, str] = {
