@@ -647,12 +647,12 @@ The defined database prefixes and their "home" databases are:
     </tr>
     <tr>
       <td><code>PSA</code></td>
-      <td><a href="https://advisory.ennogelhaus.de/public/gitroomhq">GitroomHQ Security Advisory</a></td>
+      <td><a href="https://gadvisory.org/public/gitroomhq">GitroomHQ Security Advisory</a></td>
       <td>
         <ul>
-          <li>How to contribute: <a href="https://advisory.ennogelhaus.de/disclose/gitroomhq%2Fpostiz%2Fpostiz-app">Report a vulnerability</a></li>
-          <li>Source URL: <code>https://advisory.ennogelhaus.de/advisories/&lt;ID&gt;</code></li>
-          <li>OSV Formatted URL: <code>https://advisory.ennogelhaus.de/api/public/osv/group/gitroomhq/&lt;ID&gt;.json</code></li>
+          <li>How to contribute: <a href="https://gadvisory.org/disclose/gitroomhq%2Fpostiz%2Fpostiz-app">Report a vulnerability</a></li>
+          <li>Source URL: <code>https://gadvisory.org/advisories/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://gadvisory.org/api/public/osv/group/gitroomhq/&lt;ID&gt;.json</code></li>
         </ul>
       </td>
     </tr>
