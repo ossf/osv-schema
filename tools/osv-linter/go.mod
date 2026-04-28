@@ -5,7 +5,7 @@ go 1.25.8
 require (
 	github.com/google/go-cmp v0.7.0
 	github.com/google/osv-scalibr v0.4.5
-	github.com/package-url/packageurl-go v0.1.5
+	github.com/package-url/packageurl-go v0.1.6
 	github.com/sethvargo/go-retry v0.3.0
 	github.com/tidwall/gjson v1.18.0
 	github.com/urfave/cli/v2 v2.27.7
