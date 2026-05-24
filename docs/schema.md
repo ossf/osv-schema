@@ -822,9 +822,17 @@ on the selected `severity[].type`, as described above.
 
 ### severity[].source field
 
-The `severity[].source` property is an optional string representing the provider of the
-severity, which could be in the form of a name, email address, or other identifier. This
-property is generally used by databases that aggregate severities from multiple providers.
+The `severity[].source` property is an optional string indicating the origin of the
+severity assessment.
+
+If `source` is omitted, the rating is implicitly attributed to the home database
+(as identified by the record's `id` field), whether as author or endorser.
+
+| Source | Description |
+| --------- | ----------- |
+| `NVD` | The severity was provided by the [National Vulnerability Database](https://nvd.nist.gov/). |
+| `CVE-CNA` | The severity was provided by the [CVE Numbering Authority](https://www.cve.org/ProgramOrganization/CNAs) that assigned the CVE. |
+| `SELF` | The severity was provided by the home database. Unlike omitting `source`, this is an explicit declaration of provenance. |
 
 ## affected fields
 
