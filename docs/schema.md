@@ -830,8 +830,8 @@ If `source` is omitted, the rating is implicitly attributed to the home database
 
 | Source | Description |
 | --------- | ----------- |
-| `NVD` | The severity was provided by the [National Vulnerability Database](https://nvd.nist.gov/). |
-| `CVE-CNA` | The severity was provided by the [CVE Numbering Authority](https://www.cve.org/ProgramOrganization/CNAs) that assigned the CVE. |
+| `NVD` | The severity was provided by the [National Vulnerability Database (NVD)](https://nvd.nist.gov/). |
+| `CNA` | The severity was provided by the [CVE Numbering Authority (CNA)](https://www.cve.org/ProgramOrganization/CNAs) that assigned the CVE. |
 | `SELF` | The severity was provided by the home database. Unlike omitting `source`, this is an explicit declaration of provenance. |
 
 ## affected fields
