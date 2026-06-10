@@ -27,6 +27,14 @@ func TestPackageExists(t *testing.T) {
 			},
 			wantFindings: []CheckError{{Code: "", Message: "package \"123bla\" not found in \"PyPI\""}},
 		},
+		{
+			name: "Wildcard package name in PyPI",
+			args: args{
+				json:   LoadTestData("../../testdata/wildcard-package.json"),
+				config: &Config{},
+			},
+			wantFindings: nil,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -62,6 +70,14 @@ func TestPackageVersionsExists(t *testing.T) {
 				json:   LoadTestData("../../testdata/GHSA-9v2f-6vcg-3hgv.json"),
 				config: &Config{Ecosystems: []string{"npm"}},
 			},
+		},
+		{
+			name: "Wildcard package versions check",
+			args: args{
+				json:   LoadTestData("../../testdata/wildcard-package.json"),
+				config: &Config{},
+			},
+			wantFindings: nil,
 		},
 	}
 	for _, tt := range tests {

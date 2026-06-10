@@ -887,6 +887,11 @@ strings in the table below. The `name` field is a string identifying the library
 within its ecosystem. The two fields must both be present, because the
 `ecosystem` serves to define the interpretation of the `name`.
 
+Use the wildcard package name `*` to indicate that an advisory affects all
+packages within the specified `ecosystem`. For example, this is useful when an
+ecosystem version reaches end-of-life (EOL) and receives no further security
+support.
+
 The `purl` field is a string following the
  [Package URL specification](https://github.com/package-url/purl-spec) that
 identifies the package, without the `@version` component.
