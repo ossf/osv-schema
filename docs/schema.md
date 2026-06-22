@@ -63,7 +63,8 @@ A JSON Schema for validation is also available
 		"package": {
 			"ecosystem": string,
 			"name": string,
-			"purl": string
+			"purl": string,
+			"files": [ string ]
 		},
 		"severity": [ {
 			"type": string,
@@ -880,7 +881,8 @@ be represented as ranges must include the enumerated `versions` list instead.
 
 The `affected` object's `package` field is a JSON object identifying the
 affected code library or command provided by the package. The object itself has
-two required fields, `ecosystem` and `name`, and an optional `purl` field.
+two required fields, `ecosystem` and `name`, and an optional `purl` and `files`
+field.
 
 The `ecosystem` identifies the overall library ecosystem. It must be one of the
 strings in the table below. The `name` field is a string identifying the library
@@ -903,6 +905,9 @@ versions and different potential vulnerabilities:
 ```json
 {"ecosystem": "PyPI", "name": "zlib"}
 ```
+
+The `files` field is an array of filenames that are affected in the package by
+this vulnerability.
 
 #### Defined ecosystems
 
