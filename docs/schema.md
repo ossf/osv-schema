@@ -547,6 +547,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>RHLW</code></td>
+      <td><a href="https://github.com/project-lightwell/lightwell-osv">Red Hat Lightwell</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>https://github.com/project-lightwell/lightwell-osv</code></li>
+          <li>OSV Formatted URL: <code>https://github.com/project-lightwell/lightwell-osv/blob/main/advisories/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>RLSA</code>/<code>RXSA</code></td>
       <td><a href="https://errata.rockylinux.org">Rocky Linux Security Advisory Database</a></td>
       <td>
