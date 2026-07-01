@@ -482,6 +482,14 @@
           },
           "score": {
             "type": "string"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "NVD",
+              "CNA",
+              "SELF"
+            ]
           }
         },
         "allOf": [
