@@ -105,6 +105,7 @@ Together, these include vulnerabilities from:
 - RubyGems
 - Ubuntu
 - TuxCare
+- vcpkg
 
 See the repository history and the `tools/` subdirectories for more examples and testdata.
 
