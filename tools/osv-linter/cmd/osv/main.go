@@ -66,6 +66,10 @@ func main() {
 									return err
 								},
 							},
+							&cli.BoolFlag{
+								Name:  "include-withdrawn",
+								Usage: "run linting checks on withdrawn records which are skipped by default",
+							},
 						},
 						Aliases: []string{"check"},
 						Usage:   "check OSV records for correctness",
