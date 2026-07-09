@@ -1,7 +1,7 @@
 package internal
 
 import (
-	"bytes"
+	"encoding/json"
 	"os"
 	"testing"
 
@@ -49,9 +49,16 @@ func TestLint_WithdrawnRecords(t *testing.T) {
 				t.Fatalf("failed to read test file %q: %v", tt.filename, err)
 			}
 
-			// Inject a duplicate entry into "related" to ensure a finding is triggered when run
-			badRelated := []byte(`"related": ["CVE-2021-44832", "CVE-2021-44832"],`)
-			contentBytes = bytes.Replace(contentBytes, []byte(`"related": [`), badRelated, 1)
+			// Parse JSON and replace with duplicated related values to ensure we have findings.
+			var parsed map[string]any
+			if err := json.Unmarshal(contentBytes, &parsed); err != nil {
+				t.Fatalf("failed to unmarshal test JSON: %v", err)
+			}
+			parsed["related"] = []string{"CVE-2021-44832", "CVE-2021-44832"}
+			contentBytes, err = json.Marshal(parsed)
+			if err != nil {
+				t.Fatalf("failed to marshal modified JSON: %v", err)
+			}
 
 			content := &Content{
 				filename: tt.filename,
