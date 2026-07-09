@@ -22,6 +22,7 @@ import (
 	"github.com/ossf/osv-schema/linter/internal/pkgchecker"
 )
 
+// Content represents the content of a file to be linted.
 type Content struct {
 	filename string
 	bytes    []byte
@@ -29,11 +30,12 @@ type Content struct {
 
 // Config defines the arguments for lint().
 type Config struct {
-	checks       []*checks.CheckDef // which checks to run.
-	ecosystems   []string           // which ecosystems to limit package checks to.
-	verbose      bool               // whether to emit verbose output.
-	json         bool               // whether to output results as JSON.
-	newEcosystem bool               // whether to ignore certain checks for new ecosystems.
+	checks           []*checks.CheckDef // which checks to run.
+	ecosystems       []string           // which ecosystems to limit package checks to.
+	verbose          bool               // whether to emit verbose output.
+	json             bool               // whether to output results as JSON.
+	newEcosystem     bool               // whether to ignore certain checks for new ecosystems.
+	includeWithdrawn bool               // whether to include withdrawn records which are skipped by default.
 }
 
 func lint(content *Content, config *Config) (findings []checks.CheckError) {
@@ -43,6 +45,12 @@ func lint(content *Content, config *Config) (findings []checks.CheckError) {
 	}
 
 	record := gjson.ParseBytes(content.bytes)
+	// Skip checks for withdrawn records unless explicitly included.
+	if !config.includeWithdrawn {
+		if record.Get("withdrawn").Exists() {
+			return
+		}
+	}
 
 	for _, check := range config.checks {
 		if config.verbose && !config.json {
@@ -58,6 +66,7 @@ func lint(content *Content, config *Config) (findings []checks.CheckError) {
 	return findings
 }
 
+// LintCommand is the entry point for the "lint" CLI command.
 func LintCommand(cCtx *cli.Context) error {
 	// List check collections.
 	if cCtx.String("collection") == "list" {
@@ -213,11 +222,12 @@ func checkFile(cCtx *cli.Context, fileToCheck string, checksToBeRun []*checks.Ch
 		return nil, err
 	}
 	return lint(&Content{filename: fileToCheck, bytes: recordBytes}, &Config{
-		verbose:      cCtx.Bool("verbose"),
-		checks:       checksToBeRun,
-		ecosystems:   cCtx.StringSlice("ecosystems"),
-		json:         cCtx.Bool("json"), // Pass the JSON output mode
-		newEcosystem: cCtx.Bool("new-ecosystem"),
+		verbose:          cCtx.Bool("verbose"),
+		checks:           checksToBeRun,
+		ecosystems:       cCtx.StringSlice("ecosystems"),
+		json:             cCtx.Bool("json"), // Pass the JSON output mode
+		newEcosystem:     cCtx.Bool("new-ecosystem"),
+		includeWithdrawn: cCtx.Bool("include-withdrawn"),
 	}), nil
 }
 
