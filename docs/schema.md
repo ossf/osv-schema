@@ -561,12 +561,12 @@ The defined database prefixes and their "home" databases are:
     </tr>
     <tr>
       <td><code>RHLW</code></td>
-      <td><a href="https://github.com/project-lightwell/lightwell-osv">Red Hat Lightwell</a></td>
+      <td><a href="https://www.redhat.com/en/lightwell">Red Hat Lightwell</a></td>
       <td>
         <ul>
           <li>How to contribute: TBD</li>
-          <li>Source URL: <code>https://github.com/project-lightwell/lightwell-osv</code></li>
-          <li>OSV Formatted URL: <code>https://github.com/project-lightwell/lightwell-osv/blob/main/advisories/&lt;ID&gt;.json</code></li>
+          <li>Source URL: <code>TBD</code></li>
+          <li>OSV Formatted URL: <code>TBD</code></li>
         </ul>
       </td>
     </tr>
