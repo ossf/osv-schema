@@ -28,6 +28,7 @@ const (
 	EcosystemGo                         Ecosystem = "Go"
 	EcosystemHackage                    Ecosystem = "Hackage"
 	EcosystemHex                        Ecosystem = "Hex"
+	EcosystemHomebrew                   Ecosystem = "Homebrew"
 	EcosystemJulia                      Ecosystem = "Julia"
 	EcosystemKubernetes                 Ecosystem = "Kubernetes"
 	EcosystemLinux                      Ecosystem = "Linux"

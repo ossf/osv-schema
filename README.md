@@ -82,6 +82,7 @@ Together, these include vulnerabilities from:
 - Go
 - Haskell
 - Hex
+- Homebrew
 - Julia
 - Linux kernel
 - Mageia
