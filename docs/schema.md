@@ -234,9 +234,9 @@ The defined database prefixes and their "home" databases are:
       <td><a href="https://github.com/Homebrew/advisory-database">Homebrew Advisory Database</a></td>
       <td>
         <ul>
-          <li>How to contribute: <a href="https://github.com/Homebrew/advisory-database/blob/main/CONTRIBUTING.md">https://github.com/Homebrew/advisory-database/blob/main/CONTRIBUTING.md</a></li>
-          <li>Source URL: <code>https://github.com/Homebrew/advisory-database/blob/main/advisories/&lt;ID&gt;.json</code></li>
-          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/Homebrew/advisory-database/main/advisories/&lt;ID&gt;.json</code></li>
+          <li>How to contribute: <a href="https://github.com/Homebrew/advisory-database/blob/HEAD/CONTRIBUTING.md">https://github.com/Homebrew/advisory-database/blob/HEAD/CONTRIBUTING.md</a></li>
+          <li>Source URL: <code>https://github.com/Homebrew/advisory-database/blob/HEAD/advisories/&lt;ID&gt;.json</code></li>
+          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/Homebrew/advisory-database/HEAD/advisories/&lt;ID&gt;.json</code></li>
         </ul>
       </td>
     </tr>
