@@ -231,12 +231,12 @@ The defined database prefixes and their "home" databases are:
     </tr>
     <tr>
       <td><code>BREW</code></td>
-      <td><a href="https://brew.sh/">Homebrew Advisory Database</a></td>
+      <td><a href="https://github.com/Homebrew/advisory-database">Homebrew Advisory Database</a></td>
       <td>
         <ul>
-          <li>How to contribute: TBD</li>
-          <li>Source URL: <code>TBD</code></li>
-          <li>OSV Formatted URL: <code>TBD</code></li>
+          <li>How to contribute: <a href="https://github.com/Homebrew/advisory-database/blob/HEAD/CONTRIBUTING.md">https://github.com/Homebrew/advisory-database/blob/HEAD/CONTRIBUTING.md</a></li>
+          <li>Source URL: <code>https://github.com/Homebrew/advisory-database/blob/HEAD/advisories/&lt;ID&gt;.json</code></li>
+          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/Homebrew/advisory-database/HEAD/advisories/&lt;ID&gt;.json</code></li>
         </ul>
       </td>
     </tr>
@@ -975,7 +975,7 @@ The defined ecosystems are:
 | `Go` | The Go ecosystem; the `name` field is a Go module path. |
 | `Hackage` | The Haskell package ecosystem. The `name` field is a Haskell package name as published on Hackage. |
 | `Hex` | The package manager for the Erlang ecosystem; the `name` is a Hex package name. |
-| `Homebrew` | The Homebrew package manager for macOS and Linux; the `name` is the formula name (e.g. `openssl@3`). Casks are not currently in scope. Without a `:<tap>` suffix the formula is assumed to come from the default `homebrew/core` tap. A version is the formula version as reported by `brew info` with an `_N` suffix when the formula revision is nonzero (e.g. `1.81.6_6`), matching the version component of a `pkg:brew` purl. |
+| `Homebrew` | The Homebrew package manager for macOS and Linux; the `name` is the formula name (e.g. `openssl@3`). Casks are not currently in scope. Without a `:<tap>` suffix the formula is assumed to come from the default `homebrew/core` tap. A version is the formula version as reported by `brew info` with an `_N` suffix when the formula revision is nonzero (e.g. `1.81.6_6`), matching the version component of a `pkg:brew` purl. The ECOSYSTEM version ordering is Homebrew's [`PkgVersion`](https://github.com/Homebrew/brew/blob/HEAD/Library/Homebrew/pkg_version.rb) comparison: the version segment compared by Homebrew's [`Version`](https://github.com/Homebrew/brew/blob/HEAD/Library/Homebrew/version.rb) class, then the numeric revision suffix. The database uses `introduced` and `fixed` boundaries. |
 | `Julia` | The Julia Programming Language ecosystem; the `name` is a registered package in the General registry. |
 | `Kubernetes` | The Kubernetes ecosystem; `name` is the Go module name associated with the relevant Kubernetes component (e.g. `k8s.io/apiserver`) |
 | `Linux` | The Linux kernel. The only supported `name` is `Kernel`. |
