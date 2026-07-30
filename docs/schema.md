@@ -676,13 +676,7 @@ The defined database prefixes and their "home" databases are:
   </tbody>
 </table>
 
-In addition to those prefixes, other databases may serve information about
-non-database-specific prefixes. For example a language ecosystem might decide to
-use CVE identifiers to index its database rather than a custom prefix. The known
-databases operating without custom identifier prefixes are:
-
-- Alpine Security Advisory. Serving `<ID>` in the shared format at `https://storage.googleapis.com/cve-osv-conversion/osv-output/<ID>.json`.
-- Your database here. [Send us a PR](https://github.com/ossf/osv-schema/compare).
+Publishers should publish information within their reasonable scope or ecosystem. If one wants to derive their ID from a CVE record, adding the home database prefix is sufficient to communicate this. e.g. `DEBIAN-CVE-2000-0001`.
 
 The `modified` field gives the time the entry was last modified, as an
 RFC3339-formatted timestamp in UTC (ending in "Z"). Given two
