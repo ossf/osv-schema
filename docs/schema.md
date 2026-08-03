@@ -1005,6 +1005,23 @@ It is permitted for a database name (the DB prefix in the `id` field) and an
 ecosystem name to be the same, provided they have the same owner who can make
 decisions about the meaning of the `ecosystem_specific` field (see below).
 
+### Depicting multiple ecosystems in the same record
+
+An OSV record can describe a vulnerability affecting multiple ecosystems. This is done by including multiple objects in the `affected` array, each specifying a different `package.ecosystem`.
+
+#### Separating Git and Strict Ecosystems
+
+When providing vulnerability information for both a strict packaging ecosystem (such as `npm`, `PyPI`, or `Go`) and Git-level details (such as commit hashes), it is recommended to use separate entries in the `affected` array.
+
+- **Strict Ecosystem Entry**: This entry should use the specific ecosystem name (e.g., `"ecosystem": "npm"`). It should list affected versions in the `versions` field or use `ECOSYSTEM` or `SEMVER` range types in the `ranges` field.
+- **Git Entry**: This entry should use **no** `package` field. It should use the `GIT` range type in the `ranges` field to specify affected commit ranges.
+
+This separation ensures that tools relying on strict version parsing for a specific ecosystem do not get confused by Git commit hashes, and vice versa.
+
+#### Version Enumeration for Git Entries
+
+For entries using `GIT` "ecosystem", the `versions` field is typically populated with enumerated versions (tags) derived from the Git repository specified in `ranges[].repo`. OSV infrastructure (such as https://osv.dev) can automatically perform this enumeration during ingestion, populating the `versions` array with relevant tags that fall within the specified commit ranges. If in the same affected field as a strict ecosystem, versions from both the Git repository and the strict ecosystem will appear in the `versions` array.
+
 ### affected[].severity field
 
 The `severity` field is an optional element [defined here](#severity-field).
