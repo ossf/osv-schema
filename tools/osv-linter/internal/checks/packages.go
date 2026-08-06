@@ -44,6 +44,9 @@ func PackageExists(json *gjson.Result, config *Config) (findings []CheckError) {
 			return true // keep iterating (over affected entries)
 		}
 		pkg := value.Get("package.name").String()
+		if pkg == "*" {
+			return true // keep iterating, wildcard package matches everything and doesn't need to exist
+		}
 
 		// Avoid unnecessary network traffic for repeat packages.
 		if _, ok := knownExistent[Package{Ecosystem: ecosystem, Name: pkg}]; ok {
@@ -92,6 +95,9 @@ func PackageVersionsExist(json *gjson.Result, config *Config) (findings []CheckE
 			return true // keep iterating (over affected entries)
 		}
 		pkg := value.Get("package.name").String()
+		if pkg == "*" {
+			return true // keep iterating, wildcard package matches everything and doesn't need to exist
+		}
 		versionsToCheck := []string{}
 		// Examine versions in ranges.
 		maybeRanges := value.Get("ranges")
