@@ -56,4 +56,5 @@ const (
 	EcosystemVcpkg                      Ecosystem = "vcpkg"
 	EcosystemVSCode                     Ecosystem = "VSCode"
 	EcosystemWolfi                      Ecosystem = "Wolfi"
+	EcosystemWordPress                  Ecosystem = "WordPress"
 )
