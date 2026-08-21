@@ -1,6 +1,18 @@
 package pkgchecker
 
-import "testing"
+import (
+	"slices"
+	"testing"
+)
+
+func init() {
+	schemaEcos := []string{
+		"AlmaLinux", "Alpine", "Debian", "Homebrew", "Maven", "WordPress", "GIT",
+	}
+	IsSchemaEcosystem = func(ecosystem string) bool {
+		return slices.Contains(schemaEcos, ecosystem)
+	}
+}
 
 func Test_versionsExistInCran(t *testing.T) {
 	t.Parallel()
@@ -913,6 +925,134 @@ func Test_versionsExistInRubyGems(t *testing.T) {
 
 			if err := versionsExistInRubyGems(tt.args.pkg, tt.args.versions); (err != nil) != tt.wantErr {
 				t.Errorf("versionsExistInRubyGems() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestExistsInEcosystem(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name      string
+		pkg       string
+		ecosystem string
+		suffix    string
+		want      bool
+	}{
+		{
+			name:      "GIT ecosystem always returns true",
+			pkg:       "foo",
+			ecosystem: "GIT",
+			want:      true,
+		},
+		{
+			name:      "WordPress ecosystem without registry check returns true",
+			pkg:       "my-plugin",
+			ecosystem: "WordPress",
+			suffix:    "Plugin",
+			want:      true,
+		},
+		{
+			name:      "Homebrew ecosystem without registry check returns true",
+			pkg:       "openssl@3",
+			ecosystem: "Homebrew",
+			want:      true,
+		},
+		{
+			name:      "Debian ecosystem without registry check returns true",
+			pkg:       "glibc",
+			ecosystem: "Debian",
+			want:      true,
+		},
+		{
+			name:      "AlmaLinux ecosystem without registry check returns true",
+			pkg:       "kernel",
+			ecosystem: "AlmaLinux",
+			want:      true,
+		},
+		{
+			name:      "unknown ecosystem returns false",
+			pkg:       "anything",
+			ecosystem: "UnknownEco",
+			want:      false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			if got := ExistsInEcosystem(tt.pkg, tt.ecosystem, tt.suffix); got != tt.want {
+				t.Errorf("ExistsInEcosystem(%q, %q, %q) = %v, want %v", tt.pkg, tt.ecosystem, tt.suffix, got, tt.want)
+			}
+		})
+	}
+}
+
+func TestVersionsExistInEcosystem(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name      string
+		pkg       string
+		versions  []string
+		ecosystem string
+		suffix    string
+		wantErr   bool
+	}{
+		{
+			name:      "GIT ecosystem returns nil",
+			pkg:       "foo",
+			versions:  []string{"abc1234"},
+			ecosystem: "GIT",
+			wantErr:   false,
+		},
+		{
+			name:      "WordPress ecosystem returns nil",
+			pkg:       "my-plugin",
+			versions:  []string{"1.0.0"},
+			ecosystem: "WordPress",
+			suffix:    "Plugin",
+			wantErr:   false,
+		},
+		{
+			name:      "Homebrew ecosystem returns nil",
+			pkg:       "openssl@3",
+			versions:  []string{"3.0.0"},
+			ecosystem: "Homebrew",
+			wantErr:   false,
+		},
+		{
+			name:      "Maven ecosystem returns nil",
+			pkg:       "org.apache:commons",
+			versions:  []string{"1.0.0"},
+			ecosystem: "Maven",
+			wantErr:   false,
+		},
+		{
+			name:      "Debian ecosystem returns nil",
+			pkg:       "glibc",
+			versions:  []string{"2.31"},
+			ecosystem: "Debian",
+			wantErr:   false,
+		},
+		{
+			name:      "unknown ecosystem returns error",
+			pkg:       "anything",
+			versions:  []string{"1.0.0"},
+			ecosystem: "UnknownEco",
+			wantErr:   true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			err := VersionsExistInEcosystem(tt.pkg, tt.versions, tt.ecosystem, tt.suffix)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("VersionsExistInEcosystem() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

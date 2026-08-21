@@ -36,7 +36,7 @@ To add a new ecosystem, follow these steps:
 3.  **`README.md`**: Add the new ecosystem to the list of data exporters in the README.
 
 4.  **Run update script**: Finally, run `python3 ./scripts/update-ecosystems-lists.py`. This script will automatically update the following files based on your changes to `ecosystems.json`:
-    *   `bindings/go/osvschema/constants.go`
+    *   `bindings/go/osvconstants/constants.go`
     *   The main ecosystem table in `docs/schema.md`
     *   The ecosystem enum in `validation/schema.json`
     *   Make a copy of the `validation/schema.json` for the linter in `tools/osv-linter/internal/checks/schema_generated.json`
