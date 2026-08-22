@@ -25,7 +25,6 @@ You can restrict the dump with query parameters accepted by the EUVD search API:
 
 ```bash
 ./dump_euvd.sh --vendor nodejs --fromDate 2026-01-01 --toDate 2026-31-12 out
-
 ```
 
 ## Unit Test
