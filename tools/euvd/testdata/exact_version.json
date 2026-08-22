@@ -1,0 +1,48 @@
+{
+  "id": "EUVD-2026-62401",
+  "enisaUuid": "f9104f57-0408-321e-bb8c-0da9bb8ca001",
+  "description": "Only version 5.2 was confirmed vulnerable.",
+  "datePublished": "Aug 19, 2026, 11:00:00 AM",
+  "dateUpdated": "Aug 19, 2026, 11:30:00 AM",
+  "baseScore": 5.1,
+  "baseScoreVersion": "4.0",
+  "baseScoreVector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:P/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N",
+  "references": "https://nvd.nist.gov/vuln/detail/CVE-2026-65612\nhttps://example.com/writeup\n",
+  "aliases": "GHSA-mxcx-xvcg-f843\nCVE-2026-65612\n",
+  "assigner": "ENISA",
+  "epss": 0.12,
+  "enisaIdProduct": [
+    {
+      "id": "d85171e0-96ee-3990-b933-4772bcd456ad",
+      "product": {
+        "name": "nnn",
+        "vendor": {
+          "name": "n/a"
+        }
+      },
+      "product_version": "5.2"
+    },
+    {
+      "id": "unused",
+      "product": {
+        "name": "n/a",
+        "vendor": {
+          "name": "n/a"
+        }
+      },
+      "product_version": "n/a"
+    }
+  ],
+  "enisaIdVulnerability": [
+    {
+      "vulnerability": {
+        "id": "CVE-2026-65612"
+      }
+    },
+    {
+      "vulnerability": {
+        "id": "GHSA-mxcx-xvcg-f843"
+      }
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "EUVD-2026-62860",
+  "enisaUuid": "fe2bff5f-5837-3501-8e16-53d1eec8f191",
+  "description": "Termix is vulnerable before 2.3.2.",
+  "datePublished": "Aug 19, 2026, 8:36:51 PM",
+  "dateUpdated": "Aug 19, 2026, 8:36:51 PM",
+  "baseScore": 9.8,
+  "baseScoreVersion": "3.1",
+  "baseScoreVector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+  "references": "https://github.com/Termix-SSH/Termix/security/advisories/GHSA-5p86-jgr7-4hwx\nhttps://github.com/Termix-SSH/Termix/commit/52f4e51ae03b5b8d2608e1383e2ccf79d290132b\n",
+  "aliases": "CVE-2026-53545\n",
+  "assigner": "GitHub_M",
+  "epss": 0.0,
+  "enisaIdProduct": [
+    {
+      "id": "5cb91ed8-f650-3b5f-82a7-f80d6843b79d",
+      "product": {
+        "name": "Termix",
+        "vendor": {
+          "name": "Termix-SSH"
+        }
+      },
+      "product_version": "< 2.3.2"
+    }
+  ],
+  "enisaIdVulnerability": []
+}
