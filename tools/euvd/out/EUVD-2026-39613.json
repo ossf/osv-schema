@@ -1,0 +1,54 @@
+{
+  "id": "EUVD-2026-39613",
+  "enisaUuid": "50034b23-6e0e-3e27-87d3-2165e4d15eb7",
+  "description": "A inconsistency in Node.js hostname matching can cause a trust-policy bypass in multi-context mTLS setups.\r\n\r\nThis vulnerability affects all supported release lines: **Node.js 22**, **Node.js 24**, and **Node.js 26**.",
+  "datePublished": "Jun 26, 2026, 1:14:36 AM",
+  "dateUpdated": "Jun 26, 2026, 1:36:28 PM",
+  "baseScore": 4.2,
+  "baseScoreVersion": "3.0",
+  "baseScoreVector": "CVSS:3.0/AV:N/AC:H/PR:L/UI:N/S:U/C:L/I:L/A:N",
+  "references": "https://nodejs.org/en/blog/vulnerability/june-2026-security-releases\n",
+  "aliases": "CVE-2026-48928\nGHSA-3h92-9jcv-8677\n",
+  "assigner": "hackerone",
+  "epss": 0.22,
+  "enisaIdProduct": [
+    {
+      "id": "1eb74219-8849-3c62-9bf3-baf344a8af89",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "26.3.0 ≤26.3.0"
+    },
+    {
+      "id": "7fa00084-9180-3d57-ab5b-3fee75d1ad93",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "24.16.0 ≤24.16.0"
+    },
+    {
+      "id": "8dfc85d4-0654-34a8-90e9-e8870b819379",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "22.22.3 ≤22.22.3"
+    }
+  ],
+  "enisaIdVendor": [
+    {
+      "id": "35ac8f44-5f55-3765-b0a2-dd3d5a93ecf0",
+      "vendor": {
+        "name": "nodejs"
+      }
+    }
+  ]
+}

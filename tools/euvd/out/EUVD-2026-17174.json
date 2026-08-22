@@ -1,0 +1,224 @@
+{
+  "id": "EUVD-2026-17174",
+  "enisaUuid": "fbbb64c7-7995-37ae-ae73-bb99540edc58",
+  "description": "A flaw in Node.js HMAC verification uses a non-constant-time comparison when validating user-provided signatures, potentially leaking timing information proportional to the number of matching bytes. Under certain threat models where high-resolution timing measurements are possible, this behavior could be exploited as a timing oracle to infer HMAC values.\r\n\r\nNode.js already provides timing-safe comparison primitives used elsewhere in the codebase, indicating this is an oversight rather than an intentional design decision.\r\n\r\nThis vulnerability affects **20.x, 22.x, 24.x, and 25.x**.",
+  "datePublished": "Mar 30, 2026, 7:07:28 PM",
+  "dateUpdated": "May 10, 2026, 1:17:50 PM",
+  "baseScore": 5.9,
+  "baseScoreVersion": "3.0",
+  "baseScoreVector": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+  "references": "https://nodejs.org/en/blog/vulnerability/march-2026-security-releases\n",
+  "aliases": "GHSA-6r7g-3mm3-fhw7\nCVE-2026-21713\n",
+  "assigner": "hackerone",
+  "epss": 0.39,
+  "enisaIdProduct": [
+    {
+      "id": "02182df5-cc5c-395d-9bc8-7a474b4e3d43",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "17.0 <17.*"
+    },
+    {
+      "id": "111c567b-d2a5-330d-94b6-eab18f8ae1ef",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "6.0 <6.*"
+    },
+    {
+      "id": "3466be43-60f1-349f-a471-21224c102083",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "25.8.1 ≤25.8.1"
+    },
+    {
+      "id": "57db33e7-1053-3c4f-b09d-a1882ad74cff",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "12.0 <12.*"
+    },
+    {
+      "id": "5c1e46df-3901-3be8-a0ec-a533a2edd748",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "15.0 <15.*"
+    },
+    {
+      "id": "5f14dc19-01ec-312f-a745-d3d9a6f3d9aa",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "4.0 <4.*"
+    },
+    {
+      "id": "605d277e-2bd0-3422-90da-53eb53cf4ccd",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "13.0 <13.*"
+    },
+    {
+      "id": "62daa95d-c1ed-3d02-8a9a-558b0cddba3e",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "18.0 <18.*"
+    },
+    {
+      "id": "6c0a4645-d3ee-3744-9345-5581a40fa0bb",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "20.20.1 ≤20.20.1"
+    },
+    {
+      "id": "7270ae6e-f896-3bdf-9032-fc7dcc2729d9",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "7.0 <7.*"
+    },
+    {
+      "id": "7e501fb6-a61d-38b1-9185-13e7fcf519e8",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "22.22.1 ≤22.22.1"
+    },
+    {
+      "id": "804ca065-19f1-326b-9454-d549c7ad9e88",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "8.0 <8.*"
+    },
+    {
+      "id": "a61c7bb8-cb12-322f-8bbb-af5bde8ea481",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "11.0 <11.*"
+    },
+    {
+      "id": "b450258c-e65d-39fe-a9e7-cfa58035d1cd",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "9.0 <9.*"
+    },
+    {
+      "id": "ba6f0ba7-ca28-3350-8e4d-e40eabd3e4e3",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "14.0 <14.*"
+    },
+    {
+      "id": "beb73d8c-1800-3fb0-8093-d0fd137cffb3",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "16.0 <16.*"
+    },
+    {
+      "id": "cddbbb0a-0e1a-37a4-a9ea-7d5135ea42b0",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "10.0 <10.*"
+    },
+    {
+      "id": "e6d28308-9351-3c6d-ad35-6014b36d714b",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "19.0 <19.*"
+    },
+    {
+      "id": "f4b1f101-e779-3c9f-81e1-a121ecea1da0",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "5.0 <5.*"
+    },
+    {
+      "id": "ff70a97b-bb87-3657-bed4-5796a89d1583",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "24.14.0 ≤24.14.0"
+    }
+  ],
+  "enisaIdVendor": [
+    {
+      "id": "1ff03a4f-c880-359c-a577-3fd5e8232b1b",
+      "vendor": {
+        "name": "nodejs"
+      }
+    }
+  ]
+}

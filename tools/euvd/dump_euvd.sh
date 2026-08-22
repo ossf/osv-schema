@@ -3,11 +3,10 @@
 set -euo pipefail
 
 BASE_URL='https://euvdservices.enisa.europa.eu/api/search'
-PAGE_SIZE=100
 
 usage() {
 	cat <<'EOF'
-usage: dump_euvd.sh [-h] [--query QUERY] out_dir
+usage: dump_euvd.sh [-h] [--vendor VENDOR] [--fromDate YYYY-MM-DD] [--toDate YYYY-MM-DD] [--fromEpss 0-100] [--exploited true|false] out_dir
 
 EUVD dumper.
 
@@ -16,11 +15,19 @@ positional arguments:
 
 options:
 	-h, --help     show this help message and exit
-	--query QUERY  EUVD search query string
+	--vendor VENDOR     Filter advisories by vendor name
+	--fromDate DATE     Filter advisories published from date (YYYY-MM-DD)
+	--toDate DATE       Filter advisories published up to date (YYYY-MM-DD)
+	--fromEpss VALUE    Filter advisories with EPSS from VALUE (0-100)
+	--exploited BOOL    Filter advisories by exploitation status (true/false)
 EOF
 }
 
-query=''
+vendor=''
+from_date=''
+to_date=''
+from_epss=''
+exploited=''
 out_dir=''
 
 while [[ $# -gt 0 ]]; do
@@ -29,16 +36,64 @@ while [[ $# -gt 0 ]]; do
 			usage
 			exit 0
 			;;
-		--query)
+		--vendor)
 			if [[ $# -lt 2 ]]; then
-				echo 'Missing value for --query' >&2
+				echo 'Missing value for --vendor' >&2
 				exit 1
 			fi
-			query="$2"
+			vendor="$2"
 			shift 2
 			;;
-		--query=*)
-			query="${1#*=}"
+		--vendor=*)
+			vendor="${1#*=}"
+			shift
+			;;
+		--fromDate)
+			if [[ $# -lt 2 ]]; then
+				echo 'Missing value for --fromDate' >&2
+				exit 1
+			fi
+			from_date="$2"
+			shift 2
+			;;
+		--fromDate=*)
+			from_date="${1#*=}"
+			shift
+			;;
+		--toDate)
+			if [[ $# -lt 2 ]]; then
+				echo 'Missing value for --toDate' >&2
+				exit 1
+			fi
+			to_date="$2"
+			shift 2
+			;;
+		--toDate=*)
+			to_date="${1#*=}"
+			shift
+			;;
+		--fromEpss)
+			if [[ $# -lt 2 ]]; then
+				echo 'Missing value for --fromEpss' >&2
+				exit 1
+			fi
+			from_epss="$2"
+			shift 2
+			;;
+		--fromEpss=*)
+			from_epss="${1#*=}"
+			shift
+			;;
+		--exploited)
+			if [[ $# -lt 2 ]]; then
+				echo 'Missing value for --exploited' >&2
+				exit 1
+			fi
+			exploited="$2"
+			shift 2
+			;;
+		--exploited=*)
+			exploited="${1#*=}"
 			shift
 			;;
 		-*)
@@ -57,6 +112,18 @@ while [[ $# -gt 0 ]]; do
 	esac
 done
 
+urlencode() {
+	jq -nr --arg v "$1" '$v|@uri'
+}
+
+append_param() {
+	local key="$1"
+	local value="$2"
+	if [[ -n "$value" ]]; then
+		params+="&${key}=$(urlencode "$value")"
+	fi
+}
+
 if [[ -z "$out_dir" ]]; then
 	usage >&2
 	exit 1
@@ -69,10 +136,13 @@ count=0
 total=''
 
 while true; do
-	url="${BASE_URL}?page=${page}&size=${PAGE_SIZE}"
-	if [[ -n "$query" ]]; then
-		url="${url}&${query}"
-	fi
+	params="page=${page}"
+	append_param 'vendor' "$vendor"
+	append_param 'fromDate' "$from_date"
+	append_param 'toDate' "$to_date"
+	append_param 'fromEpss' "$from_epss"
+	append_param 'exploited' "$exploited"
+	url="${BASE_URL}?${params}"
 
 	response=$(curl -fsSL "$url")
 	items_count=$(jq '.items | length' <<<"$response")

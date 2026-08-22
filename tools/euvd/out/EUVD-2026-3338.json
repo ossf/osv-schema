@@ -1,0 +1,64 @@
+{
+  "id": "EUVD-2026-3338",
+  "enisaUuid": "247f7e55-a824-3a8a-babf-fd84bac5809d",
+  "description": "A flaw in Node.js’s Permissions model allows attackers to bypass `--allow-fs-read` and `--allow-fs-write` restrictions using crafted relative symlink paths. By chaining directories and symlinks, a script granted access only to the current directory can escape the allowed path and read sensitive files. This breaks the expected isolation guarantees and enables arbitrary file read/write, leading to potential system compromise.\nThis vulnerability affects users of the permission model on Node.js v20,  v22,  v24, and v25.",
+  "datePublished": "Jan 20, 2026, 8:41:55 PM",
+  "dateUpdated": "Jul 15, 2026, 1:26:03 AM",
+  "baseScore": 7.1,
+  "baseScoreVersion": "3.1",
+  "baseScoreVector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N",
+  "references": "https://nodejs.org/en/blog/vulnerability/december-2025-security-releases\n",
+  "aliases": "CVE-2025-55130\nGHSA-62wc-jj78-f4f6\n",
+  "assigner": "hackerone",
+  "epss": 1.66,
+  "enisaIdProduct": [
+    {
+      "id": "1b39e3fc-5ade-30f3-8312-42669c3e2d81",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "24.12.0 ≤24.12.0"
+    },
+    {
+      "id": "2858b97f-a56b-34df-a063-dc9a5517940f",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "22.21.1 ≤22.21.1"
+    },
+    {
+      "id": "9584c2ff-4449-36d4-a107-e32dcecbc1c8",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "25.2.1 ≤25.2.1"
+    },
+    {
+      "id": "d53989ab-822a-395c-827f-58c26feccc5a",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "20.19.6 ≤20.19.6"
+    }
+  ],
+  "enisaIdVendor": [
+    {
+      "id": "d65ffca2-5fd4-30a8-93fb-ae2fe03e2c6b",
+      "vendor": {
+        "name": "nodejs"
+      }
+    }
+  ]
+}

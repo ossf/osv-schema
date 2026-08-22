@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.5.0",
+  "id": "EUVD-2026-51021",
+  "aliases": [
+    "GHSA-qrq2-c54w-wgqm",
+    "CVE-2026-58043"
+  ],
+  "published": "2026-07-30T06:02:50Z",
+  "modified": "2026-07-31T03:55:48Z",
+  "details": "A flaw in Node.js Permission Model enforcement can over-grant filesystem access across radix-tree prefix boundaries.\r\n\r\nUnder `--permission`, an attacker who is granted access to one path can abuse boundary handling to read from or write to paths outside the intended filesystem allowlist.\r\n\r\nThis vulnerability affects Node.js **main**, **22.x**, **24.x**, and **26.x**.",
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-51021"
+    },
+    {
+      "type": "WEB",
+      "url": "https://nodejs.org/en/blog/vulnerability/july-2026-security-releases"
+    }
+  ],
+  "database_specific": {
+    "assigner": "hackerone",
+    "enisa_uuid": "3f20fb3d-561b-3c1b-9710-da4756d45327",
+    "epss": 0.14
+  },
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:H/PR:L/UI:N/S:C/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "EUVD",
+        "name": "Node"
+      },
+      "database_specific": {
+        "vendor": "nodejs",
+        "raw_product_version": "22.23.1 ≤22.23.1"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "EUVD",
+        "name": "Node"
+      },
+      "database_specific": {
+        "vendor": "nodejs",
+        "raw_product_version": "24.18.0 ≤24.18.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "EUVD",
+        "name": "Node"
+      },
+      "database_specific": {
+        "vendor": "nodejs",
+        "raw_product_version": "26.5.0 ≤26.5.0"
+      }
+    }
+  ]
+}

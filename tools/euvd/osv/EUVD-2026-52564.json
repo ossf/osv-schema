@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.5.0",
+  "id": "EUVD-2026-52564",
+  "aliases": [
+    "GHSA-frc8-j9wv-2348",
+    "CVE-2026-56846"
+  ],
+  "published": "2026-08-04T00:49:58Z",
+  "modified": "2026-08-04T15:03:38Z",
+  "details": "A flaw in Node.js HTTP/2 handling can cause HTTP/2 retained header blocks evade maxSessionMemory and enable remote memory exhaustion.\r\n\r\nThis vulnerability affects Node.js **24.x** and **22.x**.",
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-52564"
+    },
+    {
+      "type": "WEB",
+      "url": "https://nodejs.org/en/blog/vulnerability/july-2026-security-releases"
+    }
+  ],
+  "database_specific": {
+    "assigner": "hackerone",
+    "enisa_uuid": "ecd335f4-e8f1-3055-abd8-04d7a4294957",
+    "epss": 0.62
+  },
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "EUVD",
+        "name": "Node"
+      },
+      "database_specific": {
+        "vendor": "nodejs",
+        "raw_product_version": "22.23.1 ≤22.23.1"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "EUVD",
+        "name": "Node"
+      },
+      "database_specific": {
+        "vendor": "nodejs",
+        "raw_product_version": "24.18.0 ≤24.18.0"
+      }
+    }
+  ]
+}

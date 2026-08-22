@@ -1,0 +1,194 @@
+{
+  "id": "EUVD-2026-17172",
+  "enisaUuid": "e1986ea8-3a7d-3282-9e5c-f34bd6cf319e",
+  "description": "A flaw in Node.js Permission Model network enforcement leaves Unix Domain Socket (UDS) server operations without the required permission checks, while all comparable network paths correctly enforce them.\r\n\r\nAs a result, code running under `--permission` without `--allow-net` can create and expose local IPC endpoints, allowing communication with other processes on the same host outside of the intended network restriction boundary.\r\n\r\nThis vulnerability affects Node.js **25.x** processes using the Permission Model where `--allow-net` is intentionally omitted to restrict network access. Note that `--allow-net` is currently an experimental feature.",
+  "datePublished": "Mar 30, 2026, 7:07:28 PM",
+  "dateUpdated": "Apr 1, 2026, 3:03:21 PM",
+  "baseScore": 5.3,
+  "baseScoreVersion": "3.0",
+  "baseScoreVector": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L",
+  "references": "https://nodejs.org/en/blog/vulnerability/march-2026-security-releases\n",
+  "aliases": "CVE-2026-21711\n",
+  "assigner": "hackerone",
+  "epss": 0.15,
+  "enisaIdProduct": [
+    {
+      "id": "16bedb8d-8595-3cb6-a12e-c27f276cc0e8",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "4.0 <4.*"
+    },
+    {
+      "id": "1846a3cd-0e3d-31a4-b2ce-6878557e2d97",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "8.0 <8.*"
+    },
+    {
+      "id": "304f47de-7d0e-3fd0-bb86-1ca93ca22a34",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "19.0 <19.*"
+    },
+    {
+      "id": "4ec7fd70-6d05-3f8a-aed7-4c7cadc64e95",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "14.0 <14.*"
+    },
+    {
+      "id": "56b1caa5-7be8-3f76-8c3d-ba41d1c56f10",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "9.0 <9.*"
+    },
+    {
+      "id": "5758bf8b-7879-3477-aa49-68443c5df1c1",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "15.0 <15.*"
+    },
+    {
+      "id": "5df4921b-4d01-37fe-92e3-14a02dae8123",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "25.8.1 ≤25.8.1"
+    },
+    {
+      "id": "5f5e9c56-4daa-3166-9462-782ac6ae6097",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "10.0 <10.*"
+    },
+    {
+      "id": "5fd31c3b-f694-35e0-94d5-0f013886a892",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "7.0 <7.*"
+    },
+    {
+      "id": "68665418-25f7-3f5c-812e-b90a23caa6f3",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "6.0 <6.*"
+    },
+    {
+      "id": "69eceb87-b912-39f9-a54f-38b04b100ab2",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "5.0 <5.*"
+    },
+    {
+      "id": "aae6d487-bf4d-3fcb-89d8-4a11bd0f73cd",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "12.0 <12.*"
+    },
+    {
+      "id": "aef90910-d21f-3f27-af8c-da5ce2ced488",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "11.0 <11.*"
+    },
+    {
+      "id": "b01951dc-8e6a-3fd3-9460-86918b99ffa5",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "13.0 <13.*"
+    },
+    {
+      "id": "c4b7bfd3-d595-36a7-8b75-8b4f95e55f2d",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "18.0 <18.*"
+    },
+    {
+      "id": "c95437c7-7f91-3fff-8d27-23c3380f7096",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "17.0 <17.*"
+    },
+    {
+      "id": "e032992e-13c3-317b-8f9c-490abe0d030a",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "16.0 <16.*"
+    }
+  ],
+  "enisaIdVendor": [
+    {
+      "id": "30aaf58b-aab7-38d3-80a8-a1abbf0a2809",
+      "vendor": {
+        "name": "nodejs"
+      }
+    }
+  ]
+}

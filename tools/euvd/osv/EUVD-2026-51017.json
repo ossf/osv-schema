@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.5.0",
+  "id": "EUVD-2026-51017",
+  "aliases": [
+    "GHSA-r5cq-rcm7-54x2",
+    "CVE-2026-58040"
+  ],
+  "published": "2026-07-30T06:02:49Z",
+  "modified": "2026-07-30T12:50:20Z",
+  "details": "An incomplete fix has been identified in Node.js: HTTPS Agent TLS session reuse skips hostname verification across identity policies (incomplete fix of CVE-2026-48934).\r\n\r\nThis vulnerability affects Node.js **22.x**, **24.x**, and **26.x**.",
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-51017"
+    },
+    {
+      "type": "WEB",
+      "url": "https://nodejs.org/en/blog/vulnerability/july-2026-security-releases"
+    }
+  ],
+  "database_specific": {
+    "assigner": "hackerone",
+    "enisa_uuid": "d92c6fc7-ffd2-3edf-90e2-5e6fd30bdbc4",
+    "epss": 0.27
+  },
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:H/PR:L/UI:N/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "EUVD",
+        "name": "Node"
+      },
+      "database_specific": {
+        "vendor": "nodejs",
+        "raw_product_version": "24.18.0 ≤24.18.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "EUVD",
+        "name": "Node"
+      },
+      "database_specific": {
+        "vendor": "nodejs",
+        "raw_product_version": "26.5.0 ≤26.5.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "EUVD",
+        "name": "Node"
+      },
+      "database_specific": {
+        "vendor": "nodejs",
+        "raw_product_version": "22.23.1 ≤22.23.1"
+      }
+    }
+  ]
+}

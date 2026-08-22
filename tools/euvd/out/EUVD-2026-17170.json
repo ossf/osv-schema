@@ -1,0 +1,224 @@
+{
+  "id": "EUVD-2026-17170",
+  "enisaUuid": "57f7a2d7-8348-3ff1-8f3f-b9d917102b1e",
+  "description": "A flaw in Node.js HTTP request handling causes an uncaught `TypeError` when a request is received with a header named `__proto__` and the application accesses `req.headersDistinct`.\r\n\r\nWhen this occurs, `dest[\"__proto__\"]` resolves to `Object.prototype` rather than `undefined`, causing `.push()` to be called on a non-array. This exception is thrown synchronously inside a property getter and cannot be intercepted by `error` event listeners, meaning it cannot be handled without wrapping every `req.headersDistinct` access in a `try/catch`.\r\n\r\n* This vulnerability affects all Node.js HTTP servers on **20.x, 22.x, 24.x, and v25.x**",
+  "datePublished": "Mar 30, 2026, 7:07:28 PM",
+  "dateUpdated": "Jul 15, 2026, 1:19:57 AM",
+  "baseScore": 7.5,
+  "baseScoreVersion": "3.1",
+  "baseScoreVector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+  "references": "https://nodejs.org/en/blog/vulnerability/march-2026-security-releases\n",
+  "aliases": "CVE-2026-21710\n",
+  "assigner": "hackerone",
+  "epss": 25.04,
+  "enisaIdProduct": [
+    {
+      "id": "06198393-bbb2-385e-9a1b-5feae3a0bcf0",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "14.0 <14.*"
+    },
+    {
+      "id": "08bd7ac8-bf59-3b66-bdec-4890667066da",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "10.0 <10.*"
+    },
+    {
+      "id": "17965e86-3173-3108-87aa-388de1b7c6e6",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "20.20.1 ≤20.20.1"
+    },
+    {
+      "id": "34aef4ce-80f8-3323-813e-da53ed550192",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "24.14.0 ≤24.14.0"
+    },
+    {
+      "id": "522637f2-a311-3522-8adc-4b0d7eb46fc1",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "5.0 <5.*"
+    },
+    {
+      "id": "78d6b89f-f600-3b3e-be13-bb48c3c4b81b",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "8.0 <8.*"
+    },
+    {
+      "id": "8ff0a174-ce17-3f35-bac5-7a7d3420b73a",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "19.0 <19.*"
+    },
+    {
+      "id": "98a0a611-3566-3c3c-8a3d-5d5e10f19eb3",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "11.0 <11.*"
+    },
+    {
+      "id": "9a6e95fd-a966-3a50-a2ed-bf285b768b02",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "4.0 <4.*"
+    },
+    {
+      "id": "9acc7af5-d46a-300d-aad5-e60701fd0f16",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "9.0 <9.*"
+    },
+    {
+      "id": "a1672fd0-9970-3a81-8666-c67915515923",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "16.0 <16.*"
+    },
+    {
+      "id": "a807df12-543b-38e4-a79b-45ae56a8e7ae",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "18.0 <18.*"
+    },
+    {
+      "id": "acbea808-76b3-30d1-98d0-cf20cb6bd098",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "22.22.1 ≤22.22.1"
+    },
+    {
+      "id": "c40e861e-011b-3165-909c-60fe144e357e",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "7.0 <7.*"
+    },
+    {
+      "id": "d336f64e-a8ba-3720-810e-9f0a81e3d2a7",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "15.0 <15.*"
+    },
+    {
+      "id": "d5ac3827-459a-38ea-a8f0-0f7cf416affd",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "13.0 <13.*"
+    },
+    {
+      "id": "da129716-26be-311e-a3ac-88f660f53c7e",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "12.0 <12.*"
+    },
+    {
+      "id": "db7eaff4-fe1e-3bda-9907-079384bb6fcc",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "17.0 <17.*"
+    },
+    {
+      "id": "fd796354-eca2-395f-a441-5fee5ae2710e",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "6.0 <6.*"
+    },
+    {
+      "id": "fecfe45e-fdd1-3878-9eb9-4c30c7860c26",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "25.8.1 ≤25.8.1"
+    }
+  ],
+  "enisaIdVendor": [
+    {
+      "id": "4d7d8c9b-abe6-39cc-b8ca-0c01191aaf77",
+      "vendor": {
+        "name": "nodejs"
+      }
+    }
+  ]
+}

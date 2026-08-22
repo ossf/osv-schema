@@ -1,0 +1,54 @@
+{
+  "id": "EUVD-2026-39614",
+  "enisaUuid": "ab79f7c2-6b93-3405-9f26-a0a3dd714fa3",
+  "description": "A flaw in Node.js TLS hostname handling can cause Embedded-nul hostnames can lead to silent authority rebinding due to c-string truncation in resolver bindings.\r\n\r\nThis vulnerability affects all supported release lines: **Node.js 22**, **Node.js 24**, and **Node.js 26**.",
+  "datePublished": "Jun 26, 2026, 1:14:37 AM",
+  "dateUpdated": "Jun 26, 2026, 1:37:46 PM",
+  "baseScore": 5.6,
+  "baseScoreVersion": "3.0",
+  "baseScoreVector": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L",
+  "references": "https://nodejs.org/en/blog/vulnerability/june-2026-security-releases\n",
+  "aliases": "GHSA-g779-8rvr-37xx\nCVE-2026-48930\n",
+  "assigner": "hackerone",
+  "epss": 0.32,
+  "enisaIdProduct": [
+    {
+      "id": "3b652f18-15ee-39b1-8739-c391f0fdeb65",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "26.3.0 ≤26.3.0"
+    },
+    {
+      "id": "60130a06-7610-3c0e-8dcb-a3cec4f89600",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "22.22.3 ≤22.22.3"
+    },
+    {
+      "id": "8fac579d-da2f-3cf8-ba3b-68297d2b579c",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "24.16.0 ≤24.16.0"
+    }
+  ],
+  "enisaIdVendor": [
+    {
+      "id": "634b1837-9352-3af5-a776-472a4fc77a4d",
+      "vendor": {
+        "name": "nodejs"
+      }
+    }
+  ]
+}

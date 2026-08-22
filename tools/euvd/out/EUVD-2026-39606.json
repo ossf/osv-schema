@@ -1,0 +1,54 @@
+{
+  "id": "EUVD-2026-39606",
+  "enisaUuid": "669b043b-d3e2-3cd2-8399-72f9acab8ce7",
+  "description": "A flaw in Node.js proxy tunnel error handling could expose proxy credentials in `ERR_PROXY_TUNNEL` error messages.\r\n\r\nWhen proxy credentials are embedded in the proxy URL, they may be exposed through error handling paths and captured by logs, diagnostics, or other error consumers.\r\n\r\nThis vulnerability affects all supported release lines: **Node.js 22**, **Node.js 24**, and **Node.js 26**.",
+  "datePublished": "Jun 26, 2026, 1:14:36 AM",
+  "dateUpdated": "Jun 26, 2026, 1:35:00 PM",
+  "baseScore": 5.9,
+  "baseScoreVersion": "3.0",
+  "baseScoreVector": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+  "references": "https://nodejs.org/en/blog/vulnerability/june-2026-security-releases\n",
+  "aliases": "CVE-2026-48615\nGHSA-qqjm-7pv6-7q82\n",
+  "assigner": "hackerone",
+  "epss": 0.42,
+  "enisaIdProduct": [
+    {
+      "id": "2cef69a9-4cca-3020-aec5-da933eb847d8",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "26.3.0 ≤26.3.0"
+    },
+    {
+      "id": "3e1fd0ca-7fc2-3d4b-95cb-8473392a3184",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "22.22.3 ≤22.22.3"
+    },
+    {
+      "id": "65c8f4dd-e748-3f38-8098-14d489921989",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "24.16.0 ≤24.16.0"
+    }
+  ],
+  "enisaIdVendor": [
+    {
+      "id": "0226d5d2-bf6f-396a-8964-240f5e8206db",
+      "vendor": {
+        "name": "nodejs"
+      }
+    }
+  ]
+}

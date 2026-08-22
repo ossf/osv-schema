@@ -1,0 +1,44 @@
+{
+  "id": "EUVD-2026-17093",
+  "enisaUuid": "d3fcf858-01fb-3367-a1c5-35714c591799",
+  "description": "A flaw in Node.js URL processing causes an assertion failure in native code when `url.format()` is called with a malformed internationalized domain name (IDN) containing invalid characters, crashing the Node.js process.",
+  "datePublished": "Mar 30, 2026, 3:13:59 PM",
+  "dateUpdated": "May 10, 2026, 1:16:37 PM",
+  "baseScore": 5.7,
+  "baseScoreVersion": "3.0",
+  "baseScoreVector": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:U/C:N/I:N/A:H",
+  "references": "https://nodejs.org/en/blog/vulnerability/march-2026-security-releases\nhttps://hackerone.com/reports/3546390\n",
+  "aliases": "CVE-2026-21712\nGHSA-h8r7-m85c-mjhv\n",
+  "assigner": "hackerone",
+  "epss": 0.32,
+  "enisaIdProduct": [
+    {
+      "id": "1cfa0de2-4f35-3e22-b609-9ce6b3a1ede2",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "25.8.1 ≤25.8.1"
+    },
+    {
+      "id": "bd86f01e-5869-3e4b-b1ad-a5405c1c87a5",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "24.14.0 ≤24.14.0"
+    }
+  ],
+  "enisaIdVendor": [
+    {
+      "id": "73ce1b9d-ddce-341c-890c-ab8018e27f41",
+      "vendor": {
+        "name": "nodejs"
+      }
+    }
+  ]
+}

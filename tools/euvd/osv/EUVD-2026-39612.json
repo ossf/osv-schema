@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.5.0",
+  "id": "EUVD-2026-39612",
+  "aliases": [
+    "CVE-2026-48934",
+    "GHSA-px9q-xv67-75fr"
+  ],
+  "published": "2026-06-26T01:14:36Z",
+  "modified": "2026-06-29T12:40:27Z",
+  "details": "A flaw in Node.js TLS host verification can cause an attacker to bypass certification validation.\r\n\r\nThis vulnerability affects all supported release lines: **Node.js 22**, **Node.js 24**, and **Node.js 26**.",
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-39612"
+    },
+    {
+      "type": "WEB",
+      "url": "https://nodejs.org/en/blog/vulnerability/june-2026-security-releases"
+    }
+  ],
+  "database_specific": {
+    "assigner": "hackerone",
+    "enisa_uuid": "93ba3d5b-74ec-3c99-a5a6-690db6568699",
+    "epss": 0.26
+  },
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "EUVD",
+        "name": "Node"
+      },
+      "database_specific": {
+        "vendor": "nodejs",
+        "raw_product_version": "22.22.3 ≤22.22.3"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "EUVD",
+        "name": "Node"
+      },
+      "database_specific": {
+        "vendor": "nodejs",
+        "raw_product_version": "24.16.0 ≤24.16.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "EUVD",
+        "name": "Node"
+      },
+      "database_specific": {
+        "vendor": "nodejs",
+        "raw_product_version": "26.3.0 ≤26.3.0"
+      }
+    }
+  ]
+}

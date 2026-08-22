@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.5.0",
+  "id": "EUVD-2026-39606",
+  "aliases": [
+    "CVE-2026-48615",
+    "GHSA-qqjm-7pv6-7q82"
+  ],
+  "published": "2026-06-26T01:14:36Z",
+  "modified": "2026-06-26T13:35:00Z",
+  "details": "A flaw in Node.js proxy tunnel error handling could expose proxy credentials in `ERR_PROXY_TUNNEL` error messages.\r\n\r\nWhen proxy credentials are embedded in the proxy URL, they may be exposed through error handling paths and captured by logs, diagnostics, or other error consumers.\r\n\r\nThis vulnerability affects all supported release lines: **Node.js 22**, **Node.js 24**, and **Node.js 26**.",
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-39606"
+    },
+    {
+      "type": "WEB",
+      "url": "https://nodejs.org/en/blog/vulnerability/june-2026-security-releases"
+    }
+  ],
+  "database_specific": {
+    "assigner": "hackerone",
+    "enisa_uuid": "669b043b-d3e2-3cd2-8399-72f9acab8ce7",
+    "epss": 0.42
+  },
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "EUVD",
+        "name": "Node"
+      },
+      "database_specific": {
+        "vendor": "nodejs",
+        "raw_product_version": "26.3.0 ≤26.3.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "EUVD",
+        "name": "Node"
+      },
+      "database_specific": {
+        "vendor": "nodejs",
+        "raw_product_version": "22.22.3 ≤22.22.3"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "EUVD",
+        "name": "Node"
+      },
+      "database_specific": {
+        "vendor": "nodejs",
+        "raw_product_version": "24.16.0 ≤24.16.0"
+      }
+    }
+  ]
+}

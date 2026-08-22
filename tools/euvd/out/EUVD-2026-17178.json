@@ -1,0 +1,224 @@
+{
+  "id": "EUVD-2026-17178",
+  "enisaUuid": "89f772d6-ee41-3a77-8e28-4f5dca2fb963",
+  "description": "A flaw in Node.js Permission Model filesystem enforcement leaves `fs.realpathSync.native()` without the required read permission checks, while all comparable filesystem functions correctly enforce them.\r\n\r\nAs a result, code running under `--permission` with restricted `--allow-fs-read` can still use `fs.realpathSync.native()` to check file existence, resolve symlink targets, and enumerate filesystem paths outside of permitted directories.\r\n\r\nThis vulnerability affects **20.x, 22.x, 24.x, and 25.x** processes using the Permission Model where `--allow-fs-read` is intentionally restricted.",
+  "datePublished": "Mar 30, 2026, 7:07:28 PM",
+  "dateUpdated": "Apr 1, 2026, 3:02:10 PM",
+  "baseScore": 3.3,
+  "baseScoreVersion": "3.0",
+  "baseScoreVector": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N",
+  "references": "https://nodejs.org/en/blog/vulnerability/march-2026-security-releases\n",
+  "aliases": "CVE-2026-21715\nGHSA-8jgr-5cgv-g667\n",
+  "assigner": "hackerone",
+  "epss": 0.16,
+  "enisaIdProduct": [
+    {
+      "id": "1e0a508e-7593-302a-bd3e-164a42447fb9",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "8.0 <8.*"
+    },
+    {
+      "id": "2794d0dd-57f0-3f0b-8cb7-4a0c4cb91dc5",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "9.0 <9.*"
+    },
+    {
+      "id": "43f48915-3a27-33f4-9139-fd49fc61d930",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "5.0 <5.*"
+    },
+    {
+      "id": "4d253a47-0232-3628-a0bb-64e5f86bb6b5",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "11.0 <11.*"
+    },
+    {
+      "id": "642f4b9d-206a-34a3-9588-f23f22140084",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "22.22.1 ≤22.22.1"
+    },
+    {
+      "id": "6cad8a3c-6b1f-34d2-ac72-402e32114902",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "15.0 <15.*"
+    },
+    {
+      "id": "79997bb9-009c-35e2-ab17-d12246ba073e",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "19.0 <19.*"
+    },
+    {
+      "id": "7c374abe-f701-316a-b2fd-ecbdd5adb919",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "13.0 <13.*"
+    },
+    {
+      "id": "87ebf29c-45ee-3dc8-80b2-fb6f63675da3",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "24.14.0 ≤24.14.0"
+    },
+    {
+      "id": "986f2505-b426-3499-a0ae-352421b3150d",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "6.0 <6.*"
+    },
+    {
+      "id": "98a6d598-50ae-3d10-a96b-503ff1c116f2",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "14.0 <14.*"
+    },
+    {
+      "id": "9e4c8daf-03e7-3fca-9420-c5e1d1ab3ec3",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "25.8.1 ≤25.8.1"
+    },
+    {
+      "id": "a67accbb-deb5-3c3a-b681-e3fd99b3d3cb",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "4.0 <4.*"
+    },
+    {
+      "id": "a7972dcd-916e-314a-b666-1c0f0089297e",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "18.0 <18.*"
+    },
+    {
+      "id": "ad610978-1b09-34ca-902e-7b4f204cb1d5",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "12.0 <12.*"
+    },
+    {
+      "id": "ad8f6dfa-d2ab-3dff-a549-2dfdbf438977",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "10.0 <10.*"
+    },
+    {
+      "id": "b3d05d57-c0be-38e6-a3cd-03edcbc1469e",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "20.20.1 ≤20.20.1"
+    },
+    {
+      "id": "b88f03d0-d410-3f9a-897b-17926eaaf103",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "16.0 <16.*"
+    },
+    {
+      "id": "e4beefbc-fa99-328a-9315-769951980fb9",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "17.0 <17.*"
+    },
+    {
+      "id": "ef935210-0d8b-3537-9457-3114d6e641b8",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "7.0 <7.*"
+    }
+  ],
+  "enisaIdVendor": [
+    {
+      "id": "8845564d-9922-3234-bb59-3e0f2048e187",
+      "vendor": {
+        "name": "nodejs"
+      }
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.5.0",
+  "id": "EUVD-2026-2422",
+  "aliases": [
+    "CVE-2026-22036",
+    "GHSA-g9mf-h72j-4rw9"
+  ],
+  "published": "2026-01-14T19:07:13Z",
+  "modified": "2026-01-22T20:17:20Z",
+  "details": "Undici is an HTTP/1.1 client for Node.js. Prior to 7.18.0 and 6.23.0, the number of links in the decompression chain is unbounded and the default maxHeaderSize allows a malicious server to insert thousands compression steps leading to high CPU usage and excessive memory allocation. This vulnerability is fixed in 7.18.0 and 6.23.0.",
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-2422"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/nodejs/undici/security/advisories/GHSA-g9mf-h72j-4rw9"
+    },
+    {
+      "type": "FIX",
+      "url": "https://github.com/nodejs/undici/commit/b04e3cbb569c1596f86c108e9b52c79d8475dcb3"
+    }
+  ],
+  "database_specific": {
+    "assigner": "GitHub_M",
+    "enisa_uuid": "0c2cd3e1-ce15-3c0c-a13d-8021914e2a04",
+    "epss": 0.44
+  },
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "EUVD",
+        "name": "undici"
+      },
+      "database_specific": {
+        "vendor": "undici",
+        "raw_product_version": "< 6.23.0"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.23.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "EUVD",
+        "name": "undici"
+      },
+      "database_specific": {
+        "vendor": "undici",
+        "raw_product_version": "7.0.0, < 7.18.2"
+      }
+    }
+  ]
+}

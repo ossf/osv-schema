@@ -1,0 +1,54 @@
+{
+  "id": "EUVD-2026-39612",
+  "enisaUuid": "93ba3d5b-74ec-3c99-a5a6-690db6568699",
+  "description": "A flaw in Node.js TLS host verification can cause an attacker to bypass certification validation.\r\n\r\nThis vulnerability affects all supported release lines: **Node.js 22**, **Node.js 24**, and **Node.js 26**.",
+  "datePublished": "Jun 26, 2026, 1:14:36 AM",
+  "dateUpdated": "Jun 29, 2026, 12:40:27 PM",
+  "baseScore": 4.3,
+  "baseScoreVersion": "3.0",
+  "baseScoreVector": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N",
+  "references": "https://nodejs.org/en/blog/vulnerability/june-2026-security-releases\n",
+  "aliases": "CVE-2026-48934\nGHSA-px9q-xv67-75fr\n",
+  "assigner": "hackerone",
+  "epss": 0.26,
+  "enisaIdProduct": [
+    {
+      "id": "013c3a12-9cb3-3fb6-a6cd-34991d0af169",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "22.22.3 ≤22.22.3"
+    },
+    {
+      "id": "3bf40340-a4a5-3e36-985b-6123f1a35649",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "24.16.0 ≤24.16.0"
+    },
+    {
+      "id": "d8b96f4d-7126-3448-82d9-d2549249ff2b",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "26.3.0 ≤26.3.0"
+    }
+  ],
+  "enisaIdVendor": [
+    {
+      "id": "3d168be4-397f-305b-a404-d80d3966eacf",
+      "vendor": {
+        "name": "nodejs"
+      }
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.5.0",
+  "id": "EUVD-2026-37914",
+  "aliases": [
+    "GHSA-rv82-5vqw-69hj",
+    "CVE-2026-48617"
+  ],
+  "published": "2026-06-18T16:21:12Z",
+  "modified": "2026-06-18T18:34:10Z",
+  "details": "A flaw in Node.js Permission Model enforcement allows Bypass via `process.report.writeReport()` Path Misvalidation. This can lead to confidentiality impact or bypass of the intended security boundary under affected configurations. This vulnerability affects all supported release lines: **Node.js 22**, **Node.js 24**, and **Node.js 26**.",
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-37914"
+    },
+    {
+      "type": "WEB",
+      "url": "https://nodejs.org/en/blog/vulnerability/june-2026-security-releases"
+    },
+    {
+      "type": "WEB",
+      "url": "http://hackerone.com/reports/3692858"
+    }
+  ],
+  "database_specific": {
+    "assigner": "hackerone",
+    "enisa_uuid": "3de2f904-159f-369a-a455-8f251361ee50",
+    "epss": 0.32
+  },
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:H/PR:H/UI:R/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "EUVD",
+        "name": "Node"
+      },
+      "database_specific": {
+        "vendor": "nodejs",
+        "raw_product_version": "22.22.3 ≤22.22.3"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "EUVD",
+        "name": "Node"
+      },
+      "database_specific": {
+        "vendor": "nodejs",
+        "raw_product_version": "26.3.0 ≤26.3.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "EUVD",
+        "name": "Node"
+      },
+      "database_specific": {
+        "vendor": "nodejs",
+        "raw_product_version": "24.16.0 ≤24.16.0"
+      }
+    }
+  ]
+}

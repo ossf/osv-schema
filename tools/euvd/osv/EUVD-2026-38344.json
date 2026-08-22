@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.5.0",
+  "id": "EUVD-2026-38344",
+  "aliases": [
+    "CVE-2026-48931",
+    "GHSA-w88c-7765-q5gg"
+  ],
+  "published": "2026-06-22T18:59:30Z",
+  "modified": "2026-07-03T00:32:38Z",
+  "details": "A flaw in Node.js HTTP Agent can cause a client to accept as valid a response that is send before the client has sent the request.\r\n\r\nThis vulnerability affects all supported release lines: **Node.js 22**, **Node.js 24**, and **Node.js 26**.",
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-38344"
+    },
+    {
+      "type": "WEB",
+      "url": "https://nodejs.org/en/blog/vulnerability/june-2026-security-releases"
+    }
+  ],
+  "database_specific": {
+    "assigner": "hackerone",
+    "enisa_uuid": "7c4c88ee-c0dc-3d05-a9ae-706bc9dedbe7",
+    "epss": 0.35
+  },
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "EUVD",
+        "name": "Node"
+      },
+      "database_specific": {
+        "vendor": "nodejs",
+        "raw_product_version": "24.16.0 ≤24.16.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "EUVD",
+        "name": "Node"
+      },
+      "database_specific": {
+        "vendor": "nodejs",
+        "raw_product_version": "22.22.3 ≤22.22.3"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "EUVD",
+        "name": "Node"
+      },
+      "database_specific": {
+        "vendor": "nodejs",
+        "raw_product_version": "26.3.0 ≤26.3.0"
+      }
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "id": "EUVD-2026-38344",
+  "enisaUuid": "7c4c88ee-c0dc-3d05-a9ae-706bc9dedbe7",
+  "description": "A flaw in Node.js HTTP Agent can cause a client to accept as valid a response that is send before the client has sent the request.\r\n\r\nThis vulnerability affects all supported release lines: **Node.js 22**, **Node.js 24**, and **Node.js 26**.",
+  "datePublished": "Jun 22, 2026, 6:59:30 PM",
+  "dateUpdated": "Jul 3, 2026, 12:32:38 AM",
+  "baseScore": 3.7,
+  "baseScoreVersion": "3.0",
+  "baseScoreVector": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N",
+  "references": "https://nodejs.org/en/blog/vulnerability/june-2026-security-releases\n",
+  "aliases": "CVE-2026-48931\nGHSA-w88c-7765-q5gg\n",
+  "assigner": "hackerone",
+  "epss": 0.35,
+  "enisaIdProduct": [
+    {
+      "id": "4d6cf205-e1d4-3ce2-864a-b3a795cfcf02",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "24.16.0 ≤24.16.0"
+    },
+    {
+      "id": "93ed4991-7d5d-3b7c-8097-0ef5fe20fbf4",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "22.22.3 ≤22.22.3"
+    },
+    {
+      "id": "be4ba8e0-75b0-333b-ac2c-7b442cee222f",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "26.3.0 ≤26.3.0"
+    }
+  ],
+  "enisaIdVendor": [
+    {
+      "id": "4374d50d-e039-3589-a091-12cf2dd58192",
+      "vendor": {
+        "name": "nodejs"
+      }
+    }
+  ]
+}

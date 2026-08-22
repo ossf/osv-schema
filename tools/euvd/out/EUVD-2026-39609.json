@@ -1,0 +1,54 @@
+{
+  "id": "EUVD-2026-39609",
+  "enisaUuid": "19004ab3-8dee-3018-a2c0-77923a45d53e",
+  "description": "A flaw in Node.js WebCrypto implementation can crash the process if the input of `subtle.encrypt()` is a multiple of 2GiB.\r\n\r\nThis vulnerability affects all supported release lines: **Node.js 22**, **Node.js 24**, and **Node.js 26**.",
+  "datePublished": "Jun 26, 2026, 1:14:36 AM",
+  "dateUpdated": "Aug 10, 2026, 12:05:38 PM",
+  "baseScore": 7.5,
+  "baseScoreVersion": "3.1",
+  "baseScoreVector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+  "references": "https://nodejs.org/en/blog/vulnerability/june-2026-security-releases\n",
+  "aliases": "CVE-2026-48933\nGHSA-pvpp-9x2p-fxg3\n",
+  "assigner": "hackerone",
+  "epss": 3.71,
+  "enisaIdProduct": [
+    {
+      "id": "414f7530-94b7-320c-b2d5-a279919b6085",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "26.3.0 ≤26.3.0"
+    },
+    {
+      "id": "9553dae6-f0e4-3cc4-b831-f4f8f4b1eb28",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "24.16.0 ≤24.16.0"
+    },
+    {
+      "id": "ef3083f0-0c26-38fc-a443-a56b6bf85821",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "22.22.3 ≤22.22.3"
+    }
+  ],
+  "enisaIdVendor": [
+    {
+      "id": "d336c195-63cc-331f-a5b9-9fa8ae8a6ad4",
+      "vendor": {
+        "name": "nodejs"
+      }
+    }
+  ]
+}

@@ -1,0 +1,174 @@
+{
+  "id": "EUVD-2026-3339",
+  "enisaUuid": "f11494b6-4d58-3265-858b-573bfc8c976a",
+  "description": "We have identified a bug in Node.js error handling where \"Maximum call stack size exceeded\" errors become uncatchable when `async_hooks.createHook()` is enabled. Instead of reaching `process.on('uncaughtException')`, the process terminates, making the crash unrecoverable. Applications that rely on `AsyncLocalStorage` (v22, v20) or `async_hooks.createHook()` (v24, v22, v20) become vulnerable to denial-of-service crashes triggered by deep recursion under specific conditions.",
+  "datePublished": "Jan 20, 2026, 8:41:55 PM",
+  "dateUpdated": "Jan 21, 2026, 6:52:57 PM",
+  "baseScore": 5.9,
+  "baseScoreVersion": "3.0",
+  "baseScoreVector": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H",
+  "references": "https://nodejs.org/en/blog/vulnerability/december-2025-security-releases\n",
+  "aliases": "GHSA-52xj-vx8w-46qj\nCVE-2025-59466\n",
+  "assigner": "hackerone",
+  "epss": 0.65,
+  "enisaIdProduct": [
+    {
+      "id": "1ebe6e3b-abdb-3f16-a8db-898561c9b565",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "25.2.1 ≤25.2.1"
+    },
+    {
+      "id": "25fa46ce-8144-358d-81e6-f365b25d2647",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "15.0 <15.*"
+    },
+    {
+      "id": "2d027e50-0d59-3c84-90c5-6b968083d4e6",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "8.0 <8.*"
+    },
+    {
+      "id": "3e0f52e3-da18-3b98-93e8-2825b3e91f96",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "22.21.1 ≤22.21.1"
+    },
+    {
+      "id": "42eea6d9-1350-3ff6-8c7b-57f4e3be5b29",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "10.0 <10.*"
+    },
+    {
+      "id": "45733c9b-2ef9-38b9-b77f-61015b1a405e",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "24.12.0 ≤24.12.0"
+    },
+    {
+      "id": "4e7be022-2854-3808-8eb2-7fccc10ce455",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "20.19.6 ≤20.19.6"
+    },
+    {
+      "id": "4f6fc94c-b374-3408-abba-94c92013b5f2",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "16.0 <16.*"
+    },
+    {
+      "id": "6879c37b-2899-3cee-b3d6-44944f4a85a1",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "9.0 <9.*"
+    },
+    {
+      "id": "7c8097c4-1c02-3d14-9290-1cc0c181b231",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "13.0 <13.*"
+    },
+    {
+      "id": "830635a0-73ab-33a2-a569-93056d51e604",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "17.0 <17.*"
+    },
+    {
+      "id": "9050d9dd-2f60-3519-b407-e6dea5a47689",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "12.0 <12.*"
+    },
+    {
+      "id": "93afa95d-075e-3d68-82e2-da77fe26961b",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "11.0 <11.*"
+    },
+    {
+      "id": "dc5171ee-f8b3-303d-abb9-57861eaf9717",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "14.0 <14.*"
+    },
+    {
+      "id": "e1a79951-4edc-363b-a166-e8d15eb1c197",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "18.0 <18.*"
+    }
+  ],
+  "enisaIdVendor": [
+    {
+      "id": "2862461f-4fbc-3a70-b454-a3f18e0fccad",
+      "vendor": {
+        "name": "nodejs"
+      }
+    }
+  ]
+}

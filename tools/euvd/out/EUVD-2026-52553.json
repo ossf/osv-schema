@@ -1,0 +1,54 @@
+{
+  "id": "EUVD-2026-52553",
+  "enisaUuid": "6654ebd6-7ec5-3e08-a5c3-a6732a1a98c1",
+  "description": "A flaw in Node.js can cause dns.resolveAny() Aborts the Node.js Process When a DNS Response Contains More Than 256 A Records.\r\n\r\nRepeated triggering of this condition can lead to denial of service.\r\n\r\nThis vulnerability affects Node.js **26.x**, **24.x**, and **22.x**.",
+  "datePublished": "Aug 4, 2026, 12:49:58 AM",
+  "dateUpdated": "Aug 4, 2026, 3:03:30 PM",
+  "baseScore": 5.9,
+  "baseScoreVersion": "3.0",
+  "baseScoreVector": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H",
+  "references": "https://nodejs.org/en/blog/vulnerability/july-2026-security-releases\n",
+  "aliases": "GHSA-pgf6-87r4-94vm\nCVE-2026-58042\n",
+  "assigner": "hackerone",
+  "epss": 0.46,
+  "enisaIdProduct": [
+    {
+      "id": "4f43e174-157e-3f79-a4cf-03a785fb5261",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "24.18.0 ≤24.18.0"
+    },
+    {
+      "id": "52bcd05e-8986-3c89-9ba4-64b388e14958",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "22.23.1 ≤22.23.1"
+    },
+    {
+      "id": "f6d15aa1-8d47-3900-8ff6-7a4c5f4856f8",
+      "product": {
+        "name": "Node",
+        "vendor": {
+          "name": "nodejs"
+        }
+      },
+      "product_version": "26.5.0 ≤26.5.0"
+    }
+  ],
+  "enisaIdVendor": [
+    {
+      "id": "9fca8bc5-c8a6-3df5-b965-d110dbebce3b",
+      "vendor": {
+        "name": "nodejs"
+      }
+    }
+  ]
+}
