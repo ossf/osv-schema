@@ -560,6 +560,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>RHLW</code></td>
+      <td><a href="https://www.redhat.com/en/lightwell">Red Hat Lightwell</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>TBD</code></li>
+          <li>OSV Formatted URL: <code>TBD</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>RLSA</code>/<code>RXSA</code></td>
       <td><a href="https://errata.rockylinux.org">Rocky Linux Security Advisory Database</a></td>
       <td>
