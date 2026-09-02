@@ -58,7 +58,7 @@ A JSON Schema for validation is also available
 	"severity": [ {
 		"type": string,
 		"score": string,
-    "source": string
+		"source": string
 	} ],
 	"affected": [ {
 		"package": {
@@ -69,7 +69,7 @@ A JSON Schema for validation is also available
 		"severity": [ {
 			"type": string,
 			"score": string,
-      "source": string
+			"source": string
 		} ],
 		"ranges": [ {
 			"type": string,
@@ -808,7 +808,7 @@ display sites to unnecessary vulnerabilities.)
 	"severity": [ {
 		"type": string,
 		"score": string,
-    "source": string
+		"source": string
 	} ]
 }
 ```
@@ -863,7 +863,7 @@ If `source` is omitted, the rating is implicitly attributed to the home database
 		"severity": [ {
 			"type": string,
 			"score": string,
-      "source": string
+			"source": string
 		} ],
 		"ranges": [ {
 			"type": string,
