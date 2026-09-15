@@ -77,6 +77,10 @@ func RangeIsDistinct(json *gjson.Result, config *Config) (findings []CheckError)
 				if result.Exists() {
 					endEvents = append(endEvents, result.String())
 				}
+				result = value.Get("last_affected")
+				if result.Exists() {
+					endEvents = append(endEvents, result.String())
+				}
 				return true // keep iterating (over events)
 			})
 			// Check for overlap between collected start events and end events.

@@ -54,3 +54,84 @@ func TestRangeHasIntroducedEvent(t *testing.T) {
 		})
 	}
 }
+
+func TestRangeIsDistinct(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name         string
+		json         string
+		wantFindings []CheckError
+	}{
+		{
+			name: "introduced and last_affected are identical",
+			json: `{
+				"affected": [{
+					"package": {
+						"name": "example"
+					},
+					"ranges": [{
+						"type": "SEMVER",
+						"events": [
+							{"introduced": "1.0.0"},
+							{"last_affected": "1.0.0"}
+						]
+					}]
+				}]
+			}`,
+			wantFindings: []CheckError{
+				{Message: `overlapping event: "1.0.0"`},
+			},
+		},
+		{
+			name: "introduced and last_affected are different",
+			json: `{
+				"affected": [{
+					"package": {
+						"name": "example"
+					},
+					"ranges": [{
+						"type": "SEMVER",
+						"events": [
+							{"introduced": "1.0.0"},
+							{"last_affected": "1.1.0"}
+						]
+					}]
+				}]
+			}`,
+			wantFindings: nil,
+		},
+		{
+			name: "introduced and fixed are identical",
+			json: `{
+				"affected": [{
+					"package": {
+						"name": "example"
+					},
+					"ranges": [{
+						"type": "SEMVER",
+						"events": [
+							{"introduced": "1.0.0"},
+							{"fixed": "1.0.0"}
+						]
+					}]
+				}]
+			}`,
+			wantFindings: []CheckError{
+				{Message: `overlapping event: "1.0.0"`},
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			json := gjson.Parse(tt.json)
+
+			gotFindings := RangeIsDistinct(&json, &Config{Verbose: true})
+
+			if diff := cmp.Diff(tt.wantFindings, gotFindings, cmpopts.EquateErrors()); diff != "" {
+				t.Errorf("RangeIsDistinct() mismatch (-want +got):\n%s", diff)
+			}
+		})
+	}
+}
