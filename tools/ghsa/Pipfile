@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 osv = "*"
 githubkit = "*"
+importlib-metadata = "*"
 
 [dev-packages]
 pylint = "*"
