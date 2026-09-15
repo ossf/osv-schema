@@ -28,7 +28,7 @@ func main() {
 							&cli.StringFlag{
 								Name:  "collection",
 								Value: "ALL",
-								Usage: "check collection to use (use 'list' to see)",
+								Usage: "check collection to use (use 'list' to see); some checks make network requests",
 							},
 							&cli.StringSliceFlag{
 								Name:  "checks",
