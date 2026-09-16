@@ -10,7 +10,7 @@ import (
 	"strings"
 
 	"github.com/google/osv-scalibr/semantic"
-	"github.com/ossf/osv-schema/linter/internal/faulttolerant"
+	"github.com/ossf/osv-schema/tools/osv-linter/internal/faulttolerant"
 	"github.com/tidwall/gjson"
 	"golang.org/x/mod/module"
 	"golang.org/x/mod/semver"

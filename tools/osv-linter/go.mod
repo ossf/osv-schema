@@ -1,4 +1,4 @@
-module github.com/ossf/osv-schema/linter
+module github.com/ossf/osv-schema/tools/osv-linter
 
 go 1.26.3
 

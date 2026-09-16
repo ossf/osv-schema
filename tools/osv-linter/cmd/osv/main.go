@@ -4,8 +4,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/ossf/osv-schema/linter/internal"
-	"github.com/ossf/osv-schema/linter/internal/checks"
+	"github.com/ossf/osv-schema/tools/osv-linter/internal"
+	"github.com/ossf/osv-schema/tools/osv-linter/internal/checks"
 	"github.com/urfave/cli/v2"
 )
 
