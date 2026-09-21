@@ -7,6 +7,11 @@ import (
 	"github.com/tidwall/gjson"
 )
 
+func parseJSON(s string) *gjson.Result {
+	res := gjson.Parse(s)
+	return &res
+}
+
 func TestPackageExists(t *testing.T) {
 	t.Parallel()
 
@@ -34,6 +39,57 @@ func TestPackageExists(t *testing.T) {
 				config: &Config{},
 			},
 			wantFindings: nil,
+		},
+		{
+			name: "Schema ecosystem without registry check (WordPress)",
+			args: args{
+				json: parseJSON(`{
+					"affected": [
+						{
+							"package": {
+								"name": "my-plugin",
+								"ecosystem": "WordPress:Plugin"
+							}
+						}
+					]
+				}`),
+				config: &Config{},
+			},
+			wantFindings: nil,
+		},
+		{
+			name: "Schema ecosystem without registry check (Homebrew)",
+			args: args{
+				json: parseJSON(`{
+					"affected": [
+						{
+							"package": {
+								"name": "openssl@3",
+								"ecosystem": "Homebrew"
+							}
+						}
+					]
+				}`),
+				config: &Config{},
+			},
+			wantFindings: nil,
+		},
+		{
+			name: "Unknown ecosystem produces finding",
+			args: args{
+				json: parseJSON(`{
+					"affected": [
+						{
+							"package": {
+								"name": "my-pkg",
+								"ecosystem": "UnknownEco"
+							}
+						}
+					]
+				}`),
+				config: &Config{},
+			},
+			wantFindings: []CheckError{{Code: "", Message: "package \"my-pkg\" not found in \"UnknownEco\""}},
 		},
 	}
 	for _, tt := range tests {
@@ -79,11 +135,63 @@ func TestPackageVersionsExists(t *testing.T) {
 			},
 			wantFindings: nil,
 		},
+		{
+			name: "Schema ecosystem without registry check (WordPress)",
+			args: args{
+				json: parseJSON(`{
+					"affected": [
+						{
+							"package": {
+								"name": "my-plugin",
+								"ecosystem": "WordPress:Plugin"
+							},
+							"versions": ["1.0.0", "1.1.0"]
+						}
+					]
+				}`),
+				config: &Config{},
+			},
+			wantFindings: nil,
+		},
+		{
+			name: "Schema ecosystem without registry check (Homebrew)",
+			args: args{
+				json: parseJSON(`{
+					"affected": [
+						{
+							"package": {
+								"name": "openssl@3",
+								"ecosystem": "Homebrew"
+							},
+							"versions": ["3.0.0"]
+						}
+					]
+				}`),
+				config: &Config{},
+			},
+			wantFindings: nil,
+		},
+		{
+			name: "Unknown ecosystem produces finding",
+			args: args{
+				json: parseJSON(`{
+					"affected": [
+						{
+							"package": {
+								"name": "my-pkg",
+								"ecosystem": "UnknownEco"
+							},
+							"versions": ["1.0.0"]
+						}
+					]
+				}`),
+				config: &Config{},
+			},
+			wantFindings: []CheckError{{Code: "", Message: "unsupported ecosystem: UnknownEco"}},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			t.Parallel()
-
 			if gotFindings := PackageVersionsExist(tt.args.json, tt.args.config); !reflect.DeepEqual(gotFindings, tt.wantFindings) {
 				t.Errorf("PackageVersionsExist() = %v, want %v", gotFindings, tt.wantFindings)
 			}

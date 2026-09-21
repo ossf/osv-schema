@@ -21,6 +21,10 @@ var SupportedEcosystems = []string{
 	"RubyGems",
 }
 
+// IsSchemaEcosystem reports whether the ecosystem is valid according to the schema.
+// Set by checks package at initialization.
+var IsSchemaEcosystem func(ecosystem string) bool
+
 // EcosystemBaseURLs maps ecosystems to their base API URLs.
 var EcosystemBaseURLs = map[string]string{
 	"CRAN":      "https://crandb.r-pkg.org/",
@@ -41,78 +45,38 @@ var EcosystemBaseURLs = map[string]string{
 // Dispatcher for ecosystem-specific package existence checking.
 func ExistsInEcosystem(pkg string, ecosystem string, suffix string) bool {
 	switch ecosystem {
-	case "AlmaLinux":
-		return true
-	case "Alpine":
-		return true
-	case "Android":
-		return true
-	case "Bitnami":
-		return true
-	case "Chainguard":
-		return true
 	case "CRAN":
 		return existsInCran(pkg)
 	case "crates.io":
 		return existsInCrates(pkg)
-	case "Debian":
-		return true
-	case "Echo":
-		return true
-	case "GIT":
-		return true
-	case "GitHub Actions":
-		return true
 	case "Go":
 		return existsInGo(pkg)
-	case "GSD":
-		return true
 	case "Hackage":
 		return existsInHackage(pkg)
 	case "Hex":
 		return existsInHex(pkg)
 	case "Julia":
 		return existsInJulia(pkg)
-	case "Kubernetes":
-		return true
-	case "Linux":
-		return true
 	case "Maven":
 		return existsInMaven(pkg)
-	case "MinimOS":
-		return true
 	case "npm":
 		return existsInNpm(pkg)
 	case "NuGet":
 		return existsInNuget(pkg)
-	case "openSUSE":
-		return true
-	case "OSS-Fuzz":
-		return true
 	case "Packagist":
 		return existsInPackagist(pkg, suffix)
 	case "Pub":
 		return existsInPub(pkg)
 	case "PyPI":
 		return existsInPyPI(pkg)
-	case "Red Hat":
-		return true
-	case "Rocky Linux":
-		return true
 	case "RubyGems":
 		return existsInRubyGems(pkg)
-	case "SUSE":
-		return true
-	case "SwiftURL":
-		return true
-	case "Ubuntu":
-		return true
-	case "UVI":
-		return true
-	case "Wolfi":
-		return true
+	default:
+		if IsSchemaEcosystem != nil && IsSchemaEcosystem(ecosystem) {
+			return true
+		}
+		return false
 	}
-	return false
 }
 
 // MissingVersionsError describes when specific versions of a package could not be found.
@@ -139,74 +103,34 @@ func (e MissingVersionsError) Error() string {
 // Dispatcher for ecosystem-specific package version existence checking.
 func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string, suffix string) error {
 	switch ecosystem {
-	case "AlmaLinux":
-		return nil
-	case "Alpine":
-		return nil
-	case "Android":
-		return nil
-	case "Bitnami":
-		return nil
-	case "Chainguard":
-		return nil
 	case "CRAN":
 		return versionsExistInCran(pkg, versions)
 	case "crates.io":
 		return versionsExistInCrates(pkg, versions)
-	case "Debian":
-		return nil
-	case "Echo":
-		return nil
-	case "GIT":
-		return nil
-	case "GitHub Actions":
-		return nil
 	case "Go":
 		return versionsExistInGo(pkg, versions)
-	case "GSD":
-		return nil
 	case "Hackage":
 		return versionsExistInHackage(pkg, versions)
-	case "Julia":
-		return versionsExistInJulia(pkg, versions)
 	case "Hex":
 		return versionsExistInHex(pkg, versions)
-	case "Linux":
-		return nil
-	case "Maven":
-		return nil
-	case "MinimOS":
-		return nil
+	case "Julia":
+		return versionsExistInJulia(pkg, versions)
 	case "npm":
 		return versionsExistInNpm(pkg, versions)
 	case "NuGet":
 		return versionsExistInNuGet(pkg, versions)
-	case "openSUSE":
-		return nil
-	case "OSS-Fuzz":
-		return nil
 	case "Packagist":
 		return versionsExistInPackagist(pkg, versions, suffix)
 	case "Pub":
 		return versionsExistInPub(pkg, versions)
 	case "PyPI":
 		return versionsExistInPyPI(pkg, versions)
-	case "Red Hat":
-		return nil
-	case "Rocky Linux":
-		return nil
 	case "RubyGems":
 		return versionsExistInRubyGems(pkg, versions)
-	case "SUSE":
-		return nil
-	case "SwiftURL":
-		return nil
-	case "Ubuntu":
-		return nil
-	case "UVI":
-		return nil
-	case "Wolfi":
-		return nil
+	default:
+		if IsSchemaEcosystem != nil && IsSchemaEcosystem(ecosystem) {
+			return nil
+		}
+		return fmt.Errorf("unsupported ecosystem: %s", ecosystem)
 	}
-	return fmt.Errorf("unsupported ecosystem: %s", ecosystem)
 }

@@ -3,8 +3,10 @@ package checks
 import (
 	_ "embed"
 	"fmt"
+	"slices"
 	"strings"
 
+	"github.com/ossf/osv-schema/linter/internal/pkgchecker"
 	"github.com/tidwall/gjson"
 	"github.com/xeipuuv/gojsonschema"
 )
@@ -14,6 +16,30 @@ import (
 
 //go:embed schema_generated.json
 var LoadedSchema []byte
+
+func init() {
+	pkgchecker.IsSchemaEcosystem = IsSchemaEcosystem
+}
+
+// SchemaEcosystems returns the list of all ecosystems defined in the loaded JSON schema.
+func SchemaEcosystems() []string {
+	var ecosystems []string
+	res := gjson.GetBytes(LoadedSchema, "$defs.ecosystemName.enum")
+	if res.Exists() && res.IsArray() {
+		for _, item := range res.Array() {
+			ecosystems = append(ecosystems, item.String())
+		}
+	}
+	return ecosystems
+}
+
+// IsSchemaEcosystem reports whether ecosystem is defined in the loaded schema or is "GIT".
+func IsSchemaEcosystem(ecosystem string) bool {
+	if ecosystem == "GIT" {
+		return true
+	}
+	return slices.Contains(SchemaEcosystems(), ecosystem)
+}
 
 var CheckInvalidSchema = &CheckDef{
 	Code:        "SCH:001",
