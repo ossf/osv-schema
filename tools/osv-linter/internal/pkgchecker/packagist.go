@@ -8,7 +8,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/ossf/osv-schema/linter/internal/faulttolerant"
+	"github.com/ossf/osv-schema/tools/osv-linter/internal/faulttolerant"
 	"github.com/tidwall/gjson"
 )
 
