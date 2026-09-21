@@ -14,13 +14,14 @@ Inspired by [github.com/mprpic/cvelint](https://github.com/mprpic/cvelint), and 
 ### TODO
 
 * Define and implement a machine-readable format for check results to facilitate integration
-  * Today, a non-zero return code is the coarse-grained indicator of correctness
+* Today, a non-zero return code is the coarse-grained indicator of correctness
 * Add a flag to specify checks to be ignored
 
 ## Usage
 
 ```text
 $ go run ./cmd/osv/ record lint --help
+
 NAME:
    osv record lint - check OSV records for correctness
 
@@ -29,24 +30,35 @@ USAGE:
 
 OPTIONS:
    --verbose                                  verbose output (default: false)
-   --collection value                         check collection to use (use 'list' to see) (default: "ALL")
+   --collection value                         check collection to use (use 'list' to see); some checks make network requests (default: "ALL")
    --checks value [ --checks value ]          explicitly run a specific check (use 'list' to see)
    --ecosystems value [ --ecosystems value ]  the ecosystems to constrain package checks to (use 'list' to see)
+   --json                                     output results as JSON (default: false)
+   --new-ecosystem                            ignore certain checks for new ecosystems (e.g. schema pattern checks, unsupported ecosystem checks) (default: false)
+   --parallel value                           how many files to process in parallel (default: 1)
+   --schema-file value                        path to a custom schema file to be used instead of the embedded one
+   --include-withdrawn                        run linting checks on withdrawn records which are skipped by default (default: false)
    --help, -h                                 show help
 ```
 
 ```text
 $ go run ./cmd/osv record lint testdata
+
 testdata/nointroduced-CVE-2023-41045.json:
-         * [RNG:001]: missing 'introduced' object in event
+         * [RNG:001]&#58; missing 'introduced' object in event
+
 testdata/nondistinct-CVE-2018-5407.json:
-         * [RNG:002]: overlapping event: "e818b74be2170fbe957a07b0da4401c2b694b3b8"
+         * [RNG:002]&#58; overlapping event: "e818b74be2170fbe957a07b0da4401c2b694b3b8"
+
 2024/10/22 00:04:23 found errors
 exit status 1
 ```
 
+### Available checks
+
 ```text
 $ go run ./cmd/osv/ record lint --checks list
+
 Available checks:
 
 REC:001: (affected-data-exists): every record has affected data
@@ -60,33 +72,67 @@ PKG:002: (package-versions-exist): package versions exist in ecosystem's registr
 PKG:003: (package-purl-valid): package purl validates
 ```
 
+### Check collections
+
 ```text
 $ go run ./cmd/osv/ record lint --collection list
+
 Available check collections:
 
 ALL: all checks currently defined
+        SCH:001: (conforms-to-schema): the record must conform to the OSV JSON schema
         REC:001: (affected-data-exists): every record has affected data
         REC:002: (valid-aliases): aliases field validates
         REC:003: (valid-upstream): upstream field validates
         REC:004: (valid-related): related field validates
+        REC:005: (record-id-valid): id field uses only permitted characters
         RNG:001: (introduced-event-exists): every range has an introduced event
         RNG:002: (range-is-distinct): range spans multiple versions/commits
         PKG:001: (package-exists): package exists in ecosystem's registry
         PKG:002: (package-versions-exist): package versions exist in ecosystem's registry
         PKG:003: (package-purl-valid): package purl validates
+
 offline: Checks that do not have remote data dependencies. These can be run without network access.
+        SCH:001: (conforms-to-schema): the record must conform to the OSV JSON schema
         REC:001: (affected-data-exists): every record has affected data
         REC:002: (valid-aliases): aliases field validates
         REC:003: (valid-upstream): upstream field validates
         REC:004: (valid-related): related field validates
+        REC:005: (record-id-valid): id field uses only permitted characters
         RNG:001: (introduced-event-exists): every range has an introduced event
         RNG:002: (range-is-distinct): range spans multiple versions/commits
         PKG:003: (package-purl-valid): package purl validates
+
 fatal: Checks considered critical. Failures indicate fundamental issues with the OSV record.
+        SCH:001: (conforms-to-schema): the record must conform to the OSV JSON schema
         REC:001: (affected-data-exists): every record has affected data
         REC:002: (valid-aliases): aliases field validates
         REC:003: (valid-upstream): upstream field validates
         RNG:002: (range-is-distinct): range spans multiple versions/commits
+```
+
+### Network-dependent checks
+
+The `ALL` check collection includes package existence checks that may make network requests to package registries.
+
+The endpoints used by package existence checks can be influenced by the OSV record being checked. When processing records from untrusted sources, users should be aware that these checks may make outbound network requests.
+
+Use the `offline` collection when network access is not desired:
+
+```text
+$ go run ./cmd/osv/ record lint --collection offline <record>
+```
+
+The `offline` collection excludes checks that have remote data dependencies, including `package-exists` and `package-versions-exist`.
+
+Save it.
+
+### Then check
+
+Run:
+
+```bash
+git diff -- README.md cmd/osv/main.go
 ```
 
 ## Contributing
@@ -98,13 +144,15 @@ Checks should be as atomic as possible.
 ### Adding checks
 
 * Define in `internal/checks`, based on the nature of the check
+
   * `packages.go`
   * `ranges.go`
   * `record.go`
-  * Define a new variable of type `&CheckDef`, in the name format `Check` + *thing* + *assertion* (where *thing* is field of an OSV record and *assertion* is what is being checked)
-  * Implement a function that takes a `*gjson.Result` and a `*Config` and returns `[]CheckError`
-    * Include tests and sample records that both pass and fail this check
-* Add the new `&CheckDef` variable to `Collections` in `internal/checks/checks.go`
+* Define a new variable of type `*CheckDef`, in the name format `Check` + *thing* + *assertion* (where *thing* is a field of an OSV record and *assertion* is what is being checked)
+* Implement a function that takes a `*gjson.Result` and a `*Config` and returns `[]CheckError`
+
+  * Include tests and sample records that both pass and fail this check
+* Add the new `*CheckDef` variable to `Collections` in `internal/checks/checks.go`
 * See [#295](https://github.com/ossf/osv-schema/pull/295) for a worked example
 
 ### Additional references
@@ -112,6 +160,7 @@ Checks should be as atomic as possible.
 * [Open Source Vulnerability schema](https://ossf.github.io/osv-schema/)
 * [Properties of a High Quality OSV Record](https://google.github.io/osv.dev/data_quality.html)
 * [GJSON](https://github.com/tidwall/gjson)
+
   * [Go package](https://pkg.go.dev/github.com/tidwall/gjson)
   * [Syntax](https://github.com/tidwall/gjson/blob/master/SYNTAX.md)
   * [Playground](https://gjson.dev/)
