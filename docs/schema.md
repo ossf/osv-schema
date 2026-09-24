@@ -242,12 +242,12 @@ The defined database prefixes and their "home" databases are:
     </tr>
     <tr>
       <td><code>CGA</code></td>
-      <td><a href="https://packages.cgr.dev/chainguard/osv/all.json">Chainguard Security Notices</a></td>
+      <td><a href="https://advisories.cgr.dev/chainguard/v3/osv/all.json">Chainguard Security Notices</a></td>
       <td>
         <ul>
           <li>How to contribute: TBD</li>
           <li>Source URL: TBD</li>
-          <li>OSV Formatted URL: <code>https://packages.cgr.dev/chainguard/osv/&lt;ID&gt;.json</code></li>
+          <li>OSV Formatted URL: <code>https://advisories.cgr.dev/chainguard/v3/osv/&lt;ID&gt;.json</code></li>
         </ul>
       </td>
     </tr>
