@@ -97,6 +97,8 @@ func ExistsInEcosystem(pkg string, ecosystem string, suffix string) bool {
 		return existsInPyPI(pkg)
 	case "Red Hat":
 		return true
+	case "Red Hat Lightwell":
+		return true
 	case "Rocky Linux":
 		return true
 	case "RubyGems":
@@ -192,6 +194,8 @@ func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string, s
 	case "PyPI":
 		return versionsExistInPyPI(pkg, versions)
 	case "Red Hat":
+		return nil
+	case "Red Hat Lightwell":
 		return nil
 	case "Rocky Linux":
 		return nil
