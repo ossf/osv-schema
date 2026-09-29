@@ -166,6 +166,55 @@ func TestRelatedCheck(t *testing.T) {
 	}
 }
 
+func TestIDCheck(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name         string
+		jsonData     string
+		wantFindings []CheckError
+	}{
+		{
+			name:         "Valid CVE ID",
+			jsonData:     `{"id": "CVE-2023-0001"}`,
+			wantFindings: nil,
+		},
+		{
+			name:         "Valid ID with permitted punctuation",
+			jsonData:     `{"id": "GO:stdlib-1.2.3_beta"}`,
+			wantFindings: nil,
+		},
+		{
+			name:         "ID field missing",
+			jsonData:     `{"aliases": ["CVE-2023-0001"]}`,
+			wantFindings: nil,
+		},
+		{
+			name:     "ID contains a space",
+			jsonData: `{"id": "CVE 2023 0001"}`,
+			wantFindings: []CheckError{
+				{Message: `Invalid ID: id "CVE 2023 0001" contains characters outside the permitted set [a-zA-Z0-9:_.-]`},
+			},
+		},
+		{
+			name:     "ID contains a slash",
+			jsonData: `{"id": "OSV/2023/0001"}`,
+			wantFindings: []CheckError{
+				{Message: `Invalid ID: id "OSV/2023/0001" contains characters outside the permitted set [a-zA-Z0-9:_.-]`},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			jsonResult := gjson.Parse(tt.jsonData)
+			gotFindings := IDCheck(&jsonResult, &Config{Verbose: true})
+			if diff := cmp.Diff(tt.wantFindings, gotFindings, cmpopts.EquateErrors()); diff != "" {
+				t.Errorf("IDCheck() mismatch (-want +got):\n%s", diff)
+			}
+		})
+	}
+}
+
 func TestUpstreamCheck(t *testing.T) {
 	t.Parallel()
 

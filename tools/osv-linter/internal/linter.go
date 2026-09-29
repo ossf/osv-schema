@@ -18,8 +18,8 @@ import (
 
 	"github.com/urfave/cli/v2"
 
-	"github.com/ossf/osv-schema/linter/internal/checks"
-	"github.com/ossf/osv-schema/linter/internal/pkgchecker"
+	"github.com/ossf/osv-schema/tools/osv-linter/internal/checks"
+	"github.com/ossf/osv-schema/tools/osv-linter/internal/pkgchecker"
 )
 
 // Content represents the content of a file to be linted.

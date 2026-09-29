@@ -4,8 +4,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/ossf/osv-schema/linter/internal"
-	"github.com/ossf/osv-schema/linter/internal/checks"
+	"github.com/ossf/osv-schema/tools/osv-linter/internal"
+	"github.com/ossf/osv-schema/tools/osv-linter/internal/checks"
 	"github.com/urfave/cli/v2"
 )
 
@@ -28,7 +28,7 @@ func main() {
 							&cli.StringFlag{
 								Name:  "collection",
 								Value: "ALL",
-								Usage: "check collection to use (use 'list' to see)",
+								Usage: "check collection to use (use 'list' to see); some checks make network requests",
 							},
 							&cli.StringSliceFlag{
 								Name:  "checks",

@@ -1,8 +1,16 @@
 package checks
 
 import (
+	"fmt"
+	"regexp"
+
 	"github.com/tidwall/gjson"
 )
+
+// validIDPattern is the set of characters permitted in an OSV record id.
+// Restricting ids to this ASCII subset avoids the need for URL encoding and
+// prevents shell-scripting errors caused by spaces or other punctuation.
+var validIDPattern = regexp.MustCompile(`^[a-zA-Z0-9:_.-]+$`)
 
 var CheckRecordHasAffected = &CheckDef{
 	Code:        "REC:001",
@@ -30,6 +38,13 @@ var CheckRecordHasValidRelated = &CheckDef{
 	Name:        "valid-related",
 	Description: "related field validates",
 	Check:       RelatedCheck,
+}
+
+var CheckRecordHasValidID = &CheckDef{
+	Code:        "REC:005",
+	Name:        "record-id-valid",
+	Description: "id field uses only permitted characters",
+	Check:       IDCheck,
 }
 
 // RecordHasAffected checks if the 'affected' field exists in the JSON and is not an empty array.
@@ -119,6 +134,21 @@ func RelatedCheck(json *gjson.Result, config *Config) (findings []CheckError) {
 
 	if _, exists := unique[bug.String()]; exists {
 		findings = append(findings, CheckError{Message: "Invalid Related: Related should not contain itself"})
+	}
+
+	return findings
+}
+
+// IDCheck verifies that the 'id' field only contains characters from the
+// permitted set (^[a-zA-Z0-9:_.-]+$).
+func IDCheck(json *gjson.Result, config *Config) (findings []CheckError) {
+	id := json.Get("id")
+	if !id.Exists() {
+		return
+	}
+
+	if !validIDPattern.MatchString(id.String()) {
+		findings = append(findings, CheckError{Message: fmt.Sprintf("Invalid ID: id %q contains characters outside the permitted set [a-zA-Z0-9:_.-]", id.String())})
 	}
 
 	return findings

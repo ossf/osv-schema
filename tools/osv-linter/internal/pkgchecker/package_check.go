@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/ossf/osv-schema/linter/internal/faulttolerant"
+	"github.com/ossf/osv-schema/tools/osv-linter/internal/faulttolerant"
 )
 
 // Validate the existence of a package in CRAN.

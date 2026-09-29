@@ -4,8 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-requests = "*"
 osv = "*"
+githubkit = "*"
+importlib-metadata = "*"
 
 [dev-packages]
 pylint = "*"

@@ -5,7 +5,7 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/ossf/osv-schema/linter/internal/pkgchecker"
+	"github.com/ossf/osv-schema/tools/osv-linter/internal/pkgchecker"
 	"github.com/package-url/packageurl-go"
 	"github.com/tidwall/gjson"
 )

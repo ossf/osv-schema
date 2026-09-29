@@ -58,7 +58,7 @@ A JSON Schema for validation is also available
 	"severity": [ {
 		"type": string,
 		"score": string,
-    "source": string
+		"source": string
 	} ],
 	"affected": [ {
 		"package": {
@@ -69,7 +69,7 @@ A JSON Schema for validation is also available
 		"severity": [ {
 			"type": string,
 			"score": string,
-      "source": string
+			"source": string
 		} ],
 		"ranges": [ {
 			"type": string,
@@ -560,6 +560,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>RHLW</code></td>
+      <td><a href="https://www.redhat.com/en/lightwell">Red Hat Lightwell</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: TBD</li>
+          <li>Source URL: <code>TBD</code></li>
+          <li>OSV Formatted URL: <code>TBD</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>RLSA</code>/<code>RXSA</code></td>
       <td><a href="https://errata.rockylinux.org">Rocky Linux Security Advisory Database</a></td>
       <td>
@@ -808,7 +819,7 @@ display sites to unnecessary vulnerabilities.)
 	"severity": [ {
 		"type": string,
 		"score": string,
-    "source": string
+		"source": string
 	} ]
 }
 ```
@@ -863,7 +874,7 @@ If `source` is omitted, the rating is implicitly attributed to the home database
 		"severity": [ {
 			"type": string,
 			"score": string,
-      "source": string
+			"source": string
 		} ],
 		"ranges": [ {
 			"type": string,
@@ -967,7 +978,7 @@ The defined ecosystems are:
 | `crates.io` | The crates.io ecosystem for Rust; the `name` field is a crate name. |
 | `Debian` | The Debian package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Debian release. `<RELEASE>` is a numeric version specified in the [Debian distro-info-data](https://debian.pages.debian.net/distro-info-data/debian.csv). For example, the ecosystem string "Debian:7" refers to the Debian 7 (wheezy) release. For versions without a numeric version, use the the string in the `series` column of the  `distro-info-data` CSV, e.g. "Debian:sid". |
 | `Docker Hardened Images` | The Docker Hardened Images package ecosystem; the `name` is the name of the package. |
-| `Echo` | The Echo package ecosystem; the `name` is the name of the source package. |
+| `Echo` | The Echo package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<ECOSYSTEM>` suffix to denote an Echo secured build of a package from another ecosystem, in which case the `name` is the name of the package within that ecosystem and its versions are ordered by that ecosystem's rules. The supported values are `Echo:PyPI`, `Echo:Maven`, `Echo:npm` and `Echo:NuGet`. Without a suffix the package is an Echo OS package, whose versions are ordered by the Debian version ordering. Echo's secured builds carry a `+echo.<N>` build suffix, e.g. `1.2.3+echo.1`. |
 | `FreeBSD` | The FreeBSD ecosystem consists of three main components: the base system, kernel, and ports. For ports, the `name` refers to the name of a package managed by `pkg(8)`, which is the FreeBSD package manager. Ecosystem strings can include `:ports`, indicating that an issue pertains to ports (e.g., 'FreeBSD:ports'). Base system issues should be categorized under `:base`. The `ranges[].events` versions correspond to specific FreeBSD releases, such as 'FreeBSD:base:14.3'. Kernel-related issues are denoted by `:kernel`, with examples like 'FreeBSD:kernel'. Every namespace can have optional `:<RELEASE>` segment at last, which can be used to specify that an issue applies only to a particular FreeBSD release like. |
 | `GHC` | The Haskell compiler ecosystem. The `name` field is the name of a component of the GHC compiler ecosystem (e.g., compiler, GHCI, RTS). |
 | `GitHub Actions` | The GitHub Actions ecosystem; the `name` field is the action's repository name with owner e.g. `{owner}/{repo}`. |
@@ -992,6 +1003,7 @@ The defined ecosystems are:
 | `Pub` | The package manager for the Dart ecosystem; the `name` field is a Dart package name. |
 | `PyPI` | the Python PyPI ecosystem; the `name` field is a [normalized](https://www.python.org/dev/peps/pep-0503/#normalized-names) PyPI package name. |
 | `Red Hat` | The Red Hat package ecosystem; the `name` field is the name of a binary or source RPM. The ecosystem string has a `:<CPE>` suffix to scope the RPM to a specific Red Hat product stream. `<CPE>` is a translation of a Red Hat [Common Platform Enumerations](https://cpe.mitre.org/) (CPE) with the `cpe/:[oa]:(redhat):` prefix removed (for example, `Red Hat:rhel_aus:8.4::appstream` translates to `cpe:/a:redhat:rhel_aus:8.4::appstream`). Red Hat ecosystem identifiers can be used to identify vulnerable RPMs installed on a Red Hat system as explained [here](https://www.redhat.com/en/blog/how-accurately-match-oval-security-data-installed-rpms). |
+| `Red Hat Lightwell` | The Red Hat Lightwell ecosystem; Lightwell is an automated vulnerability-remediation service that publishes patched builds of open source libraries across multiple language ecosystems. The ecosystem **must** have a suffix matching an existing OSV ecosystem (e.g. `Red Hat Lightwell:Maven`) to denote what ecosystem the advisory is describing. The `name` field uses the naming convention of the package's native ecosystem. |
 | `Rocky Linux` | The Rocky Linux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Rocky Linux release. `<RELEASE>` is a numeric version. |
 | `Root` | The Root container security ecosystem. Root provides patched container images across multiple base distributions. The ecosystem uses hierarchical variants: Root:{BaseDistro}:{Version} for OS packages (e.g., Root:Alpine:3.18, Root:Debian:12) and Root:{PackageManager} for application packages (e.g., Root:PyPI, Root:npm). Package names use Root-specific prefixes (root-{package} for most, @root/{package} for npm). |
 | `RubyGems` | The RubyGems ecosystem; the `name` field is a gem name. |
@@ -1011,6 +1023,23 @@ It is permitted for a database name (the DB prefix in the `id` field) and an
 ecosystem name to be the same, provided they have the same owner who can make
 decisions about the meaning of the `ecosystem_specific` field (see below).
 
+### Depicting multiple ecosystems in the same record
+
+An OSV record can describe a vulnerability affecting multiple ecosystems. This is done by including multiple objects in the `affected` array, each specifying a different `package.ecosystem`.
+
+#### Separating Git and Strict Ecosystems
+
+When providing vulnerability information for both a strict packaging ecosystem (such as `npm`, `PyPI`, or `Go`) and Git-level details (such as commit hashes), it is recommended to use separate entries in the `affected` array.
+
+- **Strict Ecosystem Entry**: This entry should use the specific ecosystem name (e.g., `"ecosystem": "npm"`). It should list affected versions in the `versions` field or use `ECOSYSTEM` or `SEMVER` range types in the `ranges` field.
+- **Git Entry**: This entry should use **no** `package` field. It should use the `GIT` range type in the `ranges` field to specify affected commit ranges.
+
+This separation ensures that tools relying on strict version parsing for a specific ecosystem do not get confused by Git commit hashes, and vice versa.
+
+#### Version Enumeration for Git Entries
+
+For entries using `GIT` "ecosystem", the `versions` field is typically populated with enumerated versions (tags) derived from the Git repository specified in `ranges[].repo`. OSV infrastructure (such as https://osv.dev) can automatically perform this enumeration during ingestion, populating the `versions` array with relevant tags that fall within the specified commit ranges. If in the same affected field as a strict ecosystem, versions from both the Git repository and the strict ecosystem will appear in the `versions` array.
+
 ### affected[].severity field
 
 The `severity` field is an optional element [defined here](#severity-field).
@@ -1025,14 +1054,9 @@ The `affected` object's `versions` field is a JSON array of strings. Each string
 is a single affected version in whatever version syntax is used by the given
 package ecosystem.
 
-When there is no well-defined packaging ecosystem specified (for
-example, general C/C++ libraries), GIT commit ranges are typically the best way
-to define vulnerable version ranges. In this case, versions specified in this
-array cannot be relied upon to conform to any particular syntax (e.g. they
-could be the upstream Git version tags derived from these GIT commit ranges,
-which is what [OSV.dev](https://osv.dev/) populates this field with). In this
-situation, the GIT commit ranges in [`affected[].ranges`](#affectedranges-field)
-should be used to match vulnerabilities by Git commit hashes.
+When using the `GIT` pseudo-ecosystem (either because there is no well-defined packaging ecosystem, or to provide supplementary Git-level details), versions specified in this array typically represent Git tags and cannot be relied upon to conform to any particular package manager's syntax. In this situation, the GIT commit ranges in [`affected[].ranges`](#affectedranges-field) should be used to match vulnerabilities by Git commit hashes.
+
+If you are providing both strict ecosystem versions and Git-level details, it is recommended to separate them into different entries. See [Separating Git and Strict Ecosystems](#separating-git-and-strict-ecosystems) for more details.
 
 ### affected[].ranges[] field
 
