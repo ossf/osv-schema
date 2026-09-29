@@ -2,6 +2,8 @@ package pkgchecker
 
 import (
 	"fmt"
+
+	"github.com/ossf/osv-schema/tools/osv-linter/internal/schema"
 )
 
 // Ecosystem support is a work in progress.
@@ -20,10 +22,6 @@ var SupportedEcosystems = []string{
 	"PyPI",
 	"RubyGems",
 }
-
-// IsSchemaEcosystem reports whether the ecosystem is valid according to the schema.
-// Set by checks package at initialization.
-var IsSchemaEcosystem func(ecosystem string) bool
 
 // EcosystemBaseURLs maps ecosystems to their base API URLs.
 var EcosystemBaseURLs = map[string]string{
@@ -72,7 +70,7 @@ func ExistsInEcosystem(pkg string, ecosystem string, suffix string) bool {
 	case "RubyGems":
 		return existsInRubyGems(pkg)
 	default:
-		if IsSchemaEcosystem != nil && IsSchemaEcosystem(ecosystem) {
+		if schema.IsEcosystem(ecosystem) {
 			return true
 		}
 		return false
@@ -128,7 +126,7 @@ func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string, s
 	case "RubyGems":
 		return versionsExistInRubyGems(pkg, versions)
 	default:
-		if IsSchemaEcosystem != nil && IsSchemaEcosystem(ecosystem) {
+		if schema.IsEcosystem(ecosystem) {
 			return nil
 		}
 		return fmt.Errorf("unsupported ecosystem: %s", ecosystem)

@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/ossf/osv-schema/tools/osv-linter/internal"
-	"github.com/ossf/osv-schema/tools/osv-linter/internal/checks"
+	"github.com/ossf/osv-schema/tools/osv-linter/internal/schema"
 	"github.com/urfave/cli/v2"
 )
 
@@ -60,7 +60,7 @@ func main() {
 									b, err := os.ReadFile(s)
 
 									if err == nil {
-										checks.LoadedSchema = b
+										schema.LoadedSchema = b
 									}
 
 									return err

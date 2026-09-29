@@ -1,18 +1,6 @@
 package pkgchecker
 
-import (
-	"slices"
-	"testing"
-)
-
-func init() {
-	schemaEcos := []string{
-		"AlmaLinux", "Alpine", "Debian", "Homebrew", "Maven", "WordPress", "GIT",
-	}
-	IsSchemaEcosystem = func(ecosystem string) bool {
-		return slices.Contains(schemaEcos, ecosystem)
-	}
-}
+import "testing"
 
 func Test_versionsExistInCran(t *testing.T) {
 	t.Parallel()

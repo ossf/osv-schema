@@ -39,7 +39,7 @@ To add a new ecosystem, follow these steps:
     *   `bindings/go/osvconstants/constants.go`
     *   The main ecosystem table in `docs/schema.md`
     *   The ecosystem enum in `validation/schema.json`
-    *   Make a copy of the `validation/schema.json` for the linter in `tools/osv-linter/internal/checks/schema_generated.json`
+    *   Make a copy of the `validation/schema.json` for the linter in `tools/osv-linter/internal/schema/schema_generated.json`
 
 ## Development policies
 
