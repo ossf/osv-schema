@@ -494,6 +494,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>ONYEK</code></td>
+      <td><a href="https://github.com/Thezenmonster/onyek">ONYEK, advisories for AI agent and MCP packages</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/Thezenmonster/onyek">https://github.com/Thezenmonster/onyek</a></li>
+          <li>Source URL: <code>https://github.com/Thezenmonster/onyek/blob/main/records/&lt;ID&gt;.json</code></li>
+          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/Thezenmonster/onyek/main/records/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>OSEC</code></td>
       <td><a href="https://github.com/ocaml/security-advisories">OCaml Security Advisory Database</a></td>
       <td>
