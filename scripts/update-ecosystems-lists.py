@@ -145,5 +145,5 @@ def update_go_constants():
 
 update_go_constants()
 update_json_schema('validation/schema.json')
-shutil.copy('validation/schema.json', 'tools/osv-linter/internal/checks/schema_generated.json')
+shutil.copy('validation/schema.json', 'tools/osv-linter/internal/schema/schema_generated.json')
 update_schema_md()
