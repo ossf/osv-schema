@@ -149,6 +149,28 @@ The `x_` prefix can be used to denote a local database that isn't aggregated
 by OSV.dev, allowing external records to be schema-compliant. For example:
 "x_CUSTOM-0001".
 
+### Character set constraints
+
+To ensure maximum compatibility with CLI tools, shell scripts, URL routing, and filesystem storage, the `id` field must strictly use ASCII characters matching the regular expression:
+
+```
+^[a-zA-Z0-9:_.-]+$
+```
+
+Only alphanumeric characters (`a-z`, `A-Z`, `0-9`) and `:`, `-`, `_`, and `.` are permitted. Characters outside this set (such as spaces, slashes `/`, backslashes `\`, parentheses, or exclamation marks) are not allowed.
+
+### Semantically neutral ids
+
+Identifiers should function solely as unique, permanent pointers to a vulnerability record rather than human-readable summaries.
+
+When establishing new identifier schemes, new IDs **should be semantically neutral**:
+
+- **Do not encode mutable vulnerability metadata:** IDs must not describe the vulnerability type or weakness (e.g. `SQLI`, `RCE`), package or component name (e.g. `LOG4J`), or severity rating (e.g. `CRITICAL`, `HIGH`).
+- **Use scoped prefixes:** IDs should always begin with the correctly scoped database prefix from the defined database prefixes below (or `x_` for local databases), followed (ideally) by a `-` separator (e.g., `OSV-2026-X7Y2`, `GHSA-vp9c-fpxx-744v`).
+
+
+### Defined database prefixes
+
 The defined database prefixes and their "home" databases are:
 
 <!-- Unfortunately, markdown tables are even worse than this to read/write -->
@@ -688,6 +710,8 @@ The defined database prefixes and their "home" databases are:
 </table>
 
 Publishers should publish information within their reasonable scope or ecosystem. If one wants to derive their ID from a CVE record, adding the home database prefix is sufficient to communicate this. e.g. `DEBIAN-CVE-2000-0001`.
+
+### modified field
 
 The `modified` field gives the time the entry was last modified, as an
 RFC3339-formatted timestamp in UTC (ending in "Z"). Given two
