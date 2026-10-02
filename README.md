@@ -32,7 +32,7 @@ There are many home databases publishing OSV-format advisories or maintain conve
 - [AlmaLinux](https://github.com/AlmaLinux/osv-database)
 - [BellSoft Security Advisory](https://github.com/bell-sw/osv-database)
 - [Bitnami Vulnerability Database](https://github.com/bitnami/vulndb)
-- [Chainguard](https://packages.cgr.dev/chainguard/osv/all.json)
+- [Chainguard](https://advisories.cgr.dev/chainguard/v3/osv/all.json)
 - [CleanStart](https://github.com/cleanstart-dev/cleanstart-security-advisories)
 - [Curl](https://curl.se/docs/vuln.json)
 - [Echo](https://advisory.echohq.com/osv/all.json)
