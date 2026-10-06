@@ -4,10 +4,10 @@ go 1.26.3
 
 require (
 	github.com/google/go-cmp v0.7.0
-	github.com/google/osv-scalibr v0.5.2
+	github.com/google/osv-scalibr v0.5.3
 	github.com/package-url/packageurl-go v0.1.7
 	github.com/sethvargo/go-retry v0.4.0
-	github.com/tidwall/gjson v1.19.0
+	github.com/tidwall/gjson v1.19.1
 	github.com/urfave/cli/v2 v2.27.7
 	github.com/xeipuuv/gojsonschema v1.2.0
 	golang.org/x/mod v0.41.0
