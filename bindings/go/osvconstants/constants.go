@@ -45,6 +45,7 @@ const (
 	EcosystemPhotonOS                   Ecosystem = "Photon OS"
 	EcosystemPub                        Ecosystem = "Pub"
 	EcosystemPyPI                       Ecosystem = "PyPI"
+	EcosystemRaspberryPiOS              Ecosystem = "Raspberry Pi OS"
 	EcosystemRedHat                     Ecosystem = "Red Hat"
 	EcosystemRedHatLightwell            Ecosystem = "Red Hat Lightwell"
 	EcosystemRockyLinux                 Ecosystem = "Rocky Linux"
