@@ -274,6 +274,23 @@ func versionsExistInNuGet(pkg string, versions []string) error {
 	)
 }
 
+// Confirm that all specified versions of a package exist in Maven.
+func versionsExistInMaven(pkg string, versions []string, suffix string) error {
+	// Only Maven Central is checked; a suffix names another repository.
+	if suffix != "" {
+		return nil
+	}
+
+	packageInstanceURL := fmt.Sprintf("https://api.deps.dev/v3/systems/Maven/packages/%s", pkg)
+
+	return versionsExistInGeneric(
+		pkg, versions,
+		"Maven",
+		packageInstanceURL,
+		"versions.#.versionKey.version",
+	)
+}
+
 // Confirm that all specified versions of a package exist in Julia.
 func versionsExistInJulia(pkg string, versions []string) error {
 	packageInstanceURL := fmt.Sprintf("%s/%s/versions.json", EcosystemBaseURLs["Julia"], pkg)

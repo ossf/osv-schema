@@ -113,6 +113,8 @@ func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string, s
 		return versionsExistInHex(pkg, versions)
 	case "Julia":
 		return versionsExistInJulia(pkg, versions)
+	case "Maven":
+		return versionsExistInMaven(pkg, versions, suffix)
 	case "npm":
 		return versionsExistInNpm(pkg, versions)
 	case "NuGet":
