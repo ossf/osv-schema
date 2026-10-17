@@ -51,8 +51,10 @@ There are many home databases publishing OSV-format advisories or maintain conve
 - [OSV.dev maintained converters](https://github.com/google/osv.dev#current-data-sources) (Debian, Alpine, NVD)
 - [PyPI Advisory Database](https://github.com/pypa/advisory-database)
 - [Python Software Foundation Database](https://github.com/psf/advisory-database)
+- [Raspberry Pi OS](https://downloads.raspberrypi.com/security/osv/all.json)
 - [RConsortium Advisory Database](https://github.com/RConsortium/r-advisory-database)
 - [Red Hat](https://security.access.redhat.com/data)
+- [Red Hat Lightwell](https://github.com/project-lightwell/lightwell-osv)
 - [Rocky Linux](https://distro-tools.rocky.page/apollo/openapi/#osv)
 - [Root](https://api.root.io/external/osv/all.json)
 - [Rust Advisory Database](https://github.com/RustSec/advisory-db)
@@ -100,7 +102,9 @@ Together, these include vulnerabilities from:
 - PyPI
 - Python
 - R (CRAN and Bioconductor)
+- Raspberry Pi OS
 - Red Hat
+- Red Hat Lightwell
 - SUSE
 - Rocky Linux
 - RubyGems

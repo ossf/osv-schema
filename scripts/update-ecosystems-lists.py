@@ -8,7 +8,7 @@ MARKDOWN_TABLE_MARKER_END = '<!-- end auto-generated ecosystems list -->'
 
 # The version is not in the schema, so it's hardcoded here for now.
 # This should be kept in sync with the canonical version.
-SCHEMA_VERSION = "1.9.0"
+SCHEMA_VERSION = "1.9.2"
 
 # ensure that the ecosystems are sorted alphabetically and don't have extra whitespace
 ecosystems: dict[str, str] = {
@@ -145,5 +145,5 @@ def update_go_constants():
 
 update_go_constants()
 update_json_schema('validation/schema.json')
-shutil.copy('validation/schema.json', 'tools/osv-linter/internal/checks/schema_generated.json')
+shutil.copy('validation/schema.json', 'tools/osv-linter/internal/schema/schema_generated.json')
 update_schema_md()

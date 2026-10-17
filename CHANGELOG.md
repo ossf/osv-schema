@@ -46,3 +46,5 @@
   add prefixes: ROOT-OS, ROOT-APP, DRUPAL, OSEC; Also updated Debian ecosystem descriptiuon to support `sid` and `experimental` releases.
 - 2026-07-09 Released version 1.8.0. Add a severity source field; add a prefix for local databases; add the following ecosystems: Azure Linux, TuxCare, vcpkg.
 - 2026-08-06 Released version 1.9.0. Add WordPress, Homebrew ecosystems; add support for wildcard package name `*`; update guidance on CVE-derived record ids.
+- 2026-09-24 Released version 1.9.1. Add Red Hat Lightwell ecosystem and `RHLW` prefix; document `Echo` ecosystem language suffixes; clarify guidance on multiple ecosystems and `GIT` entries.
+- 2026-10-13 Released version 1.9.2. Update schema docs to clarify character set constraints and semantically neutral ID guidance.

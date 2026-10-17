@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ossf/osv-schema/linter/internal/checks"
+	"github.com/ossf/osv-schema/tools/osv-linter/internal/checks"
 )
 
 func TestLint_WithdrawnRecords(t *testing.T) {

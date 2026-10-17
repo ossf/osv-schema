@@ -16,12 +16,12 @@ import argparse
 import json
 import os
 
-import requests
+import githubkit
 
 _BASE_QUERY = """
-{
-  securityAdvisories(first: 100 %(query)s %(cursor)s) {
-    edges { cursor
+query ($cursor: String) {
+  securityAdvisories(first: 100 %(query)s after: $cursor) {
+    edges {
       node {
         ghsaId
         identifiers {
@@ -64,35 +64,21 @@ _BASE_QUERY = """
     }
     pageInfo {
       hasNextPage
+      endCursor
     }
   }
 }
 """
 
-
-def run_graphql(query: str, token: str):
-    """Runs a GraphQL query."""
-    response = requests.post(
-        'https://api.github.com/graphql',
-        json={'query': query},
-        headers={'Authorization': 'Bearer ' + token})
-    response.raise_for_status()
-    return response.json()
-
-
 def dump(out_dir: str, token: str, query: str):
     """Dumps advisories."""
     count = 0
-    cursor_arg = ''
 
-    while True:
-        result = run_graphql(_BASE_QUERY % {'cursor':cursor_arg, 'query':query}, token)
+    github = githubkit.GitHub(token)
+    query = _BASE_QUERY % {'query': query}
 
-        if 'data' not in result:
-            print('Got invalid response', result)
-            raise Exception('Invalid response')
-
-        for edge in result['data']['securityAdvisories']['edges']:
+    for result in github.graphql.paginate(query):
+        for edge in result['securityAdvisories']['edges']:
             node = edge['node']
             with open(os.path.join(out_dir, node['ghsaId'] + '.json'),
                       'w') as handle:
@@ -101,13 +87,6 @@ def dump(out_dir: str, token: str, query: str):
             count += 1
             if count % 500 == 0:
                 print(f'Up to {count} advisories.')
-
-            cursor = edge['cursor']
-            cursor_arg = f'after: "{cursor}"'
-
-        if not result['data']['securityAdvisories']['pageInfo'].get(
-                'hasNextPage'):
-            break
 
     print(f'Dumped {count} advisories.')
 

@@ -1,19 +1,13 @@
 package checks
 
 import (
-	_ "embed"
 	"fmt"
 	"strings"
 
+	"github.com/ossf/osv-schema/tools/osv-linter/internal/schema"
 	"github.com/tidwall/gjson"
 	"github.com/xeipuuv/gojsonschema"
 )
-
-// Please run 'go generate ./...' to sync schema.json.
-//go:generate cp ../../../../validation/schema.json schema_generated.json
-
-//go:embed schema_generated.json
-var LoadedSchema []byte
 
 var CheckInvalidSchema = &CheckDef{
 	Code:        "SCH:001",
@@ -23,7 +17,7 @@ var CheckInvalidSchema = &CheckDef{
 }
 
 func SchemaCheck(json *gjson.Result, config *Config) []CheckError {
-	schemaLoader := gojsonschema.NewBytesLoader(LoadedSchema)
+	schemaLoader := gojsonschema.NewBytesLoader(schema.LoadedSchema)
 	documentLoader := gojsonschema.NewStringLoader(json.Raw)
 
 	result, err := gojsonschema.Validate(schemaLoader, documentLoader)
