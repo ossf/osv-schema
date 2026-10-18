@@ -8,7 +8,7 @@ aside:
 show_edit_on_github: true
 ---
 
-**Version 1.9.1 (September 24, 2026)**
+**Version 1.9.2 (October 13, 2026)**
 
 Original authors:
 - Oliver Chang (ochang@google.com)
@@ -148,6 +148,28 @@ string of the format `<DB>-<ENTRYID>`, where `DB` names the database and
 The `x_` prefix can be used to denote a local database that isn't aggregated
 by OSV.dev, allowing external records to be schema-compliant. For example:
 "x_CUSTOM-0001".
+
+### Character set constraints
+
+To ensure maximum compatibility with CLI tools, shell scripts, URL routing, and filesystem storage, the `id` field must strictly use ASCII characters matching the regular expression:
+
+```
+^[a-zA-Z0-9:_.-]+$
+```
+
+Only alphanumeric characters (`a-z`, `A-Z`, `0-9`) and `:`, `-`, `_`, and `.` are permitted. Characters outside this set (such as spaces, slashes `/`, backslashes `\`, parentheses, or exclamation marks) are not allowed.
+
+### Semantically neutral ids
+
+Identifiers should function solely as unique, permanent pointers to a vulnerability record rather than human-readable summaries.
+
+When establishing new identifier schemes, new IDs **should be semantically neutral**:
+
+- **Do not encode mutable vulnerability metadata:** IDs must not describe the vulnerability type or weakness (e.g. `SQLI`, `RCE`), package or component name (e.g. `LOG4J`), or severity rating (e.g. `CRITICAL`, `HIGH`).
+- **Use scoped prefixes:** IDs should always begin with the correctly scoped database prefix from the defined database prefixes below (or `x_` for local databases), followed (ideally) by a `-` separator (e.g., `OSV-2026-X7Y2`, `GHSA-vp9c-fpxx-744v`).
+
+
+### Defined database prefixes
 
 The defined database prefixes and their "home" databases are:
 
@@ -593,6 +615,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>RPI</code></td>
+      <td><a href="https://downloads.raspberrypi.com/security/osv/">Raspberry Pi OS Security Advisories</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: contact <a href="mailto:security@raspberrypi.com">security@raspberrypi.com</a> (see <a href="https://www.raspberrypi.com/security/">https://www.raspberrypi.com/security/</a>)</li>
+          <li>Source URL: <code>https://downloads.raspberrypi.com/security/osv/all.json</code></li>
+          <li>OSV Formatted URL: <code>https://downloads.raspberrypi.com/security/osv/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>RSEC</code></td>
       <td><a href="https://github.com/RConsortium/r-advisory-database">RConsortium Advisory Database</a></td>
       <td>
@@ -699,6 +732,8 @@ The defined database prefixes and their "home" databases are:
 </table>
 
 Publishers should publish information within their reasonable scope or ecosystem. If one wants to derive their ID from a CVE record, adding the home database prefix is sufficient to communicate this. e.g. `DEBIAN-CVE-2000-0001`.
+
+### modified field
 
 The `modified` field gives the time the entry was last modified, as an
 RFC3339-formatted timestamp in UTC (ending in "Z"). Given two
@@ -1013,6 +1048,7 @@ The defined ecosystems are:
 | `Photon OS` | The Photon OS package ecosystem; the `name` is the name of the RPM package. The ecosystem string must have a `:<RELEASE-NUMBER>` suffix to scope the package to a particular Photon OS release. Eg `Photon OS:3.0`. |
 | `Pub` | The package manager for the Dart ecosystem; the `name` field is a Dart package name. |
 | `PyPI` | the Python PyPI ecosystem; the `name` field is a [normalized](https://www.python.org/dev/peps/pep-0503/#normalized-names) PyPI package name. |
+| `Raspberry Pi OS` | The Raspberry Pi OS package ecosystem; the `name` is the name of the source package in the Raspberry Pi archive (archive.raspberrypi.com). The ecosystem string has a `:<RELEASE>` suffix to scope the package to a particular Raspberry Pi OS release, where `<RELEASE>` is the numeric version of the Debian release it is based on, as in the [Debian distro-info-data](https://debian.pages.debian.net/distro-info-data/debian.csv). For example, the ecosystem string "Raspberry Pi OS:13" refers to Raspberry Pi OS based on Debian 13 (trixie). Versions are ordered by the Debian version ordering. |
 | `Red Hat` | The Red Hat package ecosystem; the `name` field is the name of a binary or source RPM. The ecosystem string has a `:<CPE>` suffix to scope the RPM to a specific Red Hat product stream. `<CPE>` is a translation of a Red Hat [Common Platform Enumerations](https://cpe.mitre.org/) (CPE) with the `cpe/:[oa]:(redhat):` prefix removed (for example, `Red Hat:rhel_aus:8.4::appstream` translates to `cpe:/a:redhat:rhel_aus:8.4::appstream`). Red Hat ecosystem identifiers can be used to identify vulnerable RPMs installed on a Red Hat system as explained [here](https://www.redhat.com/en/blog/how-accurately-match-oval-security-data-installed-rpms). |
 | `Red Hat Lightwell` | The Red Hat Lightwell ecosystem; Lightwell is an automated vulnerability-remediation service that publishes patched builds of open source libraries across multiple language ecosystems. The ecosystem **must** have a suffix matching an existing OSV ecosystem (e.g. `Red Hat Lightwell:Maven`) to denote what ecosystem the advisory is describing. The `name` field uses the naming convention of the package's native ecosystem. |
 | `Rocky Linux` | The Rocky Linux package ecosystem; the `name` is the name of the source package. The ecosystem string might optionally have a `:<RELEASE>` suffix to scope the package to a particular Rocky Linux release. `<RELEASE>` is a numeric version. |
