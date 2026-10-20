@@ -22,9 +22,14 @@ func SchemaCheck(json *gjson.Result, config *Config) []CheckError {
 
 	result, err := gojsonschema.Validate(schemaLoader, documentLoader)
 	if err != nil {
-		// This should not happen with a valid embedded schema.
-		// It indicates a problem with the linter itself.
-		panic(fmt.Sprintf("schema validation failed: %v", err))
+		// The document is the record being linted, so this is a problem with
+		// the record rather than with the embedded schema. Report it instead of
+		// panicking, which would abandon every other file in the run.
+		return []CheckError{
+			{
+				Message: fmt.Sprintf("Record could not be validated against the schema: %v", err),
+			},
+		}
 	}
 
 	if result.Valid() {
