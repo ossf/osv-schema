@@ -648,6 +648,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>STILLOS</code></td>
+      <td><a href="https://stillosdigitalholdings.com/advisories">Still OS Security Advisories (MCP / AI-agent tool ecosystem)</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://stillosdigitalholdings.com/advisories/contact">https://stillosdigitalholdings.com/advisories/contact</a></li>
+          <li>Source URL: <code>https://stillosdigitalholdings.com/advisories/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://stillosdigitalholdings.com/advisories/osv/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>SUSE-SU</code>/<code>SUSE-RU</code>/<code>SUSE-FU</code>/<code>SUSE-OU</code>/<code>openSUSE-SU</code></td>
       <td><a href="https://www.suse.com/support/security/">SUSE Security Landing page</a></td>
       <td>
