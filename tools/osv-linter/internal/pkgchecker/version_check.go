@@ -286,6 +286,22 @@ func versionsExistInJulia(pkg string, versions []string) error {
 	)
 }
 
+// Confirm that all specified versions of a package exist in opam.
+func versionsExistInOpam(pkg string, versions []string) error {
+	versionsMissing := []string{}
+	for _, versionToCheckFor := range versions {
+		if opamVersionExists(pkg, versionToCheckFor) {
+			continue
+		}
+		versionsMissing = append(versionsMissing, versionToCheckFor)
+	}
+	if len(versionsMissing) > 0 {
+		return fmt.Errorf("failed to find %+q of %q in \"opam\"", versionsMissing, pkg)
+	}
+
+	return nil
+}
+
 // Confirm that all specified versions of a package exist in Packagist.
 func versionsExistInPackagist(pkg string, versions []string, repo string) error {
 	packageInstanceURL, err := resolvePackagistPackageInstanceURL(pkg, repo)
