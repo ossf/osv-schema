@@ -2,7 +2,6 @@ package pkgchecker
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/ossf/osv-schema/tools/osv-linter/internal/schema"
 )
@@ -88,23 +87,17 @@ type MissingVersionsError struct {
 	Ecosystem string
 	Invalid   []string
 	Missing   []string
-	// Known is nil if the versions of the package could not be listed.
-	Known []string
+	Known     []string
 }
 
 func (e MissingVersionsError) Error() string {
-	msg := fmt.Sprintf("Failed to find %+q of %q in %q", e.Missing, e.Package, e.Ecosystem)
+	msg := fmt.Sprintf("Failed to find %+q of %q in %q (have: %+q", e.Missing, e.Package, e.Ecosystem, e.Known)
 
-	details := []string{}
-	if e.Known != nil {
-		details = append(details, fmt.Sprintf("have: %+q", e.Known))
-	}
 	if len(e.Invalid) > 0 {
-		details = append(details, fmt.Sprintf("invalid versions: %+q", e.Invalid))
+		msg += fmt.Sprintf(", invalid versions: %+q", e.Invalid)
 	}
-	if len(details) > 0 {
-		msg += " (" + strings.Join(details, ", ") + ")"
-	}
+
+	msg += ")"
 
 	return msg
 }

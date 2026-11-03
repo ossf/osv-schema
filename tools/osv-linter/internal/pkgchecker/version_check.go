@@ -304,7 +304,7 @@ func versionsExistInOpam(pkg string, versions []string) error {
 		versionsMissing = append(versionsMissing, versionToCheckFor)
 	}
 	if len(versionsMissing) > 0 {
-		return MissingVersionsError{Package: pkg, Ecosystem: "opam", Missing: versionsMissing}
+		return fmt.Errorf("failed to find %+q of %q in \"opam\"", versionsMissing, pkg)
 	}
 
 	return nil
