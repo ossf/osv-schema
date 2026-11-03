@@ -3,7 +3,6 @@ package pkgchecker
 import (
 	"fmt"
 	"net/http"
-	"net/url"
 	"strings"
 
 	"github.com/ossf/osv-schema/tools/osv-linter/internal/faulttolerant"
@@ -128,15 +127,15 @@ func existsInNuget(pkg string) bool {
 
 // Validate the existence of a package in opam.
 func existsInOpam(pkg string) bool {
-	pkg = url.PathEscape(pkg)
 	packageInstanceURL := fmt.Sprintf("%s/%s/", EcosystemBaseURLs["opam"], pkg)
 
 	if checkPackageExists(packageInstanceURL) {
 		return true
 	}
 
-	// opam.ocaml.org only lists packages which have not been archived.
-	return checkPackageExists(fmt.Sprintf("%s/%s", opamArchiveContentsURL, pkg))
+	// opam.ocaml.org does not list packages that have been moved to
+	// opam-repository-archive.
+	return checkPackageExists(fmt.Sprintf("https://api.github.com/repos/ocaml/opam-repository-archive/contents/packages/%s", pkg))
 }
 
 // Validate the existence of a package in Packagist.
