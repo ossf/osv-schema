@@ -488,6 +488,86 @@ func Test_versionsExistInNuGet(t *testing.T) {
 	}
 }
 
+func Test_versionsExistInOpam(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		pkg      string
+		versions []string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "multiple_versions_which_all_exist",
+			args: args{
+				pkg:      "lwt",
+				versions: []string{"5.7.0", "5.9.0"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "multiple_versions_which_have_been_archived",
+			args: args{
+				pkg:      "cohttp",
+				versions: []string{"0.9.1", "6.0.0~alpha0"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "a_version_of_an_archived_package",
+			args: args{
+				pkg:      "netchannel",
+				versions: []string{"1.10.0"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "multiple_versions_with_one_that_does_not_exist",
+			args: args{
+				pkg:      "ocaml",
+				versions: []string{"4.14.0", "5"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "an_invalid_version",
+			args: args{
+				pkg:      "lwt",
+				versions: []string{"!"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "an_invalid_package",
+			args: args{
+				pkg:      "!",
+				versions: []string{"1.0.0"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "a_package_that_does_not_exit",
+			args: args{
+				pkg:      "not-a-real-package-hopefully",
+				versions: []string{"1.0.0"},
+			},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			if err := versionsExistInOpam(tt.args.pkg, tt.args.versions); (err != nil) != tt.wantErr {
+				t.Errorf("versionsExistInOpam() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
 func Test_versionsExistInPackagist_DefaultRepo(t *testing.T) {
 	t.Parallel()
 
