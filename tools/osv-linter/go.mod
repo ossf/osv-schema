@@ -7,11 +7,11 @@ require (
 	github.com/google/osv-scalibr v0.5.3
 	github.com/package-url/packageurl-go v0.1.7
 	github.com/sethvargo/go-retry v0.5.0
-	github.com/tidwall/gjson v1.20.0
+	github.com/tidwall/gjson v1.20.1
 	github.com/urfave/cli/v2 v2.27.7
 	github.com/xeipuuv/gojsonschema v1.2.0
 	golang.org/x/mod v0.42.0
-	golang.org/x/sync v0.24.0
+	golang.org/x/sync v0.25.0
 	golang.org/x/term v0.47.0
 )
 
