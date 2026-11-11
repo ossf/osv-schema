@@ -31,6 +31,8 @@ const (
 	EcosystemHomebrew                   Ecosystem = "Homebrew"
 	EcosystemJulia                      Ecosystem = "Julia"
 	EcosystemKubernetes                 Ecosystem = "Kubernetes"
+	EcosystemLibericaJDK                Ecosystem = "Liberica JDK"
+	EcosystemLibericaNIK                Ecosystem = "Liberica NIK"
 	EcosystemLinux                      Ecosystem = "Linux"
 	EcosystemMageia                     Ecosystem = "Mageia"
 	EcosystemMaven                      Ecosystem = "Maven"
