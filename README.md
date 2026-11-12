@@ -86,6 +86,8 @@ Together, these include vulnerabilities from:
 - Hex
 - Homebrew
 - Julia
+- Liberica JDK
+- Liberica NIK
 - Linux kernel
 - Mageia
 - Maven
