@@ -125,6 +125,19 @@ func existsInNuget(pkg string) bool {
 	return checkPackageExists(packageInstanceURL)
 }
 
+// Validate the existence of a package in opam.
+func existsInOpam(pkg string) bool {
+	packageInstanceURL := fmt.Sprintf("%s/%s/", EcosystemBaseURLs["opam"], pkg)
+
+	if checkPackageExists(packageInstanceURL) {
+		return true
+	}
+
+	// opam.ocaml.org does not list packages that have been moved to
+	// opam-repository-archive.
+	return checkPackageExists(fmt.Sprintf("https://api.github.com/repos/ocaml/opam-repository-archive/contents/packages/%s", pkg))
+}
+
 // Validate the existence of a package in Packagist.
 func existsInPackagist(pkg string, repo string) bool {
 	packageInstanceURL, err := resolvePackagistPackageInstanceURL(pkg, repo)
