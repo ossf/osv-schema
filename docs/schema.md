@@ -324,7 +324,7 @@ The defined database prefixes and their "home" databases are:
         <ul>
           <li>How to contribute: TBD</li>
           <li>Source URL: <code>https://github.com/docker-hardened-images/advisories</code></li>
-          <li>OSV Formatted URL: <code>https://github.com/docker-hardened-images/advisories/blob/main/osv/&lt;MODULE&gt;/&lt;ID&gt;</code></li>
+          <li>OSV Formatted URL: <code>https://github.com/docker-hardened-images/advisories/blob/main/dhi/osv/&lt;YEAR&gt;/&lt;ID&gt;.json</code></li>
         </ul>
       </td>
     </tr>
