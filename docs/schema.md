@@ -445,7 +445,7 @@ The defined database prefixes and their "home" databases are:
         <ul>
           <li>How to contribute: <a href="https://github.com/kubernetes-sigs/cve-feed-osv/blob/main/CONTRIBUTING.md">https://github.com/kubernetes-sigs/cve-feed-osv/blob/main/CONTRIBUTING.md</a></li>
           <li>Source URL: <code>https://kubernetes.io/docs/reference/issues-security/official-cve-feed/index.json</code></li>
-          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/kubernetes-sigs/cve-feed-osv/blob/main/vulns/&lt;ID&gt;.json</code></li>
+          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/kubernetes-sigs/cve-feed-osv/main/vulns/&lt;ID&gt;.json</code></li>
         </ul>
       </td>
     </tr>
