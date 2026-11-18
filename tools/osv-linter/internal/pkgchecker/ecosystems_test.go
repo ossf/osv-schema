@@ -360,6 +360,78 @@ func Test_versionsExistInJulia(t *testing.T) {
 	}
 }
 
+func Test_versionsExistInMaven(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		pkg      string
+		versions []string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "multiple_versions_which_all_exist",
+			args: args{
+				pkg:      "io.quarkus:quarkus-vertx-http",
+				versions: []string{"3.20.6.1", "3.27.3.1", "3.34.0"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "multiple_versions_with_one_that_does_not_exist",
+			args: args{
+				pkg:      "io.quarkus:quarkus-vertx-http",
+				versions: []string{"3.34.0", "3.35.1.1"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "a_version_matching_a_release_qualifier",
+			args: args{
+				pkg:      "org.springframework.cloud:spring-cloud-gateway",
+				versions: []string{"2.2.0"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "an_invalid_version",
+			args: args{
+				pkg:      "io.quarkus:quarkus-vertx-http",
+				versions: []string{"!"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "an_invalid_package",
+			args: args{
+				pkg:      "!",
+				versions: []string{"1.0.0"},
+			},
+			wantErr: true,
+		},
+		{
+			name: "a_package_that_does_not_exist",
+			args: args{
+				pkg:      "org.example.not-a-real-group:not-a-real-artifact-hopefully",
+				versions: []string{"1.0.0"},
+			},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			if err := versionsExistInMaven(tt.args.pkg, tt.args.versions, ""); (err != nil) != tt.wantErr {
+				t.Errorf("versionsExistInMaven() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
 func Test_versionsExistInNpm(t *testing.T) {
 	t.Parallel()
 
@@ -1012,10 +1084,11 @@ func TestVersionsExistInEcosystem(t *testing.T) {
 			wantErr:   false,
 		},
 		{
-			name:      "Maven ecosystem returns nil",
-			pkg:       "org.apache:commons",
+			name:      "Maven ecosystem with a repository suffix returns nil",
+			pkg:       "androidx.core:core",
 			versions:  []string{"1.0.0"},
 			ecosystem: "Maven",
+			suffix:    "https://maven.google.com",
 			wantErr:   false,
 		},
 		{
