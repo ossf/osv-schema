@@ -7,7 +7,8 @@ import (
 	"github.com/tidwall/gjson"
 )
 
-// validIDPattern is the set of characters permitted in an OSV record id.
+// validIDPattern is the set of characters permitted in OSV vulnerability
+// identifiers (id, aliases, upstream, and related).
 // Restricting ids to this ASCII subset avoids the need for URL encoding and
 // prevents shell-scripting errors caused by spaces or other punctuation.
 var validIDPattern = regexp.MustCompile(`^[a-zA-Z0-9:_.-]+$`)
@@ -45,6 +46,13 @@ var CheckRecordHasValidID = &CheckDef{
 	Name:        "record-id-valid",
 	Description: "id field uses only permitted characters",
 	Check:       IDCheck,
+}
+
+var CheckRecordHasValidReferencedIDs = &CheckDef{
+	Code:        "REC:006",
+	Name:        "referenced-ids-valid",
+	Description: "aliases, upstream, and related fields use only permitted characters",
+	Check:       ReferencedIDsCheck,
 }
 
 // RecordHasAffected checks if the 'affected' field exists in the JSON and is not an empty array.
@@ -149,6 +157,41 @@ func IDCheck(json *gjson.Result, config *Config) (findings []CheckError) {
 
 	if !validIDPattern.MatchString(id.String()) {
 		findings = append(findings, CheckError{Message: fmt.Sprintf("Invalid ID: id %q contains characters outside the permitted set [a-zA-Z0-9:_.-]", id.String())})
+	}
+
+	return findings
+}
+
+// ReferencedIDsCheck verifies that identifier entries in the 'aliases',
+// 'upstream', and 'related' fields only contain characters from the
+// permitted set (^[a-zA-Z0-9:_.-]+$).
+func ReferencedIDsCheck(json *gjson.Result, config *Config) (findings []CheckError) {
+	fields := []struct {
+		name    string
+		errType string
+		label   string
+	}{
+		{name: "aliases", errType: "Invalid Aliases", label: "alias"},
+		{name: "upstream", errType: "Invalid Upstream", label: "upstream"},
+		{name: "related", errType: "Invalid Related", label: "related"},
+	}
+
+	for _, f := range fields {
+		field := json.Get(f.name)
+		if !field.Exists() || !field.IsArray() {
+			continue
+		}
+
+		for _, entry := range field.Array() {
+			if entry.Type != gjson.String {
+				continue
+			}
+			if !validIDPattern.MatchString(entry.String()) {
+				findings = append(findings, CheckError{
+					Message: fmt.Sprintf("%s: %s %q contains characters outside the permitted set [a-zA-Z0-9:_.-]", f.errType, f.label, entry.String()),
+				})
+			}
+		}
 	}
 
 	return findings

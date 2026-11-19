@@ -151,13 +151,13 @@ by OSV.dev, allowing external records to be schema-compliant. For example:
 
 ### Character set constraints
 
-To ensure maximum compatibility with CLI tools, shell scripts, URL routing, and filesystem storage, the `id` field must strictly use ASCII characters matching the regular expression:
+To ensure maximum compatibility with CLI tools, shell scripts, URL routing, and filesystem storage, vulnerability identifiers in the `id` field, as well as entries in `aliases`, `upstream`, and `related`, must strictly use ASCII characters matching the regular expression:
 
 ```
 ^[a-zA-Z0-9:_.-]+$
 ```
 
-Only alphanumeric characters (`a-z`, `A-Z`, `0-9`) and `:`, `-`, `_`, and `.` are permitted. Characters outside this set (such as spaces, slashes `/`, backslashes `\`, parentheses, or exclamation marks) are not allowed.
+Only alphanumeric characters (`a-z`, `A-Z`, `0-9`) and `:`, `-`, `_`, and `.` are permitted. Characters outside this set (such as spaces, commas `,`, slashes `/`, backslashes `\`, parentheses, or exclamation marks) are not allowed.
 
 ### Semantically neutral ids
 
@@ -767,9 +767,12 @@ the vulnerability has been withdrawn should go into the summary text.
 ```
 
 The `aliases` field gives a list of IDs of the same vulnerability in other
-databases, in the form of the `id` field. This allows one database to claim that
-its own entry describes the same vulnerability as one or more entries in other
-databases.
+databases, in the form of the `id` field. Entries must conform to the
+[character set constraints](#character-set-constraints), though they may come from
+external databases and do not need to start with one of the
+[defined database prefixes](#defined-database-prefixes). This allows one database to
+claim that its own entry describes the same vulnerability as one or more entries
+in other databases.
 
 Two vulnerabilities can be described as aliases if they affect any given
 software component the same way: either both vulnerabilities affect the software
@@ -797,7 +800,10 @@ vulnerabilities, `upstream` should be used.
 ```
 
 The `upstream` field gives a list of IDs of upstream vulnerabilities that are
-referred to by the vulnerability entry.
+referred to by the vulnerability entry. Entries must conform to the
+[character set constraints](#character-set-constraints), though they may reference
+external databases and do not need to start with one of the
+[defined database prefixes](#defined-database-prefixes).
 
 For example, a downstream package ecosystem (such as a Linux distribution) may
 issue its own advisories that include (possibly multiple) upstream
@@ -819,6 +825,10 @@ The `related` field gives a list of IDs of closely related vulnerabilities, such
 as:
 - A similar but completely different vulnerability.
 - Cases that do not satisfy the strict definition of `aliases` or `upstream`.
+
+Entries must conform to the [character set constraints](#character-set-constraints),
+though they may reference external databases and do not need to start with one of
+the [defined database prefixes](#defined-database-prefixes).
 
 Related vulnerabilities are symmetric but not transitive.
 

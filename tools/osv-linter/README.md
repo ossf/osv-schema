@@ -61,10 +61,13 @@ $ go run ./cmd/osv/ record lint --checks list
 
 Available checks:
 
+SCH:001: (conforms-to-schema): the record must conform to the OSV JSON schema
 REC:001: (affected-data-exists): every record has affected data
 REC:002: (valid-aliases): aliases field validates
 REC:003: (valid-upstream): upstream field validates
 REC:004: (valid-related): related field validates
+REC:005: (record-id-valid): id field uses only permitted characters
+REC:006: (referenced-ids-valid): aliases, upstream, and related fields use only permitted characters
 RNG:001: (introduced-event-exists): every range has an introduced event
 RNG:002: (range-is-distinct): range spans multiple versions/commits
 PKG:001: (package-exists): package exists in ecosystem's registry
@@ -86,6 +89,7 @@ ALL: all checks currently defined
         REC:003: (valid-upstream): upstream field validates
         REC:004: (valid-related): related field validates
         REC:005: (record-id-valid): id field uses only permitted characters
+        REC:006: (referenced-ids-valid): aliases, upstream, and related fields use only permitted characters
         RNG:001: (introduced-event-exists): every range has an introduced event
         RNG:002: (range-is-distinct): range spans multiple versions/commits
         PKG:001: (package-exists): package exists in ecosystem's registry
@@ -99,6 +103,7 @@ offline: Checks that do not have remote data dependencies. These can be run with
         REC:003: (valid-upstream): upstream field validates
         REC:004: (valid-related): related field validates
         REC:005: (record-id-valid): id field uses only permitted characters
+        REC:006: (referenced-ids-valid): aliases, upstream, and related fields use only permitted characters
         RNG:001: (introduced-event-exists): every range has an introduced event
         RNG:002: (range-is-distinct): range spans multiple versions/commits
         PKG:003: (package-purl-valid): package purl validates
