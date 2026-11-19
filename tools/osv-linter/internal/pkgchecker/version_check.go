@@ -286,6 +286,30 @@ func versionsExistInJulia(pkg string, versions []string) error {
 	)
 }
 
+// Confirm that all specified versions of a package exist in opam.
+func versionsExistInOpam(pkg string, versions []string) error {
+	// opam has no API listing all versions of a package, so check each version
+	// individually.
+	versionsMissing := []string{}
+	for _, versionToCheckFor := range versions {
+		packageVersionURL := fmt.Sprintf("%s/%s/%s.%s/", EcosystemBaseURLs["opam"], pkg, pkg, versionToCheckFor)
+		if checkPackageExists(packageVersionURL) {
+			continue
+		}
+		// opam.ocaml.org does not list versions that have been moved to
+		// opam-repository-archive.
+		if checkPackageExists(fmt.Sprintf("https://raw.githubusercontent.com/ocaml/opam-repository-archive/main/packages/%s/%s.%s/opam", pkg, pkg, versionToCheckFor)) {
+			continue
+		}
+		versionsMissing = append(versionsMissing, versionToCheckFor)
+	}
+	if len(versionsMissing) > 0 {
+		return fmt.Errorf("failed to find %+q of %q in \"opam\"", versionsMissing, pkg)
+	}
+
+	return nil
+}
+
 // Confirm that all specified versions of a package exist in Packagist.
 func versionsExistInPackagist(pkg string, versions []string, repo string) error {
 	packageInstanceURL, err := resolvePackagistPackageInstanceURL(pkg, repo)
