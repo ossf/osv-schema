@@ -36,13 +36,7 @@ func SchemaCheck(json *gjson.Result, config *Config) []CheckError {
 		return nil
 	}
 
-	var errors []string
-	for _, desc := range result.Errors() {
-		if config.NewEcosystem && strings.Contains(desc.Description(), "Does not match pattern") {
-			continue
-		}
-		errors = append(errors, fmt.Sprintf("- %s", desc))
-	}
+	errors := filterSchemaErrors(result.Errors(), config.NewEcosystem)
 
 	if len(errors) == 0 {
 		return nil
@@ -53,4 +47,38 @@ func SchemaCheck(json *gjson.Result, config *Config) []CheckError {
 			Message: fmt.Sprintf("Record does not conform to schema:\n %s", strings.Join(errors, "\n")),
 		},
 	}
+}
+
+func filterSchemaErrors(resultErrors []gojsonschema.ResultError, newEcosystem bool) []string {
+	var patternFields map[string]bool
+	var nonPatternFields map[string]bool
+	if newEcosystem {
+		patternFields = make(map[string]bool)
+		nonPatternFields = make(map[string]bool)
+		for _, desc := range resultErrors {
+			if strings.Contains(desc.Description(), "Does not match pattern") {
+				patternFields[desc.Field()] = true
+			} else if !strings.Contains(desc.Description(), "Must validate all the schemas (allOf)") {
+				nonPatternFields[desc.Field()] = true
+			}
+		}
+	}
+
+	var errors []string
+	for _, desc := range resultErrors {
+		if newEcosystem {
+			if strings.Contains(desc.Description(), "Does not match pattern") {
+				continue
+			}
+			// Suppress an allOf wrapper error when every failing subschema on that
+			// field was a suppressed pattern check (e.g. id's prefix/idFormat allOf).
+			if strings.Contains(desc.Description(), "Must validate all the schemas (allOf)") &&
+				patternFields[desc.Field()] && !nonPatternFields[desc.Field()] {
+				continue
+			}
+		}
+		errors = append(errors, fmt.Sprintf("- %s", desc))
+	}
+
+	return errors
 }

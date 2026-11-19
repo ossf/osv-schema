@@ -215,6 +215,99 @@ func TestIDCheck(t *testing.T) {
 	}
 }
 
+func TestReferencedIDsCheck(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name         string
+		jsonData     string
+		wantFindings []CheckError
+	}{
+		{
+			name:         "Valid aliases, upstream, and related IDs",
+			jsonData:     `{"id": "CVE-2023-0001", "aliases": ["SNYK-JS-YARN-537806", "GHSA-xxxx-yyyy-zzzz"], "upstream": ["GO:stdlib-1.2.3_beta"], "related": ["DSA-3029-1"]}`,
+			wantFindings: nil,
+		},
+		{
+			name:         "Fields missing",
+			jsonData:     `{"id": "CVE-2023-0001"}`,
+			wantFindings: nil,
+		},
+		{
+			name:         "Null aliases and empty arrays",
+			jsonData:     `{"id": "CVE-2023-0001", "aliases": null, "upstream": [], "related": []}`,
+			wantFindings: nil,
+		},
+		{
+			name:         "Non-string array entries are ignored",
+			jsonData:     `{"id": "CVE-2023-0001", "aliases": [123, null, "CVE-2023-0002"], "upstream": [true], "related": [{}]}`,
+			wantFindings: nil,
+		},
+		{
+			name:     "Alias with trailing comma (GHSA)",
+			jsonData: `{"id": "GHSA-jf66-3q76-h5p5", "aliases": ["GHSA-jf66-3q76-h5p5,"]}`,
+			wantFindings: []CheckError{
+				{Message: `Invalid Aliases: alias "GHSA-jf66-3q76-h5p5," contains characters outside the permitted set [a-zA-Z0-9:_.-]`},
+			},
+		},
+		{
+			name:     "Alias with trailing comma (SNYK)",
+			jsonData: `{"id": "GHSA-5xf4-f2fq-f69j", "aliases": ["SNYK-JS-YARN-537806,"]}`,
+			wantFindings: []CheckError{
+				{Message: `Invalid Aliases: alias "SNYK-JS-YARN-537806," contains characters outside the permitted set [a-zA-Z0-9:_.-]`},
+			},
+		},
+		{
+			name:     "Alias with leading and trailing spaces",
+			jsonData: `{"id": "DRUPAL-CONTRIB-2026-040", "aliases": [" CVE-2026-49977 "]}`,
+			wantFindings: []CheckError{
+				{Message: `Invalid Aliases: alias " CVE-2026-49977 " contains characters outside the permitted set [a-zA-Z0-9:_.-]`},
+			},
+		},
+		{
+			name:     "Empty string alias",
+			jsonData: `{"id": "CVE-2023-0001", "aliases": [""]}`,
+			wantFindings: []CheckError{
+				{Message: `Invalid Aliases: alias "" contains characters outside the permitted set [a-zA-Z0-9:_.-]`},
+			},
+		},
+		{
+			name:     "Invalid upstream entries",
+			jsonData: `{"id": "CVE-2026-0002", "upstream": ["CVE-2026-0001,", "UP 001"]}`,
+			wantFindings: []CheckError{
+				{Message: `Invalid Upstream: upstream "CVE-2026-0001," contains characters outside the permitted set [a-zA-Z0-9:_.-]`},
+				{Message: `Invalid Upstream: upstream "UP 001" contains characters outside the permitted set [a-zA-Z0-9:_.-]`},
+			},
+		},
+		{
+			name:     "Invalid related entries",
+			jsonData: `{"id": "CVE-2024-3566", "related": ["VU#123335", "REL/001"]}`,
+			wantFindings: []CheckError{
+				{Message: `Invalid Related: related "VU#123335" contains characters outside the permitted set [a-zA-Z0-9:_.-]`},
+				{Message: `Invalid Related: related "REL/001" contains characters outside the permitted set [a-zA-Z0-9:_.-]`},
+			},
+		},
+		{
+			name:     "Multiple findings across aliases, upstream, and related",
+			jsonData: `{"id": "CVE-2026-0001", "aliases": ["CVE-2026-0002,"], "upstream": ["UP 001"], "related": ["VU#123335"]}`,
+			wantFindings: []CheckError{
+				{Message: `Invalid Aliases: alias "CVE-2026-0002," contains characters outside the permitted set [a-zA-Z0-9:_.-]`},
+				{Message: `Invalid Upstream: upstream "UP 001" contains characters outside the permitted set [a-zA-Z0-9:_.-]`},
+				{Message: `Invalid Related: related "VU#123335" contains characters outside the permitted set [a-zA-Z0-9:_.-]`},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			jsonResult := gjson.Parse(tt.jsonData)
+			gotFindings := ReferencedIDsCheck(&jsonResult, &Config{Verbose: true})
+			if diff := cmp.Diff(tt.wantFindings, gotFindings, cmpopts.EquateErrors()); diff != "" {
+				t.Errorf("ReferencedIDsCheck() mismatch (-want +got):\n%s", diff)
+			}
+		})
+	}
+}
+
 func TestUpstreamCheck(t *testing.T) {
 	t.Parallel()
 
