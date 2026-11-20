@@ -8,6 +8,7 @@ import (
 	"regexp"
 	"slices"
 	"strings"
+	"sync"
 
 	"github.com/google/osv-scalibr/semantic"
 	"github.com/ossf/osv-schema/tools/osv-linter/internal/faulttolerant"
@@ -18,7 +19,13 @@ import (
 
 var errPathNotFound = errors.New("path not found")
 
+// Successfully fetched package data, shared across records to avoid repeat requests.
+var packageDataCache sync.Map
+
 func fetchPackageData(packageInstanceURL string) ([]byte, error) {
+	if data, ok := packageDataCache.Load(packageInstanceURL); ok {
+		return data.([]byte), nil
+	}
 	resp, err := faulttolerant.Get(packageInstanceURL)
 	if err != nil {
 		return nil, fmt.Errorf("unable to validate package: %v", err)
@@ -27,8 +34,12 @@ func fetchPackageData(packageInstanceURL string) ([]byte, error) {
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("unable to validate package: %q for %s", resp.Status, packageInstanceURL)
 	}
+	data, err := io.ReadAll(resp.Body)
+	if err == nil {
+		packageDataCache.Store(packageInstanceURL, data)
+	}
 
-	return io.ReadAll(resp.Body)
+	return data, err
 }
 
 // Confirm that all specified versions of a package exist in a registry
