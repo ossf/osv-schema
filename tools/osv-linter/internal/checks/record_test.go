@@ -385,3 +385,62 @@ func TestUpstreamCheck(t *testing.T) {
 		})
 	}
 }
+
+func TestTimestampOrderCheck(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name         string
+		jsonData     string
+		wantFindings []CheckError
+	}{
+		{
+			name:         "published before modified",
+			jsonData:     `{"modified": "2024-02-01T00:00:00Z", "published": "2024-01-01T00:00:00Z"}`,
+			wantFindings: nil,
+		},
+		{
+			name:         "published equal to modified",
+			jsonData:     `{"modified": "2024-01-01T00:00:00Z", "published": "2024-01-01T00:00:00Z"}`,
+			wantFindings: nil,
+		},
+		{
+			name:         "fractional seconds compare by time, not text",
+			jsonData:     `{"modified": "2024-01-01T00:00:00.5Z", "published": "2024-01-01T00:00:00.123456Z"}`,
+			wantFindings: nil,
+		},
+		{
+			name:     "published after modified",
+			jsonData: `{"modified": "2024-01-01T00:00:00Z", "published": "2024-03-01T00:00:00Z"}`,
+			wantFindings: []CheckError{
+				{Message: `Invalid Timestamps: published "2024-03-01T00:00:00Z" is later than modified "2024-01-01T00:00:00Z"`},
+			},
+		},
+		{
+			name:     "withdrawn after modified",
+			jsonData: `{"modified": "2024-01-01T00:00:00Z", "published": "2023-01-01T00:00:00Z", "withdrawn": "2024-01-02T00:00:00Z"}`,
+			wantFindings: []CheckError{
+				{Message: `Invalid Timestamps: withdrawn "2024-01-02T00:00:00Z" is later than modified "2024-01-01T00:00:00Z"`},
+			},
+		},
+		{
+			name:         "missing modified is left to the schema check",
+			jsonData:     `{"published": "2024-03-01T00:00:00Z"}`,
+			wantFindings: nil,
+		},
+		{
+			name:         "unparseable published is left to the schema check",
+			jsonData:     `{"modified": "2024-01-01T00:00:00Z", "published": "yesterday"}`,
+			wantFindings: nil,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			jsonResult := gjson.Parse(tt.jsonData)
+			gotFindings := TimestampOrderCheck(&jsonResult, &Config{Verbose: true})
+			if diff := cmp.Diff(tt.wantFindings, gotFindings, cmpopts.EquateErrors()); diff != "" {
+				t.Errorf("TimestampOrderCheck() mismatch (-want +got):\n%s", diff)
+			}
+		})
+	}
+}

@@ -3,6 +3,7 @@ package checks
 import (
 	"fmt"
 	"regexp"
+	"time"
 
 	"github.com/tidwall/gjson"
 )
@@ -53,6 +54,13 @@ var CheckRecordHasValidReferencedIDs = &CheckDef{
 	Name:        "referenced-ids-valid",
 	Description: "aliases, upstream, and related fields use only permitted characters",
 	Check:       ReferencedIDsCheck,
+}
+
+var CheckRecordHasOrderedTimestamps = &CheckDef{
+	Code:        "REC:007",
+	Name:        "timestamps-ordered",
+	Description: "published and withdrawn are not later than modified",
+	Check:       TimestampOrderCheck,
 }
 
 // RecordHasAffected checks if the 'affected' field exists in the JSON and is not an empty array.
@@ -213,4 +221,40 @@ func hasDuplicate(json gjson.Result) (bool, map[string]struct{}) {
 	}
 
 	return len(seen) != len(bugIDs), seen
+}
+
+// TimestampOrderCheck verifies that the 'published' and 'withdrawn' times are
+// not later than the 'modified' time, since publishing or withdrawing an entry
+// is itself a modification. Timestamps that do not parse are left to the
+// schema check.
+func TimestampOrderCheck(json *gjson.Result, config *Config) (findings []CheckError) {
+	modified, ok := parseTimestamp(json.Get("modified"))
+	if !ok {
+		return
+	}
+
+	for _, field := range []string{"published", "withdrawn"} {
+		t, ok := parseTimestamp(json.Get(field))
+		if !ok {
+			continue
+		}
+		if t.After(modified) {
+			findings = append(findings, CheckError{
+				Message: fmt.Sprintf("Invalid Timestamps: %s %q is later than modified %q", field, json.Get(field).String(), json.Get("modified").String()),
+			})
+		}
+	}
+
+	return findings
+}
+
+func parseTimestamp(value gjson.Result) (time.Time, bool) {
+	if !value.Exists() || value.Type != gjson.String {
+		return time.Time{}, false
+	}
+	t, err := time.Parse(time.RFC3339Nano, value.String())
+	if err != nil {
+		return time.Time{}, false
+	}
+	return t, true
 }
