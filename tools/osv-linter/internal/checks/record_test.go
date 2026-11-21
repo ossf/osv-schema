@@ -444,3 +444,57 @@ func TestTimestampOrderCheck(t *testing.T) {
 		})
 	}
 }
+
+func TestAffectedHasVersionsCheck(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name         string
+		jsonData     string
+		wantFindings []CheckError
+	}{
+		{
+			name:         "package with ranges",
+			jsonData:     `{"affected": [{"package": {"ecosystem": "PyPI", "name": "foo"}, "ranges": [{"type": "ECOSYSTEM", "events": [{"introduced": "0"}]}]}]}`,
+			wantFindings: nil,
+		},
+		{
+			name:         "package with versions",
+			jsonData:     `{"affected": [{"package": {"ecosystem": "PyPI", "name": "foo"}, "versions": ["1.0.0"]}]}`,
+			wantFindings: nil,
+		},
+		{
+			name:         "entry without package is not checked",
+			jsonData:     `{"affected": [{"ranges": [{"type": "GIT", "repo": "https://example.com/repo", "events": [{"introduced": "0"}]}]}]}`,
+			wantFindings: nil,
+		},
+		{
+			name:         "no affected field",
+			jsonData:     `{"id": "TEST-1"}`,
+			wantFindings: nil,
+		},
+		{
+			name:     "package with neither",
+			jsonData: `{"affected": [{"package": {"ecosystem": "npm", "name": "bar"}}]}`,
+			wantFindings: []CheckError{
+				{Message: "Invalid Affected: affected[0] (npm/bar) has no ranges or versions, so it matches no version"},
+			},
+		},
+		{
+			name:     "package with empty ranges and versions",
+			jsonData: `{"affected": [{"package": {"ecosystem": "PyPI", "name": "foo"}, "versions": ["1.0.0"]}, {"package": {"ecosystem": "npm", "name": "bar"}, "ranges": [], "versions": []}]}`,
+			wantFindings: []CheckError{
+				{Message: "Invalid Affected: affected[1] (npm/bar) has no ranges or versions, so it matches no version"},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			jsonResult := gjson.Parse(tt.jsonData)
+			gotFindings := AffectedHasVersionsCheck(&jsonResult, &Config{Verbose: true})
+			if diff := cmp.Diff(tt.wantFindings, gotFindings, cmpopts.EquateErrors()); diff != "" {
+				t.Errorf("AffectedHasVersionsCheck() mismatch (-want +got):\n%s", diff)
+			}
+		})
+	}
+}

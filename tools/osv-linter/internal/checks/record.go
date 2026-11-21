@@ -63,6 +63,13 @@ var CheckRecordHasOrderedTimestamps = &CheckDef{
 	Check:       TimestampOrderCheck,
 }
 
+var CheckAffectedHasVersions = &CheckDef{
+	Code:        "REC:008",
+	Name:        "affected-versions-exist",
+	Description: "every affected package lists ranges or versions",
+	Check:       AffectedHasVersionsCheck,
+}
+
 // RecordHasAffected checks if the 'affected' field exists in the JSON and is not an empty array.
 func RecordHasAffected(json *gjson.Result, config *Config) (findings []CheckError) {
 	// Withdrawn records are fine to not contain affected field
@@ -257,4 +264,34 @@ func parseTimestamp(value gjson.Result) (time.Time, bool) {
 		return time.Time{}, false
 	}
 	return t, true
+}
+
+// AffectedHasVersionsCheck verifies that every 'affected' entry with a
+// 'package' also has a non-empty 'ranges' or 'versions' field. A version is
+// only affected if it is in one of the ranges or in the versions list, so an
+// entry with neither does not match any version.
+func AffectedHasVersionsCheck(json *gjson.Result, config *Config) (findings []CheckError) {
+	affected := json.Get("affected")
+	if !affected.IsArray() {
+		return
+	}
+
+	for i, entry := range affected.Array() {
+		pkg := entry.Get("package")
+		if !pkg.Exists() {
+			continue
+		}
+		if nonEmptyArray(entry.Get("ranges")) || nonEmptyArray(entry.Get("versions")) {
+			continue
+		}
+		findings = append(findings, CheckError{
+			Message: fmt.Sprintf("Invalid Affected: affected[%d] (%s/%s) has no ranges or versions, so it matches no version", i, pkg.Get("ecosystem").String(), pkg.Get("name").String()),
+		})
+	}
+
+	return findings
+}
+
+func nonEmptyArray(value gjson.Result) bool {
+	return value.IsArray() && len(value.Array()) > 0
 }

@@ -107,6 +107,7 @@ var Collections = []CheckCollection{
 			CheckRecordHasValidID,
 			CheckRecordHasValidReferencedIDs,
 			CheckRecordHasOrderedTimestamps,
+			CheckAffectedHasVersions,
 			// Range checks
 			CheckRangeHasIntroducedEvent,
 			CheckRangeIsDistinct,
@@ -129,6 +130,7 @@ var Collections = []CheckCollection{
 			CheckRecordHasValidID,
 			CheckRecordHasValidReferencedIDs,
 			CheckRecordHasOrderedTimestamps,
+			CheckAffectedHasVersions,
 			CheckRangeHasIntroducedEvent,
 			CheckRangeIsDistinct,
 			CheckPackagePurlValid,
