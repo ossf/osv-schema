@@ -645,12 +645,12 @@
         },
         "importlib-metadata": {
             "hashes": [
-                "sha256:82b04047fa09792c1a8cfeddfe08bec79e4b13c29c8469b0d3949860f61017e8",
-                "sha256:cf45ce66a929c64e994185a809c04840d0501db17e663810d993d0f4829265c7"
+                "sha256:9413a2029fd9ca5669d27f1386071bbfe3c7ebca0545692ec975088241fe1d79",
+                "sha256:c7a4bf1c7479601f6b8e437cfc14f4f77028ba62a8f34ae95cd93d9774dfba51"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.11'",
-            "version": "==10.1.0"
+            "version": "==10.2.0"
         },
         "jsonschema": {
             "hashes": [
@@ -667,6 +667,14 @@
             ],
             "markers": "python_version >= '3.9'",
             "version": "==2025.9.1"
+        },
+        "lazy-importer": {
+            "hashes": [
+                "sha256:b2e296716ce015c0cd80e57b940e52727c5b934b34b8656d5ce06bdd0ee5fbdd",
+                "sha256:bd93fab7bef18e842eea02b839410954d37889140dc64ca4d9680aec6880c739"
+            ],
+            "markers": "python_version >= '3.11'",
+            "version": "==0.1.0"
         },
         "msgpack": {
             "hashes": [
