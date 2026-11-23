@@ -278,7 +278,7 @@ func AffectedHasVersionsCheck(json *gjson.Result, config *Config) (findings []Ch
 
 	for i, entry := range affected.Array() {
 		pkg := entry.Get("package")
-		if !pkg.Exists() {
+		if !pkg.IsObject() {
 			continue
 		}
 		if nonEmptyArray(entry.Get("ranges")) || nonEmptyArray(entry.Get("versions")) {

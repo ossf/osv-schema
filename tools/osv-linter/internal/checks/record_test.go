@@ -465,7 +465,17 @@ func TestAffectedHasVersionsCheck(t *testing.T) {
 		},
 		{
 			name:         "entry without package is not checked",
+			jsonData:     `{"affected": [{"database_specific": {"note": "unmapped"}}]}`,
+			wantFindings: nil,
+		},
+		{
+			name:         "GIT range without package",
 			jsonData:     `{"affected": [{"ranges": [{"type": "GIT", "repo": "https://example.com/repo", "events": [{"introduced": "0"}]}]}]}`,
+			wantFindings: nil,
+		},
+		{
+			name:         "null package is left to the schema check",
+			jsonData:     `{"affected": [{"package": null}]}`,
 			wantFindings: nil,
 		},
 		{
@@ -478,6 +488,14 @@ func TestAffectedHasVersionsCheck(t *testing.T) {
 			jsonData: `{"affected": [{"package": {"ecosystem": "npm", "name": "bar"}}]}`,
 			wantFindings: []CheckError{
 				{Message: "Invalid Affected: affected[0] (npm/bar) has no ranges or versions, so it matches no version"},
+			},
+		},
+		{
+			name:     "multiple entries with neither",
+			jsonData: `{"affected": [{"package": {"ecosystem": "npm", "name": "bar"}}, {"package": {"ecosystem": "PyPI", "name": "foo"}, "versions": ["1.0.0"]}, {"package": {"ecosystem": "Go", "name": "example.com/baz"}}]}`,
+			wantFindings: []CheckError{
+				{Message: "Invalid Affected: affected[0] (npm/bar) has no ranges or versions, so it matches no version"},
+				{Message: "Invalid Affected: affected[2] (Go/example.com/baz) has no ranges or versions, so it matches no version"},
 			},
 		},
 		{
