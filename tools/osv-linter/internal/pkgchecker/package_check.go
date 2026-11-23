@@ -163,10 +163,10 @@ func existsInRubyGems(pkg string) bool {
 	return checkPackageExists(packageInstanceURL)
 }
 
-// Makes an HTTP GET request to check package existance, with fault tolerance.
-// Package URLs known to exist, shared across records to avoid repeat requests.
+// Cache package URLs known to exist.
 var knownPackageURLs sync.Map
 
+// Makes an HTTP HEAD request to check package existence, with fault tolerance.
 func checkPackageExists(packageInstanceURL string) bool {
 	if _, ok := knownPackageURLs.Load(packageInstanceURL); ok {
 		return true

@@ -19,13 +19,20 @@ import (
 
 var errPathNotFound = errors.New("path not found")
 
-// Successfully fetched package data, shared across records to avoid repeat requests.
-var packageDataCache sync.Map
+// Identify a cached version list by its URL and JSON path.
+type urlAndJSONPath struct {
+	url      string
+	jsonPath string
+}
 
+// Cache of parsed version lists by URL and JSON path.
+var versionsByURLAndJSONPath sync.Map
+
+// Cache of parsed version lists by URL.
+var versionsByURL sync.Map
+
+// Fetch the package data from the registry.
 func fetchPackageData(packageInstanceURL string) ([]byte, error) {
-	if data, ok := packageDataCache.Load(packageInstanceURL); ok {
-		return data.([]byte), nil
-	}
 	resp, err := faulttolerant.Get(packageInstanceURL)
 	if err != nil {
 		return nil, fmt.Errorf("unable to validate package: %v", err)
@@ -34,12 +41,31 @@ func fetchPackageData(packageInstanceURL string) ([]byte, error) {
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("unable to validate package: %q for %s", resp.Status, packageInstanceURL)
 	}
-	data, err := io.ReadAll(resp.Body)
-	if err == nil {
-		packageDataCache.Store(packageInstanceURL, data)
+	return io.ReadAll(resp.Body)
+}
+
+// Fetch and cache the versions at the specified JSON path.
+func fetchJSONVersions(url, versionsPath string) ([]string, error) {
+	key := urlAndJSONPath{url: url, jsonPath: versionsPath}
+	if versions, ok := versionsByURLAndJSONPath.Load(key); ok {
+		return versions.([]string), nil
+	}
+	data, err := fetchPackageData(url)
+	if err != nil {
+		return nil, err
 	}
 
-	return data, err
+	r := gjson.GetBytes(data, versionsPath)
+	if !r.Exists() {
+		return nil, errPathNotFound
+	}
+	results := r.Array()
+	versions := make([]string, 0, len(results))
+	for _, result := range results {
+		versions = append(versions, result.String())
+	}
+	versionsByURLAndJSONPath.Store(key, versions)
+	return versions, nil
 }
 
 // Confirm that all specified versions of a package exist in a registry
@@ -50,23 +76,14 @@ func versionsExistInGeneric(
 	packageInstanceURL string,
 	versionsPath string,
 ) error {
-	respJSON, err := fetchPackageData(packageInstanceURL)
+	versionsInRepository, err := fetchJSONVersions(packageInstanceURL, versionsPath)
+	if err == errPathNotFound {
+		return err
+	}
 	if err != nil {
 		return fmt.Errorf("unable to retrieve JSON for %q: %v", pkg, err)
 	}
 
-	// Fetch all known versions of package.
-	versionsInRepository := []string{}
-
-	r := gjson.GetBytes(respJSON, versionsPath)
-
-	if !r.Exists() {
-		return errPathNotFound
-	}
-
-	for _, result := range r.Array() {
-		versionsInRepository = append(versionsInRepository, result.String())
-	}
 	// Determine which referenced versions are missing.
 	versionsMissing := []string{}
 	versionsInvalid := []string{}
@@ -103,7 +120,7 @@ func versionsExistInGeneric(
 			Ecosystem: eco,
 			Invalid:   versionsInvalid,
 			Missing:   versionsMissing,
-			Known:     versionsInRepository,
+			Known:     slices.Clone(versionsInRepository),
 		}
 	}
 
@@ -148,16 +165,9 @@ func versionsExistInGo(pkg string, versions []string) error {
 
 	packageInstanceURL := fmt.Sprintf("%s/%s/@v/list", EcosystemBaseURLs["Go"], pkg)
 
-	respBytes, err := fetchPackageData(packageInstanceURL)
+	versionsInGo, err := fetchGoModuleVersions(packageInstanceURL)
 	if err != nil {
 		return fmt.Errorf("unable to retrieve versions for for %q: %v", pkg, err)
-	}
-	// Fetch all known versions of package.
-	versionsInGo := strings.Split(strings.TrimSpace(string(respBytes)), "\n")
-	// It seems that an empty version set is plausible. Unreleased?
-	// e.g. github.com/nanobox-io/golang-nanoauth
-	if len(versionsInGo[0]) == 0 {
-		versionsInGo = []string{}
 	}
 	if len(versionsInGo) == 0 {
 		// TODO: This is warning-level worthy if warnings were a thing...
@@ -179,38 +189,37 @@ func versionsExistInGo(pkg string, versions []string) error {
 		versionsMissing = append(versionsMissing, versionToCheckFor)
 	}
 	if len(versionsMissing) > 0 {
-		return MissingVersionsError{Package: pkg, Ecosystem: "Go", Missing: versionsMissing, Known: versionsInGo}
+		return MissingVersionsError{Package: pkg, Ecosystem: "Go", Missing: versionsMissing, Known: slices.Clone(versionsInGo)}
 	}
 
 	return nil
 }
 
+// Fetch and cache the Go module's version list.
+func fetchGoModuleVersions(url string) ([]string, error) {
+	if versions, ok := versionsByURL.Load(url); ok {
+		return versions.([]string), nil
+	}
+	data, err := fetchPackageData(url)
+	if err != nil {
+		return nil, err
+	}
+	versions := []string{}
+	// Unreleased modules may have an empty version list.
+	if list := strings.TrimSpace(string(data)); list != "" {
+		versions = strings.Split(list, "\n")
+	}
+	versionsByURL.Store(url, versions)
+	return versions, nil
+}
+
 // Confirm that all specified versions of Go exist.
 func goVersionsExist(versions []string) error {
-	URL := "https://go.dev/dl/?mode=json&include=all"
-
-	resp, err := faulttolerant.Get(URL)
-	if err != nil {
-		return fmt.Errorf("unable to validate Go versions: %v", err)
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("unable to validate package: %q for %s", resp.Status, URL)
-	}
-
-	// Fetch all known versions of Go.
-	// Parse the known versions from the JSON.
-	respJSON, err := io.ReadAll(resp.Body)
-	if err != nil {
+	url := "https://go.dev/dl/?mode=json&include=all"
+	goVersions, err := fetchJSONVersions(url, "#.version")
+	if err != nil && err != errPathNotFound {
 		return fmt.Errorf("unable to retrieve JSON for Go: %v", err)
 	}
-	// Fetch all known versions of package.
-	goVersions := []string{}
-	releases := gjson.GetBytes(respJSON, "#.version")
-	releases.ForEach(func(key, value gjson.Result) bool {
-		goVersions = append(goVersions, value.String())
-		return true // keep iterating.
-	})
 
 	// Determine which referenced versions are missing.
 	versionsMissing := []string{}
