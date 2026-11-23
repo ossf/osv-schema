@@ -111,6 +111,7 @@ var Collections = []CheckCollection{
 			// Range checks
 			CheckRangeHasIntroducedEvent,
 			CheckRangeIsDistinct,
+			CheckRangeFixedAfterIntroduced,
 			// Package checks
 			CheckPackageExists,
 			CheckPackageVersionsExist,
@@ -133,6 +134,7 @@ var Collections = []CheckCollection{
 			CheckAffectedHasVersions,
 			CheckRangeHasIntroducedEvent,
 			CheckRangeIsDistinct,
+			CheckRangeFixedAfterIntroduced,
 			CheckPackagePurlValid,
 		},
 	},

@@ -72,6 +72,7 @@ REC:007: (timestamps-ordered): published and withdrawn are not later than modifi
 REC:008: (affected-versions-exist): every affected package lists ranges or versions
 RNG:001: (introduced-event-exists): every range has an introduced event
 RNG:002: (range-is-distinct): range spans multiple versions/commits
+RNG:004: (fixed-after-introduced): fixed and last_affected events are not before every introduced event
 PKG:001: (package-exists): package exists in ecosystem's registry
 PKG:002: (package-versions-exist): package versions exist in ecosystem's registry
 PKG:003: (package-purl-valid): package purl validates
@@ -96,6 +97,7 @@ ALL: all checks currently defined
         REC:008: (affected-versions-exist): every affected package lists ranges or versions
         RNG:001: (introduced-event-exists): every range has an introduced event
         RNG:002: (range-is-distinct): range spans multiple versions/commits
+        RNG:004: (fixed-after-introduced): fixed and last_affected events are not before every introduced event
         PKG:001: (package-exists): package exists in ecosystem's registry
         PKG:002: (package-versions-exist): package versions exist in ecosystem's registry
         PKG:003: (package-purl-valid): package purl validates
@@ -112,6 +114,7 @@ offline: Checks that do not have remote data dependencies. These can be run with
         REC:008: (affected-versions-exist): every affected package lists ranges or versions
         RNG:001: (introduced-event-exists): every range has an introduced event
         RNG:002: (range-is-distinct): range spans multiple versions/commits
+        RNG:004: (fixed-after-introduced): fixed and last_affected events are not before every introduced event
         PKG:003: (package-purl-valid): package purl validates
 
 fatal: Checks considered critical. Failures indicate fundamental issues with the OSV record.
