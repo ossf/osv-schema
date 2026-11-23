@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"slices"
 
+	"github.com/google/osv-scalibr/semantic"
 	"github.com/tidwall/gjson"
 )
 
@@ -88,6 +89,121 @@ func RangeIsDistinct(json *gjson.Result, config *Config) (findings []CheckError)
 			return true // keep iterating (over ranges)
 		})
 		return true // keep iterating (over affected entries)
+	})
+	return findings
+}
+
+var CheckRangeEventsOrdered = &CheckDef{
+	Code:        "RNG:004",
+	Name:        "range-events-ordered",
+	Description: "fixed and last_affected events are not lower than every introduced event",
+	Check:       RangeEventsOrdered,
+}
+
+type rangeEvent struct {
+	kind    string
+	value   string
+	version semantic.Version // nil for "0"
+}
+
+// compareRangeEvents orders events by version, with "0" first and, for equal
+// versions, introduced before fixed and last_affected.
+func compareRangeEvents(a, b rangeEvent) int {
+	var c int
+	switch {
+	case a.version == nil && b.version == nil:
+		c = 0
+	case a.version == nil:
+		c = -1
+	case b.version == nil:
+		c = 1
+	default:
+		c, _ = a.version.Compare(b.version)
+	}
+	if c != 0 {
+		return c
+	}
+	switch {
+	case a.kind == b.kind:
+		return 0
+	case a.kind == "introduced":
+		return -1
+	case b.kind == "introduced":
+		return 1
+	}
+	return 0
+}
+
+// RangeEventsOrdered sorts the events of each SEMVER and ECOSYSTEM range by
+// version, as the evaluation algorithm in the schema does, and reports fixed
+// and last_affected events that are lower than every introduced event. Such
+// an event can't end an affected interval, which usually means the versions
+// are swapped or fixed is "0".
+//
+// A run of several fixed events after one introduced event is left alone:
+// only the first one has an effect, but some databases list fixes that way.
+//
+// GIT ranges are skipped, since commits can't be ordered without the
+// repository, and so are ranges with versions the ecosystem can't parse.
+func RangeEventsOrdered(json *gjson.Result, config *Config) (findings []CheckError) {
+	json.Get("affected").ForEach(func(_, affected gjson.Result) bool {
+		pkg := affected.Get("package")
+		ecosystem := pkg.Get("ecosystem").String()
+		affected.Get("ranges").ForEach(func(_, rng gjson.Result) bool {
+			var parse func(string) (semantic.Version, error)
+			switch rng.Get("type").String() {
+			case "SEMVER":
+				parse = func(v string) (semantic.Version, error) {
+					return semantic.ParseSemverVersion(v), nil
+				}
+			case "ECOSYSTEM":
+				if ecosystem == "" {
+					return true
+				}
+				parse = func(v string) (semantic.Version, error) {
+					return semantic.Parse(v, ecosystem)
+				}
+			default:
+				return true
+			}
+
+			var events []rangeEvent
+			parsed := true
+			rng.Get("events").ForEach(func(_, event gjson.Result) bool {
+				for _, kind := range []string{"introduced", "fixed", "last_affected"} {
+					value := event.Get(kind)
+					if !value.Exists() {
+						continue
+					}
+					e := rangeEvent{kind: kind, value: value.String()}
+					if e.value != "0" {
+						v, err := parse(e.value)
+						if err != nil {
+							parsed = false
+							return false
+						}
+						e.version = v
+					}
+					events = append(events, e)
+				}
+				return true
+			})
+			if !parsed {
+				return true
+			}
+
+			slices.SortStableFunc(events, compareRangeEvents)
+			for _, e := range events {
+				if e.kind == "introduced" {
+					break
+				}
+				findings = append(findings, CheckError{
+					Message: fmt.Sprintf("%s %q in a %s range for %s/%s is lower than every introduced event, so it has no effect", e.kind, e.value, rng.Get("type").String(), ecosystem, pkg.Get("name").String()),
+				})
+			}
+			return true
+		})
+		return true
 	})
 	return findings
 }
