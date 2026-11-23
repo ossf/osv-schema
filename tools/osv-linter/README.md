@@ -72,6 +72,7 @@ REC:007: (timestamps-ordered): published and withdrawn are not later than modifi
 REC:008: (affected-versions-exist): every affected package lists ranges or versions
 RNG:001: (introduced-event-exists): every range has an introduced event
 RNG:002: (range-is-distinct): range spans multiple versions/commits
+RNG:003: (range-versions-valid): SEMVER and GIT range events use valid versions
 PKG:001: (package-exists): package exists in ecosystem's registry
 PKG:002: (package-versions-exist): package versions exist in ecosystem's registry
 PKG:003: (package-purl-valid): package purl validates
@@ -96,6 +97,7 @@ ALL: all checks currently defined
         REC:008: (affected-versions-exist): every affected package lists ranges or versions
         RNG:001: (introduced-event-exists): every range has an introduced event
         RNG:002: (range-is-distinct): range spans multiple versions/commits
+        RNG:003: (range-versions-valid): SEMVER and GIT range events use valid versions
         PKG:001: (package-exists): package exists in ecosystem's registry
         PKG:002: (package-versions-exist): package versions exist in ecosystem's registry
         PKG:003: (package-purl-valid): package purl validates
@@ -112,6 +114,7 @@ offline: Checks that do not have remote data dependencies. These can be run with
         REC:008: (affected-versions-exist): every affected package lists ranges or versions
         RNG:001: (introduced-event-exists): every range has an introduced event
         RNG:002: (range-is-distinct): range spans multiple versions/commits
+        RNG:003: (range-versions-valid): SEMVER and GIT range events use valid versions
         PKG:003: (package-purl-valid): package purl validates
 
 fatal: Checks considered critical. Failures indicate fundamental issues with the OSV record.
@@ -135,16 +138,6 @@ $ go run ./cmd/osv/ record lint --collection offline <record>
 ```
 
 The `offline` collection excludes checks that have remote data dependencies, including `package-exists` and `package-versions-exist`.
-
-Save it.
-
-### Then check
-
-Run:
-
-```bash
-git diff -- README.md cmd/osv/main.go
-```
 
 ## Contributing
 
