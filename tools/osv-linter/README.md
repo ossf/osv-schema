@@ -69,6 +69,7 @@ REC:004: (valid-related): related field validates
 REC:005: (record-id-valid): id field uses only permitted characters
 REC:006: (referenced-ids-valid): aliases, upstream, and related fields use only permitted characters
 REC:007: (timestamps-ordered): published and withdrawn are not later than modified
+REC:008: (affected-versions-exist): every affected package lists ranges or versions
 RNG:001: (introduced-event-exists): every range has an introduced event
 RNG:002: (range-is-distinct): range spans multiple versions/commits
 PKG:001: (package-exists): package exists in ecosystem's registry
@@ -92,6 +93,7 @@ ALL: all checks currently defined
         REC:005: (record-id-valid): id field uses only permitted characters
         REC:006: (referenced-ids-valid): aliases, upstream, and related fields use only permitted characters
         REC:007: (timestamps-ordered): published and withdrawn are not later than modified
+        REC:008: (affected-versions-exist): every affected package lists ranges or versions
         RNG:001: (introduced-event-exists): every range has an introduced event
         RNG:002: (range-is-distinct): range spans multiple versions/commits
         PKG:001: (package-exists): package exists in ecosystem's registry
@@ -107,6 +109,7 @@ offline: Checks that do not have remote data dependencies. These can be run with
         REC:005: (record-id-valid): id field uses only permitted characters
         REC:006: (referenced-ids-valid): aliases, upstream, and related fields use only permitted characters
         REC:007: (timestamps-ordered): published and withdrawn are not later than modified
+        REC:008: (affected-versions-exist): every affected package lists ranges or versions
         RNG:001: (introduced-event-exists): every range has an introduced event
         RNG:002: (range-is-distinct): range spans multiple versions/commits
         PKG:003: (package-purl-valid): package purl validates
