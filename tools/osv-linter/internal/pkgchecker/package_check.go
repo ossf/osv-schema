@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"sync"
 
 	"github.com/ossf/osv-schema/tools/osv-linter/internal/faulttolerant"
 )
@@ -162,15 +163,22 @@ func existsInRubyGems(pkg string) bool {
 	return checkPackageExists(packageInstanceURL)
 }
 
-// Makes an HTTP GET request to check package existance, with fault tolerance.
+// Cache package URLs known to exist.
+var knownPackageURLs sync.Map
+
+// Makes an HTTP HEAD request to check package existence, with fault tolerance.
 func checkPackageExists(packageInstanceURL string) bool {
+	if _, ok := knownPackageURLs.Load(packageInstanceURL); ok {
+		return true
+	}
 	// This 404's for non-existent packages.
 	resp, err := faulttolerant.Head(packageInstanceURL)
-	if err != nil {
+	if err != nil || resp.StatusCode != http.StatusOK {
 		return false
 	}
+	knownPackageURLs.Store(packageInstanceURL, true)
 
-	return resp.StatusCode == http.StatusOK
+	return true
 }
 
 func isPackageInDepsDev(ecosystem string, pkg string) bool {
