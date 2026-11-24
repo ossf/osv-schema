@@ -41,7 +41,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up Go
-        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         with:
           go-version: stable
           check-latest: true
@@ -64,7 +64,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up Go
-        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         with:
           go-version: stable
           check-latest: true
@@ -116,7 +116,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Validate OSV Schema
-        uses: dsanders11/json-schema-validate-action@f04ef3bca791388d2bd9ff3a50b27d1b2572158e # v2.1.0
+        uses: dsanders11/json-schema-validate-action@84d2b7a85aed7c0c3323b764e6f10bfa59d5c17b # v2.2.0
         with:
           # https://github.com/marketplace/actions/json-schema-validate#validating-schema
           schema: json-schema
