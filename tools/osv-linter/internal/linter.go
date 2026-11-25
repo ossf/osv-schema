@@ -41,7 +41,12 @@ type Config struct {
 func lint(content *Content, config *Config) (findings []checks.CheckError) {
 	// Parse file into JSON
 	if !gjson.ValidBytes(content.bytes) {
-		log.Printf("%q: invalid JSON", content.filename)
+		// Report it rather than carrying on. gjson.ParseBytes stops at the first
+		// complete value, so the checks below would otherwise run against a
+		// different document than the file holds, and the command would exit 0.
+		return []checks.CheckError{{
+			Message: "not valid JSON",
+		}}
 	}
 
 	record := gjson.ParseBytes(content.bytes)
