@@ -17,6 +17,7 @@ var SupportedEcosystems = []string{
 	"Maven",
 	"npm",
 	"NuGet",
+	"opam",
 	"Packagist",
 	"Pub",
 	"PyPI",
@@ -34,6 +35,7 @@ var EcosystemBaseURLs = map[string]string{
 	"Maven":     "https://search.maven.org/solrsearch/select",
 	"npm":       "https://registry.npmjs.org",
 	"NuGet":     "https://api.nuget.org/v3-flatcontainer",
+	"opam":      "https://opam.ocaml.org/packages",
 	"Packagist": "https://repo.packagist.org/p2",
 	"Pub":       "https://pub.dev/api/packages",
 	"PyPI":      "https://pypi.org/pypi",
@@ -61,6 +63,8 @@ func ExistsInEcosystem(pkg string, ecosystem string, suffix string) bool {
 		return existsInNpm(pkg)
 	case "NuGet":
 		return existsInNuget(pkg)
+	case "opam":
+		return existsInOpam(pkg)
 	case "Packagist":
 		return existsInPackagist(pkg, suffix)
 	case "Pub":
@@ -117,6 +121,8 @@ func VersionsExistInEcosystem(pkg string, versions []string, ecosystem string, s
 		return versionsExistInNpm(pkg, versions)
 	case "NuGet":
 		return versionsExistInNuGet(pkg, versions)
+	case "opam":
+		return versionsExistInOpam(pkg, versions)
 	case "Packagist":
 		return versionsExistInPackagist(pkg, versions, suffix)
 	case "Pub":
