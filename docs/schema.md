@@ -274,8 +274,8 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
-      <td><code>CleanStart</code></td>
-      <td><a href="https://github.com/cleanstart-dev/cleanstart-security-advisories"></a></td>
+      <td><code>CLEANSTART</code></td>
+      <td><a href="https://github.com/cleanstart-dev/cleanstart-security-advisories">CleanStart Security Advisories</a></td>
       <td>
         <ul>
           <li>How to contribute:<code>https://github.com/cleanstart-dev/cleanstart-security-advisories/issues</code></li>
