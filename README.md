@@ -39,6 +39,7 @@ There are many home databases publishing OSV-format advisories or maintain conve
 - [GitHub Security Advisories](https://github.com/github/advisory-database)
 - [Global Security Database](https://github.com/cloudsecurityalliance/gsd-database)
 - [Go Vulnerability Database](https://github.com/golang/vulndb)
+- [Gradle Advisory Database](https://github.com/gradle/advisory-database)
 - [Haskell Security Advisories](https://github.com/haskell/security-advisories)
 - [Julia Security Advisories](https://github.com/JuliaLang/SecurityAdvisories.jl)
 - [LoopBack Advisory Database](https://github.com/loopbackio/security/tree/main/advisories)
