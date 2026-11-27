@@ -2,7 +2,9 @@ package checks
 
 import (
 	"fmt"
+	"regexp"
 	"slices"
+	"strings"
 
 	"github.com/tidwall/gjson"
 )
@@ -89,5 +91,74 @@ func RangeIsDistinct(json *gjson.Result, config *Config) (findings []CheckError)
 		})
 		return true // keep iterating (over affected entries)
 	})
+	return findings
+}
+
+var CheckRangeVersionsValid = &CheckDef{
+	Code:        "RNG:003",
+	Name:        "range-versions-valid",
+	Description: "SEMVER and GIT range events use valid versions",
+	Check:       RangeVersionsValid,
+}
+
+// semverPattern is the regular expression suggested by SemVer 2.0.0 for
+// matching a semantic version, with no leading "v".
+var semverPattern = regexp.MustCompile(`^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)` +
+	`(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?` +
+	`(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$`)
+
+// gitCommitPattern matches a full-length SHA-1 or SHA-256 Git commit hash.
+var gitCommitPattern = regexp.MustCompile(`^(?:[0-9a-fA-F]{40}|[0-9a-fA-F]{64})$`)
+
+var rangeEventTypes = []string{"introduced", "fixed", "last_affected", "limit"}
+
+// RangeVersionsValid checks that the event versions of SEMVER ranges are
+// SemVer 2.0.0 versions without a leading "v", and that the event versions of
+// GIT ranges are full-length commit hashes. The special values "0" for
+// introduced and "*" for limit are allowed in both. ECOSYSTEM ranges are not
+// checked, since their versions are specific to the ecosystem.
+func RangeVersionsValid(json *gjson.Result, config *Config) (findings []CheckError) {
+	affected := json.Get("affected")
+	if !affected.IsArray() {
+		return nil
+	}
+
+	for i, entry := range affected.Array() {
+		for j, rng := range entry.Get("ranges").Array() {
+			rangeType := rng.Get("type").String()
+			var pattern *regexp.Regexp
+			var want string
+			switch rangeType {
+			case "SEMVER":
+				pattern, want = semverPattern, "a SemVer 2.0.0 version without a leading \"v\""
+			case "GIT":
+				pattern, want = gitCommitPattern, "a full-length commit hash"
+			default:
+				continue
+			}
+			for _, event := range rng.Get("events").Array() {
+				for _, eventType := range rangeEventTypes {
+					value := event.Get(eventType)
+					if !value.Exists() {
+						continue
+					}
+					version := value.String()
+					if eventType == "introduced" && version == "0" {
+						continue
+					}
+					if eventType == "limit" && strings.Contains(version, "*") {
+						continue
+					}
+					if pattern.MatchString(version) {
+						continue
+					}
+					findings = append(findings, CheckError{
+						Message: fmt.Sprintf("Invalid Range: affected[%d].ranges[%d] (%s) has %s %q, which is not %s", i, j, rangeType, eventType, version, want),
+					})
+				}
+			}
+		}
+	}
+
 	return findings
 }
