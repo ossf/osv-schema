@@ -406,6 +406,17 @@ The defined database prefixes and their "home" databases are:
       </td>
     </tr>
     <tr>
+      <td><code>GRADLE</code></td>
+      <td><a href="https://github.com/gradle/advisory-database">Gradle Advisory Database</a></td>
+      <td>
+        <ul>
+          <li>How to contribute: <a href="https://github.com/gradle/advisory-database/blob/main/CONTRIBUTING.md">https://github.com/gradle/advisory-database/blob/main/CONTRIBUTING.md</a></li>
+          <li>Source URL: <code>https://github.com/gradle/advisory-database/blob/main/advisories/&lt;YEAR&gt;/&lt;ID&gt;.json</code></li>
+          <li>OSV Formatted URL: <code>https://raw.githubusercontent.com/gradle/advisory-database/main/advisories/&lt;YEAR&gt;/&lt;ID&gt;.json</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>GSD</code></td>
       <td><a href="https://github.com/cloudsecurityalliance/gsd-database">Global Security Database</a></td>
       <td>
